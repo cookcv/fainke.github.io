@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.1.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/touXiang.jpg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/touXiang.jpg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/touXiang.jpg">
+  <link rel="mask-icon" href="/images/touXiang.jpg" color="#222">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"fainke.com","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results foundin ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta property="og:type" content="article">
+<meta property="og:title" content="差异分析">
+<meta property="og:url" content="https://fainke.com/blog/393c1f25.html">
+<meta property="og:site_name" content="DeepLearning">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://fainke.com/blog/images/%E5%B7%AE%E5%BC%82%E5%88%86%E6%9E%90.png">
+<meta property="og:image" content="https://fainke.com/blog/images/dataDistribution_x2.png">
+<meta property="og:image" content="https://fainke.com/blog/images/dataDistribution_t.png">
+<meta property="og:image" content="https://fainke.com/blog/images/dataDistribution_F.png">
+<meta property="article:published_time" content="2020-03-04T17:01:01.000Z">
+<meta property="article:modified_time" content="2020-03-04T17:01:01.000Z">
+<meta property="article:author" content="Fain">
+<meta property="article:tag" content="统计分析">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://fainke.com/blog/images/%E5%B7%AE%E5%BC%82%E5%88%86%E6%9E%90.png">
+
+<link rel="canonical" href="https://fainke.com/blog/393c1f25.html">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>差异分析 | DeepLearning</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?c395ecf759311d7230058ede0e16e5ea# <app_id>";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">DeepLearning</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">深度学习</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-分类">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-留言">
+
+    <a href="/guestbook" rel="section"><i class="fa fa-comment fa-fw"></i>留言</a>
+
+  </li>
+        <li class="menu-item menu-item-友链">
+
+    <a href="/links" rel="section"><i class="fa fa-user-plus fa-fw"></i>友链</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://fainke.com/blog/393c1f25.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/touXiang.jpg">
+      <meta itemprop="name" content="Fain">
+      <meta itemprop="description" content="深度学习,机器学习,计算机视觉CV,自然语言处理NLP,Python">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="DeepLearning">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          差异分析
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-03-05 01:01:01" itemprop="dateCreated datePublished" datetime="2020-03-05T01:01:01+08:00">2020-03-05</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">机器学习</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/blog/393c1f25.html" class="post-meta-item leancloud_visitors" data-flag-title="差异分析" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/blog/393c1f25.html#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/blog/393c1f25.html" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <ul>
+<li><a id="more"></a>
+
+</li>
+</ul>
+<p><img src="images/%E5%B7%AE%E5%BC%82%E5%88%86%E6%9E%90.png" alt="images"></p>
+<ul>
+<li><p><strong>组间差异检验：</strong> 组间差异分析以及显著性检验。运用统计学上的<strong>假设检验</strong> 方法，检验组间是否有差异及其差异程度。</p>
+</li>
+<li><p><strong>差异检验假设：</strong> 组间没有差异，变量之间没有关系（即原假设H0）。</p>
+</li>
+<li><p><strong>假设检验：</strong> 先对总体参数提出某种假设，然后利用样本信息判断假设是否成立。(无假设，不检验)</p>
+</li>
+<li><p><strong>方差分析</strong> ：研究不同水平下是否有差异化的<strong>假设检验</strong>问题。</p>
+</li>
+<li><p><strong>总体：</strong> 包含所研究的全部个体（数据）的集合。</p>
+</li>
+<li><p><strong>样本：</strong> 从总体中抽取的一部分元素的集合。</p>
+</li>
+<li><p><strong>参数：</strong> 用来描述总体特征的概括性数字度量。</p>
+</li>
+<li><p><strong>统计量：</strong> 用来描述样本的概括性数字度量。</p>
+</li>
+<li><p><strong>统计推断：</strong> 研究如何利用样本数据来推断总体特征的<strong>统计方法</strong>，该方法包括<strong>参数估计</strong>和<strong>假设检验</strong>两大类。</p>
+</li>
+<li><p><strong>参数估计：</strong> 用样本统计量和总体分布去估计总体的参数，它的方法有<strong>点估计</strong>和<strong>区间估计</strong>两种。例如用样本均值对总体均值进行点估计，利用样本均值的分布对总体均值进行区间估计。</p>
+</li>
+<li><p><strong>点估计：</strong> 以样本统计量直接作为相应总体参数的估计值。但是没法给出估计的可靠性，也没法说出点估计值与总体参数真实值接近的程度。</p>
+</li>
+<li><p><strong>区间估计：</strong> 在点估计的基础上给出总体参数估计的一个估计区间，该区间是由样本统计量加减允许误差（极限误差）得到的。在区间估计中，由样本统计量构造出的总体参数在一定置信水平下的估计区间称为置信区间。</p>
+</li>
+<li><p><strong>参数检验：</strong> 参数估计对总体未知参数的假设后进行检验的方法。是针对参数估计做的假设。需要用到总体的分布、参数特征等信息。只能用于等距数据和比例数据。包括【秩和检验】</p>
+</li>
+<li><p><strong>非参数估计：</strong> 不依赖总体分布的具体形式，也不对参数进行估计或检验的统计方法。</p>
+</li>
+<li><p><strong>非参数检验：</strong> 非参估计假设后检验的检验方法。它不需要利用总体的信息，需要以样本信息对总体分布情况做的假设。主要用于记数数据，也可用于等距和比例数据，但精确性就会降低。</p>
+</li>
+<li><p><strong>参数检验与非参数检验选择：</strong> 一般不直接用样本观察值作分析，统计量的计算基于原始数据在整个样本中的秩次，丢弃了观察值的具体数值。因此凡适合参数检验的资料，应首选参数检验。但是不清楚是否合适参数检验的资料，则应采用非参数检验。</p>
+</li>
+</ul>
+<h2 id="数据分布"><a href="#数据分布" class="headerlink" title="数据分布"></a>数据分布</h2><p>离开分布，假设检验无从谈起；离开假设检验，差异分析毫无根基。</p>
+<p>了解研究对象处于什么状态，是一件非常重要的事情。三大抽样分布（t-分布、$x^2$分布、F-分布）和正态分布共同构成了现代数理统计的基础。其中，正态分布和t-分布是关于均值的分布；$x^2$分布、F-分布是关于方差的分布。</p>
+<h3 id="x-2-分布（卡方分布）"><a href="#x-2-分布（卡方分布）" class="headerlink" title="$x^2$分布（卡方分布）"></a>$x^2$分布（卡方分布）</h3><p>设X1,X2,…,Xn相互独立，都服从标准正态分布N(0,1)，则称随机变量$X^2=X_1^2+X_2^2+…+X_n^2$所服从的分布为自由度为n的$X^2$分布。</p>
+<p><img src="images/dataDistribution_x2.png" alt="卡方分布"></p>
+<h3 id="t-分布"><a href="#t-分布" class="headerlink" title="t-分布"></a>t-分布</h3><p>在概率论和统计学中，t-分布用于根据小样本来估计呈正态分布且方差未知的总体的均值。如果总体方差已知（例如在样本数量足够多时），则应该用正态分布来估计总体均值。 t分布曲线形态与n（确切地说与自由度df）大小有关。与标准正态分布曲线相比，自由度df越小，t分布曲线愈平坦，曲线中间愈低，曲线双侧尾部翘得愈高；自由度df愈大，t分布曲线愈接近正态分布曲线，当自由度df=∞时，t分布曲线为标准正态分布曲线。</p>
+<p>设$X_1$服从标准正态分布N(0,1)，$X_2$服从自由度为n的$x^2$分布，且$X_1、X_2$相互独立，那么变量$Z=\frac{X_1}{\sqrt{X_2/n}}$所服从的分布为自由度为n的t-分布。分布密度函数：</p>
+<p>$f_{Z}(x)=\frac{\operatorname{Gam}\left(\frac{n+1}{2}\right)}{\sqrt{n \pi} \operatorname{Gam}\left(\frac{n}{2}\right)}\left(1+\frac{x^{2}}{n}\right)^{-\frac{n+1}{2}}$</p>
+<p>其中，Gam(x)为伽马函数。通常写作$\Gamma(x)$。</p>
+<p><img src="images/dataDistribution_t.png" alt="t-分布"></p>
+<h3 id="F分布"><a href="#F分布" class="headerlink" title="F分布"></a>F分布</h3><p>设$X_1$服从自由度为m的$x^2$分布，$X_2$服从自由度为n的$x^2$分布，且$X_1、X_2$相互独立，则称变量$F=(\frac{X_1/m}{X_2/n})$所服从的分布为F分布，其中第一自由度为m，第二自由度为n。</p>
+<p><img src="images/dataDistribution_F.png" alt="F分布"></p>
+<p>不管是参数检验还是非参数检验，都要基于特定的分布来做假设检验。当总体分布已知时，例如总体服从正态分布，我们可以根据给定的显著性水平（通常为0.01 或0.05）查表获得临界值。当总体分布未知时，可以先用Permutation test 构造经验分布，再根据显著性水平获得临界值。</p>
+<p>传统的统计量检验的方法是在检验之前确定显著性水平$\alpha$，也就意味着事先确定了临界值和拒绝域。这样，不论检验统计量的值是大还是小，只要它的值落入拒绝域就拒绝原假设，否则就不拒绝原假设。这种给定显著性水平的方法，无法给出观测数据与原假设之间不一致程度的精确度量。要测量出样本观测数据与原假设中假设值的偏离程度，则需要计算pvalue值。pvalue 值，也称为观测到的显著性水平，它表示为如果原假设$H_0$正确时得到实际观测样本结果的概率。pvalue 值越小，说明实际观测到的数据与$H_0$之间的不一致的程度就越大，检验的结果就越显著。</p>
+<p>变量较多，判断组间差异时需要多重检验的情况在宏基因组扩增子差异分析中十分常见。这种情况下，基于单次比较的检验标准将变得过于宽松，使得阳性结果中的错误率（FDR 值FalseDiscovery Rate）非常大。最好的办法就提高判断的标准（p value），单次判断的犯错概率就会下降，总体犯错的概率也将下降。在多重检验中提高判断标准的方法，我们就称之为<strong>多重检验校正</strong>。从1979 年以来，统计学家提出了多种多重检验校正的方法。</p>
+<h2 id="观察差异"><a href="#观察差异" class="headerlink" title="观察差异"></a>观察差异</h2><p>为了方便观察差异，出现了一系列的统计图。</p>
+<p>比如箱线图、散点图、热图、树状图等。</p>
+
+    </div>
+
+    
+    
+    <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-hand-peace-o"></i>感谢您的阅读-------------</div>
+    
+</div>
+
+
+        <div class="reward-container">
+  <div></div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.jpg" alt="Fain 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/images/alipay.jpg" alt="Fain 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Fain
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://fainke.com/blog/393c1f25.html" title="差异分析">https://fainke.com/blog/393c1f25.html</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+        
+
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/images/DLCV.jpg">
+            <span class="icon">
+              <i class="fab fa-weixin"></i>
+            </span>
+
+            <span class="label">公众号</span>
+          </a>
+        </div>
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/atom.xml">
+            <span class="icon">
+              <i class="fa fa-rss"></i>
+            </span>
+
+            <span class="label">RSS</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E7%BB%9F%E8%AE%A1%E5%88%86%E6%9E%90/" rel="tag"># 统计分析</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/blog/1c9e975d.html" rel="prev" title="晶圆失效图形自动识别">
+      <i class="fa fa-chevron-left"></i> 晶圆失效图形自动识别
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/blog/4a3de261.html" rel="next" title="ButterWorthFIlter(巴特沃斯滤波器)">
+      ButterWorthFIlter(巴特沃斯滤波器) <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%88%86%E5%B8%83"><span class="nav-number">1.</span> <span class="nav-text">数据分布</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#x-2-%E5%88%86%E5%B8%83%EF%BC%88%E5%8D%A1%E6%96%B9%E5%88%86%E5%B8%83%EF%BC%89"><span class="nav-number">1.1.</span> <span class="nav-text">$x^2$分布（卡方分布）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#t-%E5%88%86%E5%B8%83"><span class="nav-number">1.2.</span> <span class="nav-text">t-分布</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#F%E5%88%86%E5%B8%83"><span class="nav-number">1.3.</span> <span class="nav-text">F分布</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A7%82%E5%AF%9F%E5%B7%AE%E5%BC%82"><span class="nav-number">2.</span> <span class="nav-text">观察差异</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Fain"
+      src="/images/touXiang.jpg">
+  <p class="site-author-name" itemprop="name">Fain</p>
+  <div class="site-description" itemprop="description">深度学习,机器学习,计算机视觉CV,自然语言处理NLP,Python</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">70</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">91</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      友链
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://fainke.com/" title="https:&#x2F;&#x2F;fainke.com&#x2F;">深度学习视觉</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Fain</span>
+</div>
+
+        
+
+
+
+
+
+
+<script>
+  (function() {
+    function leancloudSelector(url) {
+      url = encodeURI(url);
+      return document.getElementById(url).querySelector('.leancloud-visitors-count');
+    }
+
+    function addCount(Counter) {
+      var visitors = document.querySelector('.leancloud_visitors');
+      var url = decodeURI(visitors.id);
+      var title = visitors.dataset.flagTitle;
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length > 0) {
+            var counter = results[0];
+            leancloudSelector(url).innerText = counter.time + 1;
+            Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
+              .catch(error => {
+                console.error('Failed to save visitor count', error);
+              });
+          } else {
+              leancloudSelector(url).innerText = 'Counter not initialized! More info at console err msg.';
+              console.error('ATTENTION! LeanCloud counter has security bug, see how to solve it here: https://github.com/theme-next/hexo-leancloud-counter-security. \n However, you can still use LeanCloud without security, by setting `security` option to `false`.');
+            
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    function showTime(Counter) {
+      var visitors = document.querySelectorAll('.leancloud_visitors');
+      var entries = [...visitors].map(element => {
+        return decodeURI(element.id);
+      });
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url: { '$in': entries } })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          for (let url of entries) {
+            let target = results.find(item => item.url === url);
+            leancloudSelector(url).innerText = target ? target.time : 0;
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    let { app_id, app_key, server_url } = {"enable":true,"app_id":"p65EgYG3RHdnokYqNR0fpn4r-gzGzoHsz","app_key":"dV3mVFV1rHusvVBeGRySjRlV","server_url":null,"security":true};
+    function fetchData(api_server) {
+      var Counter = (method, url, data) => {
+        return fetch(`${api_server}/1.1${url}`, {
+          method,
+          headers: {
+            'X-LC-Id'     : app_id,
+            'X-LC-Key'    : app_key,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      if (CONFIG.page.isPost) {
+        if (CONFIG.hostname !== location.hostname) return;
+        addCount(Counter);
+      } else if (document.querySelectorAll('.post-title-link').length >= 1) {
+        showTime(Counter);
+      }
+    }
+
+    let api_server = app_id.slice(-9) !== '-MdYXbMMI' ? server_url : `https://${app_id.slice(0, 8).toLowerCase()}.api.lncldglobal.com`;
+
+    if (api_server) {
+      fetchData(api_server);
+    } else {
+      fetch('https://app-router.leancloud.cn/2/route?appId=' + app_id)
+        .then(response => response.json())
+        .then(({ api_server }) => {
+          fetchData('https://' + api_server);
+        });
+    }
+  })();
+</script>
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script size="300" alpha="0.3" zIndex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+  <script>
+    (function(){
+      var canonicalURL, curProtocol;
+      //Get the <link> tag
+      var x=document.getElementsByTagName("link");
+		//Find the last canonical URL
+		if(x.length > 0){
+			for (i=0;i<x.length;i++){
+				if(x[i].rel.toLowerCase() == 'canonical' && x[i].href){
+					canonicalURL=x[i].href;
+				}
+			}
+		}
+    //Get protocol
+	    if (!canonicalURL){
+	    	curProtocol = window.location.protocol.split(':')[0];
+	    }
+	    else{
+	    	curProtocol = canonicalURL.split(':')[0];
+	    }
+      //Get current URL if the canonical URL does not exist
+	    if (!canonicalURL) canonicalURL = window.location.href;
+	    //Assign script content. Replace current URL with the canonical URL
+      !function(){var e=/([http|https]:\/\/[a-zA-Z0-9\_\.]+\.baidu\.com)/gi,r=canonicalURL,t=document.referrer;if(!e.test(r)){var n=(String(curProtocol).toLowerCase() === 'https')?"https://sp0.baidu.com/9_Q4simg2RQJ8t7jm9iCKT-xh_/s.gif":"//api.share.baidu.com/s.gif";t?(n+="?r="+encodeURIComponent(document.referrer),r&&(n+="&l="+r)):r&&(n+="?l="+r);var i=new Image;i.src=n}}(window);})();
+  </script>
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'p65EgYG3RHdnokYqNR0fpn4r-gzGzoHsz',
+      appKey     : 'dV3mVFV1rHusvVBeGRySjRlV',
+      placeholder: "欢迎留言！说出你的看法！",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

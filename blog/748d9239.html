@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.1.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/touXiang.jpg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/touXiang.jpg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/touXiang.jpg">
+  <link rel="mask-icon" href="/images/touXiang.jpg" color="#222">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"fainke.com","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results foundin ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="2.1 色度学基础2.2 人的视觉特性2.3 图像数字化2.4 数字图像表示形式和特点">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数字图像处理2-图像处理基础（西电）">
+<meta property="og:url" content="https://fainke.com/blog/748d9239.html">
+<meta property="og:site_name" content="DeepLearning">
+<meta property="og:description" content="2.1 色度学基础2.2 人的视觉特性2.3 图像数字化2.4 数字图像表示形式和特点">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://fainke.com/images/RGB%E6%A8%A1%E5%9E%8B.jpg">
+<meta property="og:image" content="https://fainke.com/blog/images/RGB24%E6%AF%94%E7%89%B9%E5%BD%A9%E8%89%B2%E7%AB%8B%E6%96%B9%E4%BD%93.jpg">
+<meta property="og:image" content="https://fainke.com/blog/images/HSI%E6%A8%AA%E6%88%AA%E9%9D%A2.jpg">
+<meta property="article:published_time" content="2020-03-04T17:01:01.000Z">
+<meta property="article:modified_time" content="2020-03-04T17:01:01.000Z">
+<meta property="article:author" content="Fain">
+<meta property="article:tag" content="图像处理">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://fainke.com/images/RGB%E6%A8%A1%E5%9E%8B.jpg">
+
+<link rel="canonical" href="https://fainke.com/blog/748d9239.html">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>数字图像处理2-图像处理基础（西电） | DeepLearning</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?c395ecf759311d7230058ede0e16e5ea# <app_id>";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">DeepLearning</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">深度学习</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-分类">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-留言">
+
+    <a href="/guestbook" rel="section"><i class="fa fa-comment fa-fw"></i>留言</a>
+
+  </li>
+        <li class="menu-item menu-item-友链">
+
+    <a href="/links" rel="section"><i class="fa fa-user-plus fa-fw"></i>友链</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://fainke.com/blog/748d9239.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/touXiang.jpg">
+      <meta itemprop="name" content="Fain">
+      <meta itemprop="description" content="深度学习,机器学习,计算机视觉CV,自然语言处理NLP,Python">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="DeepLearning">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          数字图像处理2-图像处理基础（西电）
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-03-05 01:01:01" itemprop="dateCreated datePublished" datetime="2020-03-05T01:01:01+08:00">2020-03-05</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89CV/" itemprop="url" rel="index"><span itemprop="name">计算机视觉CV</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/blog/748d9239.html" class="post-meta-item leancloud_visitors" data-flag-title="数字图像处理2-图像处理基础（西电）" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/blog/748d9239.html#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/blog/748d9239.html" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>2.1 色度学基础<br>2.2 人的视觉特性<br>2.3 图像数字化<br>2.4 数字图像表示形式和特点</p>
+<a id="more"></a>
+
+<h2 id="色度学基础"><a href="#色度学基础" class="headerlink" title="色度学基础"></a>色度学基础</h2><h3 id="三基色原理"><a href="#三基色原理" class="headerlink" title="三基色原理"></a>三基色原理</h3><p>人眼的视网膜上存在大量能在适当亮度下分辨颜色的锥状细胞，它们分别对应红、绿、蓝三种颜色，即分别对红光、绿光、蓝光敏感。所谓三基色，是指自然界中的绝大部分色光可以用特殊选定的三种基本色光复合而成。由此，红、绿、蓝这三种颜色被称为三基色。</p>
+<h3 id="颜色模型"><a href="#颜色模型" class="headerlink" title="颜色模型"></a>颜色模型</h3><p>人眼视觉的感受颜色可用色调（hue）、饱和度（saturation）和亮度（brightness）来表示。</p>
+<ol>
+<li>色调：它表示颜色的种类，取决于主波长；</li>
+<li>饱和度：表示颜色浓淡的物理量，通常用混入白光量的比例来度量，所加白光量越多，饱和度越低。粉红色是由红色混入白色，所以饱和度就低；</li>
+<li>亮度（灰度）：人眼所感受到的颜色明暗程度的物理量。</li>
+</ol>
+<p>各种表示颜色的方法，称为颜色模型。目前使用最多的是面向机器（如显示器、摄像机、打印机等）的RGB模型和面向颜色处理（也面向人眼视觉）的HSI（HSV）模型。</p>
+<ol>
+<li><p>RGB模型：在三维直角坐标系中，用相互垂直的三个坐标轴代表R、G、B三个分量，并将R、G、B分别限定在[0,1]，则该单位正方体就代表颜色空间，其中的一个点就代表一种颜色。<img src="/images/RGB%E6%A8%A1%E5%9E%8B.jpg" alt="RGB模型"> <img src="images/RGB24%E6%AF%94%E7%89%B9%E5%BD%A9%E8%89%B2%E7%AB%8B%E6%96%B9%E4%BD%93.jpg" alt="RGB24比特彩色立方体"> 在RGB空间中，用来描述每一像素的比特数就叫做像素的深度。如果每一个通道的单个像素都是8bit的话，那么三通道组成的图像就叫做24比特图像，也称为全彩图像。</p>
+</li>
+<li><p>HSI模型利用颜色的三个属性色调H(hue)、饱和度S(saturation)和亮度I(intensity)组成一个表示颜色的圆柱体。<img src="images/HSI%E6%A8%AA%E6%88%AA%E9%9D%A2.jpg" alt="HSI横截面"></p>
+</li>
+</ol>
+<h3 id="RGB和HSI之间的模型转换"><a href="#RGB和HSI之间的模型转换" class="headerlink" title="RGB和HSI之间的模型转换"></a>RGB和HSI之间的模型转换</h3><ol>
+<li><p>RGB转换到HSI:</p>
+<p>$I = \frac{1}{3}(R+G+B)$</p>
+<p>$S = i-\frac{3}{(R+G+B)}[min(R,G,B)]$</p>
+<p>$H = arccos \left{\begin{array}{rcl} \frac{[(R-G)+(R-B)]/2}{[(R-G)^2]+(R-B)(G-B)} \end{array} \right }$</p>
+</li>
+<li><p>HSI转换到RGB:</p>
+<p>①当$0 \leq H \leq 120$时，有</p>
+<p>$R=I[1+\frac{ScosH}{cos(60-H)}]$</p>
+<p>$B=I(1-S)$</p>
+<p>$G=3I-(B+R)$</p>
+<p>②当$120 \leq H \leq 240$时，有</p>
+<p>$R=I(1-S)$</p>
+<p>$G=I[1+\frac{Scos(H-120)}{cos(180-H)}]$</p>
+<p>$B=3I-(G+R)$</p>
+<p>③当$240 \leq H \leq 360$时，有</p>
+<p>$B=I[1+\frac{Scos(H-240)}{cos(300-H)}]$</p>
+<p>$R=3I-(G+B)$</p>
+<p>$G=I(1-S)$</p>
+</li>
+</ol>
+<h2 id="人眼的构造与机理"><a href="#人眼的构造与机理" class="headerlink" title="人眼的构造与机理"></a>人眼的构造与机理</h2><ol>
+<li><p>瞳孔：透明的角膜后是不透明的虹膜，虹膜中间的圆孔称为瞳孔，其直径可调节，控制进入人眼内光的通量（照相机光圈的作用）。</p>
+</li>
+<li><p>晶状体：瞳孔后是一扁球形弹性透明体，其曲率可调节，以改变焦距，使不同距离的图在视网膜上成像（照相机透镜的作用）。</p>
+</li>
+<li><p>视细胞：视网膜上集中了大量视细胞，分为两类：<br>锥状细胞：明视细胞，在强光下监测亮度和颜色。细胞个数6百万-7百万，可分为三种类型，分别对应可视光中的红绿蓝。每个锥状细胞连接一个视神经末梢，所以分辨率高，用来分辨细节和颜色；<br>杆（柱）状细胞：暗视细胞，在弱光下检测亮度，无色彩感觉。大约7千5百万到1亿5千万。多个杆状细胞连接着一个视神经末梢，所以分辨率低，仅分辨图的轮廓。比如月光下只能看到轮廓，颜色不明显。</p>
+</li>
+<li><p>人眼成像过程：光信号-&gt;视细胞-&gt;生理电信号-&gt;视神经-&gt;视神经中枢-&gt;大脑成像。</p>
+</li>
+</ol>
+<h2 id="人的视觉特性"><a href="#人的视觉特性" class="headerlink" title="人的视觉特性"></a>人的视觉特性</h2><h3 id="人的视觉模型"><a href="#人的视觉模型" class="headerlink" title="人的视觉模型"></a>人的视觉模型</h3><ol>
+<li>点光源的表示函数</li>
+<li>点源可以用$\delta$函数表示，表示平面图像的二维$\delta$函数为：<br>$\left{\begin{array}{rcl} \iint^{+\infty}_{-\infty}  \delta(x,y)dxdy=1 \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \delta(x,y)=\left{\begin{array}{rcl} \infty,x=0,y=0 \ 0 \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \end{array} \right. \end{array} \right.$</li>
+</ol>
+<p>则任意一幅图像可表示为：</p>
+<p>$f(x,y)=\iint^{+\infty}_{-\infty}f(\alpha,\beta)\delta(x-\alpha,y-\beta)d\alpha d\beta$</p>
+<h2 id="图像数字化"><a href="#图像数字化" class="headerlink" title="图像数字化"></a>图像数字化</h2><ol>
+<li>均匀采样：将空间上连续的图像转为离散点；</li>
+<li>采样间隔：采样点之间的距离。采样间隔越大，图像像素就越少，空间分辨率低，质量差。采样间隔越小，所得图像像素越多，空间分辨率高，图像质量好，但数据量大。</li>
+<li>量化：将像素灰度转换为离散的整数值的过程。一副数字图像中不同灰度值的个数称为灰度级，用G表示。一般数字图像灰度级G为2的整数幂。量化等级越多，所得图像层次越丰富，灰度分辨率越高，质量越好，但数据量大；量化等级越少，图像层次欠丰富，灰度分辨率低，质量变差，会出现假轮廓现象，但数据量小。</li>
+<li>非均匀采样：根据图像细节的丰富程度改变采样间距，细节丰富的地方，采样间距小，否则间距大。</li>
+<li>非均匀量化：对图像层次少的区域采样间隔大的量化，而对图像层次丰富的区域采用间隔小的量化。</li>
+</ol>
+<h2 id="数字图像表示形式和特点"><a href="#数字图像表示形式和特点" class="headerlink" title="数字图像表示形式和特点"></a>数字图像表示形式和特点</h2><ol>
+<li>信息量大：一幅遥感图像N=1024，G=2^8=256，则容量=N^2 K=8MB</li>
+<li>占用频带较宽：与语音信息相比，图像信息占用的带宽要大几个数量级。处理的难度大，成本高。这就对对图像（频带）压缩提出了必须（很高）的要求。</li>
+<li>像素间相关性大：同幅内相邻像素间具有相同（或相近）灰度的可能性；运动图像的相邻帧对应像素间相关性更大。所以，图像压缩的潜力很大。</li>
+<li>视觉效果的主观性大：图像是图和像的有机结合，在处理中需要考虑人的视觉特点。</li>
+</ol>
+<blockquote>
+<p>知识来源于：西安电子科技大学 现代图像分析视频课程<br>授课老师： 电子工程学院教授：李洁、高新波；副教授：张建龙、王颖、王秀美、王斌<br>公众号做知识记录：深度学习视觉<br>欢迎关注本公众号，获取接下来的课程知识</p>
+</blockquote>
+
+    </div>
+
+    
+    
+    <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-hand-peace-o"></i>感谢您的阅读-------------</div>
+    
+</div>
+
+
+        <div class="reward-container">
+  <div></div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.jpg" alt="Fain 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/images/alipay.jpg" alt="Fain 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Fain
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://fainke.com/blog/748d9239.html" title="数字图像处理2-图像处理基础（西电）">https://fainke.com/blog/748d9239.html</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+        
+
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/images/DLCV.jpg">
+            <span class="icon">
+              <i class="fab fa-weixin"></i>
+            </span>
+
+            <span class="label">公众号</span>
+          </a>
+        </div>
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/atom.xml">
+            <span class="icon">
+              <i class="fa fa-rss"></i>
+            </span>
+
+            <span class="label">RSS</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/" rel="tag"># 图像处理</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/blog/76022918.html" rel="prev" title="数字图像处理1-简介（西电）">
+      <i class="fa fa-chevron-left"></i> 数字图像处理1-简介（西电）
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/blog/1c9e975d.html" rel="next" title="晶圆失效图形自动识别">
+      晶圆失效图形自动识别 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%89%B2%E5%BA%A6%E5%AD%A6%E5%9F%BA%E7%A1%80"><span class="nav-number">1.</span> <span class="nav-text">色度学基础</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%89%E5%9F%BA%E8%89%B2%E5%8E%9F%E7%90%86"><span class="nav-number">1.1.</span> <span class="nav-text">三基色原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A2%9C%E8%89%B2%E6%A8%A1%E5%9E%8B"><span class="nav-number">1.2.</span> <span class="nav-text">颜色模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RGB%E5%92%8CHSI%E4%B9%8B%E9%97%B4%E7%9A%84%E6%A8%A1%E5%9E%8B%E8%BD%AC%E6%8D%A2"><span class="nav-number">1.3.</span> <span class="nav-text">RGB和HSI之间的模型转换</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%BA%E7%9C%BC%E7%9A%84%E6%9E%84%E9%80%A0%E4%B8%8E%E6%9C%BA%E7%90%86"><span class="nav-number">2.</span> <span class="nav-text">人眼的构造与机理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%BA%E7%9A%84%E8%A7%86%E8%A7%89%E7%89%B9%E6%80%A7"><span class="nav-number">3.</span> <span class="nav-text">人的视觉特性</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%BA%E7%9A%84%E8%A7%86%E8%A7%89%E6%A8%A1%E5%9E%8B"><span class="nav-number">3.1.</span> <span class="nav-text">人的视觉模型</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%BE%E5%83%8F%E6%95%B0%E5%AD%97%E5%8C%96"><span class="nav-number">4.</span> <span class="nav-text">图像数字化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E5%AD%97%E5%9B%BE%E5%83%8F%E8%A1%A8%E7%A4%BA%E5%BD%A2%E5%BC%8F%E5%92%8C%E7%89%B9%E7%82%B9"><span class="nav-number">5.</span> <span class="nav-text">数字图像表示形式和特点</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Fain"
+      src="/images/touXiang.jpg">
+  <p class="site-author-name" itemprop="name">Fain</p>
+  <div class="site-description" itemprop="description">深度学习,机器学习,计算机视觉CV,自然语言处理NLP,Python</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">70</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">91</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      友链
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://fainke.com/" title="https:&#x2F;&#x2F;fainke.com&#x2F;">深度学习视觉</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Fain</span>
+</div>
+
+        
+
+
+
+
+
+
+<script>
+  (function() {
+    function leancloudSelector(url) {
+      url = encodeURI(url);
+      return document.getElementById(url).querySelector('.leancloud-visitors-count');
+    }
+
+    function addCount(Counter) {
+      var visitors = document.querySelector('.leancloud_visitors');
+      var url = decodeURI(visitors.id);
+      var title = visitors.dataset.flagTitle;
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length > 0) {
+            var counter = results[0];
+            leancloudSelector(url).innerText = counter.time + 1;
+            Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
+              .catch(error => {
+                console.error('Failed to save visitor count', error);
+              });
+          } else {
+              leancloudSelector(url).innerText = 'Counter not initialized! More info at console err msg.';
+              console.error('ATTENTION! LeanCloud counter has security bug, see how to solve it here: https://github.com/theme-next/hexo-leancloud-counter-security. \n However, you can still use LeanCloud without security, by setting `security` option to `false`.');
+            
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    function showTime(Counter) {
+      var visitors = document.querySelectorAll('.leancloud_visitors');
+      var entries = [...visitors].map(element => {
+        return decodeURI(element.id);
+      });
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url: { '$in': entries } })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          for (let url of entries) {
+            let target = results.find(item => item.url === url);
+            leancloudSelector(url).innerText = target ? target.time : 0;
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    let { app_id, app_key, server_url } = {"enable":true,"app_id":"p65EgYG3RHdnokYqNR0fpn4r-gzGzoHsz","app_key":"dV3mVFV1rHusvVBeGRySjRlV","server_url":null,"security":true};
+    function fetchData(api_server) {
+      var Counter = (method, url, data) => {
+        return fetch(`${api_server}/1.1${url}`, {
+          method,
+          headers: {
+            'X-LC-Id'     : app_id,
+            'X-LC-Key'    : app_key,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      if (CONFIG.page.isPost) {
+        if (CONFIG.hostname !== location.hostname) return;
+        addCount(Counter);
+      } else if (document.querySelectorAll('.post-title-link').length >= 1) {
+        showTime(Counter);
+      }
+    }
+
+    let api_server = app_id.slice(-9) !== '-MdYXbMMI' ? server_url : `https://${app_id.slice(0, 8).toLowerCase()}.api.lncldglobal.com`;
+
+    if (api_server) {
+      fetchData(api_server);
+    } else {
+      fetch('https://app-router.leancloud.cn/2/route?appId=' + app_id)
+        .then(response => response.json())
+        .then(({ api_server }) => {
+          fetchData('https://' + api_server);
+        });
+    }
+  })();
+</script>
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script size="300" alpha="0.3" zIndex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+  <script>
+    (function(){
+      var canonicalURL, curProtocol;
+      //Get the <link> tag
+      var x=document.getElementsByTagName("link");
+		//Find the last canonical URL
+		if(x.length > 0){
+			for (i=0;i<x.length;i++){
+				if(x[i].rel.toLowerCase() == 'canonical' && x[i].href){
+					canonicalURL=x[i].href;
+				}
+			}
+		}
+    //Get protocol
+	    if (!canonicalURL){
+	    	curProtocol = window.location.protocol.split(':')[0];
+	    }
+	    else{
+	    	curProtocol = canonicalURL.split(':')[0];
+	    }
+      //Get current URL if the canonical URL does not exist
+	    if (!canonicalURL) canonicalURL = window.location.href;
+	    //Assign script content. Replace current URL with the canonical URL
+      !function(){var e=/([http|https]:\/\/[a-zA-Z0-9\_\.]+\.baidu\.com)/gi,r=canonicalURL,t=document.referrer;if(!e.test(r)){var n=(String(curProtocol).toLowerCase() === 'https')?"https://sp0.baidu.com/9_Q4simg2RQJ8t7jm9iCKT-xh_/s.gif":"//api.share.baidu.com/s.gif";t?(n+="?r="+encodeURIComponent(document.referrer),r&&(n+="&l="+r)):r&&(n+="?l="+r);var i=new Image;i.src=n}}(window);})();
+  </script>
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'p65EgYG3RHdnokYqNR0fpn4r-gzGzoHsz',
+      appKey     : 'dV3mVFV1rHusvVBeGRySjRlV',
+      placeholder: "欢迎留言！说出你的看法！",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

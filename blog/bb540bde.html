@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.1.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/touXiang.jpg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/touXiang.jpg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/touXiang.jpg">
+  <link rel="mask-icon" href="/images/touXiang.jpg" color="#222">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"fainke.com","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results foundin ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="数据维度规约特征选取法决定特征的衡量准则 一致性测量法（consistency measurement）每一个特征在不同取值下目标值不一致的数据笔数的总和，越少表示相应特征越重要。（先判断最多笔数的取值，剩下的都是不一致取值）">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据规约">
+<meta property="og:url" content="https://fainke.com/blog/bb540bde.html">
+<meta property="og:site_name" content="DeepLearning">
+<meta property="og:description" content="数据维度规约特征选取法决定特征的衡量准则 一致性测量法（consistency measurement）每一个特征在不同取值下目标值不一致的数据笔数的总和，越少表示相应特征越重要。（先判断最多笔数的取值，剩下的都是不一致取值）">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2019-12-31T17:01:01.000Z">
+<meta property="article:modified_time" content="2020-01-31T17:01:01.000Z">
+<meta property="article:author" content="Fain">
+<meta property="article:tag" content="特征工程">
+<meta property="article:tag" content="数据规约">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://fainke.com/blog/bb540bde.html">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>数据规约 | DeepLearning</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?c395ecf759311d7230058ede0e16e5ea# <app_id>";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">DeepLearning</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">深度学习</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-分类">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-留言">
+
+    <a href="/guestbook" rel="section"><i class="fa fa-comment fa-fw"></i>留言</a>
+
+  </li>
+        <li class="menu-item menu-item-友链">
+
+    <a href="/links" rel="section"><i class="fa fa-user-plus fa-fw"></i>友链</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://fainke.com/blog/bb540bde.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/touXiang.jpg">
+      <meta itemprop="name" content="Fain">
+      <meta itemprop="description" content="深度学习,机器学习,计算机视觉CV,自然语言处理NLP,Python">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="DeepLearning">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          数据规约
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-01-01 01:01:01" itemprop="dateCreated datePublished" datetime="2020-01-01T01:01:01+08:00">2020-01-01</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-02-01 01:01:01" itemprop="dateModified" datetime="2020-02-01T01:01:01+08:00">2020-02-01</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">机器学习</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/blog/bb540bde.html" class="post-meta-item leancloud_visitors" data-flag-title="数据规约" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/blog/bb540bde.html#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/blog/bb540bde.html" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="数据维度规约"><a href="#数据维度规约" class="headerlink" title="数据维度规约"></a>数据维度规约</h2><h3 id="特征选取法"><a href="#特征选取法" class="headerlink" title="特征选取法"></a>特征选取法</h3><h4 id="决定特征的衡量准则"><a href="#决定特征的衡量准则" class="headerlink" title="决定特征的衡量准则"></a>决定特征的衡量准则</h4><ol>
+<li><p><strong>一致性测量法（consistency measurement）</strong><br>每一个特征在不同取值下目标值不一致的数据笔数的总和，越少表示相应特征越重要。（先判断最多笔数的取值，剩下的都是不一致取值）</p>
+<a id="more"></a>
+</li>
+<li><p><strong>关联性测量法（association measurement）</strong><br>每一个特征在不同取值下，最多相同目标取值的笔数占总数的比率的乘积越大表示关联性越强。</p>
+</li>
+<li><p><strong>判别测量（discriminant measurement）</strong><br>判断每一个特征不同取值的判断能力。</p>
+</li>
+<li><p><strong>信息增益测量（information measurement）</strong><br>又称决策树特征选取法，其目的是通过决策树的熵来衡量变量对目标变量的区分能力，去除较不相关或多余的变量。</p>
+</li>
+</ol>
+<h4 id="组合特征产生方法"><a href="#组合特征产生方法" class="headerlink" title="组合特征产生方法"></a>组合特征产生方法</h4><ol>
+<li><strong>逐步向前挑选法（sequential forward generation）</strong><br>首先依据特征测量法选取第一层最优特征，然后逐步增加一个数据维度得到第二层成对特征组合，接着计算第二层测量值，按测量值进行特征选取。</li>
+<li><strong>逐步向后删减法（sequential backward generation）</strong><br>该方法只是与逐步向前挑选法相反，是从最上层开始，最上层是所有单一特征的组合，然后向下逐步减少一个维度。</li>
+<li><strong>混合法（bidirectional generation）</strong><br>结合了逐步向前挑选法与逐步向后删减法同时操作。</li>
+<li><strong>随机选取法（random generation）</strong><br>随机决定逐步向前挑选法与逐步向后删减法和随机组合特征。</li>
+</ol>
+<h4 id="特征选取策略"><a href="#特征选取策略" class="headerlink" title="特征选取策略"></a>特征选取策略</h4><p>特征选取策略取决于特征维度，假设数据中存有N个维度，所有可能的特征组合为$2^N$，其中2的意思是选取或不选取这个特征。由于计算复杂度随着维度的增加指数级增长，所以一般情况，我们可以自行控制算法结束的时间，例如，不一致的数据笔数少于3、信息增益大于0.8、相关程度大于0.95、数据特征组合大于5等。以下将介绍两种常用特征选取策略。</p>
+<ol>
+<li><strong>穷举搜索策略（exhaustive search strategy）</strong><br>该方法采用广度搜索的策略，将所有可能的组合列出，比较不同特征维度，以找出最佳特征组合的策略，非常耗时。</li>
+<li><strong>启发式搜索策略（heuristic search strategy）</strong><br>该方法采用深度优先搜索，从各个特征中选取N个最佳特征，接着根据所选的特征产生N个维度的组合，并挑选最好的N个组合，以次类推。虽然不能保证能得到最佳解，但有较高的执行效率。</li>
+<li><strong>随机搜索策略（random search strategy）</strong><br>随机搜索策略是以所选的特征为衡量基准，以随机增加或删除特征的方式，任意增删特征的维度，不断改进不同的特征组合以产生较佳的组合，直到符合所设定的停止条件。</li>
+</ol>
+<h3 id="主成分分析法"><a href="#主成分分析法" class="headerlink" title="主成分分析法"></a>主成分分析法</h3><p>利用主成分分析法降低特征维度。</p>
+<h2 id="数据数值规约"><a href="#数据数值规约" class="headerlink" title="数据数值规约"></a>数据数值规约</h2><h3 id="离散化"><a href="#离散化" class="headerlink" title="离散化"></a>离散化</h3><p>有时候离散型的数据比连续型的数据更容易解释。此时就必须将连续型数据离散化，以符合工具能处理的数据格式。在数值规约方面，通过将属性值阈划分区间范围，离散化技术可以减少连续尺度的数据个数。</p>
+<h3 id="概念阶层"><a href="#概念阶层" class="headerlink" title="概念阶层"></a>概念阶层</h3><p>连续型数据数值具有具有大小顺序关系，通过离散化技术可将其划分为几个不同的区间。离散型数据数值因为本身往往仅具有名目上的意义，并无法得知其数值是否相同或数值差异大小等，所以无法使用相同的方法达到数据数值规约的目的。而需要使用概念层阶将数据一般化，并用高阶层概念替换低阶层的原始数据。例如将小时时间映射到天，周月这些更高层的概念；还有5寸到100寸的液晶屏可以规范到小中大。概念阶层的转换需要专家确认，防止反作用的转化。</p>
+
+    </div>
+
+    
+    
+    <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-hand-peace-o"></i>感谢您的阅读-------------</div>
+    
+</div>
+
+
+        <div class="reward-container">
+  <div></div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.jpg" alt="Fain 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/images/alipay.jpg" alt="Fain 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Fain
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://fainke.com/blog/bb540bde.html" title="数据规约">https://fainke.com/blog/bb540bde.html</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+        
+
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/images/DLCV.jpg">
+            <span class="icon">
+              <i class="fab fa-weixin"></i>
+            </span>
+
+            <span class="label">公众号</span>
+          </a>
+        </div>
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/atom.xml">
+            <span class="icon">
+              <i class="fa fa-rss"></i>
+            </span>
+
+            <span class="label">RSS</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E7%89%B9%E5%BE%81%E5%B7%A5%E7%A8%8B/" rel="tag"># 特征工程</a>
+              <a href="/tags/%E6%95%B0%E6%8D%AE%E8%A7%84%E7%BA%A6/" rel="tag"># 数据规约</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/blog/cd0593c0.html" rel="prev" title="最小二乘法与最小一乘法">
+      <i class="fa fa-chevron-left"></i> 最小二乘法与最小一乘法
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/blog/4863b368.html" rel="next" title="损失函数">
+      损失函数 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E7%BB%B4%E5%BA%A6%E8%A7%84%E7%BA%A6"><span class="nav-number">1.</span> <span class="nav-text">数据维度规约</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%89%B9%E5%BE%81%E9%80%89%E5%8F%96%E6%B3%95"><span class="nav-number">1.1.</span> <span class="nav-text">特征选取法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%86%B3%E5%AE%9A%E7%89%B9%E5%BE%81%E7%9A%84%E8%A1%A1%E9%87%8F%E5%87%86%E5%88%99"><span class="nav-number">1.1.1.</span> <span class="nav-text">决定特征的衡量准则</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BB%84%E5%90%88%E7%89%B9%E5%BE%81%E4%BA%A7%E7%94%9F%E6%96%B9%E6%B3%95"><span class="nav-number">1.1.2.</span> <span class="nav-text">组合特征产生方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%89%B9%E5%BE%81%E9%80%89%E5%8F%96%E7%AD%96%E7%95%A5"><span class="nav-number">1.1.3.</span> <span class="nav-text">特征选取策略</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BB%E6%88%90%E5%88%86%E5%88%86%E6%9E%90%E6%B3%95"><span class="nav-number">1.2.</span> <span class="nav-text">主成分分析法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E6%95%B0%E5%80%BC%E8%A7%84%E7%BA%A6"><span class="nav-number">2.</span> <span class="nav-text">数据数值规约</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A6%BB%E6%95%A3%E5%8C%96"><span class="nav-number">2.1.</span> <span class="nav-text">离散化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A6%82%E5%BF%B5%E9%98%B6%E5%B1%82"><span class="nav-number">2.2.</span> <span class="nav-text">概念阶层</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Fain"
+      src="/images/touXiang.jpg">
+  <p class="site-author-name" itemprop="name">Fain</p>
+  <div class="site-description" itemprop="description">深度学习,机器学习,计算机视觉CV,自然语言处理NLP,Python</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">70</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">91</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      友链
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://fainke.com/" title="https:&#x2F;&#x2F;fainke.com&#x2F;">深度学习视觉</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Fain</span>
+</div>
+
+        
+
+
+
+
+
+
+<script>
+  (function() {
+    function leancloudSelector(url) {
+      url = encodeURI(url);
+      return document.getElementById(url).querySelector('.leancloud-visitors-count');
+    }
+
+    function addCount(Counter) {
+      var visitors = document.querySelector('.leancloud_visitors');
+      var url = decodeURI(visitors.id);
+      var title = visitors.dataset.flagTitle;
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length > 0) {
+            var counter = results[0];
+            leancloudSelector(url).innerText = counter.time + 1;
+            Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
+              .catch(error => {
+                console.error('Failed to save visitor count', error);
+              });
+          } else {
+              leancloudSelector(url).innerText = 'Counter not initialized! More info at console err msg.';
+              console.error('ATTENTION! LeanCloud counter has security bug, see how to solve it here: https://github.com/theme-next/hexo-leancloud-counter-security. \n However, you can still use LeanCloud without security, by setting `security` option to `false`.');
+            
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    function showTime(Counter) {
+      var visitors = document.querySelectorAll('.leancloud_visitors');
+      var entries = [...visitors].map(element => {
+        return decodeURI(element.id);
+      });
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url: { '$in': entries } })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          for (let url of entries) {
+            let target = results.find(item => item.url === url);
+            leancloudSelector(url).innerText = target ? target.time : 0;
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    let { app_id, app_key, server_url } = {"enable":true,"app_id":"p65EgYG3RHdnokYqNR0fpn4r-gzGzoHsz","app_key":"dV3mVFV1rHusvVBeGRySjRlV","server_url":null,"security":true};
+    function fetchData(api_server) {
+      var Counter = (method, url, data) => {
+        return fetch(`${api_server}/1.1${url}`, {
+          method,
+          headers: {
+            'X-LC-Id'     : app_id,
+            'X-LC-Key'    : app_key,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      if (CONFIG.page.isPost) {
+        if (CONFIG.hostname !== location.hostname) return;
+        addCount(Counter);
+      } else if (document.querySelectorAll('.post-title-link').length >= 1) {
+        showTime(Counter);
+      }
+    }
+
+    let api_server = app_id.slice(-9) !== '-MdYXbMMI' ? server_url : `https://${app_id.slice(0, 8).toLowerCase()}.api.lncldglobal.com`;
+
+    if (api_server) {
+      fetchData(api_server);
+    } else {
+      fetch('https://app-router.leancloud.cn/2/route?appId=' + app_id)
+        .then(response => response.json())
+        .then(({ api_server }) => {
+          fetchData('https://' + api_server);
+        });
+    }
+  })();
+</script>
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script size="300" alpha="0.3" zIndex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+  <script>
+    (function(){
+      var canonicalURL, curProtocol;
+      //Get the <link> tag
+      var x=document.getElementsByTagName("link");
+		//Find the last canonical URL
+		if(x.length > 0){
+			for (i=0;i<x.length;i++){
+				if(x[i].rel.toLowerCase() == 'canonical' && x[i].href){
+					canonicalURL=x[i].href;
+				}
+			}
+		}
+    //Get protocol
+	    if (!canonicalURL){
+	    	curProtocol = window.location.protocol.split(':')[0];
+	    }
+	    else{
+	    	curProtocol = canonicalURL.split(':')[0];
+	    }
+      //Get current URL if the canonical URL does not exist
+	    if (!canonicalURL) canonicalURL = window.location.href;
+	    //Assign script content. Replace current URL with the canonical URL
+      !function(){var e=/([http|https]:\/\/[a-zA-Z0-9\_\.]+\.baidu\.com)/gi,r=canonicalURL,t=document.referrer;if(!e.test(r)){var n=(String(curProtocol).toLowerCase() === 'https')?"https://sp0.baidu.com/9_Q4simg2RQJ8t7jm9iCKT-xh_/s.gif":"//api.share.baidu.com/s.gif";t?(n+="?r="+encodeURIComponent(document.referrer),r&&(n+="&l="+r)):r&&(n+="?l="+r);var i=new Image;i.src=n}}(window);})();
+  </script>
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'p65EgYG3RHdnokYqNR0fpn4r-gzGzoHsz',
+      appKey     : 'dV3mVFV1rHusvVBeGRySjRlV',
+      placeholder: "欢迎留言！说出你的看法！",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

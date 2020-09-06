@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.1.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/touXiang.jpg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/touXiang.jpg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/touXiang.jpg">
+  <link rel="mask-icon" href="/images/touXiang.jpg" color="#222">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"fainke.com","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results foundin ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="前言这篇文章解释了CNN是怎么学到图片内的绝对位置信息。探究了CNN到底有没有编码位置信息，这些位置信息在哪些神经元中被编码、这些位置信息又是如何被暴露给神经网络学习的。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CNN如何学到图片中的位置信息">
+<meta property="og:url" content="https://fainke.com/blog/4f7ea913.html">
+<meta property="og:site_name" content="DeepLearning">
+<meta property="og:description" content="前言这篇文章解释了CNN是怎么学到图片内的绝对位置信息。探究了CNN到底有没有编码位置信息，这些位置信息在哪些神经元中被编码、这些位置信息又是如何被暴露给神经网络学习的。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://fainke.com/blog/images/CnnPositionHeatMap.jpg">
+<meta property="og:image" content="https://fainke.com/blog/images/CnnPositionEncoding.jpg">
+<meta property="og:image" content="https://fainke.com/blog/images/CnnGradientLike.jpg">
+<meta property="og:image" content="https://fainke.com/blog/images/CnnPosENetResults.jpg">
+<meta property="og:image" content="https://fainke.com/blog/images/CnnPositionComparison.jpg">
+<meta property="og:image" content="https://fainke.com/blog/images/CnnPositionPadding.jpg">
+<meta property="article:published_time" content="2020-03-04T17:01:01.000Z">
+<meta property="article:modified_time" content="2020-03-04T17:01:01.000Z">
+<meta property="article:author" content="Fain">
+<meta property="article:tag" content="CNN">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://fainke.com/blog/images/CnnPositionHeatMap.jpg">
+
+<link rel="canonical" href="https://fainke.com/blog/4f7ea913.html">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>CNN如何学到图片中的位置信息 | DeepLearning</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?c395ecf759311d7230058ede0e16e5ea# <app_id>";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">DeepLearning</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">深度学习</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-分类">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-留言">
+
+    <a href="/guestbook" rel="section"><i class="fa fa-comment fa-fw"></i>留言</a>
+
+  </li>
+        <li class="menu-item menu-item-友链">
+
+    <a href="/links" rel="section"><i class="fa fa-user-plus fa-fw"></i>友链</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://fainke.com/blog/4f7ea913.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/touXiang.jpg">
+      <meta itemprop="name" content="Fain">
+      <meta itemprop="description" content="深度学习,机器学习,计算机视觉CV,自然语言处理NLP,Python">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="DeepLearning">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          CNN如何学到图片中的位置信息
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-03-05 01:01:01" itemprop="dateCreated datePublished" datetime="2020-03-05T01:01:01+08:00">2020-03-05</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89CV/" itemprop="url" rel="index"><span itemprop="name">计算机视觉CV</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/blog/4f7ea913.html" class="post-meta-item leancloud_visitors" data-flag-title="CNN如何学到图片中的位置信息" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/blog/4f7ea913.html#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/blog/4f7ea913.html" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>这篇文章解释了CNN是怎么学到图片内的绝对位置信息。探究了CNN到底有没有编码位置信息，这些位置信息在哪些神经元中被编码、这些位置信息又是如何被暴露给神经网络学习的。</p>
+<a id="more"></a>
+
+<p>这是一篇ICLR2020接收的文章。此前，关注位置信息编码只在NLP的任务中，因为字符位置不同，文本表达的语义不同。但是，CV一直没有这个明显的需求，大家一致认为CNN具有平移不变性。在CV的三大物体感知任务中，分类不需要位置信息，语义分割关注的是像素级别的语义分类，也不觉得需要位置信息(其实位置信息很有用)；也许你会觉得物体检测会用到位置信息，然而，物体检测模型都是通过检测Anchor中的特征做分类工作，最后得到的坐标信息来自于Anchor。</p>
+<p><img src="images/CnnPositionHeatMap.jpg" alt="CnnPositionHeatMap"><br>上图一共有三组图片，每组由原图和剪切图构成。可以发现，显著区域将会因为图片中心位置的改变而改变。</p>
+<h2 id="Position-Encoding-Network"><a href="#Position-Encoding-Network" class="headerlink" title="Position Encoding Network"></a>Position Encoding Network</h2><p><img src="images/CnnPositionEncoding.jpg" alt="CnnPositionEncoding"><br>作者提出了一种提取位置的模型Position Encoding Network(PosENet)。首先挑选VGG和ResNet作为特征提取网络，接着从浅层到深层提取5个leve的特征送入PosENet。其中用bi-linear插值到同一size后concat。最后PosENet的输出是一张能表示位置信息的gradient-like。PosENet模型提取出真实的位置信息，对作者添加的梯度状的图片GT进行拟合。梯度状图片GT图片如下：<br><img src="images/CnnGradientLike.jpg" alt="CnnGradientLike"><br>如果在分类任务上训练的前馈网络能够隐式的学到位置信息，那么作者设计的位置编码模块经过训练后就能对隐藏的位置信息与梯度状的图片GT之间的关系进行建模，如果特征图中没有编码的位置信息，那么输出将是随机的。</p>
+<h2 id="具体实验"><a href="#具体实验" class="headerlink" title="具体实验"></a>具体实验</h2><h3 id="实验效果"><a href="#实验效果" class="headerlink" title="实验效果"></a>实验效果</h3><p>作者做了如图所示的实验：<br><img src="images/CnnPosENetResults.jpg" alt="CnnPosENetResults"><br>其中最左边一列是输入，第二列是GT，第三列是没有backbone直接接入position encoding module，第四列用VGG backbone，第五列resnet backbone。其中backbone的参数都冻结，position encoding module都不padding。</p>
+<p>第三列表明没有backbone的pretrain权重，网络无法通过输入直接映射到gt。在没有padding的情况下，输出只会响应在输入的具体内容上，不能预测和内容无关的位置信息。第四、五列说明了pretrain的网络输出的特征中编码了位置信息，这帮助了后面接的position encoding module预测到gt。</p>
+<h3 id="实验数据"><a href="#实验数据" class="headerlink" title="实验数据"></a>实验数据</h3><p>下图可以看出PosENet（VGG和ResNet）可以很容易地从经过训练的CNN模型中提取位置信息，特别是基于ResNet的PosENet模型。然而，单独训练PosENet（PosENet）直接从图像来预测的得分要低得多(并且越深的特征层效果越好)。这一结果表明，仅从输入图像中提取位置信息是非常困难的。只有与深度编码网络相耦合，PosENet才能提取出与地面真实位置图一致的位置信息。<br><img src="images/CnnPositionComparison.jpg" alt="CnnPositionComparison"></p>
+<h3 id="padding影响"><a href="#padding影响" class="headerlink" title="padding影响"></a>padding影响</h3><p>从下图可以看出，随着pad数增加，可视化结果越接近gt。<br><img src="images/CnnPositionPadding.jpg" alt="CnnPositionPadding"></p>
+<h2 id="文章最终得到的结论"><a href="#文章最终得到的结论" class="headerlink" title="文章最终得到的结论"></a>文章最终得到的结论</h2><p>CNN隐性的编码了位置信息，并且随着网络层数的增加和卷积核的增加，即感受野的增加，能够更好的编码位置信息。其中，这个位置信息是由zero-padding造成的，图像边缘的zero-padding提供了图像的边界信息。本来，网络是不知道每个像素点或者特征点的位置。但是，通过padding的zero，提供给模型一个相对位置信息，知道每个特征点距离zero边界的距离信息。</p>
+<blockquote>
+<p>论文地址：<a target="_blank" rel="noopener" href="https://openreview.net/attachment?id=rJeB36NKvB&name=original_pdf">How much position information do convolutional neural networks encode?</a><br>公众号:深度学习视觉</p>
+</blockquote>
+
+    </div>
+
+    
+    
+    <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-hand-peace-o"></i>感谢您的阅读-------------</div>
+    
+</div>
+
+
+        <div class="reward-container">
+  <div></div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.jpg" alt="Fain 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/images/alipay.jpg" alt="Fain 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Fain
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://fainke.com/blog/4f7ea913.html" title="CNN如何学到图片中的位置信息">https://fainke.com/blog/4f7ea913.html</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+        
+
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/images/DLCV.jpg">
+            <span class="icon">
+              <i class="fab fa-weixin"></i>
+            </span>
+
+            <span class="label">公众号</span>
+          </a>
+        </div>
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/atom.xml">
+            <span class="icon">
+              <i class="fa fa-rss"></i>
+            </span>
+
+            <span class="label">RSS</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/CNN/" rel="tag"># CNN</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/blog/c31606b1.html" rel="prev" title="神经网络能否直接判断奇偶数">
+      <i class="fa fa-chevron-left"></i> 神经网络能否直接判断奇偶数
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/blog/5566fb07.html" rel="next" title="Text Summarization">
+      Text Summarization <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Position-Encoding-Network"><span class="nav-number">2.</span> <span class="nav-text">Position Encoding Network</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B7%E4%BD%93%E5%AE%9E%E9%AA%8C"><span class="nav-number">3.</span> <span class="nav-text">具体实验</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9E%E9%AA%8C%E6%95%88%E6%9E%9C"><span class="nav-number">3.1.</span> <span class="nav-text">实验效果</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9E%E9%AA%8C%E6%95%B0%E6%8D%AE"><span class="nav-number">3.2.</span> <span class="nav-text">实验数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#padding%E5%BD%B1%E5%93%8D"><span class="nav-number">3.3.</span> <span class="nav-text">padding影响</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%87%E7%AB%A0%E6%9C%80%E7%BB%88%E5%BE%97%E5%88%B0%E7%9A%84%E7%BB%93%E8%AE%BA"><span class="nav-number">4.</span> <span class="nav-text">文章最终得到的结论</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Fain"
+      src="/images/touXiang.jpg">
+  <p class="site-author-name" itemprop="name">Fain</p>
+  <div class="site-description" itemprop="description">深度学习,机器学习,计算机视觉CV,自然语言处理NLP,Python</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">70</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">91</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      友链
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://fainke.com/" title="https:&#x2F;&#x2F;fainke.com&#x2F;">深度学习视觉</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Fain</span>
+</div>
+
+        
+
+
+
+
+
+
+<script>
+  (function() {
+    function leancloudSelector(url) {
+      url = encodeURI(url);
+      return document.getElementById(url).querySelector('.leancloud-visitors-count');
+    }
+
+    function addCount(Counter) {
+      var visitors = document.querySelector('.leancloud_visitors');
+      var url = decodeURI(visitors.id);
+      var title = visitors.dataset.flagTitle;
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length > 0) {
+            var counter = results[0];
+            leancloudSelector(url).innerText = counter.time + 1;
+            Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
+              .catch(error => {
+                console.error('Failed to save visitor count', error);
+              });
+          } else {
+              leancloudSelector(url).innerText = 'Counter not initialized! More info at console err msg.';
+              console.error('ATTENTION! LeanCloud counter has security bug, see how to solve it here: https://github.com/theme-next/hexo-leancloud-counter-security. \n However, you can still use LeanCloud without security, by setting `security` option to `false`.');
+            
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    function showTime(Counter) {
+      var visitors = document.querySelectorAll('.leancloud_visitors');
+      var entries = [...visitors].map(element => {
+        return decodeURI(element.id);
+      });
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url: { '$in': entries } })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          for (let url of entries) {
+            let target = results.find(item => item.url === url);
+            leancloudSelector(url).innerText = target ? target.time : 0;
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    let { app_id, app_key, server_url } = {"enable":true,"app_id":"p65EgYG3RHdnokYqNR0fpn4r-gzGzoHsz","app_key":"dV3mVFV1rHusvVBeGRySjRlV","server_url":null,"security":true};
+    function fetchData(api_server) {
+      var Counter = (method, url, data) => {
+        return fetch(`${api_server}/1.1${url}`, {
+          method,
+          headers: {
+            'X-LC-Id'     : app_id,
+            'X-LC-Key'    : app_key,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      if (CONFIG.page.isPost) {
+        if (CONFIG.hostname !== location.hostname) return;
+        addCount(Counter);
+      } else if (document.querySelectorAll('.post-title-link').length >= 1) {
+        showTime(Counter);
+      }
+    }
+
+    let api_server = app_id.slice(-9) !== '-MdYXbMMI' ? server_url : `https://${app_id.slice(0, 8).toLowerCase()}.api.lncldglobal.com`;
+
+    if (api_server) {
+      fetchData(api_server);
+    } else {
+      fetch('https://app-router.leancloud.cn/2/route?appId=' + app_id)
+        .then(response => response.json())
+        .then(({ api_server }) => {
+          fetchData('https://' + api_server);
+        });
+    }
+  })();
+</script>
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script size="300" alpha="0.3" zIndex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+  <script>
+    (function(){
+      var canonicalURL, curProtocol;
+      //Get the <link> tag
+      var x=document.getElementsByTagName("link");
+		//Find the last canonical URL
+		if(x.length > 0){
+			for (i=0;i<x.length;i++){
+				if(x[i].rel.toLowerCase() == 'canonical' && x[i].href){
+					canonicalURL=x[i].href;
+				}
+			}
+		}
+    //Get protocol
+	    if (!canonicalURL){
+	    	curProtocol = window.location.protocol.split(':')[0];
+	    }
+	    else{
+	    	curProtocol = canonicalURL.split(':')[0];
+	    }
+      //Get current URL if the canonical URL does not exist
+	    if (!canonicalURL) canonicalURL = window.location.href;
+	    //Assign script content. Replace current URL with the canonical URL
+      !function(){var e=/([http|https]:\/\/[a-zA-Z0-9\_\.]+\.baidu\.com)/gi,r=canonicalURL,t=document.referrer;if(!e.test(r)){var n=(String(curProtocol).toLowerCase() === 'https')?"https://sp0.baidu.com/9_Q4simg2RQJ8t7jm9iCKT-xh_/s.gif":"//api.share.baidu.com/s.gif";t?(n+="?r="+encodeURIComponent(document.referrer),r&&(n+="&l="+r)):r&&(n+="?l="+r);var i=new Image;i.src=n}}(window);})();
+  </script>
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'p65EgYG3RHdnokYqNR0fpn4r-gzGzoHsz',
+      appKey     : 'dV3mVFV1rHusvVBeGRySjRlV',
+      placeholder: "欢迎留言！说出你的看法！",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

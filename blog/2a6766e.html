@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.1.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/touXiang.jpg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/touXiang.jpg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/touXiang.jpg">
+  <link rel="mask-icon" href="/images/touXiang.jpg" color="#222">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"fainke.com","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results foundin ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="背景美国运筹学家Sasty于20世纪70年代初提出层次分析法AHP(Analytic Hierarchy Process)AHP：一种定量与特性相结合的、系统化、层次化的分析法。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="层次分析法介绍">
+<meta property="og:url" content="https://fainke.com/blog/2a6766e.html">
+<meta property="og:site_name" content="DeepLearning">
+<meta property="og:description" content="背景美国运筹学家Sasty于20世纪70年代初提出层次分析法AHP(Analytic Hierarchy Process)AHP：一种定量与特性相结合的、系统化、层次化的分析法。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2019-12-31T17:01:01.000Z">
+<meta property="article:modified_time" content="2020-01-31T17:01:01.000Z">
+<meta property="article:author" content="Fain">
+<meta property="article:tag" content="层次分析法">
+<meta property="article:tag" content="决策">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://fainke.com/blog/2a6766e.html">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>层次分析法介绍 | DeepLearning</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?c395ecf759311d7230058ede0e16e5ea# <app_id>";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">DeepLearning</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">深度学习</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-分类">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-留言">
+
+    <a href="/guestbook" rel="section"><i class="fa fa-comment fa-fw"></i>留言</a>
+
+  </li>
+        <li class="menu-item menu-item-友链">
+
+    <a href="/links" rel="section"><i class="fa fa-user-plus fa-fw"></i>友链</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://fainke.com/blog/2a6766e.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/touXiang.jpg">
+      <meta itemprop="name" content="Fain">
+      <meta itemprop="description" content="深度学习,机器学习,计算机视觉CV,自然语言处理NLP,Python">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="DeepLearning">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          层次分析法介绍
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-01-01 01:01:01" itemprop="dateCreated datePublished" datetime="2020-01-01T01:01:01+08:00">2020-01-01</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-02-01 01:01:01" itemprop="dateModified" datetime="2020-02-01T01:01:01+08:00">2020-02-01</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">机器学习</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/blog/2a6766e.html" class="post-meta-item leancloud_visitors" data-flag-title="层次分析法介绍" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/blog/2a6766e.html#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/blog/2a6766e.html" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>美国运筹学家Sasty于20世纪70年代初提出层次分析法AHP(Analytic Hierarchy Process)<br>AHP：一种定量与特性相结合的、系统化、层次化的分析法。</p>
+<a id="more"></a>
+
+<p>深入分析实际问题，将有关因素自上而下分层（目标-准则/指标-方案/对象），上层受下层影响，而层内各因素基本上相对独立。</p>
+<h2 id="建立层次分析结构模型的步骤"><a href="#建立层次分析结构模型的步骤" class="headerlink" title="建立层次分析结构模型的步骤"></a>建立层次分析结构模型的步骤</h2><p><strong>step1:</strong> 将决策问题分为3个层次：目标层O，准则层C，方案层P；每层有若干元素，各层元素间的关系用相连的直线表示。<br><strong>step2:</strong> 构造成对比较阵，用成对比较阵法和1-9尺度，构造各层对上一层每一因素的成对比较阵。</p>
+<p><strong>例子：</strong> 选择旅游地<br><strong>目标层：</strong> O选择旅游地<br><strong>准则层：</strong> C1景色，C2费用，C3居住，C4饮食，C5旅途<br><strong>方案层：</strong> P1桂林，P2黄山，P3北戴河</p>
+<p>接下来每个方案对每个准则进行评判。<br><strong>成对比较阵的元素：</strong> 元素之间两两对比，采用相对比较尺度。<br><strong>相对比较尺度$a_{ij}$</strong> 是由Sasty等人提出1-9尺度$a_{ij}$取值1,2,…,9及其互反数1,1/2,…,1/9。</p>
+<h3 id="定性到定量的转化"><a href="#定性到定量的转化" class="headerlink" title="定性到定量的转化"></a>定性到定量的转化</h3><table>
+<thead>
+<tr>
+<th align="center">尺度$a_{ij}$</th>
+<th>1 2 3 4 5 6 7 8 9</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">$C_i:C_j$的重要性</td>
+<td>相同 稍强 强 明显强 绝对强 …</td>
+</tr>
+<tr>
+<td align="center">如果因素Ci与Cj对目标影响相同，则尺度定义为1。</td>
+<td></td>
+</tr>
+</tbody></table>
+<h3 id="准则层对目标层的成对比较阵"><a href="#准则层对目标层的成对比较阵" class="headerlink" title="准则层对目标层的成对比较阵"></a>准则层对目标层的成对比较阵</h3><p>利用相对比较尺度$a_{ij}$，比较各准则$C_1,C_2,…,C_n$对目标的重要性$C_i:C_j=&gt;a_{ij}$。设矩阵$A = (a_{ij})<em>{m*n},a</em>{ij}&gt;0,a_{ji}=\frac{1}{a_{ij}}$。在这个例子里，A是5x5矩阵。</p>
+<p>同理可得<strong>方案层对准则层各因素的成对比较阵</strong>。3x3矩阵。</p>
+<h2 id="层次分析法求解步骤"><a href="#层次分析法求解步骤" class="headerlink" title="层次分析法求解步骤"></a>层次分析法求解步骤</h2><h3 id="数学表达式"><a href="#数学表达式" class="headerlink" title="数学表达式"></a>数学表达式</h3><ol>
+<li>第2层对第1层的权重向量为：<br>$w^{(2)}=\left(w_{1}^{(2)}, \cdots, w_{n}^{(2)}\right)^{T}$</li>
+<li>第3层对第2层的权重向量为：<br>$w_{k}^{(3)}=\left(w_{k 1}^{(0)}, \cdots, w_{k m}^{(3)}\right)^{T}, k=1,2, \cdots, n$<br>构造矩阵$W^{(3)}=\left[w_{1}^{(3)}, \cdots, w_{n}^{(3)}\right]$<br>则第3层对底1层的组合权向量$w^{(3)}=W^{(3)} w^{(2)}$</li>
+<li>第s层对第1层的权重向量为:<br>$w^{(s)}=W^{(s)} W^{(s-1)} \cdots W^{(3)} w^{(2)}$<br>其中$W^{(p)}$是由第p层对第p-1层权向量组成的矩阵。</li>
+</ol>
+<h3 id="计算权向量并作一致性检验"><a href="#计算权向量并作一致性检验" class="headerlink" title="计算权向量并作一致性检验"></a>计算权向量并作一致性检验</h3><p>对每一成对比较阵计算最大特征根和特征向量，作一致性检验，若通过，则特征向量为权重向量。<br><strong>成对比较阵完全一致的情况：</strong><br>元素满足$a_{i j} \cdot a_{j k}=a_{i k}, \quad i, j, k=1,2, \cdots, n$的正反阵A称一致阵。<br><strong>一致阵性质：</strong><br>① A的秩为1，A的唯一非零特征根为n；<br>② A的任一列向量是对应于n的特征向量；<br>③ A的归一化特征向量可作为权向量。<br><strong>成对比较阵不一致的情况：</strong><br>对于实际问题中不一致（但在允许范围内）的成对比较阵A，我们可用对应于最大特征根$\lambda$的特征向量作为权向量$w$，$Aw = \lambda w$</p>
+<h3 id="组合权向量（作组合一致性检验）"><a href="#组合权向量（作组合一致性检验）" class="headerlink" title="组合权向量（作组合一致性检验）"></a>组合权向量（作组合一致性检验）</h3><p>将多层的权向量组合可作为决策的定量依据。</p>
+<h3 id="一致性检验"><a href="#一致性检验" class="headerlink" title="一致性检验"></a>一致性检验</h3><p>已知：n阶一致阵的唯一非零特征根为n；<br>结论：n阶正互反阵最大特征根$\lambda \geq n$，且$\lambda = n$时为一致阵<br>一致性指标：$CI = \frac{\lambda -n}{n-1}$，CI越大，不一致越严重。<br>由于CI的大小受到矩阵规模的影响，所以加入了随机一致性指标RI，随机模拟得到$a_{ij}$形成A，多次计算CI得到RI来修正。<br>|n| 1 | 2 | 3 | 4 | 5 | … |<br>|:-:|:-:|:-:|:-:|:-:|:-:|:-:|<br>|RI| 0 | 0 | 0.58 | 0.90 | 1.12 | … |<br><strong>定义一致性比率：</strong><br>$CR = CI/RI$<br>当CR&lt;0.1时，通过一致性检验。</p>
+<h3 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h3><p><strong>组合权向量：</strong>第三层对第二层的计算结果<br>| $k$ | 1| 2 | 3 | 4 | 5 |<br>| :—: | :-: | :-: | :-: | :-: | :-: |<br>|$w_k^{(3)}$| 0.595 <br> 0.277 <br> 0.129 <br>| 0.082 <br> 0.236 <br> 0.682 <br>| 0.429 <br> 0.429 <br> 0.142 <br>| 0.633 <br> 0.193 <br> 0.175 <br>| 0.166 <br> 0.166 <br> 0.668 <br>|<br>|$\lambda_k$|3.005 | 3.002 | 3.0 | 3.009 | 3.0 |<br>|$CI_k$| 0.003 | 0.001 | 0.0 | 0.005 | 0.0 |<br>其中第二层对第一层的计算结果为$w^{(2)} : (0.263，0.475，0.055，0.090，0.110)$<br>$RI=0.58(n=3),得CI_k$均可通过一致性检验。<br>方案$P_1$对目标的组合权重为0.595x0.263+…=0.300<br>方案层对目标的组合权重向量为$(0.300，0.246，0.456)^T$<br>可以得到第三个方案最优。</p>
+<blockquote>
+<p>参考自华中农业大学数学建模课程</p>
+</blockquote>
+
+    </div>
+
+    
+    
+    <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-hand-peace-o"></i>感谢您的阅读-------------</div>
+    
+</div>
+
+
+        <div class="reward-container">
+  <div></div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.jpg" alt="Fain 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/images/alipay.jpg" alt="Fain 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Fain
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://fainke.com/blog/2a6766e.html" title="层次分析法介绍">https://fainke.com/blog/2a6766e.html</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+        
+
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/images/DLCV.jpg">
+            <span class="icon">
+              <i class="fab fa-weixin"></i>
+            </span>
+
+            <span class="label">公众号</span>
+          </a>
+        </div>
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/atom.xml">
+            <span class="icon">
+              <i class="fa fa-rss"></i>
+            </span>
+
+            <span class="label">RSS</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%B1%82%E6%AC%A1%E5%88%86%E6%9E%90%E6%B3%95/" rel="tag"># 层次分析法</a>
+              <a href="/tags/%E5%86%B3%E7%AD%96/" rel="tag"># 决策</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/blog/4863b368.html" rel="prev" title="损失函数">
+      <i class="fa fa-chevron-left"></i> 损失函数
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/blog/49522bf9.html" rel="next" title="基于HDP-HMM的机械设备故障预测">
+      基于HDP-HMM的机械设备故障预测 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%83%8C%E6%99%AF"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BB%BA%E7%AB%8B%E5%B1%82%E6%AC%A1%E5%88%86%E6%9E%90%E7%BB%93%E6%9E%84%E6%A8%A1%E5%9E%8B%E7%9A%84%E6%AD%A5%E9%AA%A4"><span class="nav-number">2.</span> <span class="nav-text">建立层次分析结构模型的步骤</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9A%E6%80%A7%E5%88%B0%E5%AE%9A%E9%87%8F%E7%9A%84%E8%BD%AC%E5%8C%96"><span class="nav-number">2.1.</span> <span class="nav-text">定性到定量的转化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%87%86%E5%88%99%E5%B1%82%E5%AF%B9%E7%9B%AE%E6%A0%87%E5%B1%82%E7%9A%84%E6%88%90%E5%AF%B9%E6%AF%94%E8%BE%83%E9%98%B5"><span class="nav-number">2.2.</span> <span class="nav-text">准则层对目标层的成对比较阵</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B1%82%E6%AC%A1%E5%88%86%E6%9E%90%E6%B3%95%E6%B1%82%E8%A7%A3%E6%AD%A5%E9%AA%A4"><span class="nav-number">3.</span> <span class="nav-text">层次分析法求解步骤</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E5%AD%A6%E8%A1%A8%E8%BE%BE%E5%BC%8F"><span class="nav-number">3.1.</span> <span class="nav-text">数学表达式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%A1%E7%AE%97%E6%9D%83%E5%90%91%E9%87%8F%E5%B9%B6%E4%BD%9C%E4%B8%80%E8%87%B4%E6%80%A7%E6%A3%80%E9%AA%8C"><span class="nav-number">3.2.</span> <span class="nav-text">计算权向量并作一致性检验</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%84%E5%90%88%E6%9D%83%E5%90%91%E9%87%8F%EF%BC%88%E4%BD%9C%E7%BB%84%E5%90%88%E4%B8%80%E8%87%B4%E6%80%A7%E6%A3%80%E9%AA%8C%EF%BC%89"><span class="nav-number">3.3.</span> <span class="nav-text">组合权向量（作组合一致性检验）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%E8%87%B4%E6%80%A7%E6%A3%80%E9%AA%8C"><span class="nav-number">3.4.</span> <span class="nav-text">一致性检验</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A4%BA%E4%BE%8B"><span class="nav-number">3.5.</span> <span class="nav-text">示例</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Fain"
+      src="/images/touXiang.jpg">
+  <p class="site-author-name" itemprop="name">Fain</p>
+  <div class="site-description" itemprop="description">深度学习,机器学习,计算机视觉CV,自然语言处理NLP,Python</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">70</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">91</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      友链
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://fainke.com/" title="https:&#x2F;&#x2F;fainke.com&#x2F;">深度学习视觉</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Fain</span>
+</div>
+
+        
+
+
+
+
+
+
+<script>
+  (function() {
+    function leancloudSelector(url) {
+      url = encodeURI(url);
+      return document.getElementById(url).querySelector('.leancloud-visitors-count');
+    }
+
+    function addCount(Counter) {
+      var visitors = document.querySelector('.leancloud_visitors');
+      var url = decodeURI(visitors.id);
+      var title = visitors.dataset.flagTitle;
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length > 0) {
+            var counter = results[0];
+            leancloudSelector(url).innerText = counter.time + 1;
+            Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
+              .catch(error => {
+                console.error('Failed to save visitor count', error);
+              });
+          } else {
+              leancloudSelector(url).innerText = 'Counter not initialized! More info at console err msg.';
+              console.error('ATTENTION! LeanCloud counter has security bug, see how to solve it here: https://github.com/theme-next/hexo-leancloud-counter-security. \n However, you can still use LeanCloud without security, by setting `security` option to `false`.');
+            
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    function showTime(Counter) {
+      var visitors = document.querySelectorAll('.leancloud_visitors');
+      var entries = [...visitors].map(element => {
+        return decodeURI(element.id);
+      });
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url: { '$in': entries } })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          for (let url of entries) {
+            let target = results.find(item => item.url === url);
+            leancloudSelector(url).innerText = target ? target.time : 0;
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    let { app_id, app_key, server_url } = {"enable":true,"app_id":"p65EgYG3RHdnokYqNR0fpn4r-gzGzoHsz","app_key":"dV3mVFV1rHusvVBeGRySjRlV","server_url":null,"security":true};
+    function fetchData(api_server) {
+      var Counter = (method, url, data) => {
+        return fetch(`${api_server}/1.1${url}`, {
+          method,
+          headers: {
+            'X-LC-Id'     : app_id,
+            'X-LC-Key'    : app_key,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      if (CONFIG.page.isPost) {
+        if (CONFIG.hostname !== location.hostname) return;
+        addCount(Counter);
+      } else if (document.querySelectorAll('.post-title-link').length >= 1) {
+        showTime(Counter);
+      }
+    }
+
+    let api_server = app_id.slice(-9) !== '-MdYXbMMI' ? server_url : `https://${app_id.slice(0, 8).toLowerCase()}.api.lncldglobal.com`;
+
+    if (api_server) {
+      fetchData(api_server);
+    } else {
+      fetch('https://app-router.leancloud.cn/2/route?appId=' + app_id)
+        .then(response => response.json())
+        .then(({ api_server }) => {
+          fetchData('https://' + api_server);
+        });
+    }
+  })();
+</script>
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script size="300" alpha="0.3" zIndex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+  <script>
+    (function(){
+      var canonicalURL, curProtocol;
+      //Get the <link> tag
+      var x=document.getElementsByTagName("link");
+		//Find the last canonical URL
+		if(x.length > 0){
+			for (i=0;i<x.length;i++){
+				if(x[i].rel.toLowerCase() == 'canonical' && x[i].href){
+					canonicalURL=x[i].href;
+				}
+			}
+		}
+    //Get protocol
+	    if (!canonicalURL){
+	    	curProtocol = window.location.protocol.split(':')[0];
+	    }
+	    else{
+	    	curProtocol = canonicalURL.split(':')[0];
+	    }
+      //Get current URL if the canonical URL does not exist
+	    if (!canonicalURL) canonicalURL = window.location.href;
+	    //Assign script content. Replace current URL with the canonical URL
+      !function(){var e=/([http|https]:\/\/[a-zA-Z0-9\_\.]+\.baidu\.com)/gi,r=canonicalURL,t=document.referrer;if(!e.test(r)){var n=(String(curProtocol).toLowerCase() === 'https')?"https://sp0.baidu.com/9_Q4simg2RQJ8t7jm9iCKT-xh_/s.gif":"//api.share.baidu.com/s.gif";t?(n+="?r="+encodeURIComponent(document.referrer),r&&(n+="&l="+r)):r&&(n+="?l="+r);var i=new Image;i.src=n}}(window);})();
+  </script>
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'p65EgYG3RHdnokYqNR0fpn4r-gzGzoHsz',
+      appKey     : 'dV3mVFV1rHusvVBeGRySjRlV',
+      placeholder: "欢迎留言！说出你的看法！",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

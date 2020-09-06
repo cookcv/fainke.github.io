@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.1.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/touXiang.jpg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/touXiang.jpg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/touXiang.jpg">
+  <link rel="mask-icon" href="/images/touXiang.jpg" color="#222">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"fainke.com","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results foundin ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="-">
+<meta property="og:type" content="article">
+<meta property="og:title" content="梯度爆炸与梯度消失">
+<meta property="og:url" content="https://fainke.com/blog/c1d77713.html">
+<meta property="og:site_name" content="DeepLearning">
+<meta property="og:description" content="-">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://fainke.com/blog/images/GradientClip_wb.jpg">
+<meta property="og:image" content="https://fainke.com/blog/images/GradientClip_1.jpg">
+<meta property="og:image" content="https://fainke.com/blog/images/GradientClip_loss_1.jpg">
+<meta property="og:image" content="https://fainke.com/blog/images/GradientClip_loss_2.jpg">
+<meta property="article:published_time" content="2019-12-31T17:01:01.000Z">
+<meta property="article:modified_time" content="2020-01-31T17:01:01.000Z">
+<meta property="article:author" content="Fain">
+<meta property="article:tag" content="梯度下降">
+<meta property="article:tag" content="梯度爆炸">
+<meta property="article:tag" content="梯度消失">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://fainke.com/blog/images/GradientClip_wb.jpg">
+
+<link rel="canonical" href="https://fainke.com/blog/c1d77713.html">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>梯度爆炸与梯度消失 | DeepLearning</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?c395ecf759311d7230058ede0e16e5ea# <app_id>";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">DeepLearning</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">深度学习</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-分类">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-留言">
+
+    <a href="/guestbook" rel="section"><i class="fa fa-comment fa-fw"></i>留言</a>
+
+  </li>
+        <li class="menu-item menu-item-友链">
+
+    <a href="/links" rel="section"><i class="fa fa-user-plus fa-fw"></i>友链</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://fainke.com/blog/c1d77713.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/touXiang.jpg">
+      <meta itemprop="name" content="Fain">
+      <meta itemprop="description" content="深度学习,机器学习,计算机视觉CV,自然语言处理NLP,Python">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="DeepLearning">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          梯度爆炸与梯度消失
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-01-01 01:01:01" itemprop="dateCreated datePublished" datetime="2020-01-01T01:01:01+08:00">2020-01-01</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-02-01 01:01:01" itemprop="dateModified" datetime="2020-02-01T01:01:01+08:00">2020-02-01</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">机器学习</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/blog/c1d77713.html" class="post-meta-item leancloud_visitors" data-flag-title="梯度爆炸与梯度消失" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/blog/c1d77713.html#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/blog/c1d77713.html" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>-</p>
+<a id="more"></a>
+
+<h2 id="梯度爆炸与梯度消失"><a href="#梯度爆炸与梯度消失" class="headerlink" title="梯度爆炸与梯度消失"></a>梯度爆炸与梯度消失</h2><p><strong>sigmoid数学公式:</strong> $f(x)=\frac{1}{1+e^{-x}}$ 值域为[0,1]</p>
+<p><strong>sigmoid求导公式：</strong> $f^{\prime}(x)=f(x)(1-f(x))$ 值域为[0,1/4]</p>
+<p><strong>实际现象：</strong> 当我们使用sigmoid function作为激活函数时，随着神经网络的隐藏层数增加，训练误差反而增大，造成了深度网络的不稳定。</p>
+<p><strong>梯度弥散：</strong> 靠近输出层的hidden layer 梯度大，参数更新更快，所以很快就会收敛。而靠近输入层的hidden layer梯度小，参数更新慢，几乎和初始状态一样，随机分布。</p>
+<p><strong>梯度爆炸：</strong> 当前面hidden layer的梯度通过训练变大，而后面的梯度将会指数级增大。</p>
+<p><strong>现象原因：</strong> sigmoid函数会将[+∞,-∞]的输入压缩到[0,1]，导致当输入更新时，输出的更新会很小。在这种情况下，就会随着隐藏层数的增加，反向传递时，数值更新将会越来越小。</p>
+<p><strong>解决方法：</strong></p>
+<ol>
+<li><p>Relu函数代换Sigmoid函数。</p>
+</li>
+<li><p>逐层贪婪预训练，如同训练自编码器的过程，每次只训练一层参数。由于得到的参数将会是局部最优，所以需要对整个网络再进行调优。</p>
+</li>
+<li><p>梯度减切Gradient Clip。设置一个梯度减切的阈值，如果在更新梯度的时候，梯度超过这个阈值，则会将其限制在这个范围之内，防止梯度爆炸。</p>
+</li>
+<li><p>正则。对参数加入正则规范，限制参数范数过大。</p>
+</li>
+<li><p>加入batch normalization层。</p>
+</li>
+<li><p>加入残差结构。</p>
+</li>
+<li><p>LSTM层由于有记忆，可以缓解梯度消失的发生。</p>
+</li>
+</ol>
+<h2 id="Gradient-Clip"><a href="#Gradient-Clip" class="headerlink" title="Gradient Clip"></a>Gradient Clip</h2><h3 id="简述"><a href="#简述" class="headerlink" title="简述"></a>简述</h3><p>该方法简单，但是粗暴，阈值人为定义。设置上界阈值，面对梯度爆炸，设置下界阈值，也可以用于梯度消失。</p>
+<h3 id="梯度爆炸解释"><a href="#梯度爆炸解释" class="headerlink" title="梯度爆炸解释"></a>梯度爆炸解释</h3><p>在一个只有一个隐藏节点的网络中，损失函数和权值w偏置b构成error surface，宛如一堵墙，如下所示<br><img src="images/GradientClip_wb.jpg" alt="GradientClip_wb"><br>损失函数每次迭代都是每次一小步，但是当遇到这堵墙时，在墙上的某点计算梯度，梯度会瞬间增大，指向某处不理想的位置。如果我们将大梯度缩放，就可以把该梯度的误导控制在可接受范围内，如虚线箭头所示。</p>
+<h3 id="算法步骤"><a href="#算法步骤" class="headerlink" title="算法步骤"></a>算法步骤</h3><p><img src="images/GradientClip_1.jpg" alt="GradientClip——算法步骤"></p>
+<ol>
+<li>设置梯度阈值threshold</li>
+<li>求出梯度的L2范数||g||。</li>
+<li>比较||g||与threshold的大小。</li>
+<li>如果||g||大于threshold,则求threshold/||g||得到缩放因子。</li>
+<li>将梯度乘上缩放因子得到最终的梯度。</li>
+</ol>
+<h3 id="效果实验"><a href="#效果实验" class="headerlink" title="效果实验"></a>效果实验</h3><p><strong>无gradient clip:</strong><br>模型在2000次迭代出发生了梯度爆炸。<br><img src="images/GradientClip_loss_1.jpg" alt="GradientClip——Loss"></p>
+<p><strong>有gradient clip:</strong><br>可以发现clip_gradient在前期有效了控制了梯度爆炸的影响，使得最终的loss能下降到满意的结果<br><img src="images/GradientClip_loss_2.jpg" alt="GradientClip——Loss"></p>
+<h3 id="Tensorflow-and-Pytorch-GradientClip"><a href="#Tensorflow-and-Pytorch-GradientClip" class="headerlink" title="Tensorflow and Pytorch GradientClip"></a>Tensorflow and Pytorch GradientClip</h3><h4 id="tensorflow"><a href="#tensorflow" class="headerlink" title="tensorflow"></a>tensorflow</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 1. 计算局部范数（快）</span></span><br><span class="line">tf.clip_by_norm(grads, clip_norm=<span class="number">5</span>)</span><br><span class="line"><span class="comment"># 2. 计算全局范数（慢）</span></span><br><span class="line">tf.clip_by_global_norm(grads, clip_norm=<span class="number">5</span>)</span><br><span class="line"><span class="comment"># 计算所有梯度的平方和global_norm,</span></span><br><span class="line"><span class="comment"># 如果梯度平方和global_norm 超过我们指定的clip_norm，</span></span><br><span class="line"><span class="comment"># 那么就对梯度进行缩放；否则就按照原本的计算结果，</span></span><br></pre></td></tr></table></figure>
+<h4 id="Pytorch"><a href="#Pytorch" class="headerlink" title="Pytorch"></a>Pytorch</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 这个函数计算的是全局梯度范数</span></span><br><span class="line">torch.nn.utils.clip_grad_norm(parameters=model.parameters(), max_norm=<span class="number">5</span>, norm_type=<span class="number">2</span>)</span><br><span class="line"><span class="comment"># parameters: an iterable of Variables that will have gradients normalized</span></span><br><span class="line"><span class="comment"># max_norm: max norm of the gradients(阈值设定)</span></span><br><span class="line"><span class="comment"># norm_type: type of the used p-norm. Can be&#x27;inf&#x27;for infinity norm(定义范数类型)</span></span><br></pre></td></tr></table></figure>
+<h4 id="Keras"><a href="#Keras" class="headerlink" title="Keras"></a>Keras</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> keras <span class="keyword">import</span> optimizers</span><br><span class="line"><span class="comment"># 所有参数梯度将被裁剪，让其l2范数最大为1：g * 1 / max(1, l2_norm)</span></span><br><span class="line">sgd = optimizers.SGD(lr=<span class="number">0.01</span>, clipnorm=<span class="number">1.</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 所有参数d 梯度将被裁剪到数值范围内：</span></span><br><span class="line"><span class="comment"># 最大值0.5</span></span><br><span class="line"><span class="comment"># 最小值-0.5</span></span><br><span class="line">sgd = optimizers.SGD(lr=<span class="number">0.01</span>, clipvalue=<span class="number">0.5</span>)</span><br></pre></td></tr></table></figure>
+    </div>
+
+    
+    
+    <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-hand-peace-o"></i>感谢您的阅读-------------</div>
+    
+</div>
+
+
+        <div class="reward-container">
+  <div></div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.jpg" alt="Fain 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/images/alipay.jpg" alt="Fain 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Fain
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://fainke.com/blog/c1d77713.html" title="梯度爆炸与梯度消失">https://fainke.com/blog/c1d77713.html</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+        
+
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/images/DLCV.jpg">
+            <span class="icon">
+              <i class="fab fa-weixin"></i>
+            </span>
+
+            <span class="label">公众号</span>
+          </a>
+        </div>
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/atom.xml">
+            <span class="icon">
+              <i class="fa fa-rss"></i>
+            </span>
+
+            <span class="label">RSS</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D/" rel="tag"># 梯度下降</a>
+              <a href="/tags/%E6%A2%AF%E5%BA%A6%E7%88%86%E7%82%B8/" rel="tag"># 梯度爆炸</a>
+              <a href="/tags/%E6%A2%AF%E5%BA%A6%E6%B6%88%E5%A4%B1/" rel="tag"># 梯度消失</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/blog/b08494e7.html" rel="prev" title="检测任务Loss之GIOU">
+      <i class="fa fa-chevron-left"></i> 检测任务Loss之GIOU
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/blog/c7300247.html" rel="next" title="梯度下降与牛顿法">
+      梯度下降与牛顿法 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A2%AF%E5%BA%A6%E7%88%86%E7%82%B8%E4%B8%8E%E6%A2%AF%E5%BA%A6%E6%B6%88%E5%A4%B1"><span class="nav-number">1.</span> <span class="nav-text">梯度爆炸与梯度消失</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Gradient-Clip"><span class="nav-number">2.</span> <span class="nav-text">Gradient Clip</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AE%80%E8%BF%B0"><span class="nav-number">2.1.</span> <span class="nav-text">简述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A2%AF%E5%BA%A6%E7%88%86%E7%82%B8%E8%A7%A3%E9%87%8A"><span class="nav-number">2.2.</span> <span class="nav-text">梯度爆炸解释</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AE%97%E6%B3%95%E6%AD%A5%E9%AA%A4"><span class="nav-number">2.3.</span> <span class="nav-text">算法步骤</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%88%E6%9E%9C%E5%AE%9E%E9%AA%8C"><span class="nav-number">2.4.</span> <span class="nav-text">效果实验</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Tensorflow-and-Pytorch-GradientClip"><span class="nav-number">2.5.</span> <span class="nav-text">Tensorflow and Pytorch GradientClip</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#tensorflow"><span class="nav-number">2.5.1.</span> <span class="nav-text">tensorflow</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Pytorch"><span class="nav-number">2.5.2.</span> <span class="nav-text">Pytorch</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Keras"><span class="nav-number">2.5.3.</span> <span class="nav-text">Keras</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Fain"
+      src="/images/touXiang.jpg">
+  <p class="site-author-name" itemprop="name">Fain</p>
+  <div class="site-description" itemprop="description">深度学习,机器学习,计算机视觉CV,自然语言处理NLP,Python</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">70</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">91</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      友链
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://fainke.com/" title="https:&#x2F;&#x2F;fainke.com&#x2F;">深度学习视觉</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Fain</span>
+</div>
+
+        
+
+
+
+
+
+
+<script>
+  (function() {
+    function leancloudSelector(url) {
+      url = encodeURI(url);
+      return document.getElementById(url).querySelector('.leancloud-visitors-count');
+    }
+
+    function addCount(Counter) {
+      var visitors = document.querySelector('.leancloud_visitors');
+      var url = decodeURI(visitors.id);
+      var title = visitors.dataset.flagTitle;
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length > 0) {
+            var counter = results[0];
+            leancloudSelector(url).innerText = counter.time + 1;
+            Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
+              .catch(error => {
+                console.error('Failed to save visitor count', error);
+              });
+          } else {
+              leancloudSelector(url).innerText = 'Counter not initialized! More info at console err msg.';
+              console.error('ATTENTION! LeanCloud counter has security bug, see how to solve it here: https://github.com/theme-next/hexo-leancloud-counter-security. \n However, you can still use LeanCloud without security, by setting `security` option to `false`.');
+            
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    function showTime(Counter) {
+      var visitors = document.querySelectorAll('.leancloud_visitors');
+      var entries = [...visitors].map(element => {
+        return decodeURI(element.id);
+      });
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url: { '$in': entries } })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          for (let url of entries) {
+            let target = results.find(item => item.url === url);
+            leancloudSelector(url).innerText = target ? target.time : 0;
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    let { app_id, app_key, server_url } = {"enable":true,"app_id":"p65EgYG3RHdnokYqNR0fpn4r-gzGzoHsz","app_key":"dV3mVFV1rHusvVBeGRySjRlV","server_url":null,"security":true};
+    function fetchData(api_server) {
+      var Counter = (method, url, data) => {
+        return fetch(`${api_server}/1.1${url}`, {
+          method,
+          headers: {
+            'X-LC-Id'     : app_id,
+            'X-LC-Key'    : app_key,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      if (CONFIG.page.isPost) {
+        if (CONFIG.hostname !== location.hostname) return;
+        addCount(Counter);
+      } else if (document.querySelectorAll('.post-title-link').length >= 1) {
+        showTime(Counter);
+      }
+    }
+
+    let api_server = app_id.slice(-9) !== '-MdYXbMMI' ? server_url : `https://${app_id.slice(0, 8).toLowerCase()}.api.lncldglobal.com`;
+
+    if (api_server) {
+      fetchData(api_server);
+    } else {
+      fetch('https://app-router.leancloud.cn/2/route?appId=' + app_id)
+        .then(response => response.json())
+        .then(({ api_server }) => {
+          fetchData('https://' + api_server);
+        });
+    }
+  })();
+</script>
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script size="300" alpha="0.3" zIndex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+  <script>
+    (function(){
+      var canonicalURL, curProtocol;
+      //Get the <link> tag
+      var x=document.getElementsByTagName("link");
+		//Find the last canonical URL
+		if(x.length > 0){
+			for (i=0;i<x.length;i++){
+				if(x[i].rel.toLowerCase() == 'canonical' && x[i].href){
+					canonicalURL=x[i].href;
+				}
+			}
+		}
+    //Get protocol
+	    if (!canonicalURL){
+	    	curProtocol = window.location.protocol.split(':')[0];
+	    }
+	    else{
+	    	curProtocol = canonicalURL.split(':')[0];
+	    }
+      //Get current URL if the canonical URL does not exist
+	    if (!canonicalURL) canonicalURL = window.location.href;
+	    //Assign script content. Replace current URL with the canonical URL
+      !function(){var e=/([http|https]:\/\/[a-zA-Z0-9\_\.]+\.baidu\.com)/gi,r=canonicalURL,t=document.referrer;if(!e.test(r)){var n=(String(curProtocol).toLowerCase() === 'https')?"https://sp0.baidu.com/9_Q4simg2RQJ8t7jm9iCKT-xh_/s.gif":"//api.share.baidu.com/s.gif";t?(n+="?r="+encodeURIComponent(document.referrer),r&&(n+="&l="+r)):r&&(n+="?l="+r);var i=new Image;i.src=n}}(window);})();
+  </script>
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'p65EgYG3RHdnokYqNR0fpn4r-gzGzoHsz',
+      appKey     : 'dV3mVFV1rHusvVBeGRySjRlV',
+      placeholder: "欢迎留言！说出你的看法！",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

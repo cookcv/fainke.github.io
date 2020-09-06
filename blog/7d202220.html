@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.1.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/touXiang.jpg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/touXiang.jpg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/touXiang.jpg">
+  <link rel="mask-icon" href="/images/touXiang.jpg" color="#222">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"fainke.com","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results foundin ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="内容包含：BatchNormalization、LayerNormalization、InstanceNorm、GroupNorm、SwitchableNorm">
+<meta property="og:type" content="article">
+<meta property="og:title" content="深度学习归一化">
+<meta property="og:url" content="https://fainke.com/blog/7d202220.html">
+<meta property="og:site_name" content="DeepLearning">
+<meta property="og:description" content="内容包含：BatchNormalization、LayerNormalization、InstanceNorm、GroupNorm、SwitchableNorm">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://fainke.com/blog/images/BN_LN_IN_GN-01.png">
+<meta property="og:image" content="https://fainke.com/blog/images/BatchNormalization.png">
+<meta property="og:image" content="https://fainke.com/blog/images/BN_LN_IN_GN-02.png">
+<meta property="article:published_time" content="2019-12-31T17:01:01.000Z">
+<meta property="article:modified_time" content="2020-01-31T17:01:01.000Z">
+<meta property="article:author" content="Fain">
+<meta property="article:tag" content="归一化">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://fainke.com/blog/images/BN_LN_IN_GN-01.png">
+
+<link rel="canonical" href="https://fainke.com/blog/7d202220.html">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>深度学习归一化 | DeepLearning</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?c395ecf759311d7230058ede0e16e5ea# <app_id>";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">DeepLearning</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">深度学习</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-分类">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-留言">
+
+    <a href="/guestbook" rel="section"><i class="fa fa-comment fa-fw"></i>留言</a>
+
+  </li>
+        <li class="menu-item menu-item-友链">
+
+    <a href="/links" rel="section"><i class="fa fa-user-plus fa-fw"></i>友链</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://fainke.com/blog/7d202220.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/touXiang.jpg">
+      <meta itemprop="name" content="Fain">
+      <meta itemprop="description" content="深度学习,机器学习,计算机视觉CV,自然语言处理NLP,Python">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="DeepLearning">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          深度学习归一化
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-01-01 01:01:01" itemprop="dateCreated datePublished" datetime="2020-01-01T01:01:01+08:00">2020-01-01</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-02-01 01:01:01" itemprop="dateModified" datetime="2020-02-01T01:01:01+08:00">2020-02-01</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89CV/" itemprop="url" rel="index"><span itemprop="name">计算机视觉CV</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/blog/7d202220.html" class="post-meta-item leancloud_visitors" data-flag-title="深度学习归一化" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/blog/7d202220.html#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/blog/7d202220.html" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><strong>内容包含：</strong>BatchNormalization、LayerNormalization、InstanceNorm、GroupNorm、SwitchableNorm</p>
+<a id="more"></a>
+<p>#1.简述</p>
+<h2 id="1-1-论文链接"><a href="#1-1-论文链接" class="headerlink" title="1.1 论文链接"></a>1.1 论文链接</h2><p>(1)、Batch Normalization<br><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1502.03167.pdf">https://arxiv.org/pdf/1502.03167.pdf</a></p>
+<p>(2)、Layer Normalizaiton<br><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1607.06450v1.pdf">https://arxiv.org/pdf/1607.06450v1.pdf</a></p>
+<p>(3)、Instance Normalization<br><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1607.08022.pdf">https://arxiv.org/pdf/1607.08022.pdf</a><br><a target="_blank" rel="noopener" href="https://github.com/DmitryUlyanov/texture_nets">https://github.com/DmitryUlyanov/texture_nets</a></p>
+<p>(4)、Group Normalization<br><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1803.08494.pdf">https://arxiv.org/pdf/1803.08494.pdf</a></p>
+<p>(5)、Switchable Normalization<br><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1806.10779.pdf">https://arxiv.org/pdf/1806.10779.pdf</a><br><a target="_blank" rel="noopener" href="https://github.com/switchablenorms/Switchable-Normalization">https://github.com/switchablenorms/Switchable-Normalization</a></p>
+<h2 id="1-2-整体介绍"><a href="#1-2-整体介绍" class="headerlink" title="1.2 整体介绍"></a>1.2 整体介绍</h2><p>归一化层，目前主要有这几个方法，Batch Normalization（2015年）、Layer Normalization（2016年）、Instance Normalization（2017年）、Group Normalization（2018年）、Switchable Normalization（2018年）；</p>
+<p><strong>将输入的图像shape记为[N, C, H, W]，这几个方法主要的区别就是在:</strong></p>
+<p>batchNorm是在batch上，对NHW做归一化，对小batchsize效果不好；<br>layerNorm在通道方向上，对CHW归一化，主要对RNN作用明显；<br>instanceNorm在图像像素上，对HW做归一化，用在风格化迁移；<br>GroupNorm将channel分组，然后再做归一化；<br>SwitchableNorm是将BN、LN、IN结合，赋予权重，让网络自己去学习归一化层应该使用什么方法。<br><img src="images/BN_LN_IN_GN-01.png" alt="image.png"></p>
+<p>#2.详细解说</p>
+<p>##2.1 Batch Normalization<br><img src="images/BatchNormalization.png" alt="image.png"><br><strong>算法过程：</strong><br>(1)、沿着通道计算每个batch的均值u<br>(2)、沿着通道计算每个batch的方差σ^2<br>(3)、对x做归一化，x’=(x-u)/开根号(σ^2+ε)<br>(4)、加入缩放和平移变量γ和β ,归一化后的值，y=γx’+β<br><strong>加入缩放平移变量的原因是：</strong> 不一定每次都是标准正态分布，也许需要偏移或者拉伸。保证每一次数据经过归一化后还保留原有学习来的特征，同时又能完成归一化操作，加速训练。 这两个参数是用来学习的参数。</p>
+<p><strong>整体公式:</strong><br>$y=\frac{x-\mathrm{E}[x]}{\sqrt{\operatorname{Var}[x]+\epsilon}} * \gamma+\beta$</p>
+<p><strong>前向传播CODE:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">import numpy as np</span><br><span class="line"></span><br><span class="line">def Batchnorm(x, gamma, beta, bn_param):</span><br><span class="line"></span><br><span class="line">    # x_shape:[B, C, H, W]</span><br><span class="line">    running_mean &#x3D; bn_param[&#39;running_mean&#39;]</span><br><span class="line">    running_var &#x3D; bn_param[&#39;running_var&#39;]</span><br><span class="line">    results &#x3D; 0.</span><br><span class="line">    eps &#x3D; 1e-5</span><br><span class="line"></span><br><span class="line">    x_mean &#x3D; np.mean(x, axis&#x3D;(0, 2, 3), keepdims&#x3D;True)</span><br><span class="line">    x_var &#x3D; np.var(x, axis&#x3D;(0, 2, 3), keepdims&#x3D;True0)</span><br><span class="line">    x_normalized &#x3D; (x - x_mean) &#x2F; np.sqrt(x_var + eps)</span><br><span class="line">    results &#x3D; gamma * x_normalized + beta</span><br><span class="line"></span><br><span class="line">    # 因为在测试时是单个图片测试，这里保留训练时的均值和方差，用在后面测试时用</span><br><span class="line">    running_mean &#x3D; momentum * running_mean + (1 - momentum) * x_mean</span><br><span class="line">    running_var &#x3D; momentum * running_var + (1 - momentum) * x_var</span><br><span class="line"></span><br><span class="line">    bn_param[&#39;running_mean&#39;] &#x3D; running_mean</span><br><span class="line">    bn_param[&#39;running_var&#39;] &#x3D; running_var</span><br><span class="line"></span><br><span class="line">    return results, bn_param</span><br></pre></td></tr></table></figure>
+
+<p><strong>pytorch中的API:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">torch.nn.BatchNorm1d(num_features, eps&#x3D;1e-05, momentum&#x3D;0.1, affine&#x3D;True, track_running_stats&#x3D;True)</span><br><span class="line">torch.nn.BatchNorm2d(num_features, eps&#x3D;1e-05, momentum&#x3D;0.1, affine&#x3D;True, track_running_stats&#x3D;True)</span><br><span class="line">torch.nn.BatchNorm3d(num_features, eps&#x3D;1e-05, momentum&#x3D;0.1, affine&#x3D;True, track_running_stats&#x3D;True)</span><br><span class="line"></span><br><span class="line"># num_features： 来自期望输入的特征数，该期望输入的大小为’batch_size x num_features [x width]’</span><br><span class="line"># eps： 为保证数值稳定性（分母不能趋近或取0）,给分母加上的值。默认为1e-5。</span><br><span class="line"># momentum： 动态均值和动态方差所使用的动量。默认为0.1。</span><br><span class="line"># affine： 布尔值，当设为true，给该层添加可学习的仿射变换参数。</span><br><span class="line"># track_running_stats：布尔值，当设为true，记录训练过程中的均值和方差</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-2-Layer-Normalizaiton"><a href="#2-2-Layer-Normalizaiton" class="headerlink" title="2.2 Layer Normalizaiton"></a>2.2 Layer Normalizaiton</h2><p><strong>batch normalization存在以下缺点：</strong></p>
+<p>(1)、对batchsize的大小比较敏感，由于每次计算均值和方差是在一个batch上，所以如果batchsize太小，则计算的均值、方差不足以代表整个数据分布；<br>(2)、BN实际使用时需要计算并且保存某一层神经网络batch的均值和方差等统计信息，对于对一个固定深度的前向神经网络（DNN，CNN）使用BN，很方便；但对于RNN来说，sequence的长度是不一致的，换句话说RNN的深度不是固定的，不同的time-step需要保存不同的statics特征，可能存在一个特殊sequence比其他sequence长很多，这样training时，计算很麻烦。</p>
+<p><strong>与BN不同，LN是针对深度网络的某一层的所有神经元的输入按以下公式进行normalize操作。</strong><br>$\mu^{l}=\frac{1}{H} \sum_{i=1}^{H} a_{i}^{l} \quad \sigma^{l}=\sqrt{\frac{1}{H} \sum_{i=1}^{H}\left(a_{i}^{l}-\mu^{l}\right)^{2}}$<br><strong>BN与LN的区别在于：</strong></p>
+<p>(1)、LN中同层神经元输入拥有相同的均值和方差，不同的输入样本有不同的均值和方差；<br>(2)、BN中则针对不同神经元输入计算均值和方差，同一个batch中的输入拥有相同的均值和方差。<br>(3)、LN用于RNN效果比较明显，但是在CNN上，不如BN。<br><strong>前向传播代码：</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">def Layernorm(x, gamma, beta):</span><br><span class="line"></span><br><span class="line">    # x_shape:[B, C, H, W]</span><br><span class="line">    results &#x3D; 0.</span><br><span class="line">    eps &#x3D; 1e-5</span><br><span class="line"></span><br><span class="line">    x_mean &#x3D; np.mean(x, axis&#x3D;(1, 2, 3), keepdims&#x3D;True)</span><br><span class="line">    x_var &#x3D; np.var(x, axis&#x3D;(1, 2, 3), keepdims&#x3D;True0)</span><br><span class="line">    x_normalized &#x3D; (x - x_mean) &#x2F; np.sqrt(x_var + eps)</span><br><span class="line">    results &#x3D; gamma * x_normalized + beta</span><br><span class="line">    return results</span><br></pre></td></tr></table></figure>
+
+<p><strong>Pytorch API:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">torch.nn.LayerNorm(normalized_shape, eps&#x3D;1e-05, elementwise_affine&#x3D;True)</span><br><span class="line"># normalized_shape： 输入尺寸[∗×normalized_shape[0]×normalized_shape[1]×…×normalized_shape[−1]]</span><br><span class="line"># eps： 为保证数值稳定性（分母不能趋近或取0）,给分母加上的值。默认为1e-5。</span><br><span class="line"># elementwise_affine： 布尔值，当设为true，给该层添加可学习的仿射变换参数。</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-3-Instance-Normalization"><a href="#2-3-Instance-Normalization" class="headerlink" title="2.3 Instance Normalization"></a>2.3 Instance Normalization</h2><p>BN注重对每个batch进行归一化，保证数据分布一致，因为判别模型中结果取决于数据整体分布。</p>
+<p>但是<strong>图像风格化</strong>中，生成结果主要依赖于某个图像实例，所以对整个batch归一化不适合图像风格化中，因而对HW做归一化。可以加速模型收敛，并且保持每个图像实例之间的独立。<br><strong>公式：</strong>$y_{t i j k}=\frac{x_{t i j k}-\mu_{t i}}{\sqrt{\sigma_{t i}^{2}+\epsilon}}, \quad \mu_{t i}=\frac{1}{H W} \sum_{l=1}^{W} \sum_{m=1}^{H} x_{t i l m}, \quad \sigma_{t i}^{2}=\frac{1}{H W} \sum_{l=1}^{W} \sum_{m=1}^{H}\left(x_{t i l m}-m u_{t i}\right)^{2}$<br><strong>前向代码：</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">def Instancenorm(x, gamma, beta):</span><br><span class="line"></span><br><span class="line">    # x_shape:[B, C, H, W]</span><br><span class="line">    results &#x3D; 0.</span><br><span class="line">    eps &#x3D; 1e-5</span><br><span class="line"></span><br><span class="line">    x_mean &#x3D; np.mean(x, axis&#x3D;(2, 3), keepdims&#x3D;True)</span><br><span class="line">    x_var &#x3D; np.var(x, axis&#x3D;(2, 3), keepdims&#x3D;True0)</span><br><span class="line">    x_normalized &#x3D; (x - x_mean) &#x2F; np.sqrt(x_var + eps)</span><br><span class="line">    results &#x3D; gamma * x_normalized + beta</span><br><span class="line">    return results</span><br></pre></td></tr></table></figure>
+
+<p><strong>Pytorch API:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">torch.nn.InstanceNorm1d(num_features, eps&#x3D;1e-05, momentum&#x3D;0.1, affine&#x3D;False, track_running_stats&#x3D;False)</span><br><span class="line">torch.nn.InstanceNorm2d(num_features, eps&#x3D;1e-05, momentum&#x3D;0.1, affine&#x3D;False, track_running_stats&#x3D;False)</span><br><span class="line">torch.nn.InstanceNorm3d(num_features, eps&#x3D;1e-05, momentum&#x3D;0.1, affine&#x3D;False, track_running_stats&#x3D;False)</span><br><span class="line"></span><br><span class="line"># num_features： 来自期望输入的特征数，该期望输入的大小为’batch_size x num_features [x width]’</span><br><span class="line"># eps： 为保证数值稳定性（分母不能趋近或取0）,给分母加上的值。默认为1e-5。</span><br><span class="line"># momentum： 动态均值和动态方差所使用的动量。默认为0.1。</span><br><span class="line"># affine： 布尔值，当设为true，给该层添加可学习的仿射变换参数。</span><br><span class="line"># track_running_stats：布尔值，当设为true，记录训练过程中的均值和方差；</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-4-Group-Normalization"><a href="#2-4-Group-Normalization" class="headerlink" title="2.4 Group Normalization"></a>2.4 Group Normalization</h2><p>主要是针对Batch Normalization对小batchsize效果差，GN将channel方向分group，然后每个group内做归一化，算(C//G)<em>H</em>W的均值，这样与batchsize无关，不受其约束。<br><strong>前向code：</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">def GroupNorm(x, gamma, beta, G&#x3D;16):</span><br><span class="line"></span><br><span class="line">    # x_shape:[B, C, H, W]</span><br><span class="line">    results &#x3D; 0.</span><br><span class="line">    eps &#x3D; 1e-5</span><br><span class="line">    x &#x3D; np.reshape(x, (x.shape[0], G, x.shape[1]&#x2F;16, x.shape[2], x.shape[3]))</span><br><span class="line"></span><br><span class="line">    x_mean &#x3D; np.mean(x, axis&#x3D;(2, 3, 4), keepdims&#x3D;True)</span><br><span class="line">    x_var &#x3D; np.var(x, axis&#x3D;(2, 3, 4), keepdims&#x3D;True0)</span><br><span class="line">    x_normalized &#x3D; (x - x_mean) &#x2F; np.sqrt(x_var + eps)</span><br><span class="line">    results &#x3D; gamma * x_normalized + beta</span><br><span class="line">    return results</span><br></pre></td></tr></table></figure>
+
+<p><strong>Pytorch API:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">torch.nn.GroupNorm(num_groups, num_channels, eps&#x3D;1e-05, affine&#x3D;True)</span><br><span class="line"># num_groups：需要划分为的groups</span><br><span class="line"># num_features： 来自期望输入的特征数，该期望输入的大小为’batch_size x num_features [x width]’</span><br><span class="line"># eps： 为保证数值稳定性（分母不能趋近或取0）,给分母加上的值。默认为1e-5。</span><br><span class="line"># momentum： 动态均值和动态方差所使用的动量。默认为0.1。</span><br><span class="line"># affine： 布尔值，当设为true，给该层添加可学习的仿射变换参数。</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-5-Switchable-Normalization"><a href="#2-5-Switchable-Normalization" class="headerlink" title="2.5 Switchable Normalization"></a>2.5 Switchable Normalization</h2><p><strong>本篇论文作者认为：</strong></p>
+<p>(1)、第一，归一化虽然提高模型泛化能力，然而归一化层的操作是人工设计的。在实际应用中，解决不同的问题原则上需要设计不同的归一化操作，并没有一个通用的归一化方法能够解决所有应用问题；<br>(2)、第二，一个深度神经网络往往包含几十个归一化层，通常这些归一化层都使用同样的归一化操作，因为手工为每一个归一化层设计操作需要进行大量的实验。</p>
+<p>因此作者提出自适配归一化方法——Switchable Normalization（SN）来解决上述问题。与强化学习不同，SN使用可微分学习，为一个深度网络中的每一个归一化层确定合适的归一化操作。<br><strong>公式：</strong>$\hat{h}<em>{n c i j}=\gamma \frac{h</em>{n c i j}-\Sigma_{k \in \Omega} w_{k} \mu_{k}}{\sqrt{\Sigma_{k \in \Omega} w_{k}^{\prime} \sigma_{k}^{2}+\epsilon}}+\beta$</p>
+<p>$w_{k}=\frac{e^{\lambda_{k}}}{\Sigma_{z \in{\mathrm{in}, \ln , \mathrm{bn}}} e^{\lambda_{z}}}, \quad k \in{\mathrm{in}, \ln , \mathrm{bn}}$</p>
+<p>$\mu_{\mathrm{in}}=\frac{1}{H W} \sum_{i, j}^{H, W} h_{n c i j}, \sigma_{\mathrm{in}}^{2}=\frac{1}{H W} \sum_{i, j}^{H, W}\left(h_{n c i j}-\mu_{\mathrm{in}}\right)^{2}$</p>
+<p>$\mu_{\ln }=\frac{1}{C} \sum_{c=1}^{C} \mu_{\mathrm{in}}, \quad \sigma_{\ln }^{2}=\frac{1}{C} \sum_{c=1}^{C}\left(\sigma_{\mathrm{in}}^{2}+\mu_{\mathrm{in}}^{2}\right)-\mu_{\mathrm{ln}}^{2}$</p>
+<p>$\mu_{\mathrm{bn}}=\frac{1}{N} \sum_{n=1}^{N} \mu_{\mathrm{in}}, \quad \sigma_{\mathrm{bn}}^{2}=\frac{1}{N} \sum_{n=1}^{N}\left(\sigma_{\mathrm{in}}^{2}+\mu_{\mathrm{in}}^{2}\right)-\mu_{\mathrm{bn}}^{2}$</p>
+<p><strong>前向传播CODE：</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">def SwitchableNorm(x, gamma, beta, w_mean, w_var):</span><br><span class="line">    # x_shape:[B, C, H, W]</span><br><span class="line">    results &#x3D; 0.</span><br><span class="line">    eps &#x3D; 1e-5</span><br><span class="line"></span><br><span class="line">    mean_in &#x3D; np.mean(x, axis&#x3D;(2, 3), keepdims&#x3D;True)</span><br><span class="line">    var_in &#x3D; np.var(x, axis&#x3D;(2, 3), keepdims&#x3D;True)</span><br><span class="line"></span><br><span class="line">    mean_ln &#x3D; np.mean(x, axis&#x3D;(1, 2, 3), keepdims&#x3D;True)</span><br><span class="line">    var_ln &#x3D; np.var(x, axis&#x3D;(1, 2, 3), keepdims&#x3D;True)</span><br><span class="line"></span><br><span class="line">    mean_bn &#x3D; np.mean(x, axis&#x3D;(0, 2, 3), keepdims&#x3D;True)</span><br><span class="line">    var_bn &#x3D; np.var(x, axis&#x3D;(0, 2, 3), keepdims&#x3D;True)</span><br><span class="line"></span><br><span class="line">    mean &#x3D; w_mean[0] * mean_in + w_mean[1] * mean_ln + w_mean[2] * mean_bn</span><br><span class="line">    var &#x3D; w_var[0] * var_in + w_var[1] * var_ln + w_var[2] * var_bn</span><br><span class="line"></span><br><span class="line">    x_normalized &#x3D; (x - mean) &#x2F; np.sqrt(var + eps)</span><br><span class="line">    results &#x3D; gamma * x_normalized + beta</span><br><span class="line">    return results</span><br></pre></td></tr></table></figure>
+
+<h1 id="3-结果比较"><a href="#3-结果比较" class="headerlink" title="3 结果比较"></a>3 结果比较</h1><p><img src="images/BN_LN_IN_GN-02.png" alt="image.png"></p>
+<h1 id="4-参考链接："><a href="#4-参考链接：" class="headerlink" title="4 参考链接："></a>4 参考链接：</h1><blockquote>
+<p>本篇大部分内容摘抄自<a target="_blank" rel="noopener" href="https://blog.csdn.net/liuxiao214/article/details/81037416">https://blog.csdn.net/liuxiao214/article/details/81037416</a></p>
+</blockquote>
+
+    </div>
+
+    
+    
+    <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-hand-peace-o"></i>感谢您的阅读-------------</div>
+    
+</div>
+
+
+        <div class="reward-container">
+  <div></div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.jpg" alt="Fain 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/images/alipay.jpg" alt="Fain 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Fain
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://fainke.com/blog/7d202220.html" title="深度学习归一化">https://fainke.com/blog/7d202220.html</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+        
+
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/images/DLCV.jpg">
+            <span class="icon">
+              <i class="fab fa-weixin"></i>
+            </span>
+
+            <span class="label">公众号</span>
+          </a>
+        </div>
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/atom.xml">
+            <span class="icon">
+              <i class="fa fa-rss"></i>
+            </span>
+
+            <span class="label">RSS</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%BD%92%E4%B8%80%E5%8C%96/" rel="tag"># 归一化</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/blog/f328077.html" rel="prev" title="深度学习视觉中的感受野">
+      <i class="fa fa-chevron-left"></i> 深度学习视觉中的感受野
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/blog/9fc22fc9.html" rel="next" title="模型评价指标">
+      模型评价指标 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-%E8%AE%BA%E6%96%87%E9%93%BE%E6%8E%A5"><span class="nav-number">1.</span> <span class="nav-text">1.1 论文链接</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-%E6%95%B4%E4%BD%93%E4%BB%8B%E7%BB%8D"><span class="nav-number">2.</span> <span class="nav-text">1.2 整体介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-Layer-Normalizaiton"><span class="nav-number">3.</span> <span class="nav-text">2.2 Layer Normalizaiton</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-3-Instance-Normalization"><span class="nav-number">4.</span> <span class="nav-text">2.3 Instance Normalization</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-4-Group-Normalization"><span class="nav-number">5.</span> <span class="nav-text">2.4 Group Normalization</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-5-Switchable-Normalization"><span class="nav-number">6.</span> <span class="nav-text">2.5 Switchable Normalization</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-%E7%BB%93%E6%9E%9C%E6%AF%94%E8%BE%83"><span class="nav-number"></span> <span class="nav-text">3 结果比较</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-%E5%8F%82%E8%80%83%E9%93%BE%E6%8E%A5%EF%BC%9A"><span class="nav-number"></span> <span class="nav-text">4 参考链接：</span></a></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Fain"
+      src="/images/touXiang.jpg">
+  <p class="site-author-name" itemprop="name">Fain</p>
+  <div class="site-description" itemprop="description">深度学习,机器学习,计算机视觉CV,自然语言处理NLP,Python</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">70</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">91</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      友链
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://fainke.com/" title="https:&#x2F;&#x2F;fainke.com&#x2F;">深度学习视觉</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Fain</span>
+</div>
+
+        
+
+
+
+
+
+
+<script>
+  (function() {
+    function leancloudSelector(url) {
+      url = encodeURI(url);
+      return document.getElementById(url).querySelector('.leancloud-visitors-count');
+    }
+
+    function addCount(Counter) {
+      var visitors = document.querySelector('.leancloud_visitors');
+      var url = decodeURI(visitors.id);
+      var title = visitors.dataset.flagTitle;
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length > 0) {
+            var counter = results[0];
+            leancloudSelector(url).innerText = counter.time + 1;
+            Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
+              .catch(error => {
+                console.error('Failed to save visitor count', error);
+              });
+          } else {
+              leancloudSelector(url).innerText = 'Counter not initialized! More info at console err msg.';
+              console.error('ATTENTION! LeanCloud counter has security bug, see how to solve it here: https://github.com/theme-next/hexo-leancloud-counter-security. \n However, you can still use LeanCloud without security, by setting `security` option to `false`.');
+            
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    function showTime(Counter) {
+      var visitors = document.querySelectorAll('.leancloud_visitors');
+      var entries = [...visitors].map(element => {
+        return decodeURI(element.id);
+      });
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url: { '$in': entries } })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          for (let url of entries) {
+            let target = results.find(item => item.url === url);
+            leancloudSelector(url).innerText = target ? target.time : 0;
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    let { app_id, app_key, server_url } = {"enable":true,"app_id":"p65EgYG3RHdnokYqNR0fpn4r-gzGzoHsz","app_key":"dV3mVFV1rHusvVBeGRySjRlV","server_url":null,"security":true};
+    function fetchData(api_server) {
+      var Counter = (method, url, data) => {
+        return fetch(`${api_server}/1.1${url}`, {
+          method,
+          headers: {
+            'X-LC-Id'     : app_id,
+            'X-LC-Key'    : app_key,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      if (CONFIG.page.isPost) {
+        if (CONFIG.hostname !== location.hostname) return;
+        addCount(Counter);
+      } else if (document.querySelectorAll('.post-title-link').length >= 1) {
+        showTime(Counter);
+      }
+    }
+
+    let api_server = app_id.slice(-9) !== '-MdYXbMMI' ? server_url : `https://${app_id.slice(0, 8).toLowerCase()}.api.lncldglobal.com`;
+
+    if (api_server) {
+      fetchData(api_server);
+    } else {
+      fetch('https://app-router.leancloud.cn/2/route?appId=' + app_id)
+        .then(response => response.json())
+        .then(({ api_server }) => {
+          fetchData('https://' + api_server);
+        });
+    }
+  })();
+</script>
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script size="300" alpha="0.3" zIndex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+  <script>
+    (function(){
+      var canonicalURL, curProtocol;
+      //Get the <link> tag
+      var x=document.getElementsByTagName("link");
+		//Find the last canonical URL
+		if(x.length > 0){
+			for (i=0;i<x.length;i++){
+				if(x[i].rel.toLowerCase() == 'canonical' && x[i].href){
+					canonicalURL=x[i].href;
+				}
+			}
+		}
+    //Get protocol
+	    if (!canonicalURL){
+	    	curProtocol = window.location.protocol.split(':')[0];
+	    }
+	    else{
+	    	curProtocol = canonicalURL.split(':')[0];
+	    }
+      //Get current URL if the canonical URL does not exist
+	    if (!canonicalURL) canonicalURL = window.location.href;
+	    //Assign script content. Replace current URL with the canonical URL
+      !function(){var e=/([http|https]:\/\/[a-zA-Z0-9\_\.]+\.baidu\.com)/gi,r=canonicalURL,t=document.referrer;if(!e.test(r)){var n=(String(curProtocol).toLowerCase() === 'https')?"https://sp0.baidu.com/9_Q4simg2RQJ8t7jm9iCKT-xh_/s.gif":"//api.share.baidu.com/s.gif";t?(n+="?r="+encodeURIComponent(document.referrer),r&&(n+="&l="+r)):r&&(n+="?l="+r);var i=new Image;i.src=n}}(window);})();
+  </script>
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'p65EgYG3RHdnokYqNR0fpn4r-gzGzoHsz',
+      appKey     : 'dV3mVFV1rHusvVBeGRySjRlV',
+      placeholder: "欢迎留言！说出你的看法！",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

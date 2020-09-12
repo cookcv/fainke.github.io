@@ -1,130 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>深度学习问答</title>
-    <url>/blog/ee15081e.html</url>
-    <content><![CDATA[<h3 id="感知器与逻辑回归的区别">感知器与逻辑回归的区别</h3>
-<p>多层感知器是我们用于分类的最基本的神经网络之一。在二分类问题上，线性分类器的目的就是找一个超平面把正负两类分开，感知器相当于一个阶跃函数，直接区分是0还是1，而逻辑回归则是给予0到1之间的概率。当然，如果我们调节逻辑回归的阈值，使得输出非0即1，则就成了感知器。 <a id="more"></a></p>
-<figure>
-<img src="images/DeepLearningQuestion21_1.jpg" alt="DeepLearningQuestion21_1" /><figcaption>DeepLearningQuestion21_1</figcaption>
-</figure>
-<p>感知器的损失函数为误分类点的函数间隔之和，函数间隔可以理解为样本与分类超平面的距离。误分类点距离分类超平面越远，则损失函数值越大。只有误分类的点会影响损失函数的值。</p>
-<p><span class="math inline">\(L=-y(w^Tx+b)\)</span></p>
-<p><span class="math inline">\(w^Tx+b\)</span>是分割的超平面</p>
-<ol type="1">
-<li><p>当正类数据分类到-1结果中，y=1，但超平面对应的值为-1，此时损失值大于0。</p></li>
-<li><p>当负类数据分类到1结果中，y=-1，但超平面对应的值为1，此时损失值大于0。</p></li>
-</ol>
-<p>Logistic回归的损失函数为logistic损失函数，当分类错误时，函数间隔越大，则损失函数值越大。当分类正确时，样本点距离超平面越远，则损失函数值越小。所有的样本点分布情况都会影响损失函数最后的值。模型更加平滑。</p>
-<p><span class="math inline">\(log(1+exp(-y(w^Tx+b)))\)</span></p>
-<h3 id="权重和偏差在神经网络中起什么作用">权重和偏差在神经网络中起什么作用</h3>
-<p><span class="math inline">\(w_1x_1 + w_2x_2 + w_3x_3 + ... + w_nx_n &gt;= b\)</span></p>
-<p>简单来说，权重就是某个因素的重要程度，bias值其实就是一个阈值，只有当左边部分不小于这个bias的时候，神经元的输出才会为正。</p>
-<p>也有理解，这里的bias是所选模型自带的固有的误差，因为选的模型必不可能是完美的，bias与数据无关，是模型自带的。</p>
-<p>并且，在有些场合里，bias的使用也没有意义，比如在batch normalization层之前的层就没必要加，因为会被归一化抵消掉。</p>
-<h3 id="可否令隐藏层所有神经元具有相同的bias">可否令隐藏层所有神经元具有相同的bias</h3>
-<p>本质上，在每个层或每个神经元处也可以具有不同的偏差值。但是，最好对隐藏层中的所有神经元都只有一个偏差矩阵。</p>
-<h3 id="激活函数的作用">激活函数的作用</h3>
-<p>由于非线性的激活函数的存在，使得模型可以捕获非线性关系。如果没有激活函数，那么无论多深的网络都只是简单的线性模型，无法捕获数据中的复杂模式。</p>
-<h3 id="神经网络中权重初始化的值都一样会怎么样">神经网络中权重初始化的值都一样会怎么样</h3>
-<p>如果所有神经元具有相同的权重值，则每个隐藏单元将获得完全相同的信号。尽管这可能在正向传播过程中起作用，但反向传播期间损失函数的导数每次都将会相同。最终模型将会欠拟合。</p>
-<h3 id="前向传播与反向传播的工作原理">前向传播与反向传播的工作原理</h3>
-<p><strong>前向传播：</strong>在每个隐藏层，我们计算每个节点上激活的输出，然后进一步传播到下一层，直到到达最终输出层。由于我们从输入端开始到最终输出层，因此我们向前移动，这称为前向传播。</p>
-<p><strong>反向传播：</strong>为了最小化损失函数，我们从最终损失函数开始，并通过链式法则计算每个隐藏层的梯度，返回到每个隐藏层，这时我们向后移动，因此称为反向传播。</p>
-<figure>
-<img src="images/bp_fp_1.jpeg" alt="bp_fp_1" /><figcaption>bp_fp_1</figcaption>
-</figure>
-<p><strong>前向传播:</strong></p>
-<figure>
-<img src="images/fp.jpg" alt="fp" /><figcaption>fp</figcaption>
-</figure>
-<p><strong>反向传播:</strong></p>
-<figure>
-<img src="images/bp_l2.jpg" alt="bp_l2" /><figcaption>bp_l2</figcaption>
-</figure>
-<figure>
-<img src="images/bp_l1.png" alt="bp_l1" /><figcaption>bp_l1</figcaption>
-</figure>
-<h3 id="深度学习常用的数据类型">深度学习常用的数据类型</h3>
-<p>深度学习含有从最简单的数据结构（如列表）到复杂的数据结构（如计算图）的数据类型。</p>
-<p><strong>List：</strong>元素的有序序列。</p>
-<p><strong>Matrix：</strong>具有行和列的元素的有序序列。</p>
-<p><strong>Dataframe：</strong>数据框就像矩阵一样，但是它包含实际数据，其中列名和行表示数据集中的每个数据点。</p>
-<p><strong>Tensors：</strong>张量在PyTorch和TensorFlow中都使用，就像深度学习的基本编程单元一样。就像多维数组一样，我们可以对它们执行许多数学运算。</p>
-<p><strong>Computation Graphs：</strong>计算图为我们提供了执行操作的顺序，每个节点表示神经网络中的操作或组件。</p>
-<h3 id="为什么要使用batch-normalization">为什么要使用Batch Normalization</h3>
-<p>关于一些其他归一化方法，可以看这篇文章<a href="https://fainke.com/blog/7d202220.html">深度学习归一化</a></p>
-<p>模型将归一化后的输入传入激活函数。</p>
-<ol type="1">
-<li><p>加快模型收敛的速度的技术。</p></li>
-<li><p>解决了梯度消失的问题。</p></li>
-<li><p>增加了模型泛化能力，使得dropout技术可以去掉。</p></li>
-</ol>
-<h3 id="例举一些激活函数">例举一些激活函数</h3>
-<p><a href="https://fainke.com/blog/6a3ffb6e.html">ReLu系列激活函数</a></p>
-<figure>
-<img src="images/activationFunction.jpg" alt="activationFunction" /><figcaption>activationFunction</figcaption>
-</figure>
-<h3 id="为什么cnn在图像上表现很好">为什么CNN在图像上表现很好</h3>
-<p>CNN本质是在识别曲线和边缘信息。直接将图像数据作为输入，不仅无需人工对图像进行预处理和额外的特征抽取等复杂操作，而且以其特有的细粒度特征提取方式，使得对图像的处理达到了几近人力的水平。</p>
-<h3 id="为什么rnns在文本上表现很好">为什么RNNs在文本上表现很好</h3>
-<p>RNNs的循环特性为下一节点保留前一节点的信息。</p>
-<h3 id="cnn中的填充方式valid与same之间的区别">CNN中的填充方式Valid与Same之间的区别</h3>
-<p><strong>valid padding</strong>：不进行任何处理，只使用原始图像，不允许卷积核超出原始图像边界。当余下部分不够卷积核大小时，直接舍去。</p>
-<p><strong>same padding</strong>：进行填充，允许卷积核超出原始图像边界，并使得卷积后结果的大小与原来的一致。使得余下部分能够参与卷积，所以padding一些数据。</p>
-<h3 id="梯度消失与梯度爆炸">梯度消失与梯度爆炸</h3>
-<p><a href="https://fainke.com/blog/c1d77713.html">梯度消失与梯度爆炸</a></p>
-<h3 id="lstm是如何解决梯度消失与梯度爆炸">LSTM是如何解决梯度消失与梯度爆炸</h3>
-<p>LSTM是一种RNNs模型，由于添加了门控结构，所以可以记住关键信息，梯度不会随着时间步长的增加而消失。</p>
-<h3 id="为什么gru比lstm更快">为什么GRU比LSTM更快</h3>
-<p>GRU取消了遗忘门，将输入和“忘记”门组合到一个更新门中。元素的减少使得模型复杂度降低，所以更快。</p>
-]]></content>
-      <categories>
-        <category>LeetCode</category>
-      </categories>
-      <tags>
-        <tag>深度学习</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Anchor尺寸选择</title>
-    <url>/blog/510b302a.html</url>
-    <content><![CDATA[<p>论文Link：<a href="https://arxiv.org/pdf/1701.04128.pdf">Understanding the Effective Receptive Field in Deep Convolutional Neural Networks</a> Code:<a href="https://github.com/sfzhang15/SFD" class="uri">https://github.com/sfzhang15/SFD</a></p>
-<p>这篇人脸检测器论文依据感受野来设计anchor的大小。</p>
-<p>在物体检测中，Anchor在每一层对应尺度该如何选择。 <a id="more"></a></p>
-<ol type="1">
-<li>传播间隔相等原则 检测层的步长大小决定了anchor的间隔。例如conv3_3的步长为4，而其anchor尺寸为16x16，即每隔4个像素存在一个16x16的anchor，在所有检测层上，anchor的 尺寸均为步长的4倍，即为传播间隔相等原则。从而确保图像上不同尺寸的anchor<strong>密度</strong>相同，使得不同大小人脸能够很好的与anchor匹配上。</li>
-</ol>
-<p>如果网络浅层anchor设计中设计了很多小尺寸的anchor，因此会造成负样本数量剧增，从而引起小尺寸人脸的高false-positive率。 那么可以对于每一个小尺寸anchor，进行N次人脸和背景分类，选择其中某个<strong>背景score最高</strong>的一个作为该anchor的score，以此降低误检为人脸的anchor数量，从而降低假阳性率。</p>
-]]></content>
-      <categories>
-        <category>计算机视觉CV</category>
-      </categories>
-      <tags>
-        <tag>Anchor</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Beta分布随笔</title>
-    <url>/blog/6883cd97.html</url>
-    <content><![CDATA[<p><strong>简介：</strong> beta分布可以看作一个概率的概率分布，描述所有概率出现的可能性大小。</p>
-<p><strong>举例：</strong> 手中有一枚硬币，该硬币均匀度未知，现在让你说出抛一次出现正面的概率是多少。通过以往的先验知识来判断，正面概率为0.5的这个情况的概率最大。 <a id="more"></a></p>
-<figure>
-<img src="images/BetaDistribution_1.png" alt="image.png" /><figcaption>image.png</figcaption>
-</figure>
-<p>这张图是取了120次抛币的实验数据画出的Beta分布图，图中给出0.5的正面概率为最高的。假如现在连续抛了10次，8次为正面，那么此时你判断正面朝上最大概率的概率应该是多少。 <img src="images/BetaDistribution_2.png" alt="image.png" /></p>
-<p>通过Beta图像可以看出最大概率的正面概率已经大于0.5。</p>
-<p><strong>与其它分布的联系：</strong> 以上Beta分布就简单介绍结束，其实写Beta分布是因为最近在研究狄利克雷分布。 Beta分布是二项分布的共轭先验概率分布； Dirichlet分布是多项式分布的共轭先验概率分布。 Beat分布可以描述二项分布的概率，是二项分布的概率分布。 Dirichlet分布可以描述出多项分布的概率，是多项分布的概率分布，会为每个事件选择概率最高的多项分布作为它的分布。在无监督聚类的时候会使用。</p>
-]]></content>
-      <categories>
-        <category>机器学习</category>
-      </categories>
-      <tags>
-        <tag>数据分布</tag>
-        <tag>Beta分布</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Boosting_Bagging介绍</title>
     <url>/blog/3db5b568.html</url>
     <content><![CDATA[<h1 id="介绍">介绍</h1>
@@ -224,6 +100,24 @@
       </tags>
   </entry>
   <entry>
+    <title>Anchor尺寸选择</title>
+    <url>/blog/510b302a.html</url>
+    <content><![CDATA[<p>论文Link：<a href="https://arxiv.org/pdf/1701.04128.pdf">Understanding the Effective Receptive Field in Deep Convolutional Neural Networks</a> Code:<a href="https://github.com/sfzhang15/SFD" class="uri">https://github.com/sfzhang15/SFD</a></p>
+<p>这篇人脸检测器论文依据感受野来设计anchor的大小。</p>
+<p>在物体检测中，Anchor在每一层对应尺度该如何选择。 <a id="more"></a></p>
+<ol type="1">
+<li>传播间隔相等原则 检测层的步长大小决定了anchor的间隔。例如conv3_3的步长为4，而其anchor尺寸为16x16，即每隔4个像素存在一个16x16的anchor，在所有检测层上，anchor的 尺寸均为步长的4倍，即为传播间隔相等原则。从而确保图像上不同尺寸的anchor<strong>密度</strong>相同，使得不同大小人脸能够很好的与anchor匹配上。</li>
+</ol>
+<p>如果网络浅层anchor设计中设计了很多小尺寸的anchor，因此会造成负样本数量剧增，从而引起小尺寸人脸的高false-positive率。 那么可以对于每一个小尺寸anchor，进行N次人脸和背景分类，选择其中某个<strong>背景score最高</strong>的一个作为该anchor的score，以此降低误检为人脸的anchor数量，从而降低假阳性率。</p>
+]]></content>
+      <categories>
+        <category>计算机视觉CV</category>
+      </categories>
+      <tags>
+        <tag>Anchor</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>CNN如何学到图片中的位置信息</title>
     <url>/blog/4f7ea913.html</url>
     <content><![CDATA[<h2 id="前言">前言</h2>
@@ -252,6 +146,153 @@
       </categories>
       <tags>
         <tag>CNN</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>深度学习问答</title>
+    <url>/blog/ee15081e.html</url>
+    <content><![CDATA[<h3 id="感知器与逻辑回归的区别">感知器与逻辑回归的区别</h3>
+<p>多层感知器是我们用于分类的最基本的神经网络之一。在二分类问题上，线性分类器的目的就是找一个超平面把正负两类分开，感知器相当于一个阶跃函数，直接区分是0还是1，而逻辑回归则是给予0到1之间的概率。当然，如果我们调节逻辑回归的阈值，使得输出非0即1，则就成了感知器。 <a id="more"></a></p>
+<figure>
+<img src="images/DeepLearningQuestion21_1.jpg" alt="DeepLearningQuestion21_1" /><figcaption>DeepLearningQuestion21_1</figcaption>
+</figure>
+<p>感知器的损失函数为误分类点的函数间隔之和，函数间隔可以理解为样本与分类超平面的距离。误分类点距离分类超平面越远，则损失函数值越大。只有误分类的点会影响损失函数的值。</p>
+<p><span class="math inline">\(L=-y(w^Tx+b)\)</span></p>
+<p><span class="math inline">\(w^Tx+b\)</span>是分割的超平面</p>
+<ol type="1">
+<li><p>当正类数据分类到-1结果中，y=1，但超平面对应的值为-1，此时损失值大于0。</p></li>
+<li><p>当负类数据分类到1结果中，y=-1，但超平面对应的值为1，此时损失值大于0。</p></li>
+</ol>
+<p>Logistic回归的损失函数为logistic损失函数，当分类错误时，函数间隔越大，则损失函数值越大。当分类正确时，样本点距离超平面越远，则损失函数值越小。所有的样本点分布情况都会影响损失函数最后的值。模型更加平滑。</p>
+<p><span class="math inline">\(log(1+exp(-y(w^Tx+b)))\)</span></p>
+<h3 id="权重和偏差在神经网络中起什么作用">权重和偏差在神经网络中起什么作用</h3>
+<p><span class="math inline">\(w_1x_1 + w_2x_2 + w_3x_3 + ... + w_nx_n &gt;= b\)</span></p>
+<p>简单来说，权重就是某个因素的重要程度，bias值其实就是一个阈值，只有当左边部分不小于这个bias的时候，神经元的输出才会为正。</p>
+<p>也有理解，这里的bias是所选模型自带的固有的误差，因为选的模型必不可能是完美的，bias与数据无关，是模型自带的。</p>
+<p>并且，在有些场合里，bias的使用也没有意义，比如在batch normalization层之前的层就没必要加，因为会被归一化抵消掉。</p>
+<h3 id="可否令隐藏层所有神经元具有相同的bias">可否令隐藏层所有神经元具有相同的bias</h3>
+<p>本质上，在每个层或每个神经元处也可以具有不同的偏差值。但是，最好对隐藏层中的所有神经元都只有一个偏差矩阵。</p>
+<h3 id="激活函数的作用">激活函数的作用</h3>
+<p>由于非线性的激活函数的存在，使得模型可以捕获非线性关系。如果没有激活函数，那么无论多深的网络都只是简单的线性模型，无法捕获数据中的复杂模式。</p>
+<h3 id="神经网络中权重初始化的值都一样会怎么样">神经网络中权重初始化的值都一样会怎么样</h3>
+<p>如果所有神经元具有相同的权重值，则每个隐藏单元将获得完全相同的信号。尽管这可能在正向传播过程中起作用，但反向传播期间损失函数的导数每次都将会相同。最终模型将会欠拟合。</p>
+<h3 id="前向传播与反向传播的工作原理">前向传播与反向传播的工作原理</h3>
+<p><strong>前向传播：</strong>在每个隐藏层，我们计算每个节点上激活的输出，然后进一步传播到下一层，直到到达最终输出层。由于我们从输入端开始到最终输出层，因此我们向前移动，这称为前向传播。</p>
+<p><strong>反向传播：</strong>为了最小化损失函数，我们从最终损失函数开始，并通过链式法则计算每个隐藏层的梯度，返回到每个隐藏层，这时我们向后移动，因此称为反向传播。</p>
+<figure>
+<img src="images/bp_fp_1.jpeg" alt="bp_fp_1" /><figcaption>bp_fp_1</figcaption>
+</figure>
+<p><strong>前向传播:</strong></p>
+<figure>
+<img src="images/fp.jpg" alt="fp" /><figcaption>fp</figcaption>
+</figure>
+<p><strong>反向传播:</strong></p>
+<figure>
+<img src="images/bp_l2.jpg" alt="bp_l2" /><figcaption>bp_l2</figcaption>
+</figure>
+<figure>
+<img src="images/bp_l1.png" alt="bp_l1" /><figcaption>bp_l1</figcaption>
+</figure>
+<h3 id="深度学习常用的数据类型">深度学习常用的数据类型</h3>
+<p>深度学习含有从最简单的数据结构（如列表）到复杂的数据结构（如计算图）的数据类型。</p>
+<p><strong>List：</strong>元素的有序序列。</p>
+<p><strong>Matrix：</strong>具有行和列的元素的有序序列。</p>
+<p><strong>Dataframe：</strong>数据框就像矩阵一样，但是它包含实际数据，其中列名和行表示数据集中的每个数据点。</p>
+<p><strong>Tensors：</strong>张量在PyTorch和TensorFlow中都使用，就像深度学习的基本编程单元一样。就像多维数组一样，我们可以对它们执行许多数学运算。</p>
+<p><strong>Computation Graphs：</strong>计算图为我们提供了执行操作的顺序，每个节点表示神经网络中的操作或组件。</p>
+<h3 id="为什么要使用batch-normalization">为什么要使用Batch Normalization</h3>
+<p>关于一些其他归一化方法，可以看这篇文章<a href="https://fainke.com/blog/7d202220.html">深度学习归一化</a></p>
+<p>模型将归一化后的输入传入激活函数。</p>
+<ol type="1">
+<li><p>加快模型收敛的速度的技术。</p></li>
+<li><p>解决了梯度消失的问题。</p></li>
+<li><p>增加了模型泛化能力，使得dropout技术可以去掉。</p></li>
+</ol>
+<h3 id="例举一些激活函数">例举一些激活函数</h3>
+<p><a href="https://fainke.com/blog/6a3ffb6e.html">ReLu系列激活函数</a></p>
+<figure>
+<img src="images/activationFunction.jpg" alt="activationFunction" /><figcaption>activationFunction</figcaption>
+</figure>
+<h3 id="为什么cnn在图像上表现很好">为什么CNN在图像上表现很好</h3>
+<p>CNN本质是在识别曲线和边缘信息。直接将图像数据作为输入，不仅无需人工对图像进行预处理和额外的特征抽取等复杂操作，而且以其特有的细粒度特征提取方式，使得对图像的处理达到了几近人力的水平。</p>
+<h3 id="为什么rnns在文本上表现很好">为什么RNNs在文本上表现很好</h3>
+<p>RNNs的循环特性为下一节点保留前一节点的信息。</p>
+<h3 id="cnn中的填充方式valid与same之间的区别">CNN中的填充方式Valid与Same之间的区别</h3>
+<p><strong>valid padding</strong>：不进行任何处理，只使用原始图像，不允许卷积核超出原始图像边界。当余下部分不够卷积核大小时，直接舍去。</p>
+<p><strong>same padding</strong>：进行填充，允许卷积核超出原始图像边界，并使得卷积后结果的大小与原来的一致。使得余下部分能够参与卷积，所以padding一些数据。</p>
+<h3 id="梯度消失与梯度爆炸">梯度消失与梯度爆炸</h3>
+<p><a href="https://fainke.com/blog/c1d77713.html">梯度消失与梯度爆炸</a></p>
+<h3 id="lstm是如何解决梯度消失与梯度爆炸">LSTM是如何解决梯度消失与梯度爆炸</h3>
+<p>LSTM是一种RNNs模型，由于添加了门控结构，所以可以记住关键信息，梯度不会随着时间步长的增加而消失。</p>
+<h3 id="为什么gru比lstm更快">为什么GRU比LSTM更快</h3>
+<p>GRU取消了遗忘门，将输入和“忘记”门组合到一个更新门中。元素的减少使得模型复杂度降低，所以更快。</p>
+]]></content>
+      <categories>
+        <category>LeetCode</category>
+      </categories>
+      <tags>
+        <tag>深度学习</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Beta分布随笔</title>
+    <url>/blog/6883cd97.html</url>
+    <content><![CDATA[<p><strong>简介：</strong> beta分布可以看作一个概率的概率分布，描述所有概率出现的可能性大小。</p>
+<p><strong>举例：</strong> 手中有一枚硬币，该硬币均匀度未知，现在让你说出抛一次出现正面的概率是多少。通过以往的先验知识来判断，正面概率为0.5的这个情况的概率最大。 <a id="more"></a></p>
+<figure>
+<img src="images/BetaDistribution_1.png" alt="image.png" /><figcaption>image.png</figcaption>
+</figure>
+<p>这张图是取了120次抛币的实验数据画出的Beta分布图，图中给出0.5的正面概率为最高的。假如现在连续抛了10次，8次为正面，那么此时你判断正面朝上最大概率的概率应该是多少。 <img src="images/BetaDistribution_2.png" alt="image.png" /></p>
+<p>通过Beta图像可以看出最大概率的正面概率已经大于0.5。</p>
+<p><strong>与其它分布的联系：</strong> 以上Beta分布就简单介绍结束，其实写Beta分布是因为最近在研究狄利克雷分布。 Beta分布是二项分布的共轭先验概率分布； Dirichlet分布是多项式分布的共轭先验概率分布。 Beat分布可以描述二项分布的概率，是二项分布的概率分布。 Dirichlet分布可以描述出多项分布的概率，是多项分布的概率分布，会为每个事件选择概率最高的多项分布作为它的分布。在无监督聚类的时候会使用。</p>
+]]></content>
+      <categories>
+        <category>机器学习</category>
+      </categories>
+      <tags>
+        <tag>数据分布</tag>
+        <tag>Beta分布</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>FasterRCNN结构梳理</title>
+    <url>/blog/8e69a262.html</url>
+    <content><![CDATA[<p>Faster R-CNN最突出的贡献就在于提出了Region Proposal Network（RPN）代替了Selective Search，从而将候选区域提取的时间开销几乎降为0（2s -&gt; 0.01s） <a id="more"></a></p>
+<h2 id="结构梳理">结构梳理</h2>
+<p>一切都要从一张图的特征开始说起：features。 <img src="images/RPN_ROIHead.png" alt="RPN_Roi Head.png" /></p>
+<p><strong>RPN</strong>接到features后，先做了一次3x3的卷积，再由两个1x1卷积操作分别得到分类score:2x9与位置偏移loc:4x9结构，这两个结构都会被ProposalCreator与rpn_loss所使用。</p>
+<p><strong>AnchorTargetCreator</strong>用box与anchor联合得到拟合目标：loc与label。这里前景与背景的label总数为256，loc图外的标记为-1。</p>
+<p><strong>RPN_LOSS</strong>将会利用上述预测信息与标签信息计算loss，以此来调整使得RPN网络预测的score与loc更好。只对前景计算回归损失。</p>
+<p><strong>ProposalCreator</strong>的任务是拿到score与loc后，将loc转为roi，按照分数筛选先取12000，再通过极大值抑制去除重叠后再按照score选取前2000个roi。</p>
+<p><strong>ProposalTargetCreator</strong>将ProposalCreator中得到的2000个roi与标签box利用ROU再进行筛选，留下正负样本共128个。</p>
+<p><strong>ROI Pooling</strong>层得到这128个rois后，对其坐标对应到特征图，size缩小为1/stride（1/16）。这里在对应的时候，会存在无法整除的现象，所以后来又提出了ROI Align。对应好之后，还要对roi 实施Pooling操作，使得对应好的roi特征图池化到后面层能处理的大小（7x7），在这里还是有量化损失。 <img src="images/ROI_Pooling.gif" alt="ROI_Pooling.gif" /></p>
+<p><strong>FC 21与FC 84</strong>分别得到20+1（背景）类的分类与目标的位置。得到的数据将会与<strong>ProposalTargetCreator</strong>中的真实标签计算<strong>roi_loss</strong>。</p>
+<p><strong>名词解释：</strong> roi = [y_min,x_min,y_max,x_max]，实际原图坐标。 loc = [dy, dx, dh, dw]各个位置的偏移。</p>
+<h2 id="关于box的回归讲解">关于box的回归讲解：</h2>
+<p><span class="math inline">\(t_*\)</span> 包含真实框与预测框的平移量(<span class="math inline">\(t_x,t_y\)</span>)和尺度缩放(<span class="math inline">\(t_w,t_h\)</span>) <span class="math display">\[
+\begin{array}{c}{t_{x}=\left(G_{x}-P_{x}\right) / P_{w},(6)} \\ {t_{y}=\left(G_{y}-P_{y}\right) / P_{h},(7)} \\ {t_{w}=\log \left(G_{w} / P_{w}\right),(8)} \\ {t_{h}=\log \left(G_{h} / P_{h}\right),(9)}\end{array}
+\]</span> 目标函数为： <span class="math display">\[
+d_{*}(P)=w_{*}^{T}\Phi_{5}(P)
+\]</span> 其中<span class="math inline">\(\Phi_{5}(P)\)</span>是输入Proposal的特征向量，<span class="math inline">\(w_*\)</span> 是要学习的参数( * 表示x,y,w,h)， <span class="math inline">\(d_{*}(P)\)</span>是得到的预测值。 计算目的是让<span class="math inline">\(t_*\)</span>与<span class="math inline">\(d_*(P)\)</span>之间的差距最小，得损失函数为： <span class="math display">\[
+Loss=\sum_{i}^{N}(t_{*}^{i}-\hat{w}_{*}^{T}\phi_{5}(P^{i}))^{2}
+\]</span></p>
+<p>函数优化目标： <span class="math display">\[W_{*}=\operatorname{argmin}_{w_{*}}\sum_{i}^{N}\left(t_{*}^{i}-\hat{w}_{*}^{T}\phi_{5}\left(P^{i}\right)\right)^{2}+\lambda\left\|\hat{w}_{*}\right\|^{2}\]</span></p>
+<p><strong>为什么<span class="math inline">\(t_x,t_y\)</span>要除以宽高：</strong> 因为，特征图具有尺度不变性，无论之前图像的大小，最终形成的特征图的都是一样的，所以移动的比例都是一样的，所以要除以宽高。</p>
+<p><strong>为什么<span class="math inline">\(t_w,t_h\)</span>要取对数：</strong> 因为缩放尺度必须是正数，刚好exp函数满足要求，反函数即为log。</p>
+<p><strong>线性函数拟合非线性函数：</strong> 特征图与参数的运算是线性运算，而对数运算是非线性运算，这是很显然无法拟合的。但是，在IOU较大的时候对数运算可以近似为线性运算。 高数中的基本公式：<span class="math inline">\(\lim _{x=0} \log (1+x)=x\)</span> 所以可以得到： <span class="math display">\[t_{w}=\log \left(G_{w} / P_{w}\right)=\log \left(\frac{G_{w}+P_{w}-P_{w}}{P_{w}}\right)=\log \left(1+\frac{G_{w}-P_{w}}{P_{w} }\right)\]</span> 可以看到，当<span class="math inline">\(G_w-P_w=0\)</span>的时候，才会是线性函数，也就是预测值与真实值要足够近，只有满足该条件才可以很好的回归Box，否则，就算FasterRcnn有两次回归运算都无法处理一些相差很大的box,更别说其它one stage算法。为了处理这类问题，一般需要统计数据中的边框类型，设置合适的Anchor长宽比与大小。除此之外，用Cascade RCNN提高前景roi的质量也是一种方法。</p>
+<h2 id="iou两个框的交并比">IOU:两个框的交并比</h2>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">import numpy as np</span><br><span class="line">def compute_iou(box1, box2, wh&#x3D;False):</span><br><span class="line">    &quot;&quot;&quot;</span><br><span class="line">    compute the iou of two boxes.</span><br><span class="line">    Args:</span><br><span class="line">        box1, box2: [xmin, ymin, xmax, ymax] (wh&#x3D;False) or [xcenter, ycenter, w, h] (wh&#x3D;True)</span><br><span class="line">        wh: the format of coordinate.</span><br><span class="line">    Return:</span><br><span class="line">        iou: iou of box1 and box2.</span><br><span class="line">    &quot;&quot;&quot;</span><br><span class="line">    if wh &#x3D;&#x3D; False:</span><br><span class="line">        xmin1, ymin1, xmax1, ymax1 &#x3D; box1</span><br><span class="line">        xmin2, ymin2, xmax2, ymax2 &#x3D; box2</span><br><span class="line">    else:</span><br><span class="line">        xmin1, ymin1 &#x3D; int(box1[0]-box1[2]&#x2F;2.0), int(box1[1]-box1[3]&#x2F;2.0)</span><br><span class="line">        xmax1, ymax1 &#x3D; int(box1[0]+box1[2]&#x2F;2.0), int(box1[1]+box1[3]&#x2F;2.0)</span><br><span class="line">        xmin2, ymin2 &#x3D; int(box2[0]-box2[2]&#x2F;2.0), int(box2[1]-box2[3]&#x2F;2.0)</span><br><span class="line">        xmax2, ymax2 &#x3D; int(box2[0]+box2[2]&#x2F;2.0), int(box2[1]+box2[3]&#x2F;2.0)</span><br><span class="line"></span><br><span class="line">    ## 获取矩形框交集对应的左上角和右下角的坐标（intersection）</span><br><span class="line">    xx1 &#x3D; np.max([xmin1, xmin2])</span><br><span class="line">    yy1 &#x3D; np.max([ymin1, ymin2])</span><br><span class="line">    xx2 &#x3D; np.min([xmax1, xmax2])</span><br><span class="line">    yy2 &#x3D; np.min([ymax1, ymax2])</span><br><span class="line"></span><br><span class="line">    ## 计算两个矩形框面积</span><br><span class="line">    area1 &#x3D; (xmax1-xmin1) * (ymax1-ymin1) </span><br><span class="line">    area2 &#x3D; (xmax2-xmin2) * (ymax2-ymin2)</span><br><span class="line"></span><br><span class="line">    inter_area &#x3D; (np.max([0, xx2-xx1])) * (np.max([0, yy2-yy1]))　#计算交集面积</span><br><span class="line">    iou &#x3D; inter_area &#x2F; (area1+area2-inter_area+1e-6)　＃计算交并比</span><br><span class="line"></span><br><span class="line">    return iou</span><br></pre></td></tr></table></figure>
+<h2 id="nms">NMS</h2>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">for object in all objects:</span><br><span class="line">    (1) 获取当前目标类别下所有bbx的信息</span><br><span class="line">    (2) 将bbx按照confidence从高到低排序,并记录当前confidence最大的bbx</span><br><span class="line">    (3) 计算最大confidence对应的bbx与剩下所有的bbx的IOU,移除所有大于IOU阈值的bbx</span><br><span class="line">    (4) 对剩下的bbx，循环执行(2)和(3)直到所有的bbx均满足要求（即不能再移除bbx）</span><br></pre></td></tr></table></figure>
+<p>NMS是对所有的类别分别执行的。举个栗子，假设最后预测出的矩形框有2类（分别为cup, pen）,在NMS之前，每个类别可能都会有不只一个bbx被预测出来，这个时候我们需要对这两个类别分别执行一次NMS过程。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">import numpy as np</span><br><span class="line">class Bounding_box:</span><br><span class="line">    def __init__(self, x1, y1, x2, y2, score):</span><br><span class="line">        self.x1 &#x3D; x1</span><br><span class="line">        self.y1 &#x3D; y1</span><br><span class="line">        self.x2 &#x3D; x2</span><br><span class="line">        self.y2 &#x3D; y2</span><br><span class="line">        self.score &#x3D; score</span><br><span class="line"></span><br><span class="line">def get_iou(boxa, boxb):</span><br><span class="line">    max_x &#x3D; max(boxa.x1, boxb.x1)</span><br><span class="line">    max_y &#x3D; max(boxa.y1, boxb.y1)</span><br><span class="line">    min_x &#x3D; min(boxa.x2, boxb.x2)</span><br><span class="line">    min_y &#x3D; min(boxa.y2, boxb.y2)</span><br><span class="line">    if min_x &lt;&#x3D; max_x or min_y &lt;&#x3D; max_y:</span><br><span class="line">        return 0</span><br><span class="line">    area_i &#x3D; (min_x - max_x) * (min_y - max_y)</span><br><span class="line">    area_a &#x3D; (boxa.x2 - boxa.x1) * (boxa.y2 - boxa.y1)</span><br><span class="line">    area_b &#x3D; (boxb.x2 - boxb.x1) * (boxb.y2 - boxb.y1)</span><br><span class="line">    area_u &#x3D; area_a + area_b - area_i</span><br><span class="line">    return float(area_i) &#x2F; float(area_u)</span><br><span class="line"></span><br><span class="line">def NMS(box_lists, k):</span><br><span class="line">    box_lists &#x3D; sorted(box_lists, key&#x3D;lambda x: x.score, reverse&#x3D;True)</span><br><span class="line">    NMS_lists &#x3D; [box_lists[0]]</span><br><span class="line">    temp_lists &#x3D; []</span><br><span class="line">    for i in range(k):</span><br><span class="line">        for j in range(1, len(box_lists)):</span><br><span class="line">            iou &#x3D; get_iou(NMS_lists[i], box_lists[j])</span><br><span class="line">            if iou &lt; 0.7:</span><br><span class="line">                temp_lists.append(box_lists[j])</span><br><span class="line">        if len(temp_lists) &#x3D;&#x3D; 0:</span><br><span class="line">            return NMS_lists</span><br><span class="line">        box_lists &#x3D; temp_lists</span><br><span class="line">        temp_lists &#x3D; []</span><br><span class="line">        NMS_lists.append(box_lists[0])</span><br><span class="line">    return NMS_lists</span><br><span class="line"></span><br><span class="line">box1 &#x3D; Bounding_box(13, 22, 268, 367, 0.124648176)</span><br><span class="line">box2 &#x3D; Bounding_box(18, 27, 294, 400, 0.35818103)</span><br><span class="line">box3 &#x3D; Bounding_box(234, 123, 466, 678, 0.13638769)</span><br><span class="line">box_lists &#x3D; [box1, box2, box3]</span><br><span class="line">NMS_list &#x3D; NMS(box_lists, 2)</span><br><span class="line">print (NMS_list)</span><br><span class="line">print (NMS_list[0].x1)</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>计算机视觉CV</category>
+      </categories>
+      <tags>
+        <tag>FasterRCNN</tag>
+        <tag>图像检测</tag>
       </tags>
   </entry>
   <entry>
@@ -309,47 +350,6 @@
       <tags>
         <tag>Haar</tag>
         <tag>人脸检测</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>FasterRCNN结构梳理</title>
-    <url>/blog/8e69a262.html</url>
-    <content><![CDATA[<p>Faster R-CNN最突出的贡献就在于提出了Region Proposal Network（RPN）代替了Selective Search，从而将候选区域提取的时间开销几乎降为0（2s -&gt; 0.01s） <a id="more"></a></p>
-<h2 id="结构梳理">结构梳理</h2>
-<p>一切都要从一张图的特征开始说起：features。 <img src="images/RPN_ROIHead.png" alt="RPN_Roi Head.png" /></p>
-<p><strong>RPN</strong>接到features后，先做了一次3x3的卷积，再由两个1x1卷积操作分别得到分类score:2x9与位置偏移loc:4x9结构，这两个结构都会被ProposalCreator与rpn_loss所使用。</p>
-<p><strong>AnchorTargetCreator</strong>用box与anchor联合得到拟合目标：loc与label。这里前景与背景的label总数为256，loc图外的标记为-1。</p>
-<p><strong>RPN_LOSS</strong>将会利用上述预测信息与标签信息计算loss，以此来调整使得RPN网络预测的score与loc更好。只对前景计算回归损失。</p>
-<p><strong>ProposalCreator</strong>的任务是拿到score与loc后，将loc转为roi，按照分数筛选先取12000，再通过极大值抑制去除重叠后再按照score选取前2000个roi。</p>
-<p><strong>ProposalTargetCreator</strong>将ProposalCreator中得到的2000个roi与标签box利用ROU再进行筛选，留下正负样本共128个。</p>
-<p><strong>ROI Pooling</strong>层得到这128个rois后，对其坐标对应到特征图，size缩小为1/stride（1/16）。这里在对应的时候，会存在无法整除的现象，所以后来又提出了ROI Align。对应好之后，还要对roi 实施Pooling操作，使得对应好的roi特征图池化到后面层能处理的大小（7x7），在这里还是有量化损失。 <img src="images/ROI_Pooling.gif" alt="ROI_Pooling.gif" /></p>
-<p><strong>FC 21与FC 84</strong>分别得到20+1（背景）类的分类与目标的位置。得到的数据将会与<strong>ProposalTargetCreator</strong>中的真实标签计算<strong>roi_loss</strong>。</p>
-<p><strong>名词解释：</strong> roi = [y_min,x_min,y_max,x_max]，实际原图坐标。 loc = [dy, dx, dh, dw]各个位置的偏移。</p>
-<h2 id="关于box的回归讲解">关于box的回归讲解：</h2>
-<p><span class="math inline">\(t_*\)</span> 包含真实框与预测框的平移量(<span class="math inline">\(t_x,t_y\)</span>)和尺度缩放(<span class="math inline">\(t_w,t_h\)</span>) <span class="math display">\[
-\begin{array}{c}{t_{x}=\left(G_{x}-P_{x}\right) / P_{w},(6)} \\ {t_{y}=\left(G_{y}-P_{y}\right) / P_{h},(7)} \\ {t_{w}=\log \left(G_{w} / P_{w}\right),(8)} \\ {t_{h}=\log \left(G_{h} / P_{h}\right),(9)}\end{array}
-\]</span> 目标函数为： <span class="math display">\[
-d_{*}(P)=w_{*}^{T}\Phi_{5}(P)
-\]</span> 其中<span class="math inline">\(\Phi_{5}(P)\)</span>是输入Proposal的特征向量，<span class="math inline">\(w_*\)</span> 是要学习的参数( * 表示x,y,w,h)， <span class="math inline">\(d_{*}(P)\)</span>是得到的预测值。 计算目的是让<span class="math inline">\(t_*\)</span>与<span class="math inline">\(d_*(P)\)</span>之间的差距最小，得损失函数为： <span class="math display">\[
-Loss=\sum_{i}^{N}(t_{*}^{i}-\hat{w}_{*}^{T}\phi_{5}(P^{i}))^{2}
-\]</span></p>
-<p>函数优化目标： <span class="math display">\[W_{*}=\operatorname{argmin}_{w_{*}}\sum_{i}^{N}\left(t_{*}^{i}-\hat{w}_{*}^{T}\phi_{5}\left(P^{i}\right)\right)^{2}+\lambda\left\|\hat{w}_{*}\right\|^{2}\]</span></p>
-<p><strong>为什么<span class="math inline">\(t_x,t_y\)</span>要除以宽高：</strong> 因为，特征图具有尺度不变性，无论之前图像的大小，最终形成的特征图的都是一样的，所以移动的比例都是一样的，所以要除以宽高。</p>
-<p><strong>为什么<span class="math inline">\(t_w,t_h\)</span>要取对数：</strong> 因为缩放尺度必须是正数，刚好exp函数满足要求，反函数即为log。</p>
-<p><strong>线性函数拟合非线性函数：</strong> 特征图与参数的运算是线性运算，而对数运算是非线性运算，这是很显然无法拟合的。但是，在IOU较大的时候对数运算可以近似为线性运算。 高数中的基本公式：<span class="math inline">\(\lim _{x=0} \log (1+x)=x\)</span> 所以可以得到： <span class="math display">\[t_{w}=\log \left(G_{w} / P_{w}\right)=\log \left(\frac{G_{w}+P_{w}-P_{w}}{P_{w}}\right)=\log \left(1+\frac{G_{w}-P_{w}}{P_{w} }\right)\]</span> 可以看到，当<span class="math inline">\(G_w-P_w=0\)</span>的时候，才会是线性函数，也就是预测值与真实值要足够近，只有满足该条件才可以很好的回归Box，否则，就算FasterRcnn有两次回归运算都无法处理一些相差很大的box,更别说其它one stage算法。为了处理这类问题，一般需要统计数据中的边框类型，设置合适的Anchor长宽比与大小。除此之外，用Cascade RCNN提高前景roi的质量也是一种方法。</p>
-<h2 id="iou两个框的交并比">IOU:两个框的交并比</h2>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">import numpy as np</span><br><span class="line">def compute_iou(box1, box2, wh&#x3D;False):</span><br><span class="line">    &quot;&quot;&quot;</span><br><span class="line">    compute the iou of two boxes.</span><br><span class="line">    Args:</span><br><span class="line">        box1, box2: [xmin, ymin, xmax, ymax] (wh&#x3D;False) or [xcenter, ycenter, w, h] (wh&#x3D;True)</span><br><span class="line">        wh: the format of coordinate.</span><br><span class="line">    Return:</span><br><span class="line">        iou: iou of box1 and box2.</span><br><span class="line">    &quot;&quot;&quot;</span><br><span class="line">    if wh &#x3D;&#x3D; False:</span><br><span class="line">        xmin1, ymin1, xmax1, ymax1 &#x3D; box1</span><br><span class="line">        xmin2, ymin2, xmax2, ymax2 &#x3D; box2</span><br><span class="line">    else:</span><br><span class="line">        xmin1, ymin1 &#x3D; int(box1[0]-box1[2]&#x2F;2.0), int(box1[1]-box1[3]&#x2F;2.0)</span><br><span class="line">        xmax1, ymax1 &#x3D; int(box1[0]+box1[2]&#x2F;2.0), int(box1[1]+box1[3]&#x2F;2.0)</span><br><span class="line">        xmin2, ymin2 &#x3D; int(box2[0]-box2[2]&#x2F;2.0), int(box2[1]-box2[3]&#x2F;2.0)</span><br><span class="line">        xmax2, ymax2 &#x3D; int(box2[0]+box2[2]&#x2F;2.0), int(box2[1]+box2[3]&#x2F;2.0)</span><br><span class="line"></span><br><span class="line">    ## 获取矩形框交集对应的左上角和右下角的坐标（intersection）</span><br><span class="line">    xx1 &#x3D; np.max([xmin1, xmin2])</span><br><span class="line">    yy1 &#x3D; np.max([ymin1, ymin2])</span><br><span class="line">    xx2 &#x3D; np.min([xmax1, xmax2])</span><br><span class="line">    yy2 &#x3D; np.min([ymax1, ymax2])</span><br><span class="line"></span><br><span class="line">    ## 计算两个矩形框面积</span><br><span class="line">    area1 &#x3D; (xmax1-xmin1) * (ymax1-ymin1) </span><br><span class="line">    area2 &#x3D; (xmax2-xmin2) * (ymax2-ymin2)</span><br><span class="line"></span><br><span class="line">    inter_area &#x3D; (np.max([0, xx2-xx1])) * (np.max([0, yy2-yy1]))　#计算交集面积</span><br><span class="line">    iou &#x3D; inter_area &#x2F; (area1+area2-inter_area+1e-6)　＃计算交并比</span><br><span class="line"></span><br><span class="line">    return iou</span><br></pre></td></tr></table></figure>
-<h2 id="nms">NMS</h2>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">for object in all objects:</span><br><span class="line">    (1) 获取当前目标类别下所有bbx的信息</span><br><span class="line">    (2) 将bbx按照confidence从高到低排序,并记录当前confidence最大的bbx</span><br><span class="line">    (3) 计算最大confidence对应的bbx与剩下所有的bbx的IOU,移除所有大于IOU阈值的bbx</span><br><span class="line">    (4) 对剩下的bbx，循环执行(2)和(3)直到所有的bbx均满足要求（即不能再移除bbx）</span><br></pre></td></tr></table></figure>
-<p>NMS是对所有的类别分别执行的。举个栗子，假设最后预测出的矩形框有2类（分别为cup, pen）,在NMS之前，每个类别可能都会有不只一个bbx被预测出来，这个时候我们需要对这两个类别分别执行一次NMS过程。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">import numpy as np</span><br><span class="line">class Bounding_box:</span><br><span class="line">    def __init__(self, x1, y1, x2, y2, score):</span><br><span class="line">        self.x1 &#x3D; x1</span><br><span class="line">        self.y1 &#x3D; y1</span><br><span class="line">        self.x2 &#x3D; x2</span><br><span class="line">        self.y2 &#x3D; y2</span><br><span class="line">        self.score &#x3D; score</span><br><span class="line"></span><br><span class="line">def get_iou(boxa, boxb):</span><br><span class="line">    max_x &#x3D; max(boxa.x1, boxb.x1)</span><br><span class="line">    max_y &#x3D; max(boxa.y1, boxb.y1)</span><br><span class="line">    min_x &#x3D; min(boxa.x2, boxb.x2)</span><br><span class="line">    min_y &#x3D; min(boxa.y2, boxb.y2)</span><br><span class="line">    if min_x &lt;&#x3D; max_x or min_y &lt;&#x3D; max_y:</span><br><span class="line">        return 0</span><br><span class="line">    area_i &#x3D; (min_x - max_x) * (min_y - max_y)</span><br><span class="line">    area_a &#x3D; (boxa.x2 - boxa.x1) * (boxa.y2 - boxa.y1)</span><br><span class="line">    area_b &#x3D; (boxb.x2 - boxb.x1) * (boxb.y2 - boxb.y1)</span><br><span class="line">    area_u &#x3D; area_a + area_b - area_i</span><br><span class="line">    return float(area_i) &#x2F; float(area_u)</span><br><span class="line"></span><br><span class="line">def NMS(box_lists, k):</span><br><span class="line">    box_lists &#x3D; sorted(box_lists, key&#x3D;lambda x: x.score, reverse&#x3D;True)</span><br><span class="line">    NMS_lists &#x3D; [box_lists[0]]</span><br><span class="line">    temp_lists &#x3D; []</span><br><span class="line">    for i in range(k):</span><br><span class="line">        for j in range(1, len(box_lists)):</span><br><span class="line">            iou &#x3D; get_iou(NMS_lists[i], box_lists[j])</span><br><span class="line">            if iou &lt; 0.7:</span><br><span class="line">                temp_lists.append(box_lists[j])</span><br><span class="line">        if len(temp_lists) &#x3D;&#x3D; 0:</span><br><span class="line">            return NMS_lists</span><br><span class="line">        box_lists &#x3D; temp_lists</span><br><span class="line">        temp_lists &#x3D; []</span><br><span class="line">        NMS_lists.append(box_lists[0])</span><br><span class="line">    return NMS_lists</span><br><span class="line"></span><br><span class="line">box1 &#x3D; Bounding_box(13, 22, 268, 367, 0.124648176)</span><br><span class="line">box2 &#x3D; Bounding_box(18, 27, 294, 400, 0.35818103)</span><br><span class="line">box3 &#x3D; Bounding_box(234, 123, 466, 678, 0.13638769)</span><br><span class="line">box_lists &#x3D; [box1, box2, box3]</span><br><span class="line">NMS_list &#x3D; NMS(box_lists, 2)</span><br><span class="line">print (NMS_list)</span><br><span class="line">print (NMS_list[0].x1)</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>计算机视觉CV</category>
-      </categories>
-      <tags>
-        <tag>FasterRCNN</tag>
-        <tag>图像检测</tag>
       </tags>
   </entry>
   <entry>
@@ -822,6 +822,54 @@ g_{n+1}=\mu \cdot g_{n}+\frac{\nabla_{\delta} L\left(T(X+\delta ; p), y^{\text {
       </tags>
   </entry>
   <entry>
+    <title>天池农业AI挑战赛-总结</title>
+    <url>/blog/bf3e34f1.html</url>
+    <content><![CDATA[<h2 id="赛题社会价值">赛题社会价值</h2>
+<p>通过计算机自动识别大面积卫星图中的物体，有助于预估农产品产量，城市面积等工作。 <a id="more"></a></p>
+<hr />
+<h2 id="赛题所属类型">赛题所属类型</h2>
+<p>图像分割与分类</p>
+<hr />
+<h2 id="赛题特点">赛题特点</h2>
+<ol type="1">
+<li>类间差异小；</li>
+<li>存在标注噪声；</li>
+<li>物体尺度差异大；</li>
+<li>有效物体占比低；</li>
+<li>图片尺寸达到30亿左右的像素，无法直接训练。</li>
+</ol>
+<hr />
+<h2 id="赛题工作">赛题工作</h2>
+<h3 id="模型选择">模型选择</h3>
+<p>本次分割的图像中，全局信息很重要，某一个类别的确定会受到它周边像素与类别的影响。 本次比赛最佳模型框架deeplab v3+。</p>
+<h3 id="数据处理">数据处理</h3>
+<ol type="1">
+<li><p>为了应对图片过大的现象，本次比赛采取了滑动裁剪的方法，每次选取图片大小1024x1024，滑动步长设置为512，剔除无效区域占比过高的样本。由于滑动采样操作会对边缘的预测产生影响，所以，预测结果只保留中间区域（512x512）。</p></li>
+<li><p>一些常规的数据增强方法。</p></li>
+</ol>
+<h3 id="训练处理">训练处理</h3>
+<ol type="1">
+<li><p>本次分类使用的是多分类交叉熵损失函数，并为不同类别添加不同的权重。</p></li>
+<li><p>标签平滑。采取软标签训练，区别于0和1的这样的硬标签，可以为难易程度不同的样本给予不同程度的标签值。</p></li>
+<li><p>使用半监督的方式，为没有标签的图片生成软标签，增加样本。</p></li>
+<li><p>因为数据集比较小，即使使用了各种数据增强技术，还是会有过拟合的风险，可以选取多个snapshot使用参数均值的方法对模型参数进行融合可以提高模型的泛化能力。但是传统的方法是对一个模型进行多次训练来取得多个snapshot，这会需要很多的计算时间。相比之下，根据不同评价标准选择融合的snapshot，也就是选择最小验证loss，最大mIoU，和训练最后（通常是训练loss最小）的三个模型参数进行融合。为了增加三个模型的差异性，可以采用Cyclic Cosine Annealing的方法。反复进入多个局部最小值。</p></li>
+</ol>
+<p><img src="images/detective_1.png" /></p>
+<h3 id="预测结果处理">预测结果处理</h3>
+<ol type="1">
+<li>由于预测生成的图片会存在一些毛刺，小连通域等现象。所以，采取了一些图像的膨胀与腐蚀的处理。<a href="https://fainke.com/blog/61e6e20f.html">形态学开运算闭运算</a></li>
+</ol>
+]]></content>
+      <categories>
+        <category>计算机视觉CV</category>
+      </categories>
+      <tags>
+        <tag>语义分割</tag>
+        <tag>实例分割</tag>
+        <tag>图像分割</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>命名实体识别与关系抽取</title>
     <url>/blog/7119a6b7.html</url>
     <content><![CDATA[<h2 id="实体关系抽取">实体关系抽取</h2>
@@ -877,54 +925,6 @@ g_{n+1}=\mu \cdot g_{n}+\frac{\nabla_{\delta} L\left(T(X+\delta ; p), y^{\text {
       <tags>
         <tag>实体关系抽取</tag>
         <tag>命名实体识别</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>天池农业AI挑战赛-总结</title>
-    <url>/blog/bf3e34f1.html</url>
-    <content><![CDATA[<h2 id="赛题社会价值">赛题社会价值</h2>
-<p>通过计算机自动识别大面积卫星图中的物体，有助于预估农产品产量，城市面积等工作。 <a id="more"></a></p>
-<hr />
-<h2 id="赛题所属类型">赛题所属类型</h2>
-<p>图像分割与分类</p>
-<hr />
-<h2 id="赛题特点">赛题特点</h2>
-<ol type="1">
-<li>类间差异小；</li>
-<li>存在标注噪声；</li>
-<li>物体尺度差异大；</li>
-<li>有效物体占比低；</li>
-<li>图片尺寸达到30亿左右的像素，无法直接训练。</li>
-</ol>
-<hr />
-<h2 id="赛题工作">赛题工作</h2>
-<h3 id="模型选择">模型选择</h3>
-<p>本次分割的图像中，全局信息很重要，某一个类别的确定会受到它周边像素与类别的影响。 本次比赛最佳模型框架deeplab v3+。</p>
-<h3 id="数据处理">数据处理</h3>
-<ol type="1">
-<li><p>为了应对图片过大的现象，本次比赛采取了滑动裁剪的方法，每次选取图片大小1024x1024，滑动步长设置为512，剔除无效区域占比过高的样本。由于滑动采样操作会对边缘的预测产生影响，所以，预测结果只保留中间区域（512x512）。</p></li>
-<li><p>一些常规的数据增强方法。</p></li>
-</ol>
-<h3 id="训练处理">训练处理</h3>
-<ol type="1">
-<li><p>本次分类使用的是多分类交叉熵损失函数，并为不同类别添加不同的权重。</p></li>
-<li><p>标签平滑。采取软标签训练，区别于0和1的这样的硬标签，可以为难易程度不同的样本给予不同程度的标签值。</p></li>
-<li><p>使用半监督的方式，为没有标签的图片生成软标签，增加样本。</p></li>
-<li><p>因为数据集比较小，即使使用了各种数据增强技术，还是会有过拟合的风险，可以选取多个snapshot使用参数均值的方法对模型参数进行融合可以提高模型的泛化能力。但是传统的方法是对一个模型进行多次训练来取得多个snapshot，这会需要很多的计算时间。相比之下，根据不同评价标准选择融合的snapshot，也就是选择最小验证loss，最大mIoU，和训练最后（通常是训练loss最小）的三个模型参数进行融合。为了增加三个模型的差异性，可以采用Cyclic Cosine Annealing的方法。反复进入多个局部最小值。</p></li>
-</ol>
-<p><img src="images/detective_1.png" /></p>
-<h3 id="预测结果处理">预测结果处理</h3>
-<ol type="1">
-<li>由于预测生成的图片会存在一些毛刺，小连通域等现象。所以，采取了一些图像的膨胀与腐蚀的处理。<a href="https://fainke.com/blog/61e6e20f.html">形态学开运算闭运算</a></li>
-</ol>
-]]></content>
-      <categories>
-        <category>计算机视觉CV</category>
-      </categories>
-      <tags>
-        <tag>语义分割</tag>
-        <tag>实例分割</tag>
-        <tag>图像分割</tag>
       </tags>
   </entry>
   <entry>
@@ -1430,47 +1430,6 @@ g_{n+1}=\mu \cdot g_{n}+\frac{\nabla_{\delta} L\left(T(X+\delta ; p), y^{\text {
       </tags>
   </entry>
   <entry>
-    <title>字向量的产生</title>
-    <url>/blog/3b862564.html</url>
-    <content><![CDATA[<ul>
-<li><a id="more"></a></li>
-</ul>
-<h2 id="one-hot">one hot</h2>
-<p>比如有7个字，红橙黄绿青蓝紫，它们用onehot的表示形式如下: <font face="黑体"  size="4" color="#f00">红:(1,0,0,0,0,0,0)</font> <font face="黑体"  size="4" color="#FF7F00">橙:(0,1,0,0,0,0,0)</font> <font face="黑体"  size="4" color="#FF0">黄:(0,0,1,0,0,0,0)</font> <font face="黑体"  size="4" color="#0F0">绿:(0,0,0,1,0,0,0)</font> <font face="黑体"  size="4" color="#0FF">青:(0,0,0,0,1,0,0)</font> <font face="黑体"  size="4" color="#00F">蓝:(0,0,0,0,0,1,0)</font> <font face="黑体"  size="4" color="#8B00FF">紫:(0,0,0,0,0,0,1)</font></p>
-<p>这是最初的字(词)向量的表示方式，有多少字就需要多少维度，造成维度过高，表示过于稀疏。并且字与字之间的距离都相等，这不符合实际情况，比如，红橙的距离小于红绿的距离，onehot表示法无法体现这一特征，也即缺乏语义信息。</p>
-<h2 id="word2vec">Word2Vec</h2>
-<p>由于OneHot编码方式的缺陷，所以诞生了诸如Word2Vec这类新的编码算法。 原来的编码是(vocabSize,dimension)。以七色前个字为例,oneHot的编码后的矩阵为H = (2,7),第一个2是输入字的个数，第二个7是一个字表示的维度，在onehot表示方法中也是词汇表中字的总个数。现在通过新的一种办法将字的表示维度降低到3，也就是(2,7)*(7,3)=&gt;(7,3)。这里矩阵(7,3)是参数矩阵，onehot矩阵将会通过这个参数矩阵映射到新的维度中，也是降维。(7,3)第一个位置依然是词汇表字的个数，3表示一个字的表示维度。当然这个3是调控的。</p>
-<p><span class="math display">\[
-\left(\begin{array}{cccccc}
-1&amp;0&amp;0&amp;0&amp;0&amp;0&amp;0 \\
-0&amp;1&amp;0&amp;0&amp;0&amp;0&amp;0 
-\end{array}\right)\left(\begin{array}{lll}
-w_{11} &amp; w_{12} &amp; w_{13} \\
-w_{21} &amp; w_{22} &amp; w_{23} \\
-w_{31} &amp; w_{32} &amp; w_{33} \\
-w_{41} &amp; w_{42} &amp; w_{43} \\
-w_{51} &amp; w_{52} &amp; w_{53} \\
-w_{61} &amp; w_{62} &amp; w_{63} \\
-w_{71} &amp; w_{72} &amp; w_{73}
-\end{array}\right)=\left(\begin{array}{lllll}
-w_{11} &amp; w_{12} &amp; w_{13} \\
-w_{21} &amp; w_{22} &amp; w_{23} 
-\end{array}\right)
-\]</span> 到这里，你会发现一个有趣的现象，第一个字映射后的字向量就是参数矩阵的第一行，依此类推，第二个字映射后的字向量就是参数矩阵的第二行。有这样的一种性质存在，矩阵乘法都不用做了，直接都过索引查找参数矩阵就可以了。</p>
-<p>到这里也就发现了，其实字向量的获取就是通过语言模型的训练得到的一组参数阵。语言模型的训练有很多种，比如，通过预测前后两句话是否是连续。则模型通过onehot=&gt;全连接参数阵w=&gt;...=&gt;softmax，通过训练这样的一种任务来更新参数阵，最终，参数阵将会承受着表示字向量的任务。</p>
-<p>为什么这样表示的字向量可以正确表示字之间的距离。</p>
-]]></content>
-      <categories>
-        <category>自然语言处理NLP</category>
-      </categories>
-      <tags>
-        <tag>字向量</tag>
-        <tag>词向量</tag>
-        <tag>one hot</tag>
-        <tag>Word2Vec</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>层次分析法介绍</title>
     <url>/blog/2a6766e.html</url>
     <content><![CDATA[<h2 id="背景">背景</h2>
@@ -1524,6 +1483,47 @@ w_{21} &amp; w_{22} &amp; w_{23}
       <tags>
         <tag>层次分析法</tag>
         <tag>决策</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>字向量的产生</title>
+    <url>/blog/3b862564.html</url>
+    <content><![CDATA[<ul>
+<li><a id="more"></a></li>
+</ul>
+<h2 id="one-hot">one hot</h2>
+<p>比如有7个字，红橙黄绿青蓝紫，它们用onehot的表示形式如下: <font face="黑体"  size="4" color="#f00">红:(1,0,0,0,0,0,0)</font> <font face="黑体"  size="4" color="#FF7F00">橙:(0,1,0,0,0,0,0)</font> <font face="黑体"  size="4" color="#FF0">黄:(0,0,1,0,0,0,0)</font> <font face="黑体"  size="4" color="#0F0">绿:(0,0,0,1,0,0,0)</font> <font face="黑体"  size="4" color="#0FF">青:(0,0,0,0,1,0,0)</font> <font face="黑体"  size="4" color="#00F">蓝:(0,0,0,0,0,1,0)</font> <font face="黑体"  size="4" color="#8B00FF">紫:(0,0,0,0,0,0,1)</font></p>
+<p>这是最初的字(词)向量的表示方式，有多少字就需要多少维度，造成维度过高，表示过于稀疏。并且字与字之间的距离都相等，这不符合实际情况，比如，红橙的距离小于红绿的距离，onehot表示法无法体现这一特征，也即缺乏语义信息。</p>
+<h2 id="word2vec">Word2Vec</h2>
+<p>由于OneHot编码方式的缺陷，所以诞生了诸如Word2Vec这类新的编码算法。 原来的编码是(vocabSize,dimension)。以七色前个字为例,oneHot的编码后的矩阵为H = (2,7),第一个2是输入字的个数，第二个7是一个字表示的维度，在onehot表示方法中也是词汇表中字的总个数。现在通过新的一种办法将字的表示维度降低到3，也就是(2,7)*(7,3)=&gt;(7,3)。这里矩阵(7,3)是参数矩阵，onehot矩阵将会通过这个参数矩阵映射到新的维度中，也是降维。(7,3)第一个位置依然是词汇表字的个数，3表示一个字的表示维度。当然这个3是调控的。</p>
+<p><span class="math display">\[
+\left(\begin{array}{cccccc}
+1&amp;0&amp;0&amp;0&amp;0&amp;0&amp;0 \\
+0&amp;1&amp;0&amp;0&amp;0&amp;0&amp;0 
+\end{array}\right)\left(\begin{array}{lll}
+w_{11} &amp; w_{12} &amp; w_{13} \\
+w_{21} &amp; w_{22} &amp; w_{23} \\
+w_{31} &amp; w_{32} &amp; w_{33} \\
+w_{41} &amp; w_{42} &amp; w_{43} \\
+w_{51} &amp; w_{52} &amp; w_{53} \\
+w_{61} &amp; w_{62} &amp; w_{63} \\
+w_{71} &amp; w_{72} &amp; w_{73}
+\end{array}\right)=\left(\begin{array}{lllll}
+w_{11} &amp; w_{12} &amp; w_{13} \\
+w_{21} &amp; w_{22} &amp; w_{23} 
+\end{array}\right)
+\]</span> 到这里，你会发现一个有趣的现象，第一个字映射后的字向量就是参数矩阵的第一行，依此类推，第二个字映射后的字向量就是参数矩阵的第二行。有这样的一种性质存在，矩阵乘法都不用做了，直接都过索引查找参数矩阵就可以了。</p>
+<p>到这里也就发现了，其实字向量的获取就是通过语言模型的训练得到的一组参数阵。语言模型的训练有很多种，比如，通过预测前后两句话是否是连续。则模型通过onehot=&gt;全连接参数阵w=&gt;...=&gt;softmax，通过训练这样的一种任务来更新参数阵，最终，参数阵将会承受着表示字向量的任务。</p>
+<p>为什么这样表示的字向量可以正确表示字之间的距离。</p>
+]]></content>
+      <categories>
+        <category>自然语言处理NLP</category>
+      </categories>
+      <tags>
+        <tag>字向量</tag>
+        <tag>词向量</tag>
+        <tag>one hot</tag>
+        <tag>Word2Vec</tag>
       </tags>
   </entry>
   <entry>
@@ -1616,35 +1616,6 @@ w_{21} &amp; w_{22} &amp; w_{23}
       </categories>
       <tags>
         <tag>滤波器</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>损失函数</title>
-    <url>/blog/4863b368.html</url>
-    <content><![CDATA[<p><strong>主要内容：</strong> 0-1,Hinge,Logistic,Cross Entropy,Square,Absolute,Huber <strong>简述：</strong> 损失函数刻画了模型与训练样本的匹配程度。 <a id="more"></a></p>
-<h2 id="分类损失">分类损失</h2>
-<p><img src="images/分类损失.png" alt="分类损失.png" /> <strong>1. 对于二分类问题，Y={1,-1}，我们希望<span class="math inline">\(sign\)</span> <span class="math inline">\(f(x_i,\theta)=y_i\)</span></strong></p>
-<p><strong>0-1损失：<span class="math inline">\(L_{0-1}(f,y)=1_{f.y\leq0}\)</span></strong> 最自然的损失函数是0-1损失，表示的是，当且仅当预测不正确的时候取值为1，否则取值为0。该损失函数能够直观的刻画分类的错误率，但是由于其非凸、非光滑的特点，使得算法很难直接对该函数进行优化。</p>
-<p><strong>Hinge损失：<span class="math inline">\(L_{hinge}(f,y)=max\{0,1-f.y\}\)</span></strong> Hinge损失函数是0-1损失函数相对紧的凸上界，且当<span class="math inline">\(f.y\leq1\)</span>时候,该函数不对其做任何处罚。由于Hinge损失在f.y=1处不可导，因此不能使用梯度下降算法优化，而是使用次梯度下降法。</p>
-<p><strong>Logistic损失函数：<span class="math inline">\(L_{logistic}=log_2(1+exp(-f.y))\)</span></strong> Logistic损失函数也是0-1损失函数的凸上界，且该函数处处光滑，因此可以使用梯度下降法进行优化。但是，该函数对所有样本点都做惩罚，因此对异常点更为敏感。</p>
-<p><strong>Cross Entropy：<span class="math inline">\(L_{cross\_entropy}=-log_2((1+f.y)/2)\)</span></strong> 交叉熵损失函数是常用的二分类损失函数。交叉熵损失函数也是0-1损失的光滑凸上界。</p>
-<h2 id="回归损失">回归损失</h2>
-<figure>
-<img src="images/回归损失.png" alt="回归损失.png" /><figcaption>回归损失.png</figcaption>
-</figure>
-<p><strong>1.对于回归问题,我们期望<span class="math inline">\(f(x_i,\theta)\approx y_i\)</span></strong></p>
-<p><strong>Square损失：<span class="math inline">\(L_{square}(f,y)=(f-y)^2\)</span></strong> 平方损失函数是光滑函数，能够使用梯度下降法优化。然而当预测值距离真实值越远时，平方损失函数的惩罚力度越大，因此对异常点比较敏感。</p>
-<p><strong>Absolute损失：<span class="math inline">\(L_{absolute}(f,y)=|f-y|\)</span></strong> 绝对损失函数相当于在做中值回归，相比做均值回归的平方损失函数，绝对损失函数对异常点更鲁棒。但是，绝对损失函数在f=y处无法求导。</p>
-<p><strong>Huber损失：<span class="math inline">\(L_{huber}(f,y)=\left\{\begin{array}{l}{(f-y)^2, |f-y|\leq\delta} \\ {2\delta |f-y|-\delta ^2, |f-y|&gt;\delta }\end{array}\right\}\)</span></strong> Huber损失函数在|f-y|较小时为平方损失，在|f-y|较大的时采用线性损失，处处可导，且对异常点鲁棒。</p>
-]]></content>
-      <categories>
-        <category>机器学习</category>
-      </categories>
-      <tags>
-        <tag>损失函数</tag>
-        <tag>LOSS</tag>
-        <tag>分类损失</tag>
-        <tag>回归损失</tag>
       </tags>
   </entry>
   <entry>
@@ -1808,6 +1779,35 @@ w_{21} &amp; w_{22} &amp; w_{23}
       </tags>
   </entry>
   <entry>
+    <title>损失函数</title>
+    <url>/blog/4863b368.html</url>
+    <content><![CDATA[<p><strong>主要内容：</strong> 0-1,Hinge,Logistic,Cross Entropy,Square,Absolute,Huber <strong>简述：</strong> 损失函数刻画了模型与训练样本的匹配程度。 <a id="more"></a></p>
+<h2 id="分类损失">分类损失</h2>
+<p><img src="images/分类损失.png" alt="分类损失.png" /> <strong>1. 对于二分类问题，Y={1,-1}，我们希望<span class="math inline">\(sign\)</span> <span class="math inline">\(f(x_i,\theta)=y_i\)</span></strong></p>
+<p><strong>0-1损失：<span class="math inline">\(L_{0-1}(f,y)=1_{f.y\leq0}\)</span></strong> 最自然的损失函数是0-1损失，表示的是，当且仅当预测不正确的时候取值为1，否则取值为0。该损失函数能够直观的刻画分类的错误率，但是由于其非凸、非光滑的特点，使得算法很难直接对该函数进行优化。</p>
+<p><strong>Hinge损失：<span class="math inline">\(L_{hinge}(f,y)=max\{0,1-f.y\}\)</span></strong> Hinge损失函数是0-1损失函数相对紧的凸上界，且当<span class="math inline">\(f.y\leq1\)</span>时候,该函数不对其做任何处罚。由于Hinge损失在f.y=1处不可导，因此不能使用梯度下降算法优化，而是使用次梯度下降法。</p>
+<p><strong>Logistic损失函数：<span class="math inline">\(L_{logistic}=log_2(1+exp(-f.y))\)</span></strong> Logistic损失函数也是0-1损失函数的凸上界，且该函数处处光滑，因此可以使用梯度下降法进行优化。但是，该函数对所有样本点都做惩罚，因此对异常点更为敏感。</p>
+<p><strong>Cross Entropy：<span class="math inline">\(L_{cross\_entropy}=-log_2((1+f.y)/2)\)</span></strong> 交叉熵损失函数是常用的二分类损失函数。交叉熵损失函数也是0-1损失的光滑凸上界。</p>
+<h2 id="回归损失">回归损失</h2>
+<figure>
+<img src="images/回归损失.png" alt="回归损失.png" /><figcaption>回归损失.png</figcaption>
+</figure>
+<p><strong>1.对于回归问题,我们期望<span class="math inline">\(f(x_i,\theta)\approx y_i\)</span></strong></p>
+<p><strong>Square损失：<span class="math inline">\(L_{square}(f,y)=(f-y)^2\)</span></strong> 平方损失函数是光滑函数，能够使用梯度下降法优化。然而当预测值距离真实值越远时，平方损失函数的惩罚力度越大，因此对异常点比较敏感。</p>
+<p><strong>Absolute损失：<span class="math inline">\(L_{absolute}(f,y)=|f-y|\)</span></strong> 绝对损失函数相当于在做中值回归，相比做均值回归的平方损失函数，绝对损失函数对异常点更鲁棒。但是，绝对损失函数在f=y处无法求导。</p>
+<p><strong>Huber损失：<span class="math inline">\(L_{huber}(f,y)=\left\{\begin{array}{l}{(f-y)^2, |f-y|\leq\delta} \\ {2\delta |f-y|-\delta ^2, |f-y|&gt;\delta }\end{array}\right\}\)</span></strong> Huber损失函数在|f-y|较小时为平方损失，在|f-y|较大的时采用线性损失，处处可导，且对异常点鲁棒。</p>
+]]></content>
+      <categories>
+        <category>机器学习</category>
+      </categories>
+      <tags>
+        <tag>损失函数</tag>
+        <tag>LOSS</tag>
+        <tag>分类损失</tag>
+        <tag>回归损失</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>数据规约</title>
     <url>/blog/bb540bde.html</url>
     <content><![CDATA[<h2 id="数据维度规约">数据维度规约</h2>
@@ -1842,6 +1842,27 @@ w_{21} &amp; w_{22} &amp; w_{23}
       <tags>
         <tag>特征工程</tag>
         <tag>数据规约</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>最小二乘法与最小一乘法</title>
+    <url>/blog/cd0593c0.html</url>
+    <content><![CDATA[<p><strong>什么是最小二乘法：</strong> 最小二乘法是一种误差度量方法，一种被优化的问题，在线性最小二乘问题中可以直接求解<span class="math inline">\(x=\left(A^{T} A\right)^{-1} A^{T} b\)</span>得到全局最优，但是在非线性最小二乘问题中无法用此方法求解，此时就需要迭代法来求解，比如梯度下降法，牛顿法。 <a id="more"></a></p>
+<p><strong>最小二乘与极大似然的关系：</strong> 在测量误差服从高斯分布的情况下，最小二乘法等价于极大似然估计。</p>
+<p><strong>举例：</strong> 假设样本是从高斯分布中采样获得，高斯概率分布函数为： <span class="math inline">\(f(x ; \mu, \sigma)=\frac{1}{\sigma \sqrt{2 \pi}} \exp \left(-\frac{(x-\mu)^{2}}{2 \sigma^{2}}\right)\)</span> 噪声服从高斯分布的意思就是说，样本取值的期望 u 落在我们将要拟合的直线上。但是由于高斯噪声的存在，会一个偏差，该偏差符合正态分布，在两个标准差之间的范围内，两个标准差内的概率约为96%。这里的每一个样本都独立同分布，于是他们的联合概率应该满足： <span class="math inline">\(p_{X, Y}(x, y)=p_{X}(x) \cdot p_{Y}(y)\)</span> 累乘的结果是： <span class="math inline">\(\frac{1}{\sigma \sqrt{2 \pi}} \exp \left(-\frac{(x-\mu 1)^{2}}{2 \sigma^{2}}\right) \cdot \frac{1}{\sigma \sqrt{2 \pi}} \exp \left(-\frac{(x-\mu 2)^{2}}{2 \sigma^{2}}\right) \dots\)</span> 省略后面的乘项。上式相乘简化为指数相加，指数部分变为： <span class="math inline">\(\left(-\frac{(x-\mu 1)^{2}}{2 \sigma^{2}}\right)+\left(-\frac{(x-\mu 2)^{2}}{2 \sigma^{2}}\right)+\ldots\)</span> 只看分子，得： <span class="math inline">\(-\left[(x-\mu 1)^{2}+(x-\mu 2)^{2}+(x-\mu 3)^{2} \ldots\right]\)</span> 这便是最小二乘的模样。最小二乘法的思想是要求平方和尽可能小。上式前面加上了负号，也就是上式尽可能大，上式是一个指数，指数越大，便是联合概率越大，联合概率越大，表示样本的落点越有可能贴近拟合的直线，这便是最大似然的思想。</p>
+<p><strong>最小一乘法介绍：</strong> 最小一乘法只要求各实测点到回归直线的纵向距离的绝对值之和为最小。它不要求随机误差服从正态分布，“稳健性”比最小二乘法好。在数据随机误差不服从正态分布时，最小一乘法的统计性能优于最小二乘法。【百度百科】</p>
+<p><strong>举例：</strong> 当噪声服从拉普拉斯分布时 的概率分布为： <span class="math inline">\(f(x | \mu, b)=\frac{1}{2 b} \exp \left(-\frac{|x-\mu|}{b}\right)\)</span> 此时指数部分为绝对值，表示的是，所有数据到拟合出的直线的距离之和最小。新样本有最大可能的靠近该拟合的直线。</p>
+<p><strong>结论：</strong> 对于噪声的分布不同，应该选取对应的拟合方式。如果数据符合高斯分布，此时做线性回归应该用最小二乘法。</p>
+<blockquote>
+<p>参考链接： https://www.zhihu.com/question/24095027 https://baike.baidu.com/item/%E6%9C%80%E5%B0%8F%E4%B8%80%E4%B9%98%E6%B3%95/585848?fr=aladdin</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>机器学习</category>
+      </categories>
+      <tags>
+        <tag>最小二乘法</tag>
+        <tag>最小一乘法</tag>
       </tags>
   </entry>
   <entry>
@@ -1946,27 +1967,6 @@ w_{21} &amp; w_{22} &amp; w_{23}
       </categories>
       <tags>
         <tag>工业质检</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>最小二乘法与最小一乘法</title>
-    <url>/blog/cd0593c0.html</url>
-    <content><![CDATA[<p><strong>什么是最小二乘法：</strong> 最小二乘法是一种误差度量方法，一种被优化的问题，在线性最小二乘问题中可以直接求解<span class="math inline">\(x=\left(A^{T} A\right)^{-1} A^{T} b\)</span>得到全局最优，但是在非线性最小二乘问题中无法用此方法求解，此时就需要迭代法来求解，比如梯度下降法，牛顿法。 <a id="more"></a></p>
-<p><strong>最小二乘与极大似然的关系：</strong> 在测量误差服从高斯分布的情况下，最小二乘法等价于极大似然估计。</p>
-<p><strong>举例：</strong> 假设样本是从高斯分布中采样获得，高斯概率分布函数为： <span class="math inline">\(f(x ; \mu, \sigma)=\frac{1}{\sigma \sqrt{2 \pi}} \exp \left(-\frac{(x-\mu)^{2}}{2 \sigma^{2}}\right)\)</span> 噪声服从高斯分布的意思就是说，样本取值的期望 u 落在我们将要拟合的直线上。但是由于高斯噪声的存在，会一个偏差，该偏差符合正态分布，在两个标准差之间的范围内，两个标准差内的概率约为96%。这里的每一个样本都独立同分布，于是他们的联合概率应该满足： <span class="math inline">\(p_{X, Y}(x, y)=p_{X}(x) \cdot p_{Y}(y)\)</span> 累乘的结果是： <span class="math inline">\(\frac{1}{\sigma \sqrt{2 \pi}} \exp \left(-\frac{(x-\mu 1)^{2}}{2 \sigma^{2}}\right) \cdot \frac{1}{\sigma \sqrt{2 \pi}} \exp \left(-\frac{(x-\mu 2)^{2}}{2 \sigma^{2}}\right) \dots\)</span> 省略后面的乘项。上式相乘简化为指数相加，指数部分变为： <span class="math inline">\(\left(-\frac{(x-\mu 1)^{2}}{2 \sigma^{2}}\right)+\left(-\frac{(x-\mu 2)^{2}}{2 \sigma^{2}}\right)+\ldots\)</span> 只看分子，得： <span class="math inline">\(-\left[(x-\mu 1)^{2}+(x-\mu 2)^{2}+(x-\mu 3)^{2} \ldots\right]\)</span> 这便是最小二乘的模样。最小二乘法的思想是要求平方和尽可能小。上式前面加上了负号，也就是上式尽可能大，上式是一个指数，指数越大，便是联合概率越大，联合概率越大，表示样本的落点越有可能贴近拟合的直线，这便是最大似然的思想。</p>
-<p><strong>最小一乘法介绍：</strong> 最小一乘法只要求各实测点到回归直线的纵向距离的绝对值之和为最小。它不要求随机误差服从正态分布，“稳健性”比最小二乘法好。在数据随机误差不服从正态分布时，最小一乘法的统计性能优于最小二乘法。【百度百科】</p>
-<p><strong>举例：</strong> 当噪声服从拉普拉斯分布时 的概率分布为： <span class="math inline">\(f(x | \mu, b)=\frac{1}{2 b} \exp \left(-\frac{|x-\mu|}{b}\right)\)</span> 此时指数部分为绝对值，表示的是，所有数据到拟合出的直线的距离之和最小。新样本有最大可能的靠近该拟合的直线。</p>
-<p><strong>结论：</strong> 对于噪声的分布不同，应该选取对应的拟合方式。如果数据符合高斯分布，此时做线性回归应该用最小二乘法。</p>
-<blockquote>
-<p>参考链接： https://www.zhihu.com/question/24095027 https://baike.baidu.com/item/%E6%9C%80%E5%B0%8F%E4%B8%80%E4%B9%98%E6%B3%95/585848?fr=aladdin</p>
-</blockquote>
-]]></content>
-      <categories>
-        <category>机器学习</category>
-      </categories>
-      <tags>
-        <tag>最小二乘法</tag>
-        <tag>最小一乘法</tag>
       </tags>
   </entry>
   <entry>

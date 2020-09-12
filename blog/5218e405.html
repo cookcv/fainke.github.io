@@ -22,12 +22,10 @@
     var CONFIG = {"hostname":"fainke.com","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results foundin ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="-">
-<meta property="og:type" content="article">
+  <meta property="og:type" content="article">
 <meta property="og:title" content="Python高阶语法随笔">
 <meta property="og:url" content="https://fainke.com/blog/5218e405.html">
 <meta property="og:site_name" content="DeepLearning">
-<meta property="og:description" content="-">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2019-12-31T17:01:01.000Z">
 <meta property="article:modified_time" content="2020-01-31T17:01:01.000Z">
@@ -88,7 +86,11 @@
   </style>
 </noscript>
 
-</head>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --></head>
 
 <body itemscope itemtype="http://schema.org/WebPage">
   <div class="container use-motion">
@@ -162,9 +164,7 @@
     <i class="fa fa-search"></i>
   </span>
   <div class="search-input-container">
-    <input autocomplete="off" autocapitalize="off"
-           placeholder="搜索..." spellcheck="false"
-           type="search" class="search-input">
+    <input autocomplete="off" autocapitalize="off" placeholder="搜索..." spellcheck="false" type="search" class="search-input">
   </div>
   <span class="popup-btn-close">
     <i class="fa fa-times-circle"></i>
@@ -275,10 +275,11 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>-</p>
-<a id="more"></a>
-
-<h2 id="魔法函数"><a href="#魔法函数" class="headerlink" title="魔法函数"></a>魔法函数</h2><p>__str__()：让print打印类，出来的信息可读。</p>
+        <ul>
+<li><a id="more"></a></li>
+</ul>
+<h2 id="魔法函数">魔法函数</h2>
+<p>__str__()：让print打印类，出来的信息可读。</p>
 <p>__repr__()：让print打印的类可读，并且不用print也可读。</p>
 <p>__call__()：让类像函数一样操控。</p>
 <p>__len__()：让类拥有len()方法。</p>
@@ -290,8 +291,7 @@
 <p>__getitem__()：获取的功能。</p>
 <p>__delitem__()：与__setitem__相对应。</p>
 <p>__iter__()：给类添加迭代器的功能。</p>
-<p>__del__()：该对象引用数将为0的时候触发该函数。</p>
-<h2 id="修饰函数"><a href="#修饰函数" class="headerlink" title="修饰函数"></a>修饰函数</h2><p>@property：当想把某一个方法定义为属性的时候，可以给函数加上该修饰。<br>@classmethod：定义类函数，可以不用实例化调用。</p>
+<p>__del__()：该对象引用数将为0的时候触发该函数。 ## 修饰函数 <span class="citation" data-cites="property">@property</span>：当想把某一个方法定义为属性的时候，可以给函数加上该修饰。 <span class="citation" data-cites="classmethod">@classmethod</span>：定义类函数，可以不用实例化调用。</p>
 
     </div>
 
@@ -336,7 +336,7 @@
     <a href="https://fainke.com/blog/5218e405.html" title="Python高阶语法随笔">https://fainke.com/blog/5218e405.html</a>
   </li>
   <li class="post-copyright-license">
-    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="external nofollow noopener noreferrer" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
   </li>
 </ul>
 </div>
@@ -382,12 +382,12 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/blog/6a3ffb6e.html" rel="prev" title="ReLu激活函数">
-      <i class="fa fa-chevron-left"></i> ReLu激活函数
+    <a href="/blog/61b26bf3.html" rel="prev" title="Python四大排序算法">
+      <i class="fa fa-chevron-left"></i> Python四大排序算法
     </a></div>
       <div class="post-nav-item">
-    <a href="/blog/61b26bf3.html" rel="next" title="Python四大排序算法">
-      Python四大排序算法 <i class="fa fa-chevron-right"></i>
+    <a href="/blog/54dce366.html" rel="next" title="P_NP_NPC">
+      P_NP_NPC <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
@@ -449,14 +449,13 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%AD%94%E6%B3%95%E5%87%BD%E6%95%B0"><span class="nav-number">1.</span> <span class="nav-text">魔法函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BF%AE%E9%A5%B0%E5%87%BD%E6%95%B0"><span class="nav-number">2.</span> <span class="nav-text">修饰函数</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%AD%94%E6%B3%95%E5%87%BD%E6%95%B0"><span class="nav-number">1.</span> <span class="nav-text">魔法函数</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
       <div class="site-overview-wrap sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <img class="site-author-image" itemprop="image" alt="Fain"
-      src="/images/touXiang.jpg">
+    <img class="site-author-image" itemprop="image" alt="Fain" src="/images/touXiang.jpg">
   <p class="site-author-name" itemprop="name">Fain</p>
   <div class="site-description" itemprop="description">深度学习,机器学习,计算机视觉CV,自然语言处理NLP,Python</div>
 </div>
@@ -619,7 +618,7 @@
   </div>
 
   
-  <script size="300" alpha="0.3" zIndex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+  <script size="300" alpha="0.3" zindex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
   <script src="/lib/anime.min.js"></script>
   <script src="/lib/velocity/velocity.min.js"></script>
   <script src="/lib/velocity/velocity.ui.min.js"></script>

@@ -88,7 +88,11 @@
   </style>
 </noscript>
 
-</head>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --></head>
 
 <body itemscope itemtype="http://schema.org/WebPage">
   <div class="container use-motion">
@@ -162,9 +166,7 @@
     <i class="fa fa-search"></i>
   </span>
   <div class="search-input-container">
-    <input autocomplete="off" autocapitalize="off"
-           placeholder="搜索..." spellcheck="false"
-           type="search" class="search-input">
+    <input autocomplete="off" autocapitalize="off" placeholder="搜索..." spellcheck="false" type="search" class="search-input">
   </div>
   <span class="popup-btn-close">
     <i class="fa fa-times-circle"></i>
@@ -275,14 +277,14 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p><strong>简述：</strong> 决策树是一种自上而下，对样本数据进行树形分类的过程，由节点和有向边组成。节点分为内部节点和叶子节点，其中每个<strong>内部节点</strong>表示一个<strong>特征或属性</strong>，<strong>叶子节点</strong>表示<strong>类别</strong>。决策树常用于分类问题于回归问题，完全生长的决策树模型具有简单直观、解释性强的特点。</p>
-<a id="more"></a>
-
-<h3 id="常用的决策树算法"><a href="#常用的决策树算法" class="headerlink" title="常用的决策树算法"></a>常用的决策树算法</h3><p>通常，我们希望决策树能够低复杂度的拟合训练数据，达到良好的分类效果，但是从若干个决策树中选取最优的决策树是一个NP完全问题。常用的决策树算法有ID3，C4.5，CART。</p>
-<p><strong>ID3-最大信息增益</strong><br>设样本集合为D，类别数为K，数据集D的经验熵表示为：<br>$H(D)=-\sum_{k=1}^{K} \frac{\left|C_{k}\right|}{|D|} \log <em>{2} \frac{\left|C</em>{k}\right|}{|D|}$<br>其中$C_k$是样本集合D中属于$k$类的样本子集，$|C_k|$表示该子集的元素个数，$|D|$表示样本集合元素个数。<br>再计算某个特征A对于数据集D的经验条件熵$H(D|A)$为：<br>$H(D | A)=\sum_{i=1}^{n} \frac{\left|D_{i}\right|}{|D|} H\left(D_{i}\right)=\sum_{i=1}^{n} \frac{\left|D_{i}\right|}{\left|D \right|}\left(-\sum_{k=1}^{k} \frac{\left|D_{i k}\right|}{\left|D_{i}\right|} \log <em>{2} \frac{\left|D</em>{i k}\right|}{\left|D_{i}\right|}\right)$<br>其中，$D_i$表示数据集D中特征A取第$i$个特征的样本子集，$D_{ik}$表示$D_i$中属于第$k$个类别的样本子集。于是信息增益$g(D,A)$可以表示为二者之差，为：<br>$g(D,A)=H(D)-H(D|A)$</p>
-<p><strong>C4.5-最大信息增益比</strong><br>特征A对于数据集D的信息增益比定义为：$g_{R}(D, A)=\frac{g(D, A)}{H_{A}(D)}$<br>其中$H_{A}(D)=-\sum_{i=1}^{n} \frac{\left|D_{i}\right|}{|D|} \log <em>{2} \frac{\left|D</em>{i}\right|}{|D|}$称为数据集D关于A的取值熵。</p>
-<p><strong>CART-最大基尼指数（Gini）</strong><br>Gini描述的是数据的纯度，与信息熵含义类似。<br>$\operatorname{Gini}(D)=1-\sum_{k=1}^{n}\left(\frac{\left|C_{k}\right|}{|D|}\right)^{2}$<br>CART在每一次迭代中选择的基尼指数最小的特征及其对应的切分点进行分类。但与ID3、C4.5不同的是，CART是一颗二叉树，采用二元切割法，每一步将数据按特征A的取值切割成两份，分别进入左右子树。特征A的基尼指数定义为：<br>$\operatorname{Gini}(D | A)=\sum_{i=1}^{n} \frac{\left|D_{i}\right|}{|D|} \operatorname{Gini}\left(D_{i}\right)$</p>
-<h3 id="ID3，C4-5，CART差异"><a href="#ID3，C4-5，CART差异" class="headerlink" title="ID3，C4.5，CART差异"></a>ID3，C4.5，CART差异</h3><p><strong>从样本类型的角度：</strong><br>ID3只能处理离散型变量，而C4.5和CART都可以处理连续型变量。C4.5处理连续型变量时，通过对数据排序之后找到类别不同的分割线作为切分点，根据切分点把把连续属性转换为布尔型，从而将连续型变量转换成多个取值区间的离散型变量。而对于CART，由于其构建时每次都会对特征进行二值划分，因此可以可以很好的适用于连续型变量。<br><strong>从应用角度：</strong><br>ID3和C4.5只能用于分类任务，而CART(Classification and Regression Tree,分类回归树)既可以用于分类，也可以用于回归任务（回归树使用最小平方误差准则）。<br><strong>从细节、优化过程角度：</strong><br>ID3对样本特征缺失值比较敏感，而C4.5和CART可以对缺失值进行不同方式的处理；ID3和C4.5可以在每个节点上产生多叉分支，且每个特征在层级之间不会复用，而CART每个节点只会产生两个分支，因此最后会形成一颗二叉树，且每个特征可以被重复使用；ID3和C4.5通过剪枝来权衡树的准确性于泛化能力，而CART直接利用全部数据发现所有可能的树结构进行对比。</p>
+        <p><strong>简述：</strong> 决策树是一种自上而下，对样本数据进行树形分类的过程，由节点和有向边组成。节点分为内部节点和叶子节点，其中每个<strong>内部节点</strong>表示一个<strong>特征或属性</strong>，<strong>叶子节点</strong>表示<strong>类别</strong>。决策树常用于分类问题于回归问题，完全生长的决策树模型具有简单直观、解释性强的特点。 <a id="more"></a></p>
+<h3 id="常用的决策树算法">常用的决策树算法</h3>
+<p>通常，我们希望决策树能够低复杂度的拟合训练数据，达到良好的分类效果，但是从若干个决策树中选取最优的决策树是一个NP完全问题。常用的决策树算法有ID3，C4.5，CART。</p>
+<p><strong>ID3-最大信息增益</strong> 设样本集合为D，类别数为K，数据集D的经验熵表示为： <span class="math inline">\(H(D)=-\sum_{k=1}^{K} \frac{\left|C_{k}\right|}{|D|} \log _{2} \frac{\left|C_{k}\right|}{|D|}\)</span> 其中<span class="math inline">\(C_k\)</span>是样本集合D中属于<span class="math inline">\(k\)</span>类的样本子集，<span class="math inline">\(|C_k|\)</span>表示该子集的元素个数，<span class="math inline">\(|D|\)</span>表示样本集合元素个数。 再计算某个特征A对于数据集D的经验条件熵<span class="math inline">\(H(D|A)\)</span>为： <span class="math inline">\(H(D | A)=\sum_{i=1}^{n} \frac{\left|D_{i}\right|}{|D|} H\left(D_{i}\right)=\sum_{i=1}^{n} \frac{\left|D_{i}\right|}{\left|D \right|}\left(-\sum_{k=1}^{k} \frac{\left|D_{i k}\right|}{\left|D_{i}\right|} \log _{2} \frac{\left|D_{i k}\right|}{\left|D_{i}\right|}\right)\)</span> 其中，<span class="math inline">\(D_i\)</span>表示数据集D中特征A取第<span class="math inline">\(i\)</span>个特征的样本子集，<span class="math inline">\(D_{ik}\)</span>表示<span class="math inline">\(D_i\)</span>中属于第<span class="math inline">\(k\)</span>个类别的样本子集。于是信息增益<span class="math inline">\(g(D,A)\)</span>可以表示为二者之差，为： <span class="math inline">\(g(D,A)=H(D)-H(D|A)\)</span></p>
+<p><strong>C4.5-最大信息增益比</strong> 特征A对于数据集D的信息增益比定义为：<span class="math inline">\(g_{R}(D, A)=\frac{g(D, A)}{H_{A}(D)}\)</span> 其中<span class="math inline">\(H_{A}(D)=-\sum_{i=1}^{n} \frac{\left|D_{i}\right|}{|D|} \log _{2} \frac{\left|D_{i}\right|}{|D|}\)</span>称为数据集D关于A的取值熵。</p>
+<p><strong>CART-最大基尼指数（Gini）</strong> Gini描述的是数据的纯度，与信息熵含义类似。 <span class="math inline">\(\operatorname{Gini}(D)=1-\sum_{k=1}^{n}\left(\frac{\left|C_{k}\right|}{|D|}\right)^{2}\)</span> CART在每一次迭代中选择的基尼指数最小的特征及其对应的切分点进行分类。但与ID3、C4.5不同的是，CART是一颗二叉树，采用二元切割法，每一步将数据按特征A的取值切割成两份，分别进入左右子树。特征A的基尼指数定义为： <span class="math inline">\(\operatorname{Gini}(D | A)=\sum_{i=1}^{n} \frac{\left|D_{i}\right|}{|D|} \operatorname{Gini}\left(D_{i}\right)\)</span></p>
+<h3 id="id3c4.5cart差异">ID3，C4.5，CART差异</h3>
+<p><strong>从样本类型的角度：</strong> ID3只能处理离散型变量，而C4.5和CART都可以处理连续型变量。C4.5处理连续型变量时，通过对数据排序之后找到类别不同的分割线作为切分点，根据切分点把把连续属性转换为布尔型，从而将连续型变量转换成多个取值区间的离散型变量。而对于CART，由于其构建时每次都会对特征进行二值划分，因此可以可以很好的适用于连续型变量。 <strong>从应用角度：</strong> ID3和C4.5只能用于分类任务，而CART(Classification and Regression Tree,分类回归树)既可以用于分类，也可以用于回归任务（回归树使用最小平方误差准则）。 <strong>从细节、优化过程角度：</strong> ID3对样本特征缺失值比较敏感，而C4.5和CART可以对缺失值进行不同方式的处理；ID3和C4.5可以在每个节点上产生多叉分支，且每个特征在层级之间不会复用，而CART每个节点只会产生两个分支，因此最后会形成一颗二叉树，且每个特征可以被重复使用；ID3和C4.5通过剪枝来权衡树的准确性于泛化能力，而CART直接利用全部数据发现所有可能的树结构进行对比。</p>
 
     </div>
 
@@ -327,7 +329,7 @@
     <a href="https://fainke.com/blog/f56787e3.html" title="决策树ID3,C4.5,CART">https://fainke.com/blog/f56787e3.html</a>
   </li>
   <li class="post-copyright-license">
-    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="external nofollow noopener noreferrer" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
   </li>
 </ul>
 </div>
@@ -440,14 +442,13 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E7%9A%84%E5%86%B3%E7%AD%96%E6%A0%91%E7%AE%97%E6%B3%95"><span class="nav-number">1.</span> <span class="nav-text">常用的决策树算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ID3%EF%BC%8CC4-5%EF%BC%8CCART%E5%B7%AE%E5%BC%82"><span class="nav-number">2.</span> <span class="nav-text">ID3，C4.5，CART差异</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E7%9A%84%E5%86%B3%E7%AD%96%E6%A0%91%E7%AE%97%E6%B3%95"><span class="nav-number">1.</span> <span class="nav-text">常用的决策树算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#id3c4.5cart%E5%B7%AE%E5%BC%82"><span class="nav-number">2.</span> <span class="nav-text">ID3，C4.5，CART差异</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
       <div class="site-overview-wrap sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <img class="site-author-image" itemprop="image" alt="Fain"
-      src="/images/touXiang.jpg">
+    <img class="site-author-image" itemprop="image" alt="Fain" src="/images/touXiang.jpg">
   <p class="site-author-name" itemprop="name">Fain</p>
   <div class="site-description" itemprop="description">深度学习,机器学习,计算机视觉CV,自然语言处理NLP,Python</div>
 </div>
@@ -610,7 +611,7 @@
   </div>
 
   
-  <script size="300" alpha="0.3" zIndex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+  <script size="300" alpha="0.3" zindex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
   <script src="/lib/anime.min.js"></script>
   <script src="/lib/velocity/velocity.min.js"></script>
   <script src="/lib/velocity/velocity.ui.min.js"></script>

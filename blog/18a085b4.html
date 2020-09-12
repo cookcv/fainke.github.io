@@ -22,12 +22,12 @@
     var CONFIG = {"hostname":"fainke.com","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results foundin ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="Embeddinginput：  所有文字的字典文件，{index：word,…}； 所有文字的embedding文件，{word:embedding,…}；">
+  <meta name="description" content="Embedding input： 1. 所有文字的字典文件，{index：word,...}； 2. 所有文字的embedding文件，{word:embedding,...}；">
 <meta property="og:type" content="article">
 <meta property="og:title" content="命名实体识别步骤">
 <meta property="og:url" content="https://fainke.com/blog/18a085b4.html">
 <meta property="og:site_name" content="DeepLearning">
-<meta property="og:description" content="Embeddinginput：  所有文字的字典文件，{index：word,…}； 所有文字的embedding文件，{word:embedding,…}；">
+<meta property="og:description" content="Embedding input： 1. 所有文字的字典文件，{index：word,...}； 2. 所有文字的embedding文件，{word:embedding,...}；">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2019-12-31T17:01:01.000Z">
 <meta property="article:modified_time" content="2020-01-31T17:01:01.000Z">
@@ -88,7 +88,11 @@
   </style>
 </noscript>
 
-</head>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --></head>
 
 <body itemscope itemtype="http://schema.org/WebPage">
   <div class="container use-motion">
@@ -162,9 +166,7 @@
     <i class="fa fa-search"></i>
   </span>
   <div class="search-input-container">
-    <input autocomplete="off" autocapitalize="off"
-           placeholder="搜索..." spellcheck="false"
-           type="search" class="search-input">
+    <input autocomplete="off" autocapitalize="off" placeholder="搜索..." spellcheck="false" type="search" class="search-input">
   </div>
   <span class="popup-btn-close">
     <i class="fa fa-times-circle"></i>
@@ -275,25 +277,9 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="Embedding"><a href="#Embedding" class="headerlink" title="Embedding"></a>Embedding</h2><p><strong>input：</strong></p>
-<ol>
-<li>所有文字的字典文件，{index：word,…}；</li>
-<li>所有文字的embedding文件，{word:embedding,…}；<a id="more"></a></li>
-</ol>
-<p><strong>output：</strong><br>将字典中的文字全部用embedding表示,{index:embedding}。<br>tensorflow提供索引的方式，每次索引对应word的embedding向量。</p>
-<hr>
-<h2 id="Dataset"><a href="#Dataset" class="headerlink" title="Dataset"></a>Dataset</h2><p><strong>input_x:[batch_size,max_sentence_length,embedding]</strong></p>
-<ol>
-<li>batch_size：每批次sentence的条数。</li>
-<li>max_sentence_length：max指的是本批次句子中最大的长度，其它不足该长度的句子做padding操作。</li>
-<li>embedding：对于每个word都会有对应的embedding。bs[sl[em]]</li>
-</ol>
-<p><strong>input_y:[batch_size,max_sentence_length]</strong></p>
-<ol>
-<li>batch_size：每批次sentence的条数。</li>
-<li>max_sentence_length：max指的是本批次句子中最大的长度，其它不足该长度的句子做padding操作，length中所有位置都有label。</li>
-<li>label:[‘B-LAW’,’I-LOC’,…]</li>
-</ol>
+        <h2 id="embedding">Embedding</h2>
+<p><strong>input：</strong> 1. 所有文字的字典文件，{index：word,...}； 2. 所有文字的embedding文件，{word:embedding,...}； <a id="more"></a> <strong>output：</strong> 将字典中的文字全部用embedding表示,{index:embedding}。 tensorflow提供索引的方式，每次索引对应word的embedding向量。 **** ## Dataset <strong>input_x:[batch_size,max_sentence_length,embedding]</strong> 1. batch_size：每批次sentence的条数。 2. max_sentence_length：max指的是本批次句子中最大的长度，其它不足该长度的句子做padding操作。 3. embedding：对于每个word都会有对应的embedding。bs[sl[em]]</p>
+<p><strong>input_y:[batch_size,max_sentence_length]</strong> 1. batch_size：每批次sentence的条数。 2. max_sentence_length：max指的是本批次句子中最大的长度，其它不足该长度的句子做padding操作，length中所有位置都有label。 3. label:['B-LAW','I-LOC',...]</p>
 
     </div>
 
@@ -338,7 +324,7 @@
     <a href="https://fainke.com/blog/18a085b4.html" title="命名实体识别步骤">https://fainke.com/blog/18a085b4.html</a>
   </li>
   <li class="post-copyright-license">
-    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="external nofollow noopener noreferrer" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
   </li>
 </ul>
 </div>
@@ -451,14 +437,13 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Embedding"><span class="nav-number">1.</span> <span class="nav-text">Embedding</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Dataset"><span class="nav-number">2.</span> <span class="nav-text">Dataset</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#embedding"><span class="nav-number">1.</span> <span class="nav-text">Embedding</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
       <div class="site-overview-wrap sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <img class="site-author-image" itemprop="image" alt="Fain"
-      src="/images/touXiang.jpg">
+    <img class="site-author-image" itemprop="image" alt="Fain" src="/images/touXiang.jpg">
   <p class="site-author-name" itemprop="name">Fain</p>
   <div class="site-description" itemprop="description">深度学习,机器学习,计算机视觉CV,自然语言处理NLP,Python</div>
 </div>
@@ -621,7 +606,7 @@
   </div>
 
   
-  <script size="300" alpha="0.3" zIndex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+  <script size="300" alpha="0.3" zindex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
   <script src="/lib/anime.min.js"></script>
   <script src="/lib/velocity/velocity.min.js"></script>
   <script src="/lib/velocity/velocity.ui.min.js"></script>

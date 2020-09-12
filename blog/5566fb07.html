@@ -22,12 +22,12 @@
     var CONFIG = {"hostname":"fainke.com","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results foundin ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="什么是NLP中的文本摘要自动文本摘要是在保持关键信息内容和整体含义的同时，生成简洁流畅的摘要的任务。文本摘要目前大致可以分为抽取式与生成式两种类型：  Extractive Summarization：根据词语重要性、句子重要性排序，抽取出重要度高的句子，从而形成摘要。主要是对文本的选择，算法过程相对更容易，但是对于复杂的文本时，很难仅仅通过选择文本来形成摘要，如小说。 Abstractive S">
+  <meta name="description" content="什么是NLP中的文本摘要 自动文本摘要是在保持关键信息内容和整体含义的同时，生成简洁流畅的摘要的任务。 文本摘要目前大致可以分为抽取式与生成式两种类型： 1. Extractive Summarization：根据词语重要性、句子重要性排序，抽取出重要度高的句子，从而形成摘要。主要是对文本的选择，算法过程相对更容易，但是对于复杂的文本时，很难仅仅通过选择文本来形成摘要，如小说。 2. Abstra">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Text Summarization">
 <meta property="og:url" content="https://fainke.com/blog/5566fb07.html">
 <meta property="og:site_name" content="DeepLearning">
-<meta property="og:description" content="什么是NLP中的文本摘要自动文本摘要是在保持关键信息内容和整体含义的同时，生成简洁流畅的摘要的任务。文本摘要目前大致可以分为抽取式与生成式两种类型：  Extractive Summarization：根据词语重要性、句子重要性排序，抽取出重要度高的句子，从而形成摘要。主要是对文本的选择，算法过程相对更容易，但是对于复杂的文本时，很难仅仅通过选择文本来形成摘要，如小说。 Abstractive S">
+<meta property="og:description" content="什么是NLP中的文本摘要 自动文本摘要是在保持关键信息内容和整体含义的同时，生成简洁流畅的摘要的任务。 文本摘要目前大致可以分为抽取式与生成式两种类型： 1. Extractive Summarization：根据词语重要性、句子重要性排序，抽取出重要度高的句子，从而形成摘要。主要是对文本的选择，算法过程相对更容易，但是对于复杂的文本时，很难仅仅通过选择文本来形成摘要，如小说。 2. Abstra">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://fainke.com/blog/images/ExtractiveSummarization.jpg">
 <meta property="og:image" content="https://fainke.com/blog/images/AbstractiveSummarization.jpg">
@@ -103,7 +103,11 @@
   </style>
 </noscript>
 
-</head>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --></head>
 
 <body itemscope itemtype="http://schema.org/WebPage">
   <div class="container use-motion">
@@ -177,9 +181,7 @@
     <i class="fa fa-search"></i>
   </span>
   <div class="search-input-container">
-    <input autocomplete="off" autocapitalize="off"
-           placeholder="搜索..." spellcheck="false"
-           type="search" class="search-input">
+    <input autocomplete="off" autocapitalize="off" placeholder="搜索..." spellcheck="false" type="search" class="search-input">
   </div>
   <span class="popup-btn-close">
     <i class="fa fa-times-circle"></i>
@@ -283,21 +285,23 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="什么是NLP中的文本摘要"><a href="#什么是NLP中的文本摘要" class="headerlink" title="什么是NLP中的文本摘要"></a>什么是NLP中的文本摘要</h2><p>自动文本摘要是在保持关键信息内容和整体含义的同时，生成简洁流畅的摘要的任务。<br>文本摘要目前大致可以分为抽取式与生成式两种类型：</p>
-<ol>
-<li>Extractive Summarization：根据词语重要性、句子重要性排序，抽取出重要度高的句子，从而形成摘要。主要是对文本的选择，算法过程相对更容易，但是对于复杂的文本时，很难仅仅通过选择文本来形成摘要，如小说。</li>
-<li>Abstractive Summarization：过程更为复杂，但生成能力更强，可认为有一定的概括能力。<a id="more"></a>
-
-</li>
-</ol>
-<h3 id="Extractive-Summarization"><a href="#Extractive-Summarization" class="headerlink" title="Extractive Summarization"></a>Extractive Summarization</h3><p>由图可以看出，这种方法提取的内容语句来自于原文。<br><img src="images/ExtractiveSummarization.jpg" alt="Extractive Summarization"></p>
-<h3 id="Abstractive-Summarization"><a href="#Abstractive-Summarization" class="headerlink" title="Abstractive Summarization"></a>Abstractive Summarization</h3><p>由图可以看出，这种方法提取的内容语句可能不存在于原文。<br><img src="images/AbstractiveSummarization.jpg" alt="Abstractive Summarization"></p>
-<h2 id="Seq2Seq模型"><a href="#Seq2Seq模型" class="headerlink" title="Seq2Seq模型"></a>Seq2Seq模型</h2><p>Seq2Seq模型可以处理一切连续型信息，包括情感分类，机器翻译，命名实体识别等。<br>机器翻译任务中，输入是连续文本序列，输出也是连续文本序列。<br>命名实体识别中，输入是连续文本序列，输出是连续的标签信息。<br>所以，我们可以利用Seq2Seq模型，通过输入一段长文本，输出短的摘要，实现文本摘要功能。<br>下图是典型的Seq2Seq模型架构:<br><img src="images/Seq2Seq_EncoderDecoder.jpg" alt="Seq2Seq_EncoderDecoder"><br>通常我们可以选择RNNs网络的变体GRU或者LSTM，这是因为它们能够通过克服梯度消失的问题来捕获长期依赖性。</p>
-<h3 id="Encoder编码器"><a href="#Encoder编码器" class="headerlink" title="Encoder编码器"></a>Encoder编码器</h3><p>LSTM中的Encoder读取整个输入序列，其中每个时间step上，都会有一个字输入编码器。然后，他在每个时间step上处理信息，并捕获输入序列中存在的上下文信息。<br><img src="images/LSTM_Encoder.jpg" alt="LSTM_Encoder"><br>最后时间step的隐藏层h4与记忆单元层c4将会用来初始化Decoder。</p>
-<h3 id="Decoder解码器"><a href="#Decoder解码器" class="headerlink" title="Decoder解码器"></a>Decoder解码器</h3><p>Decoder是LSTM结构的另一部分。它逐字读取整个目标序列，并以一个时间步长预测相同的序列偏移量。<br>解码器可以在给定前一个单词的情况下预测序列中的下一个单词。解码器的初始输入是编码器最后一步的结果。<br><img src="images/LSTM_Decoder.jpg" alt="LSTM_Decoder"><br>在将整个目标序列放入解码器前，还需将[start] 与 [end]这两个特殊的tokens加入序列中，告知模型的开始与结束。模型通过输入的[start]开始预测第一个词,而[end]则表示整个句子的结束。</p>
-<h4 id="Deocder的工作流程"><a href="#Deocder的工作流程" class="headerlink" title="Deocder的工作流程"></a>Deocder的工作流程</h4><p>假设输入序列为[x1,x2,x3,x4],将其编码成内部固定长度的向量。<br>下图显示了每一个time step下Decoder是如何工作的。<br><img src="images/Decoder_Timestep0.jpg" alt="Timestep"></p>
-<h3 id="推理部分"><a href="#推理部分" class="headerlink" title="推理部分"></a>推理部分</h3><p>下图是整个Encoder-Decode的结构。通过上面的理解，我觉得这个图非常清晰。<br><img src="images/LSTM_Inference.jpg" alt="LSTM_Decoder"></p>
-<ol>
+        <h2 id="什么是nlp中的文本摘要">什么是NLP中的文本摘要</h2>
+<p>自动文本摘要是在保持关键信息内容和整体含义的同时，生成简洁流畅的摘要的任务。 文本摘要目前大致可以分为抽取式与生成式两种类型： 1. Extractive Summarization：根据词语重要性、句子重要性排序，抽取出重要度高的句子，从而形成摘要。主要是对文本的选择，算法过程相对更容易，但是对于复杂的文本时，很难仅仅通过选择文本来形成摘要，如小说。 2. Abstractive Summarization：过程更为复杂，但生成能力更强，可认为有一定的概括能力。 <a id="more"></a></p>
+<h3 id="extractive-summarization">Extractive Summarization</h3>
+<p>由图可以看出，这种方法提取的内容语句来自于原文。 <img src="images/ExtractiveSummarization.jpg" alt="Extractive Summarization"></p>
+<h3 id="abstractive-summarization">Abstractive Summarization</h3>
+<p>由图可以看出，这种方法提取的内容语句可能不存在于原文。 <img src="images/AbstractiveSummarization.jpg" alt="Abstractive Summarization"></p>
+<h2 id="seq2seq模型">Seq2Seq模型</h2>
+<p>Seq2Seq模型可以处理一切连续型信息，包括情感分类，机器翻译，命名实体识别等。 机器翻译任务中，输入是连续文本序列，输出也是连续文本序列。 命名实体识别中，输入是连续文本序列，输出是连续的标签信息。 所以，我们可以利用Seq2Seq模型，通过输入一段长文本，输出短的摘要，实现文本摘要功能。 下图是典型的Seq2Seq模型架构: <img src="images/Seq2Seq_EncoderDecoder.jpg" alt="Seq2Seq_EncoderDecoder"> 通常我们可以选择RNNs网络的变体GRU或者LSTM，这是因为它们能够通过克服梯度消失的问题来捕获长期依赖性。</p>
+<h3 id="encoder编码器">Encoder编码器</h3>
+<p>LSTM中的Encoder读取整个输入序列，其中每个时间step上，都会有一个字输入编码器。然后，他在每个时间step上处理信息，并捕获输入序列中存在的上下文信息。 <img src="images/LSTM_Encoder.jpg" alt="LSTM_Encoder"> 最后时间step的隐藏层h4与记忆单元层c4将会用来初始化Decoder。</p>
+<h3 id="decoder解码器">Decoder解码器</h3>
+<p>Decoder是LSTM结构的另一部分。它逐字读取整个目标序列，并以一个时间步长预测相同的序列偏移量。 解码器可以在给定前一个单词的情况下预测序列中的下一个单词。解码器的初始输入是编码器最后一步的结果。 <img src="images/LSTM_Decoder.jpg" alt="LSTM_Decoder"> 在将整个目标序列放入解码器前，还需将[start] 与 [end]这两个特殊的tokens加入序列中，告知模型的开始与结束。模型通过输入的[start]开始预测第一个词,而[end]则表示整个句子的结束。</p>
+<h4 id="deocder的工作流程">Deocder的工作流程</h4>
+<p>假设输入序列为[x1,x2,x3,x4],将其编码成内部固定长度的向量。 下图显示了每一个time step下Decoder是如何工作的。 <img src="images/Decoder_Timestep0.jpg" alt="Timestep"></p>
+<h3 id="推理部分">推理部分</h3>
+<p>下图是整个Encoder-Decode的结构。通过上面的理解，我觉得这个图非常清晰。 <img src="images/LSTM_Inference.jpg" alt="LSTM_Decoder"></p>
+<ol type="1">
 <li>Encoder整个输入序列，并且用Encoder最后一个状态结果来初始化Decoder。</li>
 <li>将[start]作为输入传递给解码器Decoder。</li>
 <li>使用通过Encoder初始化过的Decoder运行一个time stpe。</li>
@@ -305,32 +309,26 @@
 <li>这个预测的单词将会在下一时间Step中作为输入。并且通过当前状态更新内部参数。</li>
 <li>重复步骤3-5，直到生成[end]或达到目标序列的最大长度。</li>
 </ol>
-<h3 id="Encoder-Decoder结构的局限性"><a href="#Encoder-Decoder结构的局限性" class="headerlink" title="Encoder-Decoder结构的局限性"></a>Encoder-Decoder结构的局限性</h3><p>Encoder将整个输入序列转为固定的长度，但是当序列很长的时候，Encoder将会很难记住整个序列的内容，无法将所有必要信息准确的编码到固定长度。但是，我们需要关注序列中所有的内容么，不需要。</p>
-<h3 id="注意力机制"><a href="#注意力机制" class="headerlink" title="注意力机制"></a>注意力机制</h3><p>为了解决长句子的问题，注意力机制出现在人们的视野。注意力机制为对结果重要的部分添加高的权重，以保留主要信息。举个例子：</p>
-<ol>
-<li>需要编码的序列[x1,x2,x3,x4,x5,x6,x7]</li>
-</ol>
-<p><strong>Source sequence: Which sport do you like the most?</strong><br>2. 需要解码的序列[y1,y2,y3]<br><strong>Target sequence: I love cricket.</strong></p>
+<h3 id="encoder-decoder结构的局限性">Encoder-Decoder结构的局限性</h3>
+<p>Encoder将整个输入序列转为固定的长度，但是当序列很长的时候，Encoder将会很难记住整个序列的内容，无法将所有必要信息准确的编码到固定长度。但是，我们需要关注序列中所有的内容么，不需要。</p>
+<h3 id="注意力机制">注意力机制</h3>
+<p>为了解决长句子的问题，注意力机制出现在人们的视野。注意力机制为对结果重要的部分添加高的权重，以保留主要信息。举个例子： 1. 需要编码的序列[x1,x2,x3,x4,x5,x6,x7] <strong>Source sequence: Which sport do you like the most?</strong> 2. 需要解码的序列[y1,y2,y3] <strong>Target sequence: I love cricket.</strong></p>
 <p>我们可以判断，y1[I]与x4[you]有关，而y2[love]则与x5[like]有关。所以，相比记住序列中的所有单词，不如增加对目标序列重要部分的权重，忽视低权重的部分。</p>
-<h4 id="Global-Attention-and-Local-Attention"><a href="#Global-Attention-and-Local-Attention" class="headerlink" title="Global Attention and Local Attention"></a>Global Attention and Local Attention</h4><p>编码器的隐藏层中，所有部分都参与attention计算上下文。<br><img src="images/Sqe2Sqe_GlobalAttention.jpg" alt="全局注意力机制"><br>编码器的隐藏层中，仅有部分参与attention计算上下文。<br><img src="images/Sqe2Sqe_GlobalAttention.jpg" alt="局部注意力机制"></p>
+<h4 id="global-attention-and-local-attention">Global Attention and Local Attention</h4>
+<p>编码器的隐藏层中，所有部分都参与attention计算上下文。 <img src="images/Sqe2Sqe_GlobalAttention.jpg" alt="全局注意力机制"> 编码器的隐藏层中，仅有部分参与attention计算上下文。 <img src="images/Sqe2Sqe_GlobalAttention.jpg" alt="局部注意力机制"></p>
 <p>本文最终采用全局注意力机制。（只是添加了注意力机制，编码的固定长度依然需要固定。所以实战中需要通过数据确定一个合适的长度数值。短了无法表达文本内容，长了会造成计算资源浪费。）</p>
-<h2 id="实战"><a href="#实战" class="headerlink" title="实战"></a>实战</h2><p>我们的目标是为亚马逊美食评论生成文本摘要。(这里我只提取了我觉得有用的部分)</p>
-<h3 id="数据表述"><a href="#数据表述" class="headerlink" title="数据表述"></a>数据表述</h3><p>这些评论通常很长而且具有可描述性。数据集下载：<a target="_blank" rel="noopener" href="https://www.kaggle.com/snap/amazon-fine-food-reviews">kaggleData</a>。<br>数据涵盖了超过10年的时间，包括截至2012年10月的所有〜500,000条评论。这些评论包括产品，用户信息，评级，纯文本评论和摘要。它还包括来自所有其他亚马逊类别的评论。</p>
-<h3 id="数据处理"><a href="#数据处理" class="headerlink" title="数据处理"></a>数据处理</h3><p>由于评论文本和摘要中涉及的预处理步骤略有不同，因此我们需要定义两个不同的函数来预处理评论和摘要。</p>
-<h4 id="评论文本处理"><a href="#评论文本处理" class="headerlink" title="评论文本处理"></a>评论文本处理</h4><ol>
-<li>将所有字母小写；</li>
-<li>移除HTML标签；</li>
-<li>Contraction mapping；</li>
-<li>移除(‘s)；</li>
-<li>删除括号内的内容(觉得括号里面的内容解释说明不重要)；</li>
-<li>消除标点符号和特殊字符；</li>
-<li>删除停用词；</li>
-<li>删除低频词；</li>
-</ol>
-<h4 id="摘要文本处理"><a href="#摘要文本处理" class="headerlink" title="摘要文本处理"></a>摘要文本处理</h4><p>为摘要文本添加[start]和[end]。</p>
-<h3 id="数据分布"><a href="#数据分布" class="headerlink" title="数据分布"></a>数据分布</h3><p>通过数据统计，可以看到摘要与文本数据的长度分布。通过数据可视化，我们可以将评论文本的长度限定在80，而摘要的长度限定在10。<br><img src="images/SummayText_Length.jpg" alt="SummayText Length"></p>
-<h3 id="建立Tokenizer"><a href="#建立Tokenizer" class="headerlink" title="建立Tokenizer"></a>建立Tokenizer</h3><p>通过分词器生成词汇表，并将单词文本序列转为数值序列，方便计算机计算。</p>
-<h3 id="模型建立"><a href="#模型建立" class="headerlink" title="模型建立"></a>模型建立</h3><ol>
+<h2 id="实战">实战</h2>
+<p>我们的目标是为亚马逊美食评论生成文本摘要。(这里我只提取了我觉得有用的部分) ### 数据表述 这些评论通常很长而且具有可描述性。数据集下载：<a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.kaggle.com/snap/amazon-fine-food-reviews">kaggleData</a>。 数据涵盖了超过10年的时间，包括截至2012年10月的所有〜500,000条评论。这些评论包括产品，用户信息，评级，纯文本评论和摘要。它还包括来自所有其他亚马逊类别的评论。</p>
+<h3 id="数据处理">数据处理</h3>
+<p>由于评论文本和摘要中涉及的预处理步骤略有不同，因此我们需要定义两个不同的函数来预处理评论和摘要。 #### 评论文本处理 1. 将所有字母小写； 2. 移除HTML标签； 3. Contraction mapping； 4. 移除(‘s)； 5. 删除括号内的内容(觉得括号里面的内容解释说明不重要)； 6. 消除标点符号和特殊字符； 7. 删除停用词； 8. 删除低频词；</p>
+<h4 id="摘要文本处理">摘要文本处理</h4>
+<p>为摘要文本添加[start]和[end]。</p>
+<h3 id="数据分布">数据分布</h3>
+<p>通过数据统计，可以看到摘要与文本数据的长度分布。通过数据可视化，我们可以将评论文本的长度限定在80，而摘要的长度限定在10。 <img src="images/SummayText_Length.jpg" alt="SummayText Length"></p>
+<h3 id="建立tokenizer">建立Tokenizer</h3>
+<p>通过分词器生成词汇表，并将单词文本序列转为数值序列，方便计算机计算。</p>
+<h3 id="模型建立">模型建立</h3>
+<ol type="1">
 <li>我们可以选择是否让LSTM在每个时间步都会生成隐藏状态h和记忆单元状态c。</li>
 <li>选择LSTM是否仅生成最后一个时间步的隐藏状态h和记忆单元状态c。</li>
 <li>选择LSTM相互堆叠提高模型效果。</li>
@@ -340,24 +338,18 @@
 <li>可以选择指针生成网络，</li>
 <li>因为整数序列采用独热编码的方式，所以损失函数采用了稀疏交叉熵，对内存友好。</li>
 </ol>
-<h2 id="数学理解注意力机制"><a href="#数学理解注意力机制" class="headerlink" title="数学理解注意力机制"></a>数学理解注意力机制</h2><ol>
-<li><p>编码器为源文本序列每一个时间步j都生成了一个隐藏状态值hj。</p>
-</li>
-<li><p>相似的工作，解码器为目标文本每一个时间步i都生成了隐藏状态值si。</p>
-</li>
-<li><p>alignment score: $e_{ij}$。用这个分数表示源文本中的第j步单词与目标文本中第i步单词的关联度。可以用hj与si来计算这个分数值$e_{ij} = score(s_i,h_j)$<br>根据所使用的得分函数的类型，有不同类型的注意力机制。这里列举一些流行的注意力机制：<br><img src="images/LSTM_Attention_ScoreFunction.jpg" alt="ScoreFunction"></p>
-</li>
-<li><p>使用softmax函数对注意力参数的值进行归一化。$a_{ij}=\frac{e_{ij}}{\sum^{T}<em>{k=1}e</em>{ik}}$</p>
-</li>
-<li><p>计算注意力权重$a_{ij}$与编码器hj的隐藏状态乘积的线性总和，以产生注意力上下文向量Ci。$C_{i} = \sum^T_{j=1}a_{ij}h_{ij}$<br><img src="images/LSTM_Attention_C1.jpg" alt="Attention_C1"></p>
-</li>
-<li><p>将注意力上一下文向量Ci与目标隐藏层向量si级联以产生新的注意力隐藏层向量Si。$S_i=concatenate([s_{i};C_{i}])$</p>
-</li>
-<li><p>将注意力隐藏层向量传入密集层产生yi。$y_{i}=dense(S_{i})$</p>
-</li>
+<h2 id="数学理解注意力机制">数学理解注意力机制</h2>
+<ol type="1">
+<li>编码器为源文本序列每一个时间步j都生成了一个隐藏状态值hj。</li>
+<li>相似的工作，解码器为目标文本每一个时间步i都生成了隐藏状态值si。</li>
+<li><p>alignment score: <span class="math inline">\(e_{ij}\)</span>。用这个分数表示源文本中的第j步单词与目标文本中第i步单词的关联度。可以用hj与si来计算这个分数值<span class="math inline">\(e_{ij} = score(s_i,h_j)\)</span> 根据所使用的得分函数的类型，有不同类型的注意力机制。这里列举一些流行的注意力机制： <img src="images/LSTM_Attention_ScoreFunction.jpg" alt="ScoreFunction"></p></li>
+<li>使用softmax函数对注意力参数的值进行归一化。<span class="math inline">\(a_{ij}=\frac{e_{ij}}{\sum^{T}_{k=1}e_{ik}}\)</span></li>
+<li>计算注意力权重<span class="math inline">\(a_{ij}\)</span>与编码器hj的隐藏状态乘积的线性总和，以产生注意力上下文向量Ci。<span class="math inline">\(C_{i} = \sum^T_{j=1}a_{ij}h_{ij}\)</span> <img src="images/LSTM_Attention_C1.jpg" alt="Attention_C1"></li>
+<li>将注意力上一下文向量Ci与目标隐藏层向量si级联以产生新的注意力隐藏层向量Si。<span class="math inline">\(S_i=concatenate([s_{i};C_{i}])\)</span></li>
+<li><p>将注意力隐藏层向量传入密集层产生yi。<span class="math inline">\(y_{i}=dense(S_{i})\)</span></p></li>
 </ol>
 <blockquote>
-<p><a target="_blank" rel="noopener" href="https://www.analyticsvidhya.com/blog/2019/06/comprehensive-guide-text-summarization-using-deep-learning-python/?utm_source=blog&utm_medium=understanding-transformers-nlp-state-of-the-art-models">英文原文</a><br>本文由公众号【深度学习视觉】整理。</p>
+<p><a target="_blank" rel="external nofollow noopener noreferrer" href="https://www.analyticsvidhya.com/blog/2019/06/comprehensive-guide-text-summarization-using-deep-learning-python/?utm_source=blog&amp;utm_medium=understanding-transformers-nlp-state-of-the-art-models">英文原文</a> 本文由公众号【深度学习视觉】整理。</p>
 </blockquote>
 
     </div>
@@ -403,7 +395,7 @@
     <a href="https://fainke.com/blog/5566fb07.html" title="Text Summarization">https://fainke.com/blog/5566fb07.html</a>
   </li>
   <li class="post-copyright-license">
-    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="external nofollow noopener noreferrer" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
   </li>
 </ul>
 </div>
@@ -515,14 +507,13 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFNLP%E4%B8%AD%E7%9A%84%E6%96%87%E6%9C%AC%E6%91%98%E8%A6%81"><span class="nav-number">1.</span> <span class="nav-text">什么是NLP中的文本摘要</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Extractive-Summarization"><span class="nav-number">1.1.</span> <span class="nav-text">Extractive Summarization</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Abstractive-Summarization"><span class="nav-number">1.2.</span> <span class="nav-text">Abstractive Summarization</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Seq2Seq%E6%A8%A1%E5%9E%8B"><span class="nav-number">2.</span> <span class="nav-text">Seq2Seq模型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Encoder%E7%BC%96%E7%A0%81%E5%99%A8"><span class="nav-number">2.1.</span> <span class="nav-text">Encoder编码器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Decoder%E8%A7%A3%E7%A0%81%E5%99%A8"><span class="nav-number">2.2.</span> <span class="nav-text">Decoder解码器</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Deocder%E7%9A%84%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B"><span class="nav-number">2.2.1.</span> <span class="nav-text">Deocder的工作流程</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8E%A8%E7%90%86%E9%83%A8%E5%88%86"><span class="nav-number">2.3.</span> <span class="nav-text">推理部分</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Encoder-Decoder%E7%BB%93%E6%9E%84%E7%9A%84%E5%B1%80%E9%99%90%E6%80%A7"><span class="nav-number">2.4.</span> <span class="nav-text">Encoder-Decoder结构的局限性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6"><span class="nav-number">2.5.</span> <span class="nav-text">注意力机制</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Global-Attention-and-Local-Attention"><span class="nav-number">2.5.1.</span> <span class="nav-text">Global Attention and Local Attention</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E6%88%98"><span class="nav-number">3.</span> <span class="nav-text">实战</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E8%A1%A8%E8%BF%B0"><span class="nav-number">3.1.</span> <span class="nav-text">数据表述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86"><span class="nav-number">3.2.</span> <span class="nav-text">数据处理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%AF%84%E8%AE%BA%E6%96%87%E6%9C%AC%E5%A4%84%E7%90%86"><span class="nav-number">3.2.1.</span> <span class="nav-text">评论文本处理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%91%98%E8%A6%81%E6%96%87%E6%9C%AC%E5%A4%84%E7%90%86"><span class="nav-number">3.2.2.</span> <span class="nav-text">摘要文本处理</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%88%86%E5%B8%83"><span class="nav-number">3.3.</span> <span class="nav-text">数据分布</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BB%BA%E7%AB%8BTokenizer"><span class="nav-number">3.4.</span> <span class="nav-text">建立Tokenizer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A8%A1%E5%9E%8B%E5%BB%BA%E7%AB%8B"><span class="nav-number">3.5.</span> <span class="nav-text">模型建立</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E5%AD%A6%E7%90%86%E8%A7%A3%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6"><span class="nav-number">4.</span> <span class="nav-text">数学理解注意力机制</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFnlp%E4%B8%AD%E7%9A%84%E6%96%87%E6%9C%AC%E6%91%98%E8%A6%81"><span class="nav-number">1.</span> <span class="nav-text">什么是NLP中的文本摘要</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#extractive-summarization"><span class="nav-number">1.1.</span> <span class="nav-text">Extractive Summarization</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#abstractive-summarization"><span class="nav-number">1.2.</span> <span class="nav-text">Abstractive Summarization</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#seq2seq%E6%A8%A1%E5%9E%8B"><span class="nav-number">2.</span> <span class="nav-text">Seq2Seq模型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#encoder%E7%BC%96%E7%A0%81%E5%99%A8"><span class="nav-number">2.1.</span> <span class="nav-text">Encoder编码器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#decoder%E8%A7%A3%E7%A0%81%E5%99%A8"><span class="nav-number">2.2.</span> <span class="nav-text">Decoder解码器</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#deocder%E7%9A%84%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B"><span class="nav-number">2.2.1.</span> <span class="nav-text">Deocder的工作流程</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8E%A8%E7%90%86%E9%83%A8%E5%88%86"><span class="nav-number">2.3.</span> <span class="nav-text">推理部分</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#encoder-decoder%E7%BB%93%E6%9E%84%E7%9A%84%E5%B1%80%E9%99%90%E6%80%A7"><span class="nav-number">2.4.</span> <span class="nav-text">Encoder-Decoder结构的局限性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6"><span class="nav-number">2.5.</span> <span class="nav-text">注意力机制</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#global-attention-and-local-attention"><span class="nav-number">2.5.1.</span> <span class="nav-text">Global Attention and Local Attention</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E6%88%98"><span class="nav-number">3.</span> <span class="nav-text">实战</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86"><span class="nav-number">3.1.</span> <span class="nav-text">数据处理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%91%98%E8%A6%81%E6%96%87%E6%9C%AC%E5%A4%84%E7%90%86"><span class="nav-number">3.1.1.</span> <span class="nav-text">摘要文本处理</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%88%86%E5%B8%83"><span class="nav-number">3.2.</span> <span class="nav-text">数据分布</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BB%BA%E7%AB%8Btokenizer"><span class="nav-number">3.3.</span> <span class="nav-text">建立Tokenizer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A8%A1%E5%9E%8B%E5%BB%BA%E7%AB%8B"><span class="nav-number">3.4.</span> <span class="nav-text">模型建立</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E5%AD%A6%E7%90%86%E8%A7%A3%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6"><span class="nav-number">4.</span> <span class="nav-text">数学理解注意力机制</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
       <div class="site-overview-wrap sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <img class="site-author-image" itemprop="image" alt="Fain"
-      src="/images/touXiang.jpg">
+    <img class="site-author-image" itemprop="image" alt="Fain" src="/images/touXiang.jpg">
   <p class="site-author-name" itemprop="name">Fain</p>
   <div class="site-description" itemprop="description">深度学习,机器学习,计算机视觉CV,自然语言处理NLP,Python</div>
 </div>
@@ -685,7 +676,7 @@
   </div>
 
   
-  <script size="300" alpha="0.3" zIndex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+  <script size="300" alpha="0.3" zindex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
   <script src="/lib/anime.min.js"></script>
   <script src="/lib/velocity/velocity.min.js"></script>
   <script src="/lib/velocity/velocity.ui.min.js"></script>

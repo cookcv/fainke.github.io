@@ -22,12 +22,12 @@
     var CONFIG = {"hostname":"fainke.com","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results foundin ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="理论感受野能够影响单个卷积输出值的输入区域。 比如1个3x3的卷积核，stride&#x3D;1，输出的点是由3x3大小的感受野提供的。如果再跟上一个2x2的pooling层，那么pooling层输出的一个点是由4x4的感受野提供的。解释，因为2x2的pooling层上的每个点是由3x3视野提供的，但是，卷积核的stride&#x3D;1，所以，感受野上下增加1，为4x4。">
+  <meta name="description" content="理论感受野 能够影响单个卷积输出值的输入区域。 比如1个3x3的卷积核，stride&#x3D;1，输出的点是由3x3大小的感受野提供的。如果再跟上一个2x2的pooling层，那么pooling层输出的一个点是由4x4的感受野提供的。 解释，因为2x2的pooling层上的每个点是由3x3视野提供的，但是，卷积核的stride&#x3D;1，所以，感受野上下增加1，为4x4。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="深度学习视觉中的感受野">
 <meta property="og:url" content="https://fainke.com/blog/f328077.html">
 <meta property="og:site_name" content="DeepLearning">
-<meta property="og:description" content="理论感受野能够影响单个卷积输出值的输入区域。 比如1个3x3的卷积核，stride&#x3D;1，输出的点是由3x3大小的感受野提供的。如果再跟上一个2x2的pooling层，那么pooling层输出的一个点是由4x4的感受野提供的。解释，因为2x2的pooling层上的每个点是由3x3视野提供的，但是，卷积核的stride&#x3D;1，所以，感受野上下增加1，为4x4。">
+<meta property="og:description" content="理论感受野 能够影响单个卷积输出值的输入区域。 比如1个3x3的卷积核，stride&#x3D;1，输出的点是由3x3大小的感受野提供的。如果再跟上一个2x2的pooling层，那么pooling层输出的一个点是由4x4的感受野提供的。 解释，因为2x2的pooling层上的每个点是由3x3视野提供的，但是，卷积核的stride&#x3D;1，所以，感受野上下增加1，为4x4。">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://fainke.com/blog/images/RecFields_1.png">
 <meta property="og:image" content="https://fainke.com/blog/images/RecFields_2.png">
@@ -95,7 +95,11 @@
   </style>
 </noscript>
 
-</head>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --></head>
 
 <body itemscope itemtype="http://schema.org/WebPage">
   <div class="container use-motion">
@@ -169,9 +173,7 @@
     <i class="fa fa-search"></i>
   </span>
   <div class="search-input-container">
-    <input autocomplete="off" autocapitalize="off"
-           placeholder="搜索..." spellcheck="false"
-           type="search" class="search-input">
+    <input autocomplete="off" autocapitalize="off" placeholder="搜索..." spellcheck="false" type="search" class="search-input">
   </div>
   <span class="popup-btn-close">
     <i class="fa fa-times-circle"></i>
@@ -282,27 +284,36 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="理论感受野"><a href="#理论感受野" class="headerlink" title="理论感受野"></a>理论感受野</h2><p>能够影响单个卷积输出值的输入区域。</p>
-<p>比如1个3x3的卷积核，stride=1，输出的点是由3x3大小的感受野提供的。如果再跟上一个2x2的pooling层，那么pooling层输出的一个点是由4x4的感受野提供的。<br>解释，因为2x2的pooling层上的每个点是由3x3视野提供的，但是，卷积核的stride=1，所以，感受野上下增加1，为4x4。</p>
-<a id="more"></a>
-
-<p><strong>计算公式</strong><br>$kernel_size = 3,stride = 1$<br>初始感受野$RF_0=1$，<br>$feature_stride_0 = 1，l$表示层数。<br>其中feature_stride计算公式：$feature_stride_l = \prod^{l}_{i=1}$</p>
-<p>第一次特征感受野：<br>$$RF_1 = RF_0 + (kernel_size_1)*feature_stride_0 = 1 + (3-1) * 1 = 3$$<br>第二层特征，感受野:<br>$$RF_2 = RF_1 + (kernel_size_2)*feature_stride_1 = 3 + (3-1) * 1 = 5$$<br>第三层特征，感受野:<br>$$RF_3 = RF_2 + (kernel_size_3)*feature_stride_2 = 5 + (3-1) * 1 = 7$$<br>如果有dilated conv的话，计算公式为:<br>$$RF_{l+1} = RF_l + (kernel_size_{l+1}-1)*feature_stride_l * dilation_{l+1}$$</p>
-<h2 id="有效感受野"><a href="#有效感受野" class="headerlink" title="有效感受野"></a>有效感受野</h2><p>由于理论感受野所有像素对卷积输出的贡献并不是完全相同，而仅仅是一小部分区域对输出值能够产生有效的影响，而这一小部分区域则为有效感受野。<br>论文Link：<a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1701.04128.pdf">Understanding the Effective Receptive Field in Deep Convolutional Neural Networks</a></p>
-<p><img src="images/RecFields_1.png" alt="不同激活函数得到的有效感受野略有不同"></p>
-<p><img src="images/RecFields_2.png" alt="层数、初始化方案和不同激活的效果"></p>
-<p><img src="images/RecFields_3.png" alt="Subsampling 和 dilated convolution 都可以增加 有效感受野范围"></p>
-<h3 id="有效感受野存在的原因"><a href="#有效感受野存在的原因" class="headerlink" title="有效感受野存在的原因"></a>有效感受野存在的原因</h3><p>两个kernel_size=3,stride=1的感受野为5，如下图所示：</p>
-<p><img src="images/RecFields_4.png" alt="两层3x3conv计算流程图"></p>
-<p>从图中可以发现，$x_{1,1}$只影响第一层feature map中的$o^1_{1,1}$；而$x_{3,3}$会影响第一层中的所有特征值。<br>第一层所有特征值都将会影响到第二层的特征值$o^2_{1,1}$。<br>但是$x_{1,1}$只能通过$o^1_{1,1}$一个点来影响$o^2_{1,1}$，很明显不如$x_{3,3}$更具影响力，因为第一层中的每一个特征值都和$x_{3,3}$有关。综上，输入中越靠感受野中间的元素对特征的贡献越大，边缘贡献最小。</p>
-<h3 id="Padding"><a href="#Padding" class="headerlink" title="Padding"></a>Padding</h3><ol>
-<li><p>Padding作用<br>①. 保留图片边界信息，Padding可以避免图片边缘只被卷积一次。<br>②. 对有差异图片补齐，使得输入一致。<br>③. 控制输出维度。</p>
-</li>
-<li><p>两种padding方式<br>① VALID如果发现剩下区域不够卷积，那么直接舍去。<br>② SAME会填充以保证边缘参与卷积。</p>
-</li>
+        <h2 id="理论感受野">理论感受野</h2>
+<p>能够影响单个卷积输出值的输入区域。</p>
+<p>比如1个3x3的卷积核，stride=1，输出的点是由3x3大小的感受野提供的。如果再跟上一个2x2的pooling层，那么pooling层输出的一个点是由4x4的感受野提供的。 解释，因为2x2的pooling层上的每个点是由3x3视野提供的，但是，卷积核的stride=1，所以，感受野上下增加1，为4x4。 <a id="more"></a></p>
+<p><strong>计算公式</strong> <span class="math inline">\(kernel\_size = 3,stride = 1\)</span> 初始感受野<span class="math inline">\(RF_0=1\)</span>， <span class="math inline">\(feature\_stride_0 = 1，l\)</span>表示层数。 其中feature_stride计算公式：<span class="math inline">\(feature\_stride_l = \prod^{l}_{i=1}\)</span></p>
+<p>第一次特征感受野： <span class="math display">\[RF_1 = RF_0 + (kernel\_size_1)*feature\_stride_0 = 1 + (3-1) * 1 = 3\]</span> 第二层特征，感受野: <span class="math display">\[RF_2 = RF_1 + (kernel\_size_2)*feature\_stride_1 = 3 + (3-1) * 1 = 5\]</span> 第三层特征，感受野: <span class="math display">\[RF_3 = RF_2 + (kernel\_size_3)*feature\_stride_2 = 5 + (3-1) * 1 = 7\]</span> 如果有dilated conv的话，计算公式为: <span class="math display">\[RF_{l+1} = RF_l + (kernel\_size_{l+1}-1)*feature\_stride_l * dilation_{l+1}\]</span></p>
+<h2 id="有效感受野">有效感受野</h2>
+<p>由于理论感受野所有像素对卷积输出的贡献并不是完全相同，而仅仅是一小部分区域对输出值能够产生有效的影响，而这一小部分区域则为有效感受野。 论文Link：<a target="_blank" rel="external nofollow noopener noreferrer" href="https://arxiv.org/pdf/1701.04128.pdf">Understanding the Effective Receptive Field in Deep Convolutional Neural Networks</a></p>
+<figure>
+<img src="images/RecFields_1.png" alt="不同激活函数得到的有效感受野略有不同"><figcaption>不同激活函数得到的有效感受野略有不同</figcaption>
+</figure>
+<figure>
+<img src="images/RecFields_2.png" alt="层数、初始化方案和不同激活的效果"><figcaption>层数、初始化方案和不同激活的效果</figcaption>
+</figure>
+<figure>
+<img src="images/RecFields_3.png" alt="Subsampling 和 dilated convolution 都可以增加 有效感受野范围"><figcaption>Subsampling 和 dilated convolution 都可以增加 有效感受野范围</figcaption>
+</figure>
+<h3 id="有效感受野存在的原因">有效感受野存在的原因</h3>
+<p>两个kernel_size=3,stride=1的感受野为5，如下图所示：</p>
+<figure>
+<img src="images/RecFields_4.png" alt="两层3x3conv计算流程图"><figcaption>两层3x3conv计算流程图</figcaption>
+</figure>
+<p>从图中可以发现，<span class="math inline">\(x_{1,1}\)</span>只影响第一层feature map中的<span class="math inline">\(o^1_{1,1}\)</span>；而<span class="math inline">\(x_{3,3}\)</span>会影响第一层中的所有特征值。 第一层所有特征值都将会影响到第二层的特征值<span class="math inline">\(o^2_{1,1}\)</span>。 但是<span class="math inline">\(x_{1,1}\)</span>只能通过<span class="math inline">\(o^1_{1,1}\)</span>一个点来影响<span class="math inline">\(o^2_{1,1}\)</span>，很明显不如<span class="math inline">\(x_{3,3}\)</span>更具影响力，因为第一层中的每一个特征值都和<span class="math inline">\(x_{3,3}\)</span>有关。综上，输入中越靠感受野中间的元素对特征的贡献越大，边缘贡献最小。</p>
+<h3 id="padding">Padding</h3>
+<ol type="1">
+<li><p>Padding作用 ①. 保留图片边界信息，Padding可以避免图片边缘只被卷积一次。 ②. 对有差异图片补齐，使得输入一致。 ③. 控制输出维度。</p></li>
+<li><p>两种padding方式 ① VALID如果发现剩下区域不够卷积，那么直接舍去。 ② SAME会填充以保证边缘参与卷积。</p></li>
 </ol>
-<p>那么Padding操作会让图片所有区域的有效感受野都相同吗。<br>不可以，还有初始化方法与激活函数影响。（待写如何影响）</p>
-<h2 id="如何扩大实际感受野"><a href="#如何扩大实际感受野" class="headerlink" title="如何扩大实际感受野"></a>如何扩大实际感受野</h2><p>将全局池化提取图像的全局特征，与局部特征融合起来。（ParseNet）<br>但是不同层之间的特征的尺度是不同的，所以需要归一化操作。</p>
+<p>那么Padding操作会让图片所有区域的有效感受野都相同吗。 不可以，还有初始化方法与激活函数影响。（待写如何影响）</p>
+<h2 id="如何扩大实际感受野">如何扩大实际感受野</h2>
+<p>将全局池化提取图像的全局特征，与局部特征融合起来。（ParseNet） 但是不同层之间的特征的尺度是不同的，所以需要归一化操作。</p>
 
     </div>
 
@@ -347,7 +358,7 @@
     <a href="https://fainke.com/blog/f328077.html" title="深度学习视觉中的感受野">https://fainke.com/blog/f328077.html</a>
   </li>
   <li class="post-copyright-license">
-    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="external nofollow noopener noreferrer" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
   </li>
 </ul>
 </div>
@@ -462,14 +473,13 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%90%86%E8%AE%BA%E6%84%9F%E5%8F%97%E9%87%8E"><span class="nav-number">1.</span> <span class="nav-text">理论感受野</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%89%E6%95%88%E6%84%9F%E5%8F%97%E9%87%8E"><span class="nav-number">2.</span> <span class="nav-text">有效感受野</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%89%E6%95%88%E6%84%9F%E5%8F%97%E9%87%8E%E5%AD%98%E5%9C%A8%E7%9A%84%E5%8E%9F%E5%9B%A0"><span class="nav-number">2.1.</span> <span class="nav-text">有效感受野存在的原因</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Padding"><span class="nav-number">2.2.</span> <span class="nav-text">Padding</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E6%89%A9%E5%A4%A7%E5%AE%9E%E9%99%85%E6%84%9F%E5%8F%97%E9%87%8E"><span class="nav-number">3.</span> <span class="nav-text">如何扩大实际感受野</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%90%86%E8%AE%BA%E6%84%9F%E5%8F%97%E9%87%8E"><span class="nav-number">1.</span> <span class="nav-text">理论感受野</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%89%E6%95%88%E6%84%9F%E5%8F%97%E9%87%8E"><span class="nav-number">2.</span> <span class="nav-text">有效感受野</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%89%E6%95%88%E6%84%9F%E5%8F%97%E9%87%8E%E5%AD%98%E5%9C%A8%E7%9A%84%E5%8E%9F%E5%9B%A0"><span class="nav-number">2.1.</span> <span class="nav-text">有效感受野存在的原因</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#padding"><span class="nav-number">2.2.</span> <span class="nav-text">Padding</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E6%89%A9%E5%A4%A7%E5%AE%9E%E9%99%85%E6%84%9F%E5%8F%97%E9%87%8E"><span class="nav-number">3.</span> <span class="nav-text">如何扩大实际感受野</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
       <div class="site-overview-wrap sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <img class="site-author-image" itemprop="image" alt="Fain"
-      src="/images/touXiang.jpg">
+    <img class="site-author-image" itemprop="image" alt="Fain" src="/images/touXiang.jpg">
   <p class="site-author-name" itemprop="name">Fain</p>
   <div class="site-description" itemprop="description">深度学习,机器学习,计算机视觉CV,自然语言处理NLP,Python</div>
 </div>
@@ -632,7 +642,7 @@
   </div>
 
   
-  <script size="300" alpha="0.3" zIndex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+  <script size="300" alpha="0.3" zindex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
   <script src="/lib/anime.min.js"></script>
   <script src="/lib/velocity/velocity.min.js"></script>
   <script src="/lib/velocity/velocity.ui.min.js"></script>

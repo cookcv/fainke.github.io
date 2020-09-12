@@ -22,25 +22,25 @@
     var CONFIG = {"hostname":"fainke.com","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results foundin ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="混淆矩阵：也称为误差矩阵，是一种特定的表格布局，允许可视化算法的性能，通常是监督学习的算法（在无监督学习通常称为匹配矩阵）。矩阵的每一行代表预测类中的实例，而每列代表实际类中的实例（反之亦然）。从字面理解：看出系统是否混淆了两个类（即通常将一个类错误标记为另一个类）（多类可以合并为二分类）。">
+  <meta name="description" content="混淆矩阵： 也称为误差矩阵，是一种特定的表格布局，允许可视化算法的性能，通常是监督学习的算法（在无监督学习通常称为匹配矩阵）。矩阵的每一行代表预测类中的实例，而每列代表实际类中的实例（反之亦然）。从字面理解：看出系统是否混淆了两个类（即通常将一个类错误标记为另一个类）（多类可以合并为二分类）。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="模型评价指标">
 <meta property="og:url" content="https://fainke.com/blog/9fc22fc9.html">
 <meta property="og:site_name" content="DeepLearning">
-<meta property="og:description" content="混淆矩阵：也称为误差矩阵，是一种特定的表格布局，允许可视化算法的性能，通常是监督学习的算法（在无监督学习通常称为匹配矩阵）。矩阵的每一行代表预测类中的实例，而每列代表实际类中的实例（反之亦然）。从字面理解：看出系统是否混淆了两个类（即通常将一个类错误标记为另一个类）（多类可以合并为二分类）。">
+<meta property="og:description" content="混淆矩阵： 也称为误差矩阵，是一种特定的表格布局，允许可视化算法的性能，通常是监督学习的算法（在无监督学习通常称为匹配矩阵）。矩阵的每一行代表预测类中的实例，而每列代表实际类中的实例（反之亦然）。从字面理解：看出系统是否混淆了两个类（即通常将一个类错误标记为另一个类）（多类可以合并为二分类）。">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://fainke.com/blog/images/%E6%B7%B7%E6%B7%86%E7%9F%A9%E9%98%B5%E5%9B%BE%E4%BE%8B1(%E4%B8%80%E7%BA%A7%E8%AF%84%E4%BB%B7%E6%8C%87%E6%A0%87).png">
-<meta property="og:image" content="https://fainke.com/blog/images/%E4%BA%8C%E7%BA%A7%E8%AF%84%E4%BB%B7%E6%8C%87%E6%A0%87.png">
+<meta property="og:image" content="https://fainke.com/blog/images/混淆矩阵图例1(一级评价指标).png">
+<meta property="og:image" content="https://fainke.com/blog/images/二级评价指标.png">
 <meta property="og:image" content="https://fainke.com/blog/images/ROC.png">
 <meta property="og:image" content="https://fainke.com/blog/images/PRC.png">
-<meta property="og:image" content="https://fainke.com/blog/images/%E6%B7%B7%E6%B7%86%E7%9F%A9%E9%98%B5%E5%9B%BE%E4%BE%8B2.png">
-<meta property="og:image" content="https://fainke.com/blog/images/%E6%B7%B7%E6%B7%86%E7%9F%A9%E9%98%B5%E5%9B%BE%E4%BE%8B3.png">
+<meta property="og:image" content="https://fainke.com/blog/images/混淆矩阵图例2.png">
+<meta property="og:image" content="https://fainke.com/blog/images/混淆矩阵图例3.png">
 <meta property="article:published_time" content="2019-12-31T17:01:01.000Z">
 <meta property="article:modified_time" content="2020-01-31T17:01:01.000Z">
 <meta property="article:author" content="Fain">
 <meta property="article:tag" content="模型评价指标">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://fainke.com/blog/images/%E6%B7%B7%E6%B7%86%E7%9F%A9%E9%98%B5%E5%9B%BE%E4%BE%8B1(%E4%B8%80%E7%BA%A7%E8%AF%84%E4%BB%B7%E6%8C%87%E6%A0%87).png">
+<meta name="twitter:image" content="https://fainke.com/blog/images/混淆矩阵图例1(一级评价指标).png">
 
 <link rel="canonical" href="https://fainke.com/blog/9fc22fc9.html">
 
@@ -95,7 +95,11 @@
   </style>
 </noscript>
 
-</head>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --></head>
 
 <body itemscope itemtype="http://schema.org/WebPage">
   <div class="container use-motion">
@@ -169,9 +173,7 @@
     <i class="fa fa-search"></i>
   </span>
   <div class="search-input-container">
-    <input autocomplete="off" autocapitalize="off"
-           placeholder="搜索..." spellcheck="false"
-           type="search" class="search-input">
+    <input autocomplete="off" autocapitalize="off" placeholder="搜索..." spellcheck="false" type="search" class="search-input">
   </div>
   <span class="popup-btn-close">
     <i class="fa fa-times-circle"></i>
@@ -282,24 +284,22 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p><strong>混淆矩阵：</strong><br>也称为误差矩阵，是一种特定的表格布局，允许可视化算法的性能，通常是监督学习的算法（在无监督学习通常称为<strong>匹配矩阵</strong>）。矩阵的每一行代表预测类中的实例，而每列代表实际类中的实例（反之亦然）。从字面理解：看出系统是否混淆了两个类（即通常将一个类错误标记为另一个类）（多类可以合并为二分类）。</p>
-<a id="more"></a>
-
-<p><strong>一级评价指标：</strong><br>由四个基础指标构成：<strong>TP、FN、FP、TN</strong><br>① 真实值是positive，模型认为是positive的数量（True Positive=<strong>TP</strong>）<br>② 真实值是positive，模型认为是negative的数量（False Negative=<strong>FN</strong>）：这就是统计学上的第一类错误（Type I Error）<br>③ 真实值是negative，模型认为是positive的数量（False Positive=<strong>FP</strong>）：这就是统计学上的第二类错误（Type II Error）<br>④ 真实值是negative，模型认为是negative的数量（True Negative=<strong>TN</strong>）</p>
-<p>一级评价指标混淆矩阵图例：<br><img src="images/%E6%B7%B7%E6%B7%86%E7%9F%A9%E9%98%B5%E5%9B%BE%E4%BE%8B1(%E4%B8%80%E7%BA%A7%E8%AF%84%E4%BB%B7%E6%8C%87%E6%A0%87).png" alt="一级评价指标混淆矩阵图例.png"></p>
-<p><strong>二级评价指标：</strong><br>准确率(Accuracy)：ACC<br>精确率(Precision)：PPV<br>灵敏度(Sensitivity)=召回率(Recall)=命中率=真实阳性率：TPR<br>特异度(Specificity)：TNR<br>（更多名词可查看维基百科）<br><img src="images/%E4%BA%8C%E7%BA%A7%E8%AF%84%E4%BB%B7%E6%8C%87%E6%A0%87.png" alt="二级评价指标图例.png"></p>
-<p><strong>三级评价指标：</strong><br>F1 Score：<br>$\mathrm{F1} =\frac{2 \mathrm{PR}}{\mathrm{P}+\mathrm{R}}$<br>其中，P代表Precision，R代表Recall。F1-Score指标综合了Precision与Recall的产出的结果。F1-Score的取值范围从0到1的，1代表模型的输出最好，0代表模型的输出结果最差。</p>
-<p><strong>MCC 马修斯相关系数：</strong><br>衡量不平衡数据集的指标比较好。<br>$\mathrm{MCC}=\frac{T P \times T N-F P \times F N}{\sqrt{(T P+F P)(T P+F N)(T N+F P)(T N+F N)}}$</p>
-<p><strong>ROC曲线：</strong><br>ROC曲线的横坐标为false positive rate（FPR），纵坐标为 true positive rate（TPR） 。当测试集中的正负样本的分布变化的时候，ROC曲线能够保持不变。<br><img src="images/ROC.png" alt="ROC.png"></p>
-<p><strong>PRC曲线：</strong><br>在正负样本分布得极不均匀(highly skewed datasets)的情况下，PRC比ROC能更有效地反应分类器的好坏。<br><img src="images/PRC.png" alt="PRC.png"></p>
-<p><strong>实列理解：</strong><br><img src="images/%E6%B7%B7%E6%B7%86%E7%9F%A9%E9%98%B5%E5%9B%BE%E4%BE%8B2.png" alt="混淆矩阵例2.png"><br>该图表示的是模型预测动物的预测数据图。通过该混淆矩阵，可以得到以下结论：</p>
-<p><strong>Accuracy:</strong><br>在总共66个动物中，我们一共预测对了10 + 15 + 20=45个样本，所以准确率（Accuracy）=45/66 = 68.2%。<br>下面以猫为例，将上面的图合并为二分类问题，求出二级评价指标与三级评价指标：<br><img src="images/%E6%B7%B7%E6%B7%86%E7%9F%A9%E9%98%B5%E5%9B%BE%E4%BE%8B3.png" alt="混淆矩阵例3.png"></p>
-<p><strong>Precision：</strong><br>以猫为例，66只动物里有13只是猫，其中这13只猫只有10只预测对了。模型认为是猫的13只动物里，有1条狗，两只猪。所以，Precision（猫）= 10/13 = 76.9%</p>
-<p><strong>Recall：</strong><br>以猫为例，在总共18只真猫中，我们的模型认为里面只有10只是猫，剩下的3只是狗，5只都是猪。这5只八成是橘猫，能理解。所以，Recall（猫）= 10/18 = 55.6%</p>
-<p><strong>Specificity：</strong><br>以猫为例，在总共48只不是猫的动物中，模型认为有45只不是猫。所以，Specificity（猫）= 45/48 = 93.8%。虽然在45只动物里，模型依然认为错判了6只猪与4只狗，但是从猫的角度而言，模型的判断是没有错的。</p>
-<p><strong>F1-Score:</strong><br>通过公式，可以计算出，对猫而言，F1-Score=（2 * 0.769 *  0.556）/（ 0.769 +  0.556） = 64.54%</p>
+        <p><strong>混淆矩阵：</strong> 也称为误差矩阵，是一种特定的表格布局，允许可视化算法的性能，通常是监督学习的算法（在无监督学习通常称为<strong>匹配矩阵</strong>）。矩阵的每一行代表预测类中的实例，而每列代表实际类中的实例（反之亦然）。从字面理解：看出系统是否混淆了两个类（即通常将一个类错误标记为另一个类）（多类可以合并为二分类）。 <a id="more"></a></p>
+<p><strong>一级评价指标：</strong> 由四个基础指标构成：<strong>TP、FN、FP、TN</strong> ① 真实值是positive，模型认为是positive的数量（True Positive=<strong>TP</strong>） ② 真实值是positive，模型认为是negative的数量（False Negative=<strong>FN</strong>）：这就是统计学上的第一类错误（Type I Error） ③ 真实值是negative，模型认为是positive的数量（False Positive=<strong>FP</strong>）：这就是统计学上的第二类错误（Type II Error） ④ 真实值是negative，模型认为是negative的数量（True Negative=<strong>TN</strong>）</p>
+<p>一级评价指标混淆矩阵图例： <img src="images/混淆矩阵图例1(一级评价指标).png" alt="一级评价指标混淆矩阵图例.png"></p>
+<p><strong>二级评价指标：</strong> 准确率(Accuracy)：ACC 精确率(Precision)：PPV 灵敏度(Sensitivity)=召回率(Recall)=命中率=真实阳性率：TPR 特异度(Specificity)：TNR （更多名词可查看维基百科） <img src="images/二级评价指标.png" alt="二级评价指标图例.png"></p>
+<p><strong>三级评价指标：</strong> F1 Score： <span class="math inline">\(\mathrm{F1} =\frac{2 \mathrm{PR}}{\mathrm{P}+\mathrm{R}}\)</span> 其中，P代表Precision，R代表Recall。F1-Score指标综合了Precision与Recall的产出的结果。F1-Score的取值范围从0到1的，1代表模型的输出最好，0代表模型的输出结果最差。</p>
+<p><strong>MCC 马修斯相关系数：</strong> 衡量不平衡数据集的指标比较好。 <span class="math inline">\(\mathrm{MCC}=\frac{T P \times T N-F P \times F N}{\sqrt{(T P+F P)(T P+F N)(T N+F P)(T N+F N)}}\)</span></p>
+<p><strong>ROC曲线：</strong> ROC曲线的横坐标为false positive rate（FPR），纵坐标为 true positive rate（TPR） 。当测试集中的正负样本的分布变化的时候，ROC曲线能够保持不变。 <img src="images/ROC.png" alt="ROC.png"></p>
+<p><strong>PRC曲线：</strong> 在正负样本分布得极不均匀(highly skewed datasets)的情况下，PRC比ROC能更有效地反应分类器的好坏。 <img src="images/PRC.png" alt="PRC.png"></p>
+<p><strong>实列理解：</strong> <img src="images/混淆矩阵图例2.png" alt="混淆矩阵例2.png"> 该图表示的是模型预测动物的预测数据图。通过该混淆矩阵，可以得到以下结论：</p>
+<p><strong>Accuracy:</strong> 在总共66个动物中，我们一共预测对了10 + 15 + 20=45个样本，所以准确率（Accuracy）=45/66 = 68.2%。 下面以猫为例，将上面的图合并为二分类问题，求出二级评价指标与三级评价指标： <img src="images/混淆矩阵图例3.png" alt="混淆矩阵例3.png"></p>
+<p><strong>Precision：</strong> 以猫为例，66只动物里有13只是猫，其中这13只猫只有10只预测对了。模型认为是猫的13只动物里，有1条狗，两只猪。所以，Precision（猫）= 10/13 = 76.9%</p>
+<p><strong>Recall：</strong> 以猫为例，在总共18只真猫中，我们的模型认为里面只有10只是猫，剩下的3只是狗，5只都是猪。这5只八成是橘猫，能理解。所以，Recall（猫）= 10/18 = 55.6%</p>
+<p><strong>Specificity：</strong> 以猫为例，在总共48只不是猫的动物中，模型认为有45只不是猫。所以，Specificity（猫）= 45/48 = 93.8%。虽然在45只动物里，模型依然认为错判了6只猪与4只狗，但是从猫的角度而言，模型的判断是没有错的。</p>
+<p><strong>F1-Score:</strong> 通过公式，可以计算出，对猫而言，F1-Score=（2 * 0.769 * 0.556）/（ 0.769 + 0.556） = 64.54%</p>
 <blockquote>
-<p>参考链接：<br>维基百科：<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Confusion_matrix">https://en.wikipedia.org/wiki/Confusion_matrix</a><br>CSDN:<a target="_blank" rel="noopener" href="https://blog.csdn.net/Orange_Spotty_Cat/article/details/80520839">https://blog.csdn.net/Orange_Spotty_Cat/article/details/80520839</a></p>
+<p>参考链接： 维基百科：https://en.wikipedia.org/wiki/Confusion_matrix CSDN:https://blog.csdn.net/Orange_Spotty_Cat/article/details/80520839</p>
 </blockquote>
 
     </div>
@@ -345,7 +345,7 @@
     <a href="https://fainke.com/blog/9fc22fc9.html" title="模型评价指标">https://fainke.com/blog/9fc22fc9.html</a>
   </li>
   <li class="post-copyright-license">
-    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="external nofollow noopener noreferrer" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
   </li>
 </ul>
 </div>
@@ -463,8 +463,7 @@
 
       <div class="site-overview-wrap sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <img class="site-author-image" itemprop="image" alt="Fain"
-      src="/images/touXiang.jpg">
+    <img class="site-author-image" itemprop="image" alt="Fain" src="/images/touXiang.jpg">
   <p class="site-author-name" itemprop="name">Fain</p>
   <div class="site-description" itemprop="description">深度学习,机器学习,计算机视觉CV,自然语言处理NLP,Python</div>
 </div>
@@ -627,7 +626,7 @@
   </div>
 
   
-  <script size="300" alpha="0.3" zIndex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+  <script size="300" alpha="0.3" zindex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
   <script src="/lib/anime.min.js"></script>
   <script src="/lib/velocity/velocity.min.js"></script>
   <script src="/lib/velocity/velocity.ui.min.js"></script>

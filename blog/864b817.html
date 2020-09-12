@@ -22,12 +22,12 @@
     var CONFIG = {"hostname":"fainke.com","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results foundin ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="提出背景 在大规模且复杂性高的数据中及时检测故障愈发重要，面对该问题出现了诸多数据降维算法。 PCA与其衍生算法虽然可以降低数据的复杂型，但是只考虑了数据的全局结构。 局部保持投影LPP算法能够发现原始高维数据的内在特征或非线性结构，通过该算法得到的投影子空间保存了原始样本点的局部信息。 结合了PCA与LPP的LGSPP算法将原始数据投影到具有相似局部结构的低维空间的同时也保证在低维空间中数据方差">
+  <meta name="description" content="提出背景  在大规模且复杂性高的数据中及时检测故障愈发重要，面对该问题出现了诸多数据降维算法。 PCA与其衍生算法虽然可以降低数据的复杂型，但是只考虑了数据的全局结构。 局部保持投影LPP算法能够发现原始高维数据的内在特征或非线性结构，通过该算法得到的投影子空间保存了原始样本点的局部信息。 结合了PCA与LPP的LGSPP算法将原始数据投影到具有相似局部结构的低维空间的同时也保证在低维空间中数据方">
 <meta property="og:type" content="article">
 <meta property="og:title" content="【故障检测】LGSPP-Bayes">
 <meta property="og:url" content="https://fainke.com/blog/864b817.html">
 <meta property="og:site_name" content="DeepLearning">
-<meta property="og:description" content="提出背景 在大规模且复杂性高的数据中及时检测故障愈发重要，面对该问题出现了诸多数据降维算法。 PCA与其衍生算法虽然可以降低数据的复杂型，但是只考虑了数据的全局结构。 局部保持投影LPP算法能够发现原始高维数据的内在特征或非线性结构，通过该算法得到的投影子空间保存了原始样本点的局部信息。 结合了PCA与LPP的LGSPP算法将原始数据投影到具有相似局部结构的低维空间的同时也保证在低维空间中数据方差">
+<meta property="og:description" content="提出背景  在大规模且复杂性高的数据中及时检测故障愈发重要，面对该问题出现了诸多数据降维算法。 PCA与其衍生算法虽然可以降低数据的复杂型，但是只考虑了数据的全局结构。 局部保持投影LPP算法能够发现原始高维数据的内在特征或非线性结构，通过该算法得到的投影子空间保存了原始样本点的局部信息。 结合了PCA与LPP的LGSPP算法将原始数据投影到具有相似局部结构的低维空间的同时也保证在低维空间中数据方">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2019-12-31T17:01:01.000Z">
 <meta property="article:modified_time" content="2020-01-31T17:01:01.000Z">
@@ -90,7 +90,11 @@
   </style>
 </noscript>
 
-</head>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --></head>
 
 <body itemscope itemtype="http://schema.org/WebPage">
   <div class="container use-motion">
@@ -164,9 +168,7 @@
     <i class="fa fa-search"></i>
   </span>
   <div class="search-input-container">
-    <input autocomplete="off" autocapitalize="off"
-           placeholder="搜索..." spellcheck="false"
-           type="search" class="search-input">
+    <input autocomplete="off" autocapitalize="off" placeholder="搜索..." spellcheck="false" type="search" class="search-input">
   </div>
   <span class="popup-btn-close">
     <i class="fa fa-times-circle"></i>
@@ -277,44 +279,47 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h3 id="提出背景"><a href="#提出背景" class="headerlink" title="提出背景"></a>提出背景</h3><ol>
+        <h3 id="提出背景">提出背景</h3>
+<ol type="1">
 <li>在大规模且复杂性高的数据中及时检测故障愈发重要，面对该问题出现了诸多数据降维算法。</li>
 <li>PCA与其衍生算法虽然可以降低数据的复杂型，但是只考虑了数据的全局结构。</li>
 <li>局部保持投影LPP算法能够发现原始高维数据的内在特征或非线性结构，通过该算法得到的投影子空间保存了原始样本点的局部信息。</li>
 <li>结合了PCA与LPP的LGSPP算法将原始数据投影到具有相似局部结构的低维空间的同时也保证在低维空间中数据方差最大化。</li>
-<li>贝叶斯分类是模式识别中一种利用概率统计进行分类的散发，具有方法简单、分类准确率高、速度快的特点。所以，在使用LGSPP处理高维数据后，在使用Bayes来进行故障检测。<a id="more"></a>
-
-</li>
+<li>贝叶斯分类是模式识别中一种利用概率统计进行分类的散发，具有方法简单、分类准确率高、速度快的特点。所以，在使用LGSPP处理高维数据后，在使用Bayes来进行故障检测。 <a id="more"></a></li>
 </ol>
-<h3 id="算法步骤"><a href="#算法步骤" class="headerlink" title="算法步骤"></a>算法步骤</h3><ol>
+<h3 id="算法步骤">算法步骤</h3>
+<ol type="1">
 <li>对训练样本数据进行标准化处理；</li>
-<li>计算处理后的训练样本$X$的协方差矩阵$C$;</li>
-<li>分别计算相似矩阵$W$，对角线矩阵$D$以及拉普拉斯矩阵$L$；</li>
-<li>计算前m个最大特征值对应的特征向量$A=a1,a2,…,al(l&lt;=m)$;</li>
-<li>对降维矩阵$A$计算降维空间的样本均值向量$m_{fi}$和样本方差阵$S_{fj}$;</li>
-<li>计算Bayes函数$g_i(x)$,使用该函数进行检测与识别。</li>
+<li>计算处理后的训练样本<span class="math inline">\(X\)</span>的协方差矩阵<span class="math inline">\(C\)</span>;</li>
+<li>分别计算相似矩阵<span class="math inline">\(W\)</span>，对角线矩阵<span class="math inline">\(D\)</span>以及拉普拉斯矩阵<span class="math inline">\(L\)</span>；</li>
+<li>计算前m个最大特征值对应的特征向量<span class="math inline">\(A=a1,a2,…,al(l&lt;=m)\)</span>;</li>
+<li>对降维矩阵<span class="math inline">\(A\)</span>计算降维空间的样本均值向量<span class="math inline">\(m_{fi}\)</span>和样本方差阵<span class="math inline">\(S_{fj}\)</span>;</li>
+<li>计算Bayes函数<span class="math inline">\(g_i(x)\)</span>,使用该函数进行检测与识别。</li>
 </ol>
-<h3 id="LGSPP算法介绍"><a href="#LGSPP算法介绍" class="headerlink" title="LGSPP算法介绍"></a>LGSPP算法介绍</h3><ol>
-<li>PCA的目标函数为：<br>$$J(A)<em>{PCA} = \mathop{max}\limits_A\sum_{i=1}^n(y_i-\overline y)^2 = \mathop{max}\limits_A\sum</em>{i=1}^nA^T(x_i - \overline x)(x_i - \overline x)^TA = \mathop{max}\limits_A A^TCA$$</li>
+<h3 id="lgspp算法介绍">LGSPP算法介绍</h3>
+<ol type="1">
+<li>PCA的目标函数为： <span class="math display">\[J(A)_{PCA} = \mathop{max}\limits_A\sum_{i=1}^n(y_i-\overline y)^2 = \mathop{max}\limits_A\sum_{i=1}^nA^T(x_i - \overline x)(x_i - \overline x)^TA = \mathop{max}\limits_A A^TCA\]</span></li>
 </ol>
-<p>其中:<br>$$\overline y = \frac{1}{n}\sum_{i=1}^ny_i ，\overline x = \frac{1}{n} \sum_{i=1}^nx_i$$</p>
-<p>协方差阵<br>$$C = \frac{1}{n}\sum_{i=1}^n(x_i - \overline x)(x_i - \overline x)^T$$</p>
-<p>符合矩阵$A = [a_1,a_2,…,a_l]$为与协方差矩阵前$l$个最大特征值对应的特征向量，$l$为所选主元的个数</p>
-<ol start="2">
-<li>LPP的目标函数为：<br>$$J(A)<em>{LPP} = \mathop{min}<em>A\sum</em>{ij}(y_i - y_j)^2W</em>{ij} = \mathop{min}<em>A 2\sum</em>{i=1}^ny_iD_{ii}y_i^T - 2\sum_{ij} y_iW_{ij}y_j^T=\mathop{min}_A A^TXLX^TA = \mathop{min}_A A^T UA$$</li>
+<p>其中: <span class="math display">\[\overline y = \frac{1}{n}\sum_{i=1}^ny_i ，\overline x = \frac{1}{n} \sum_{i=1}^nx_i\]</span></p>
+<p>协方差阵 <span class="math display">\[C = \frac{1}{n}\sum_{i=1}^n(x_i - \overline x)(x_i - \overline x)^T\]</span></p>
+<p>符合矩阵<span class="math inline">\(A = [a_1,a_2,...,a_l]\)</span>为与协方差矩阵前<span class="math inline">\(l\)</span>个最大特征值对应的特征向量，<span class="math inline">\(l\)</span>为所选主元的个数</p>
+<ol start="2" type="1">
+<li>LPP的目标函数为： <span class="math display">\[J(A)_{LPP} = \mathop{min}_A\sum_{ij}(y_i - y_j)^2W_{ij} = \mathop{min}_A 2\sum_{i=1}^ny_iD_{ii}y_i^T - 2\sum_{ij} y_iW_{ij}y_j^T=\mathop{min}_A A^TXLX^TA = \mathop{min}_A A^T UA\]</span></li>
 </ol>
-<p>其中：<br>$U=XLX^T$为局部矩阵，<br>$L=D-W$称为拉普拉斯矩阵，<br>$D$为对角线矩阵，对角线元素为矩阵$W$每一列元素之和，即$D_{ij} = \sum_j W_{ij}$。<br>矩阵$W$称为相似性矩阵，当xi与xj互为k最近邻时，$W_{ij} = w(x_i,x_j)$，其中w(x_i,x_j)表示样本间的相似性，可以用欧氏距离或者高斯核函数来衡量。<br>3. LGSPP为了同时保留与原始数据间相同的整体和局部特征，可以最小化LPP与PCA目标函数的比值：<br>$$\mathop{min}<em>A J(A) = \mathop{min}<em>A \frac{J(A)</em>{LPP}}{J(A)</em>{PCA}} = \mathop{min}_A \frac{A^TUA}{A^TCA}$$<br>上述问题可以转为如下广义特征值问题：$UA = \lambda CA$。<br>令$A=[a_1,a_2,…,a_m]$，其中$a_i$为上述广义特征值问题的特征向量，如果只保留$A$中与前$l$个最大特征值对应的特征向量，那么原始高维空间中的数据$x$的维数就减少为低维空间数据$y=A^{T} x$的维数。</p>
-<h3 id="基于Bayes分类器的故障检测识别"><a href="#基于Bayes分类器的故障检测识别" class="headerlink" title="基于Bayes分类器的故障检测识别"></a>基于Bayes分类器的故障检测识别</h3><p>假设数据服从正态分布，训练样本的方差阵和均值向量分别为$S_j$和$m_j$，观测样本个数为$n_j$，设$\delta_j$为故障类$w_j$的数据集。<br>$$p(x|w_j) \sim N(m_j,S_j)$$</p>
-<p>$$M_J = \frac{1}{n_j}\sum_{x \in \delta_j}x$$</p>
-<p>$$S_j = \frac{1}{n_j-1}\sum_{x\in\delta_j}(x-m_j)(x-m_j)^T$$</p>
-<p>观测x在故障类$w_j$条件下的类条件概率密度函数为(det是求行列式的函数)【公式有修改】：<br>$$P(x|w_j) = \frac{1}{\sqrt {(2\pi)}(S_j)^\frac{1}{2}} \exp[-\frac{1}{2}(x-m_j)^TS_j^{-1}(x-m_j)]$$<br>$$P(x|w_j) = \frac{1}{\sqrt{(2\pi)^n(det(S_j))}} \exp[-\frac{1}{2}(x-m_j)^TS_j^{-1}(x-m_j)]$$</p>
-<p>判别函数【公式有修改】：<br>$$g_j(x) = lnP(x|w_j) + lnP(w_j) = -\frac{1}{2}(x-m_j)^TS_j^{-1}(x-m_j)-\frac{n}{2}ln2\pi - \frac{1}{2}ln[det(S_j)]  + lnP(w_j)$$</p>
-<p>利用LGSPP算法进行降维后得到的投影空间中的样本为$y = A^Tx$，则降维后的样本均值向量和样本方差阵为：<br>$$m_{fj} = \frac{1}{n_j}\sum_{x\in\delta_j}A^Tx = A^Tm_j$$</p>
-<p>$$S_{fj} = \frac{1}{n_j-1}\sum_{x\in\delta_j}(A^Tx - m_{fj})(A^Tx - m_{fj})^T = A^TS_jA$$</p>
-<p>则Bayes判别函数变为（常数部分去除）：<br>$$g_{fj}(x) = -\frac{1}{2}(A^Tx-m_{fj})^TS_i^{-1}(A^Tx-m_{fj}) - \frac{1}{2}ln[det(S_fj)] + lnP(w_j)\<br>\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \  -\frac{1}{2}(x-m_j)^TA(A^TS_jA)^{-1}A^T(x-m_j) - \frac{1}{2}ln[det(A^TS_jA)] + lnP(w_j)$$</p>
-<p>令训练样本数据分别为无故障正常操作情况下的样本数据以及故障数据，对测试样本x分别计算判别函数，设$g_{f0}(x)$是训练样本为正常数据时的判别函数，$g_{fi}(x)(i = 1,…f)$是训练样本为第$i$类故障数据时的判别函数，比较函数值大小，当$g_{fi}(x) &gt; g_{f0}(x)$时说明测试样本中有故障发生。假设有C类训练样本数据时，分别计算对应的C个判别函数，通过比较C个判别函数值的大小，将测试样本归于最大判别函数值所对应的故障类别。</p>
+<p>其中： <span class="math inline">\(U=XLX^T\)</span>为局部矩阵， <span class="math inline">\(L=D-W\)</span>称为拉普拉斯矩阵， <span class="math inline">\(D\)</span>为对角线矩阵，对角线元素为矩阵<span class="math inline">\(W\)</span>每一列元素之和，即<span class="math inline">\(D_{ij} = \sum_j W_{ij}\)</span>。 矩阵<span class="math inline">\(W\)</span>称为相似性矩阵，当xi与xj互为k最近邻时，<span class="math inline">\(W_{ij} = w(x_i,x_j)\)</span>，其中w(x_i,x_j)表示样本间的相似性，可以用欧氏距离或者高斯核函数来衡量。 3. LGSPP为了同时保留与原始数据间相同的整体和局部特征，可以最小化LPP与PCA目标函数的比值： <span class="math display">\[\mathop{min}_A J(A) = \mathop{min}_A \frac{J(A)_{LPP}}{J(A)_{PCA}} = \mathop{min}_A \frac{A^TUA}{A^TCA}\]</span> 上述问题可以转为如下广义特征值问题：<span class="math inline">\(UA = \lambda CA\)</span>。 令<span class="math inline">\(A=[a_1,a_2,…,a_m]\)</span>，其中<span class="math inline">\(a_i\)</span>为上述广义特征值问题的特征向量，如果只保留<span class="math inline">\(A\)</span>中与前<span class="math inline">\(l\)</span>个最大特征值对应的特征向量，那么原始高维空间中的数据<span class="math inline">\(x\)</span>的维数就减少为低维空间数据<span class="math inline">\(y=A^{T} x\)</span>的维数。</p>
+<h3 id="基于bayes分类器的故障检测识别">基于Bayes分类器的故障检测识别</h3>
+<p>假设数据服从正态分布，训练样本的方差阵和均值向量分别为<span class="math inline">\(S_j\)</span>和<span class="math inline">\(m_j\)</span>，观测样本个数为<span class="math inline">\(n_j\)</span>，设<span class="math inline">\(\delta_j\)</span>为故障类<span class="math inline">\(w_j\)</span>的数据集。 <span class="math display">\[p(x|w_j) \sim N(m_j,S_j)\]</span></p>
+<p><span class="math display">\[M_J = \frac{1}{n_j}\sum_{x \in \delta_j}x\]</span></p>
+<p><span class="math display">\[S_j = \frac{1}{n_j-1}\sum_{x\in\delta_j}(x-m_j)(x-m_j)^T\]</span></p>
+<p>观测x在故障类<span class="math inline">\(w_j\)</span>条件下的类条件概率密度函数为(det是求行列式的函数)【公式有修改】： <span class="math display">\[P(x|w_j) = \frac{1}{\sqrt {(2\pi)}(S_j)^\frac{1}{2}} \exp[-\frac{1}{2}(x-m_j)^TS_j^{-1}(x-m_j)]\]</span> <span class="math display">\[P(x|w_j) = \frac{1}{\sqrt{(2\pi)^n(det(S_j))}} \exp[-\frac{1}{2}(x-m_j)^TS_j^{-1}(x-m_j)]\]</span></p>
+<p>判别函数【公式有修改】： <span class="math display">\[g_j(x) = lnP(x|w_j) + lnP(w_j) = -\frac{1}{2}(x-m_j)^TS_j^{-1}(x-m_j)-\frac{n}{2}ln2\pi - \frac{1}{2}ln[det(S_j)]  + lnP(w_j)\]</span></p>
+<p>利用LGSPP算法进行降维后得到的投影空间中的样本为<span class="math inline">\(y = A^Tx\)</span>，则降维后的样本均值向量和样本方差阵为： <span class="math display">\[m_{fj} = \frac{1}{n_j}\sum_{x\in\delta_j}A^Tx = A^Tm_j\]</span></p>
+<p><span class="math display">\[S_{fj} = \frac{1}{n_j-1}\sum_{x\in\delta_j}(A^Tx - m_{fj})(A^Tx - m_{fj})^T = A^TS_jA\]</span></p>
+<p>则Bayes判别函数变为（常数部分去除）： <span class="math display">\[g_{fj}(x) = -\frac{1}{2}(A^Tx-m_{fj})^TS_i^{-1}(A^Tx-m_{fj}) - \frac{1}{2}ln[det(S_fj)] + lnP(w_j)\\ 
+\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \  -\frac{1}{2}(x-m_j)^TA(A^TS_jA)^{-1}A^T(x-m_j) - \frac{1}{2}ln[det(A^TS_jA)] + lnP(w_j)\]</span></p>
+<p>令训练样本数据分别为无故障正常操作情况下的样本数据以及故障数据，对测试样本x分别计算判别函数，设<span class="math inline">\(g_{f0}(x)\)</span>是训练样本为正常数据时的判别函数，<span class="math inline">\(g_{fi}(x)(i = 1,...f)\)</span>是训练样本为第<span class="math inline">\(i\)</span>类故障数据时的判别函数，比较函数值大小，当<span class="math inline">\(g_{fi}(x) &gt; g_{f0}(x)\)</span>时说明测试样本中有故障发生。假设有C类训练样本数据时，分别计算对应的C个判别函数，通过比较C个判别函数值的大小，将测试样本归于最大判别函数值所对应的故障类别。</p>
 <blockquote>
-<p>参考文献：<br>Qin Liu, LGSPP-Bayes for Fault Detection and Diagnosis </p>
+<p>参考文献： Qin Liu, LGSPP-Bayes for Fault Detection and Diagnosis</p>
 </blockquote>
 
     </div>
@@ -360,7 +365,7 @@
     <a href="https://fainke.com/blog/864b817.html" title="【故障检测】LGSPP-Bayes">https://fainke.com/blog/864b817.html</a>
   </li>
   <li class="post-copyright-license">
-    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="external nofollow noopener noreferrer" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
   </li>
 </ul>
 </div>
@@ -412,8 +417,8 @@
       <i class="fa fa-chevron-left"></i> 【故障预测】隐马尔可夫模型HMM
     </a></div>
       <div class="post-nav-item">
-    <a href="/blog/7119a6b7.html" rel="next" title="命名实体识别与关系抽取">
-      命名实体识别与关系抽取 <i class="fa fa-chevron-right"></i>
+    <a href="/blog/bf3e34f1.html" rel="next" title="天池农业AI挑战赛-总结">
+      天池农业AI挑战赛-总结 <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
@@ -475,14 +480,13 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8F%90%E5%87%BA%E8%83%8C%E6%99%AF"><span class="nav-number">1.</span> <span class="nav-text">提出背景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AE%97%E6%B3%95%E6%AD%A5%E9%AA%A4"><span class="nav-number">2.</span> <span class="nav-text">算法步骤</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#LGSPP%E7%AE%97%E6%B3%95%E4%BB%8B%E7%BB%8D"><span class="nav-number">3.</span> <span class="nav-text">LGSPP算法介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8EBayes%E5%88%86%E7%B1%BB%E5%99%A8%E7%9A%84%E6%95%85%E9%9A%9C%E6%A3%80%E6%B5%8B%E8%AF%86%E5%88%AB"><span class="nav-number">4.</span> <span class="nav-text">基于Bayes分类器的故障检测识别</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8F%90%E5%87%BA%E8%83%8C%E6%99%AF"><span class="nav-number">1.</span> <span class="nav-text">提出背景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AE%97%E6%B3%95%E6%AD%A5%E9%AA%A4"><span class="nav-number">2.</span> <span class="nav-text">算法步骤</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#lgspp%E7%AE%97%E6%B3%95%E4%BB%8B%E7%BB%8D"><span class="nav-number">3.</span> <span class="nav-text">LGSPP算法介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8Ebayes%E5%88%86%E7%B1%BB%E5%99%A8%E7%9A%84%E6%95%85%E9%9A%9C%E6%A3%80%E6%B5%8B%E8%AF%86%E5%88%AB"><span class="nav-number">4.</span> <span class="nav-text">基于Bayes分类器的故障检测识别</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
       <div class="site-overview-wrap sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <img class="site-author-image" itemprop="image" alt="Fain"
-      src="/images/touXiang.jpg">
+    <img class="site-author-image" itemprop="image" alt="Fain" src="/images/touXiang.jpg">
   <p class="site-author-name" itemprop="name">Fain</p>
   <div class="site-description" itemprop="description">深度学习,机器学习,计算机视觉CV,自然语言处理NLP,Python</div>
 </div>
@@ -645,7 +649,7 @@
   </div>
 
   
-  <script size="300" alpha="0.3" zIndex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+  <script size="300" alpha="0.3" zindex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
   <script src="/lib/anime.min.js"></script>
   <script src="/lib/velocity/velocity.min.js"></script>
   <script src="/lib/velocity/velocity.ui.min.js"></script>

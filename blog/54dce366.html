@@ -22,12 +22,12 @@
     var CONFIG = {"hostname":"fainke.com","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results foundin ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="1.简介P问题：一类可以通过确定性图灵机在多项式时间内解决的问题集合。NP问题：一类可以通过非确定性图灵机在多项式时间内解决的决策问题集合。P与NP：任何可以被图灵机在多项式时间内解决的问题都可以被非确定性的图灵机解决，不确定是否是真子集。NPC问题：一个NPC问题需要同时满足两个条件。①该问题是NP问题；②NP里所有问题可以在多项式时间内转为该问题。NPH问题：只需要满足NPC中的第二个性质">
+  <meta name="description" content="1.简介 P问题：一类可以通过确定性图灵机在多项式时间内解决的问题集合。 NP问题：一类可以通过非确定性图灵机在多项式时间内解决的决策问题集合。 P与NP：任何可以被图灵机在多项式时间内解决的问题都可以被非确定性的图灵机解决，不确定是否是真子集。 NPC问题：一个NPC问题需要同时满足两个条件。①该问题是NP问题；②NP里所有问题可以在多项式时间内转为该问题。 NPH问题：只需要满足NPC中的第">
 <meta property="og:type" content="article">
 <meta property="og:title" content="P_NP_NPC">
 <meta property="og:url" content="https://fainke.com/blog/54dce366.html">
 <meta property="og:site_name" content="DeepLearning">
-<meta property="og:description" content="1.简介P问题：一类可以通过确定性图灵机在多项式时间内解决的问题集合。NP问题：一类可以通过非确定性图灵机在多项式时间内解决的决策问题集合。P与NP：任何可以被图灵机在多项式时间内解决的问题都可以被非确定性的图灵机解决，不确定是否是真子集。NPC问题：一个NPC问题需要同时满足两个条件。①该问题是NP问题；②NP里所有问题可以在多项式时间内转为该问题。NPH问题：只需要满足NPC中的第二个性质">
+<meta property="og:description" content="1.简介 P问题：一类可以通过确定性图灵机在多项式时间内解决的问题集合。 NP问题：一类可以通过非确定性图灵机在多项式时间内解决的决策问题集合。 P与NP：任何可以被图灵机在多项式时间内解决的问题都可以被非确定性的图灵机解决，不确定是否是真子集。 NPC问题：一个NPC问题需要同时满足两个条件。①该问题是NP问题；②NP里所有问题可以在多项式时间内转为该问题。 NPH问题：只需要满足NPC中的第">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://fainke.com/blog/images/NP-01.png">
 <meta property="og:image" content="https://fainke.com/blog/images/NP-02.png">
@@ -91,7 +91,11 @@
   </style>
 </noscript>
 
-</head>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --></head>
 
 <body itemscope itemtype="http://schema.org/WebPage">
   <div class="container use-motion">
@@ -165,9 +169,7 @@
     <i class="fa fa-search"></i>
   </span>
   <div class="search-input-container">
-    <input autocomplete="off" autocapitalize="off"
-           placeholder="搜索..." spellcheck="false"
-           type="search" class="search-input">
+    <input autocomplete="off" autocapitalize="off" placeholder="搜索..." spellcheck="false" type="search" class="search-input">
   </div>
   <span class="popup-btn-close">
     <i class="fa fa-times-circle"></i>
@@ -279,9 +281,10 @@
 
       
         <a id="more"></a>
-
-<h1 id="1-简介"><a href="#1-简介" class="headerlink" title="1.简介"></a>1.简介</h1><p><strong>P问题：</strong>一类可以通过<strong>确定性</strong>图灵机在多项式时间内解决的问题集合。<br><strong>NP问题：</strong>一类可以通过<strong>非确定性</strong>图灵机在多项式时间内解决的决策问题集合。<br><strong>P与NP：</strong>任何可以被图灵机在多项式时间内解决的问题都可以被非确定性的图灵机解决，不确定是否是真子集。<br><strong>NPC问题：</strong>一个NPC问题需要同时满足两个条件。①该问题是NP问题；②NP里所有问题可以在多项式时间内转为该问题。<br><strong>NPH问题：</strong>只需要满足NPC中的第二个性质，所以，NPC是NPH的子集。<br><strong>上述元素的近似关系图：</strong><br><img src="images/NP-01.png" alt="image.png"><br>**$\mathbf{P} \subseteq \mathbf{co}-\mathbf{N} \mathbf{P}$：**<br>①因为P在运算下封闭，如果一个语言在P中，这时他的补语言co-P也在P中。综上得P与co-P都在NP中。<br>②一个语言在co-NP当且仅当他的补语言在NP。综上得P与co-P都在co-NP中。<br><img src="images/NP-02.png" alt="image.png">)<br><strong>补语(复杂性类)：</strong>记为co-C。一个决策问题 X是反C的成员，当且仅当它的互补 X是在复杂类C【维基百科】。补的例子：一个重要问题是数字是否是素数，它的补充是确定一个数字是否是一个复合数，这里补语的域是超过1的所有整数的集合。这个补也许还是一个NP问题，也许不是一个NP问题。</p>
-<h1 id="2-结语"><a href="#2-结语" class="headerlink" title="2.结语"></a>2.结语</h1><p>才疏学浅，如有不正确的言语，还请指出。</p>
+<h1 id="简介">1.简介</h1>
+<p><strong>P问题：</strong>一类可以通过<strong>确定性</strong>图灵机在多项式时间内解决的问题集合。 <strong>NP问题：</strong>一类可以通过<strong>非确定性</strong>图灵机在多项式时间内解决的决策问题集合。 <strong>P与NP：</strong>任何可以被图灵机在多项式时间内解决的问题都可以被非确定性的图灵机解决，不确定是否是真子集。 <strong>NPC问题：</strong>一个NPC问题需要同时满足两个条件。①该问题是NP问题；②NP里所有问题可以在多项式时间内转为该问题。 <strong>NPH问题：</strong>只需要满足NPC中的第二个性质，所以，NPC是NPH的子集。 <strong>上述元素的近似关系图：</strong> <img src="images/NP-01.png" alt="image.png"> <strong><span class="math inline">\(\mathbf{P} \subseteq \mathbf{co}-\mathbf{N} \mathbf{P}\)</span>：</strong> ①因为P在运算下封闭，如果一个语言在P中，这时他的补语言co-P也在P中。综上得P与co-P都在NP中。 ②一个语言在co-NP当且仅当他的补语言在NP。综上得P与co-P都在co-NP中。 <img src="images/NP-02.png" alt="image.png">) <strong>补语(复杂性类)：</strong>记为co-C。一个决策问题 X是反C的成员，当且仅当它的互补 X是在复杂类C【维基百科】。补的例子：一个重要问题是数字是否是素数，它的补充是确定一个数字是否是一个复合数，这里补语的域是超过1的所有整数的集合。这个补也许还是一个NP问题，也许不是一个NP问题。</p>
+<h1 id="结语">2.结语</h1>
+<p>才疏学浅，如有不正确的言语，还请指出。</p>
 
     </div>
 
@@ -326,7 +329,7 @@
     <a href="https://fainke.com/blog/54dce366.html" title="P_NP_NPC">https://fainke.com/blog/54dce366.html</a>
   </li>
   <li class="post-copyright-license">
-    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="external nofollow noopener noreferrer" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
   </li>
 </ul>
 </div>
@@ -372,8 +375,8 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/blog/61b26bf3.html" rel="prev" title="Python四大排序算法">
-      <i class="fa fa-chevron-left"></i> Python四大排序算法
+    <a href="/blog/5218e405.html" rel="prev" title="Python高阶语法随笔">
+      <i class="fa fa-chevron-left"></i> Python高阶语法随笔
     </a></div>
       <div class="post-nav-item">
     <a href="/blog/8161fe9d.html" rel="next" title="PCA最大方差">
@@ -439,14 +442,13 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-%E7%AE%80%E4%BB%8B"><span class="nav-number">1.</span> <span class="nav-text">1.简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-%E7%BB%93%E8%AF%AD"><span class="nav-number">2.</span> <span class="nav-text">2.结语</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AE%80%E4%BB%8B"><span class="nav-number">1.</span> <span class="nav-text">1.简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BB%93%E8%AF%AD"><span class="nav-number">2.</span> <span class="nav-text">2.结语</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
       <div class="site-overview-wrap sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <img class="site-author-image" itemprop="image" alt="Fain"
-      src="/images/touXiang.jpg">
+    <img class="site-author-image" itemprop="image" alt="Fain" src="/images/touXiang.jpg">
   <p class="site-author-name" itemprop="name">Fain</p>
   <div class="site-description" itemprop="description">深度学习,机器学习,计算机视觉CV,自然语言处理NLP,Python</div>
 </div>
@@ -609,7 +611,7 @@
   </div>
 
   
-  <script size="300" alpha="0.3" zIndex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+  <script size="300" alpha="0.3" zindex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
   <script src="/lib/anime.min.js"></script>
   <script src="/lib/velocity/velocity.min.js"></script>
   <script src="/lib/velocity/velocity.ui.min.js"></script>

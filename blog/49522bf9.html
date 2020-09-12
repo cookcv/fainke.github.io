@@ -22,12 +22,12 @@
     var CONFIG = {"hostname":"fainke.com","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results foundin ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="HMM算法：  设置设备状态数，此乃需要靠谱的先验知识，如果没有靠谱的先验知识，这时可以选择聚类算法，但是聚类算法中需要数据涵盖所有的状态类别。 为了增加HMM的鲁棒性和泛化性，一般需要采用多个观测样本进行训练，但在训练多组观测值序列时，只能先训练单一观测序列，在综合所有单个预测值序列得到的训练结果，计算时间长，计算量大。">
+  <meta name="description" content="HMM算法： 1. 设置设备状态数，此乃需要靠谱的先验知识，如果没有靠谱的先验知识，这时可以选择聚类算法，但是聚类算法中需要数据涵盖所有的状态类别。 2. 为了增加HMM的鲁棒性和泛化性，一般需要采用多个观测样本进行训练，但在训练多组观测值序列时，只能先训练单一观测序列，在综合所有单个预测值序列得到的训练结果，计算时间长，计算量大。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="基于HDP-HMM的机械设备故障预测">
 <meta property="og:url" content="https://fainke.com/blog/49522bf9.html">
 <meta property="og:site_name" content="DeepLearning">
-<meta property="og:description" content="HMM算法：  设置设备状态数，此乃需要靠谱的先验知识，如果没有靠谱的先验知识，这时可以选择聚类算法，但是聚类算法中需要数据涵盖所有的状态类别。 为了增加HMM的鲁棒性和泛化性，一般需要采用多个观测样本进行训练，但在训练多组观测值序列时，只能先训练单一观测序列，在综合所有单个预测值序列得到的训练结果，计算时间长，计算量大。">
+<meta property="og:description" content="HMM算法： 1. 设置设备状态数，此乃需要靠谱的先验知识，如果没有靠谱的先验知识，这时可以选择聚类算法，但是聚类算法中需要数据涵盖所有的状态类别。 2. 为了增加HMM的鲁棒性和泛化性，一般需要采用多个观测样本进行训练，但在训练多组观测值序列时，只能先训练单一观测序列，在综合所有单个预测值序列得到的训练结果，计算时间长，计算量大。">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2019-12-31T17:01:01.000Z">
 <meta property="article:modified_time" content="2020-01-31T17:01:01.000Z">
@@ -89,7 +89,11 @@
   </style>
 </noscript>
 
-</head>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --></head>
 
 <body itemscope itemtype="http://schema.org/WebPage">
   <div class="container use-motion">
@@ -163,9 +167,7 @@
     <i class="fa fa-search"></i>
   </span>
   <div class="search-input-container">
-    <input autocomplete="off" autocapitalize="off"
-           placeholder="搜索..." spellcheck="false"
-           type="search" class="search-input">
+    <input autocomplete="off" autocapitalize="off" placeholder="搜索..." spellcheck="false" type="search" class="search-input">
   </div>
   <span class="popup-btn-close">
     <i class="fa fa-times-circle"></i>
@@ -276,22 +278,12 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p><strong>HMM算法：</strong></p>
-<ol>
-<li>设置设备状态数，此乃需要靠谱的先验知识，如果没有靠谱的先验知识，这时可以选择聚类算法，但是聚类算法中需要数据涵盖所有的状态类别。</li>
-<li>为了增加HMM的鲁棒性和泛化性，一般需要采用多个观测样本进行训练，但在训练多组观测值序列时，只能先训练单一观测序列，在综合所有单个预测值序列得到的训练结果，计算时间长，计算量大。<a id="more"></a>
-
-</li>
-</ol>
-<p><strong>HMM算法延申HDP-HMM：</strong></p>
-<ol>
-<li>HDP-HMM中的状态数可以是不确定的，即状态空间无限，实现了扩展有限空间状态的隐马尔可夫模型到无限维度，并利用狄利克雷（Dirichlet Process,DP）过程的性质实现HMM状态数自动生成。</li>
-<li>HDP是在DP基础上扩展基础分布，使多个数据源之间不必满足独立同分布条件，利用参数共享，实现多维特征的信息融合和聚类。</li>
-</ol>
-<p><strong>应用描述：</strong><br>设备的性能退化是一个输出特性参数可见、状态隐藏的随机过程，可以用HMM描述。假设HMM描述的设备全寿命周期共有S={1,2,…,k}个隐藏状态，{1}为设备的正常状态，{2,3,…,k-1}分别为设备k-2个一次严重程度的退化状态，{k}为为设备故障状态。到T时刻为止，产生的隐藏状态序列为{s1,s2,…,sT}，不同状态下的观测值为{x1,x2,…,xT}，观测值xt关于状态st条件独立。设备各时刻所属的状态可以从k个不同的状态中取值，不同状态之间的转移由转移概率矩阵决定，其中的元素为$$\pi_{ij}=P(S_t=j|S_{t-1}=i)$$<br>。当HMM的参数$\lambda$确定的情况下，离散状态s和观测序列x的联合概率密度函数可以表示为<br>$$p(s,x|\lambda) = \prod^{T}_{t=1}p(s_t|s_{t-1})p(x_t|s_t)$$</p>
+        <p><strong>HMM算法：</strong> 1. 设置设备状态数，此乃需要靠谱的先验知识，如果没有靠谱的先验知识，这时可以选择聚类算法，但是聚类算法中需要数据涵盖所有的状态类别。 2. 为了增加HMM的鲁棒性和泛化性，一般需要采用多个观测样本进行训练，但在训练多组观测值序列时，只能先训练单一观测序列，在综合所有单个预测值序列得到的训练结果，计算时间长，计算量大。 <a id="more"></a></p>
+<p><strong>HMM算法延申HDP-HMM：</strong> 1. HDP-HMM中的状态数可以是不确定的，即状态空间无限，实现了扩展有限空间状态的隐马尔可夫模型到无限维度，并利用狄利克雷（Dirichlet Process,DP）过程的性质实现HMM状态数自动生成。 2. HDP是在DP基础上扩展基础分布，使多个数据源之间不必满足独立同分布条件，利用参数共享，实现多维特征的信息融合和聚类。</p>
+<p><strong>应用描述：</strong> 设备的性能退化是一个输出特性参数可见、状态隐藏的随机过程，可以用HMM描述。假设HMM描述的设备全寿命周期共有S={1,2,...,k}个隐藏状态，{1}为设备的正常状态，{2,3,...,k-1}分别为设备k-2个一次严重程度的退化状态，{k}为为设备故障状态。到T时刻为止，产生的隐藏状态序列为{s1,s2,...,sT}，不同状态下的观测值为{x1,x2,...,xT}，观测值xt关于状态st条件独立。设备各时刻所属的状态可以从k个不同的状态中取值，不同状态之间的转移由转移概率矩阵决定，其中的元素为<span class="math display">\[\pi_{ij}=P(S_t=j|S_{t-1}=i)\]</span> 。当HMM的参数<span class="math inline">\(\lambda\)</span>确定的情况下，离散状态s和观测序列x的联合概率密度函数可以表示为 <span class="math display">\[p(s,x|\lambda) = \prod^{T}_{t=1}p(s_t|s_{t-1})p(x_t|s_t)\]</span></p>
 <hr>
 <blockquote>
-<p>参考文献：<br>基于HDP-HMM的机械设备故障预测方法研究</p>
+<p>参考文献： 基于HDP-HMM的机械设备故障预测方法研究</p>
 </blockquote>
 
     </div>
@@ -337,7 +329,7 @@
     <a href="https://fainke.com/blog/49522bf9.html" title="基于HDP-HMM的机械设备故障预测">https://fainke.com/blog/49522bf9.html</a>
   </li>
   <li class="post-copyright-license">
-    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="external nofollow noopener noreferrer" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
   </li>
 </ul>
 </div>
@@ -456,8 +448,7 @@
 
       <div class="site-overview-wrap sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <img class="site-author-image" itemprop="image" alt="Fain"
-      src="/images/touXiang.jpg">
+    <img class="site-author-image" itemprop="image" alt="Fain" src="/images/touXiang.jpg">
   <p class="site-author-name" itemprop="name">Fain</p>
   <div class="site-description" itemprop="description">深度学习,机器学习,计算机视觉CV,自然语言处理NLP,Python</div>
 </div>
@@ -620,7 +611,7 @@
   </div>
 
   
-  <script size="300" alpha="0.3" zIndex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+  <script size="300" alpha="0.3" zindex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
   <script src="/lib/anime.min.js"></script>
   <script src="/lib/velocity/velocity.min.js"></script>
   <script src="/lib/velocity/velocity.ui.min.js"></script>

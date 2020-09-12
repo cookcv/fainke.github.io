@@ -22,12 +22,10 @@
     var CONFIG = {"hostname":"fainke.com","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results foundin ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="-">
-<meta property="og:type" content="article">
+  <meta property="og:type" content="article">
 <meta property="og:title" content="mmdetection使用">
 <meta property="og:url" content="https://fainke.com/blog/c7370826.html">
 <meta property="og:site_name" content="DeepLearning">
-<meta property="og:description" content="-">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2019-12-31T17:01:01.000Z">
 <meta property="article:modified_time" content="2020-01-31T17:01:01.000Z">
@@ -88,7 +86,11 @@
   </style>
 </noscript>
 
-</head>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --></head>
 
 <body itemscope itemtype="http://schema.org/WebPage">
   <div class="container use-motion">
@@ -162,9 +164,7 @@
     <i class="fa fa-search"></i>
   </span>
   <div class="search-input-container">
-    <input autocomplete="off" autocapitalize="off"
-           placeholder="搜索..." spellcheck="false"
-           type="search" class="search-input">
+    <input autocomplete="off" autocapitalize="off" placeholder="搜索..." spellcheck="false" type="search" class="search-input">
   </div>
   <span class="popup-btn-close">
     <i class="fa fa-times-circle"></i>
@@ -275,27 +275,24 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>-</p>
-<a id="more"></a>
-
-<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>1.用conda创建一个新的虚拟环境</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">conda create -n mmdetection python&#x3D;3.7</span><br><span class="line">conda activate mmdetection</span><br><span class="line"></span><br><span class="line"># 安装必要模块</span><br><span class="line">conda install pytorch&#x3D;1.1.0 torchvision&#x3D;0.3.0 cudatoolkit&#x3D;10.0 -c pytorch</span><br><span class="line">pip install cython &amp;&amp; pip --no-cache-dir install -r requirements.txt</span><br><span class="line"></span><br><span class="line"># 安装mmdetection</span><br><span class="line">git clone https:&#x2F;&#x2F;github.com&#x2F;open-mmlab&#x2F;mmdetection.git</span><br><span class="line">cd mmdetection</span><br><span class="line"># 安装</span><br><span class="line">python setup.py install</span><br><span class="line"># 编译</span><br><span class="line">python setup.py develop</span><br></pre></td></tr></table></figure>
-<ol start="2">
-<li>demo测试安装是否成功<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">#如果安装成功，则该文件可以运行成功。</span><br><span class="line">#coding&#x3D;utf-8</span><br><span class="line"> </span><br><span class="line">from mmdet.apis import init_detector</span><br><span class="line">from mmdet.apis import inference_detector</span><br><span class="line">from mmdet.apis import show_result</span><br><span class="line"> </span><br><span class="line"># 模型配置文件</span><br><span class="line">config_file &#x3D; &#39;.&#x2F;configs&#x2F;cascade_rcnn_r50_fpn_1x.py&#39;</span><br><span class="line"> </span><br><span class="line"># 预训练模型文件</span><br><span class="line">checkpoint_file &#x3D; &#39;..&#x2F;..&#x2F;checkpoints&#x2F;cascade_rcnn_r50_fpn_20e_20181123-db483a09.pth&#39;</span><br><span class="line"> </span><br><span class="line"># 通过模型配置文件与预训练文件构建模型</span><br><span class="line">model &#x3D; init_detector(config_file, checkpoint_file, device&#x3D;&#39;cuda:0&#39;)</span><br><span class="line"> </span><br><span class="line"># 测试单张图片并进行展示</span><br><span class="line">img &#x3D; &#39;demo.jpg&#39;</span><br><span class="line">result &#x3D; inference_detector(model, img)</span><br><span class="line">show_result(img, result, model.CLASSES)</span><br><span class="line"> </span><br></pre></td></tr></table></figure>
-<h2 id="训练"><a href="#训练" class="headerlink" title="训练"></a>训练</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python tools&#x2F;train.py configs&#x2F;.py --gpus 1</span><br></pre></td></tr></table></figure>
-
-</li>
-</ol>
-<h2 id="Config"><a href="#Config" class="headerlink" title="Config"></a>Config</h2><h4 id="Soft-NMS"><a href="#Soft-NMS" class="headerlink" title="Soft-NMS"></a>Soft-NMS</h4><p>Soft-NMS 改进了之前比较暴力的 NMS，当 IOU 超过某个阈值后，不再直接删除该框，而是降低它的置信度 (得分)，如果得分低到一个阈值，就会被排除；但是如果降低后仍然较高，就会被保留。</p>
-<h4 id="OHEM"><a href="#OHEM" class="headerlink" title=" OHEM"></a> OHEM</h4><p>OHEM (online hard example mining)，翻译过来就是在线难例挖掘，就是对所有的 ROI 的损失进行评估，选择损失较大的来优化网络，详情移步：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/58162337">OHEM 论文解读</a></p>
-<h4 id="损失选择"><a href="#损失选择" class="headerlink" title="损失选择"></a>损失选择</h4><p>针对分类的损失函数可以试试如 GHM-C Loss，针对回归的损失函数可以试试如 GHM-R Loss。IOU可以使用 GIou Loss，<a target="_blank" rel="noopener" href="https://arxiv.org/abs/1902.09630">Generalized Intersection over Union: A Metric and A Loss for Bounding Box Regression</a><br>。</p>
-<h4 id="warmup-lr"><a href="#warmup-lr" class="headerlink" title="warmup lr"></a>warmup lr</h4><p>翻译一下就是对学习率进行预热，最开始是在 ResNet 的论文中提到的一种方法，原始是先在前几个 epoch 或 iter 或目标达到一个水准之前以小于预设值得 lr 进行训练，然后再恢复 lr 到初始值。后来 Facebook 提出了改良版本，详情请移步论文： <a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1706.02677v2.pdf">Gradual warmup</a>[5]</p>
-<h2 id="提分点"><a href="#提分点" class="headerlink" title="提分点"></a>提分点</h2><p>在训练中对gt进行了0.9-1.1的随机缩放以适应不够精确的标注。</p>
-<h2 id="注意点"><a href="#注意点" class="headerlink" title="注意点"></a>注意点</h2><ol>
-<li><p>若改动框架源代码后，一定要注意重新编译后再使用<br>python setup.py develop</p>
-</li>
-<li><p>所有数值类型不可以轻易改为int64以下，cuda要求数值符合Long类型</p>
-</li>
+        <ul>
+<li><a id="more"></a></li>
+</ul>
+<h2 id="安装">安装</h2>
+<p>1.用conda创建一个新的虚拟环境 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">conda create -n mmdetection python&#x3D;3.7</span><br><span class="line">conda activate mmdetection</span><br><span class="line"></span><br><span class="line"># 安装必要模块</span><br><span class="line">conda install pytorch&#x3D;1.1.0 torchvision&#x3D;0.3.0 cudatoolkit&#x3D;10.0 -c pytorch</span><br><span class="line">pip install cython &amp;&amp; pip --no-cache-dir install -r requirements.txt</span><br><span class="line"></span><br><span class="line"># 安装mmdetection</span><br><span class="line">git clone https:&#x2F;&#x2F;github.com&#x2F;open-mmlab&#x2F;mmdetection.git</span><br><span class="line">cd mmdetection</span><br><span class="line"># 安装</span><br><span class="line">python setup.py install</span><br><span class="line"># 编译</span><br><span class="line">python setup.py develop</span><br></pre></td></tr></table></figure> 2. demo测试安装是否成功 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">#如果安装成功，则该文件可以运行成功。</span><br><span class="line">#coding&#x3D;utf-8</span><br><span class="line"> </span><br><span class="line">from mmdet.apis import init_detector</span><br><span class="line">from mmdet.apis import inference_detector</span><br><span class="line">from mmdet.apis import show_result</span><br><span class="line"> </span><br><span class="line"># 模型配置文件</span><br><span class="line">config_file &#x3D; &#39;.&#x2F;configs&#x2F;cascade_rcnn_r50_fpn_1x.py&#39;</span><br><span class="line"> </span><br><span class="line"># 预训练模型文件</span><br><span class="line">checkpoint_file &#x3D; &#39;..&#x2F;..&#x2F;checkpoints&#x2F;cascade_rcnn_r50_fpn_20e_20181123-db483a09.pth&#39;</span><br><span class="line"> </span><br><span class="line"># 通过模型配置文件与预训练文件构建模型</span><br><span class="line">model &#x3D; init_detector(config_file, checkpoint_file, device&#x3D;&#39;cuda:0&#39;)</span><br><span class="line"> </span><br><span class="line"># 测试单张图片并进行展示</span><br><span class="line">img &#x3D; &#39;demo.jpg&#39;</span><br><span class="line">result &#x3D; inference_detector(model, img)</span><br><span class="line">show_result(img, result, model.CLASSES)</span><br><span class="line"> </span><br></pre></td></tr></table></figure> ## 训练 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python tools&#x2F;train.py configs&#x2F;.py --gpus 1</span><br></pre></td></tr></table></figure></p>
+<h2 id="config">Config</h2>
+<h4 id="soft-nms">Soft-NMS</h4>
+<p>Soft-NMS 改进了之前比较暴力的 NMS，当 IOU 超过某个阈值后，不再直接删除该框，而是降低它的置信度 (得分)，如果得分低到一个阈值，就会被排除；但是如果降低后仍然较高，就会被保留。</p>
+<h4 id="ohem"> OHEM</h4>
+<p>OHEM (online hard example mining)，翻译过来就是在线难例挖掘，就是对所有的 ROI 的损失进行评估，选择损失较大的来优化网络，详情移步：<a target="_blank" rel="external nofollow noopener noreferrer" href="https://zhuanlan.zhihu.com/p/58162337">OHEM 论文解读</a></p>
+<h4 id="损失选择">损失选择</h4>
+<p>针对分类的损失函数可以试试如 GHM-C Loss，针对回归的损失函数可以试试如 GHM-R Loss。IOU可以使用 GIou Loss，<a target="_blank" rel="external nofollow noopener noreferrer" href="https://arxiv.org/abs/1902.09630">Generalized Intersection over Union: A Metric and A Loss for Bounding Box Regression</a> 。</p>
+<h4 id="warmup-lr">warmup lr</h4>
+<p>翻译一下就是对学习率进行预热，最开始是在 ResNet 的论文中提到的一种方法，原始是先在前几个 epoch 或 iter 或目标达到一个水准之前以小于预设值得 lr 进行训练，然后再恢复 lr 到初始值。后来 Facebook 提出了改良版本，详情请移步论文： <a target="_blank" rel="external nofollow noopener noreferrer" href="https://arxiv.org/pdf/1706.02677v2.pdf">Gradual warmup</a>[5]</p>
+<h2 id="提分点">提分点</h2>
+<p>在训练中对gt进行了0.9-1.1的随机缩放以适应不够精确的标注。 ## 注意点 1. 若改动框架源代码后，一定要注意重新编译后再使用 python setup.py develop</p>
+<ol start="2" type="1">
+<li>所有数值类型不可以轻易改为int64以下，cuda要求数值符合Long类型</li>
 </ol>
 
     </div>
@@ -341,7 +338,7 @@
     <a href="https://fainke.com/blog/c7370826.html" title="mmdetection使用">https://fainke.com/blog/c7370826.html</a>
   </li>
   <li class="post-copyright-license">
-    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="external nofollow noopener noreferrer" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
   </li>
 </ul>
 </div>
@@ -387,8 +384,8 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/blog/bf3e34f1.html" rel="prev" title="天池农业AI挑战赛-总结">
-      <i class="fa fa-chevron-left"></i> 天池农业AI挑战赛-总结
+    <a href="/blog/7119a6b7.html" rel="prev" title="命名实体识别与关系抽取">
+      <i class="fa fa-chevron-left"></i> 命名实体识别与关系抽取
     </a></div>
       <div class="post-nav-item">
     <a href="/blog/4fe4eb0b.html" rel="next" title="XGBoost二阶泰勒展开式推导">
@@ -454,14 +451,13 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%85"><span class="nav-number">1.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%AD%E7%BB%83"><span class="nav-number">2.</span> <span class="nav-text">训练</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Config"><span class="nav-number">3.</span> <span class="nav-text">Config</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Soft-NMS"><span class="nav-number">3.0.1.</span> <span class="nav-text">Soft-NMS</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#OHEM"><span class="nav-number">3.0.2.</span> <span class="nav-text"> OHEM</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%8D%9F%E5%A4%B1%E9%80%89%E6%8B%A9"><span class="nav-number">3.0.3.</span> <span class="nav-text">损失选择</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#warmup-lr"><span class="nav-number">3.0.4.</span> <span class="nav-text">warmup lr</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8F%90%E5%88%86%E7%82%B9"><span class="nav-number">4.</span> <span class="nav-text">提分点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B3%A8%E6%84%8F%E7%82%B9"><span class="nav-number">5.</span> <span class="nav-text">注意点</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%85"><span class="nav-number">1.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#config"><span class="nav-number">2.</span> <span class="nav-text">Config</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#soft-nms"><span class="nav-number">2.0.1.</span> <span class="nav-text">Soft-NMS</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ohem"><span class="nav-number">2.0.2.</span> <span class="nav-text"> OHEM</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%8D%9F%E5%A4%B1%E9%80%89%E6%8B%A9"><span class="nav-number">2.0.3.</span> <span class="nav-text">损失选择</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#warmup-lr"><span class="nav-number">2.0.4.</span> <span class="nav-text">warmup lr</span></a></li></ol></li></ol><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8F%90%E5%88%86%E7%82%B9"><span class="nav-number">3.</span> <span class="nav-text">提分点</span></a></li></div>
       </div>
       <!--/noindex-->
 
       <div class="site-overview-wrap sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <img class="site-author-image" itemprop="image" alt="Fain"
-      src="/images/touXiang.jpg">
+    <img class="site-author-image" itemprop="image" alt="Fain" src="/images/touXiang.jpg">
   <p class="site-author-name" itemprop="name">Fain</p>
   <div class="site-description" itemprop="description">深度学习,机器学习,计算机视觉CV,自然语言处理NLP,Python</div>
 </div>
@@ -624,7 +620,7 @@
   </div>
 
   
-  <script size="300" alpha="0.3" zIndex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+  <script size="300" alpha="0.3" zindex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
   <script src="/lib/anime.min.js"></script>
   <script src="/lib/velocity/velocity.min.js"></script>
   <script src="/lib/velocity/velocity.ui.min.js"></script>

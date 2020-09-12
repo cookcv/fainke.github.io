@@ -86,7 +86,11 @@
   </style>
 </noscript>
 
-</head>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --></head>
 
 <body itemscope itemtype="http://schema.org/WebPage">
   <div class="container use-motion">
@@ -160,9 +164,7 @@
     <i class="fa fa-search"></i>
   </span>
   <div class="search-input-container">
-    <input autocomplete="off" autocapitalize="off"
-           placeholder="搜索..." spellcheck="false"
-           type="search" class="search-input">
+    <input autocomplete="off" autocapitalize="off" placeholder="搜索..." spellcheck="false" type="search" class="search-input">
   </div>
   <span class="popup-btn-close">
     <i class="fa fa-times-circle"></i>
@@ -273,7 +275,8 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>-</p>
+          <ul>
+<li>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/blog/dda9dbb9.html#more" rel="contents">
@@ -283,7 +286,7 @@
           <!--/noindex-->
         
       
-    </div>
+    </li></ul></div>
 
     
     
@@ -376,7 +379,8 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="简述"><a href="#简述" class="headerlink" title="简述"></a>简述</h2><p>这篇文章提出two-stream CNN架构，two-stream包括经典网络结构regular stream和处理边界信息的shape stream。这两个处理流并行处理不同的任务，相互协调工作。regular stream可以帮助shape stream只关注边界信息而不被一些无用的噪声干扰；shape stream可以辅助regular stream做更精确的识别。并且该架构在微小物体上有着明显提升。</p>
+          <h2 id="简述">简述</h2>
+<p>这篇文章提出two-stream CNN架构，two-stream包括经典网络结构regular stream和处理边界信息的shape stream。这两个处理流并行处理不同的任务，相互协调工作。regular stream可以帮助shape stream只关注边界信息而不被一些无用的噪声干扰；shape stream可以辅助regular stream做更精确的识别。并且该架构在微小物体上有着明显提升。</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/blog/ac56438f.html#more" rel="contents">
@@ -479,10 +483,8 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="Embedding"><a href="#Embedding" class="headerlink" title="Embedding"></a>Embedding</h2><p><strong>input：</strong></p>
-<ol>
-<li>所有文字的字典文件，{index：word,…}；</li>
-<li>所有文字的embedding文件，{word:embedding,…}；
+          <h2 id="embedding">Embedding</h2>
+<p><strong>input：</strong> 1. 所有文字的字典文件，{index：word,...}； 2. 所有文字的embedding文件，{word:embedding,...}；
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/blog/18a085b4.html#more" rel="contents">
@@ -492,7 +494,7 @@
           <!--/noindex-->
         
       
-    </div>
+    </p></div>
 
     
     
@@ -585,7 +587,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>腐蚀和膨胀是对像素值大的部分而言的，即高亮白部分而不是黑色部分；以下图片前景物体为高亮像素，背景为低亮像素。</p>
+          <p>腐蚀和膨胀是对像素值大的部分而言的，即高亮白部分而不是黑色部分；以下图片前景物体为高亮像素，背景为低亮像素。
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/blog/61e6e20f.html#more" rel="contents">
@@ -595,7 +597,7 @@
           <!--/noindex-->
         
       
-    </div>
+    </p></div>
 
     
     
@@ -688,12 +690,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p><strong>简介</strong></p>
-<ol>
-<li>均值滤波器属于低通滤波器；</li>
-<li>输出为模板内领域像素的简单平均值；</li>
-<li>主要用于图像的模糊和降噪，去除尖锐部分，比滤波器模板尺寸小的像素区域将会过滤掉；</li>
-<li>与此同时，边缘也会被平滑、模糊。
+          <p><strong>简介</strong> 1. 均值滤波器属于低通滤波器； 2. 输出为模板内领域像素的简单平均值； 3. 主要用于图像的模糊和降噪，去除尖锐部分，比滤波器模板尺寸小的像素区域将会过滤掉； 4. 与此同时，边缘也会被平滑、模糊。
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/blog/308c4d8b.html#more" rel="contents">
@@ -703,7 +700,7 @@
           <!--/noindex-->
         
       
-    </div>
+    </p></div>
 
     
     
@@ -796,10 +793,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p><strong>HMM算法：</strong></p>
-<ol>
-<li>设置设备状态数，此乃需要靠谱的先验知识，如果没有靠谱的先验知识，这时可以选择聚类算法，但是聚类算法中需要数据涵盖所有的状态类别。</li>
-<li>为了增加HMM的鲁棒性和泛化性，一般需要采用多个观测样本进行训练，但在训练多组观测值序列时，只能先训练单一观测序列，在综合所有单个预测值序列得到的训练结果，计算时间长，计算量大。
+          <p><strong>HMM算法：</strong> 1. 设置设备状态数，此乃需要靠谱的先验知识，如果没有靠谱的先验知识，这时可以选择聚类算法，但是聚类算法中需要数据涵盖所有的状态类别。 2. 为了增加HMM的鲁棒性和泛化性，一般需要采用多个观测样本进行训练，但在训练多组观测值序列时，只能先训练单一观测序列，在综合所有单个预测值序列得到的训练结果，计算时间长，计算量大。
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/blog/49522bf9.html#more" rel="contents">
@@ -809,7 +803,7 @@
           <!--/noindex-->
         
       
-    </div>
+    </p></div>
 
     
     
@@ -902,7 +896,8 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>美国运筹学家Sasty于20世纪70年代初提出层次分析法AHP(Analytic Hierarchy Process)<br>AHP：一种定量与特性相结合的、系统化、层次化的分析法。</p>
+          <h2 id="背景">背景</h2>
+<p>美国运筹学家Sasty于20世纪70年代初提出层次分析法AHP(Analytic Hierarchy Process) AHP：一种定量与特性相结合的、系统化、层次化的分析法。
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/blog/2a6766e.html#more" rel="contents">
@@ -912,7 +907,7 @@
           <!--/noindex-->
         
       
-    </div>
+    </p></div>
 
     
     
@@ -1005,7 +1000,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p><strong>主要内容：</strong> 0-1,Hinge,Logistic,Cross Entropy,Square,Absolute,Huber<br><strong>简述：</strong> 损失函数刻画了模型与训练样本的匹配程度。</p>
+          <p><strong>主要内容：</strong> 0-1,Hinge,Logistic,Cross Entropy,Square,Absolute,Huber <strong>简述：</strong> 损失函数刻画了模型与训练样本的匹配程度。
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/blog/4863b368.html#more" rel="contents">
@@ -1015,7 +1010,7 @@
           <!--/noindex-->
         
       
-    </div>
+    </p></div>
 
     
     
@@ -1108,8 +1103,11 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="数据维度规约"><a href="#数据维度规约" class="headerlink" title="数据维度规约"></a>数据维度规约</h2><h3 id="特征选取法"><a href="#特征选取法" class="headerlink" title="特征选取法"></a>特征选取法</h3><h4 id="决定特征的衡量准则"><a href="#决定特征的衡量准则" class="headerlink" title="决定特征的衡量准则"></a>决定特征的衡量准则</h4><ol>
-<li><p><strong>一致性测量法（consistency measurement）</strong><br>每一个特征在不同取值下目标值不一致的数据笔数的总和，越少表示相应特征越重要。（先判断最多笔数的取值，剩下的都是不一致取值）</p>
+          <h2 id="数据维度规约">数据维度规约</h2>
+<h3 id="特征选取法">特征选取法</h3>
+<h4 id="决定特征的衡量准则">决定特征的衡量准则</h4>
+<ol type="1">
+<li><p><strong>一致性测量法（consistency measurement）</strong> 每一个特征在不同取值下目标值不一致的数据笔数的总和，越少表示相应特征越重要。（先判断最多笔数的取值，剩下的都是不一致取值）
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/blog/bb540bde.html#more" rel="contents">
@@ -1119,7 +1117,7 @@
           <!--/noindex-->
         
       
-    </div>
+    </p></li></ol></div>
 
     
     
@@ -1212,7 +1210,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p><strong>什么是最小二乘法：</strong><br>最小二乘法是一种误差度量方法，一种被优化的问题，在线性最小二乘问题中可以直接求解$x=\left(A^{T} A\right)^{-1} A^{T} b$得到全局最优，但是在非线性最小二乘问题中无法用此方法求解，此时就需要迭代法来求解，比如梯度下降法，牛顿法。</p>
+          <p><strong>什么是最小二乘法：</strong> 最小二乘法是一种误差度量方法，一种被优化的问题，在线性最小二乘问题中可以直接求解<span class="math inline">\(x=\left(A^{T} A\right)^{-1} A^{T} b\)</span>得到全局最优，但是在非线性最小二乘问题中无法用此方法求解，此时就需要迭代法来求解，比如梯度下降法，牛顿法。
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/blog/cd0593c0.html#more" rel="contents">
@@ -1222,7 +1220,7 @@
           <!--/noindex-->
         
       
-    </div>
+    </p></div>
 
     
     
@@ -1297,8 +1295,7 @@
 
       <div class="site-overview-wrap sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <img class="site-author-image" itemprop="image" alt="Fain"
-      src="/images/touXiang.jpg">
+    <img class="site-author-image" itemprop="image" alt="Fain" src="/images/touXiang.jpg">
   <p class="site-author-name" itemprop="name">Fain</p>
   <div class="site-description" itemprop="description">深度学习,机器学习,计算机视觉CV,自然语言处理NLP,Python</div>
 </div>
@@ -1461,7 +1458,7 @@
   </div>
 
   
-  <script size="300" alpha="0.3" zIndex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+  <script size="300" alpha="0.3" zindex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
   <script src="/lib/anime.min.js"></script>
   <script src="/lib/velocity/velocity.min.js"></script>
   <script src="/lib/velocity/velocity.ui.min.js"></script>

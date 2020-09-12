@@ -22,12 +22,12 @@
     var CONFIG = {"hostname":"fainke.com","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results foundin ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="剪枝一直都是一个十分必要的工作。 谷歌：Link:TensorFlow Model Optimization Toolkit">
+  <meta name="description" content="剪枝一直都是一个十分必要的工作。 谷歌： Link:TensorFlow Model Optimization Toolkit">
 <meta property="og:type" content="article">
 <meta property="og:title" content="模型剪枝工具推荐">
 <meta property="og:url" content="https://fainke.com/blog/439cc94e.html">
 <meta property="og:site_name" content="DeepLearning">
-<meta property="og:description" content="剪枝一直都是一个十分必要的工作。 谷歌：Link:TensorFlow Model Optimization Toolkit">
+<meta property="og:description" content="剪枝一直都是一个十分必要的工作。 谷歌： Link:TensorFlow Model Optimization Toolkit">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2019-12-31T17:01:01.000Z">
 <meta property="article:modified_time" content="2020-01-31T17:01:01.000Z">
@@ -89,7 +89,11 @@
   </style>
 </noscript>
 
-</head>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --></head>
 
 <body itemscope itemtype="http://schema.org/WebPage">
   <div class="container use-motion">
@@ -163,9 +167,7 @@
     <i class="fa fa-search"></i>
   </span>
   <div class="search-input-container">
-    <input autocomplete="off" autocapitalize="off"
-           placeholder="搜索..." spellcheck="false"
-           type="search" class="search-input">
+    <input autocomplete="off" autocapitalize="off" placeholder="搜索..." spellcheck="false" type="search" class="search-input">
   </div>
   <span class="popup-btn-close">
     <i class="fa fa-times-circle"></i>
@@ -277,24 +279,26 @@
 
       
         <p><strong>剪枝一直都是一个十分必要的工作。</strong></p>
-<p><strong>谷歌：</strong><br>Link:<a target="_blank" rel="noopener" href="https://github.com/tensorflow/model-optimization">TensorFlow Model Optimization Toolkit</a></p>
-<a id="more"></a>
-
-<p><strong>百度：</strong><br>Link:<a target="_blank" rel="noopener" href="https://github.com/PaddlePaddle/models/tree/develop/PaddleSlim">PaddleSlim</a></p>
-<p><strong>腾讯：</strong><br>Link:<a target="_blank" rel="noopener" href="https://github.com/Tencent/PocketFlow">PocketFlow</a></p>
-<p><strong>Intel(基于Pytorch):</strong><br>Link:<a target="_blank" rel="noopener" href="https://github.com/NervanaSystems/distiller">distiller</a></p>
-<p><strong>微软：</strong><br>Link:<a target="_blank" rel="noopener" href="https://github.com/microsoft/nni">NNI</a></p>
-<p><strong>Pytorch社区：</strong><br>Link:<a target="_blank" rel="noopener" href="https://github.com/666DZY666/model-compression">model-compression</a></p>
-<p><strong>Keras社区：</strong><br>Link:<a target="_blank" rel="noopener" href="https://github.com/BenWhetton/keras-surgeon">keras-surgeon</a></p>
-<p>模型剪枝相关论文实现：<br>Link:<a target="_blank" rel="noopener" href="https://github.com/yeyun11/pytorch-network-slimming"> Learning Efficient Convolutional Networks Through Network Slimming</a></p>
-<p>Link:<a target="_blank" rel="noopener" href="https://github.com/Roll920/ThiNet">ThiNet: A Filter Level Pruning Method for Deep Neural Network Compression</a></p>
-<hr>
-<p>Deep Compression是一个模型量化和压缩框架。<br>Deep Compression综合应用了剪枝、量化、编码三个步骤来进行模型压缩，是2016 ICLR最佳论文。在不影响精度的前提下，把500M的VGG压缩到了11M。</p>
-<p>(1) 网络剪枝</p>
+<p><strong>谷歌：</strong> Link:<a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/tensorflow/model-optimization">TensorFlow Model Optimization Toolkit</a> <a id="more"></a></p>
+<p><strong>百度：</strong> Link:<a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/PaddlePaddle/models/tree/develop/PaddleSlim">PaddleSlim</a></p>
+<p><strong>腾讯：</strong> Link:<a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/Tencent/PocketFlow">PocketFlow</a></p>
+<p><strong>Intel(基于Pytorch):</strong> Link:<a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/NervanaSystems/distiller">distiller</a></p>
+<p><strong>微软：</strong> Link:<a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/microsoft/nni">NNI</a></p>
+<p><strong>Pytorch社区：</strong> Link:<a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/666DZY666/model-compression">model-compression</a></p>
+<p><strong>Keras社区：</strong> Link:<a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/BenWhetton/keras-surgeon">keras-surgeon</a></p>
+<p>模型剪枝相关论文实现： Link:<a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/yeyun11/pytorch-network-slimming">Learning Efficient Convolutional Networks Through Network Slimming</a></p>
+<p>Link:<a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/Roll920/ThiNet">ThiNet: A Filter Level Pruning Method for Deep Neural Network Compression</a> **** Deep Compression是一个模型量化和压缩框架。 Deep Compression综合应用了剪枝、量化、编码三个步骤来进行模型压缩，是2016 ICLR最佳论文。在不影响精度的前提下，把500M的VGG压缩到了11M。</p>
+<ol type="1">
+<li>网络剪枝</li>
+</ol>
 <p>即移除不重要的连接，包括3个步骤，分别是普通网络训练，删除权重小于一定阈值的连接得到稀疏网络，对稀疏网络再训练，这是一个反复迭代的过程。这一步对于AlexNet和VGG-16模型，分别将参数降低为原来的1/9和1/13。</p>
-<p>(2) 权重量化</p>
+<ol start="2" type="1">
+<li>权重量化</li>
+</ol>
 <p>权值量化是把网络的连接权值从高精度转化成低精度的操作过程，例如将32位浮点数float32转化成8位定点数int8或二值化为1bit，转换后的模型准确率等指标与原来相近，但模型大小变小，运行速度加快。一般操作是先训练模型，再进行量化，<strong>测试时</strong>使用量化后的模型。</p>
-<p>(3) 霍夫曼编码</p>
+<ol start="3" type="1">
+<li>霍夫曼编码</li>
+</ol>
 <p>霍夫曼编码是一种成熟的编码技巧，与CNN无关，它有效地利用了权重的有偏分布，可以进一步减少需要存储的参数体积。</p>
 <p><strong>串行的合并：</strong> 就是将Pooling、LRN，BN等网络层与相邻近的Conv层进行合并</p>
 <p><strong>分支合并</strong></p>
@@ -342,7 +346,7 @@
     <a href="https://fainke.com/blog/439cc94e.html" title="模型剪枝工具推荐">https://fainke.com/blog/439cc94e.html</a>
   </li>
   <li class="post-copyright-license">
-    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="external nofollow noopener noreferrer" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
   </li>
 </ul>
 </div>
@@ -393,8 +397,8 @@
       <i class="fa fa-chevron-left"></i> 模型评价指标
     </a></div>
       <div class="post-nav-item">
-    <a href="/blog/17ea3cd3.html" rel="next" title="梯度下降优化方法总结">
-      梯度下降优化方法总结 <i class="fa fa-chevron-right"></i>
+    <a href="/blog/b08494e7.html" rel="next" title="检测任务Loss之GIOU">
+      检测任务Loss之GIOU <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
@@ -461,8 +465,7 @@
 
       <div class="site-overview-wrap sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <img class="site-author-image" itemprop="image" alt="Fain"
-      src="/images/touXiang.jpg">
+    <img class="site-author-image" itemprop="image" alt="Fain" src="/images/touXiang.jpg">
   <p class="site-author-name" itemprop="name">Fain</p>
   <div class="site-description" itemprop="description">深度学习,机器学习,计算机视觉CV,自然语言处理NLP,Python</div>
 </div>
@@ -625,7 +628,7 @@
   </div>
 
   
-  <script size="300" alpha="0.3" zIndex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+  <script size="300" alpha="0.3" zindex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
   <script src="/lib/anime.min.js"></script>
   <script src="/lib/velocity/velocity.min.js"></script>
   <script src="/lib/velocity/velocity.ui.min.js"></script>

@@ -86,7 +86,11 @@
   </style>
 </noscript>
 
-</head>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --></head>
 
 <body itemscope itemtype="http://schema.org/WebPage">
   <div class="container use-motion">
@@ -160,9 +164,7 @@
     <i class="fa fa-search"></i>
   </span>
   <div class="search-input-container">
-    <input autocomplete="off" autocapitalize="off"
-           placeholder="搜索..." spellcheck="false"
-           type="search" class="search-input">
+    <input autocomplete="off" autocapitalize="off" placeholder="搜索..." spellcheck="false" type="search" class="search-input">
   </div>
   <span class="popup-btn-close">
     <i class="fa fa-times-circle"></i>
@@ -266,10 +268,8 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="什么是NLP中的文本摘要"><a href="#什么是NLP中的文本摘要" class="headerlink" title="什么是NLP中的文本摘要"></a>什么是NLP中的文本摘要</h2><p>自动文本摘要是在保持关键信息内容和整体含义的同时，生成简洁流畅的摘要的任务。<br>文本摘要目前大致可以分为抽取式与生成式两种类型：</p>
-<ol>
-<li>Extractive Summarization：根据词语重要性、句子重要性排序，抽取出重要度高的句子，从而形成摘要。主要是对文本的选择，算法过程相对更容易，但是对于复杂的文本时，很难仅仅通过选择文本来形成摘要，如小说。</li>
-<li>Abstractive Summarization：过程更为复杂，但生成能力更强，可认为有一定的概括能力。
+          <h2 id="什么是nlp中的文本摘要">什么是NLP中的文本摘要</h2>
+<p>自动文本摘要是在保持关键信息内容和整体含义的同时，生成简洁流畅的摘要的任务。 文本摘要目前大致可以分为抽取式与生成式两种类型： 1. Extractive Summarization：根据词语重要性、句子重要性排序，抽取出重要度高的句子，从而形成摘要。主要是对文本的选择，算法过程相对更容易，但是对于复杂的文本时，很难仅仅通过选择文本来形成摘要，如小说。 2. Abstractive Summarization：过程更为复杂，但生成能力更强，可认为有一定的概括能力。
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/blog/5566fb07.html#more" rel="contents">
@@ -279,7 +279,7 @@
           <!--/noindex-->
         
       
-    </div>
+    </p></div>
 
     
     
@@ -365,7 +365,8 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>这篇文章解释了CNN是怎么学到图片内的绝对位置信息。探究了CNN到底有没有编码位置信息，这些位置信息在哪些神经元中被编码、这些位置信息又是如何被暴露给神经网络学习的。</p>
+          <h2 id="前言">前言</h2>
+<p>这篇文章解释了CNN是怎么学到图片内的绝对位置信息。探究了CNN到底有没有编码位置信息，这些位置信息在哪些神经元中被编码、这些位置信息又是如何被暴露给神经网络学习的。</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/blog/4f7ea913.html#more" rel="contents">
@@ -393,7 +394,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://fainke.com/blog/c31606b1.html">
+    <link itemprop="mainEntityOfPage" href="https://fainke.com/blog/1b2588a1.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/touXiang.jpg">
@@ -407,7 +408,104 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/blog/c31606b1.html" class="post-title-link" itemprop="url">神经网络能否直接判断奇偶数</a>
+            <a href="/blog/1b2588a1.html" class="post-title-link" itemprop="url">TFLite安卓项目解读</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-03-05 01:01:01" itemprop="dateCreated datePublished" datetime="2020-03-05T01:01:01+08:00">2020-03-05</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E9%83%A8%E7%BD%B2/" itemprop="url" rel="index"><span itemprop="name">深度学习部署</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/blog/1b2588a1.html" class="post-meta-item leancloud_visitors" data-flag-title="TFLite安卓项目解读" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/blog/1b2588a1.html#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/blog/1b2588a1.html" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <ul>
+<li>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/blog/1b2588a1.html#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </li></ul></div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://fainke.com/blog/3b862564.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/touXiang.jpg">
+      <meta itemprop="name" content="Fain">
+      <meta itemprop="description" content="深度学习,机器学习,计算机视觉CV,自然语言处理NLP,Python">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="DeepLearning">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/blog/3b862564.html" class="post-title-link" itemprop="url">字向量的产生</a>
         </h2>
 
         <div class="post-meta">
@@ -430,7 +528,7 @@
             </span>
 
           
-            <span id="/blog/c31606b1.html" class="post-meta-item leancloud_visitors" data-flag-title="神经网络能否直接判断奇偶数" title="阅读次数">
+            <span id="/blog/3b862564.html" class="post-meta-item leancloud_visitors" data-flag-title="字向量的产生" title="阅读次数">
               <span class="post-meta-item-icon">
                 <i class="fa fa-eye"></i>
               </span>
@@ -445,8 +543,8 @@
       </span>
       <span class="post-meta-item-text">Valine：</span>
     
-    <a title="valine" href="/blog/c31606b1.html#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/blog/c31606b1.html" itemprop="commentCount"></span>
+    <a title="valine" href="/blog/3b862564.html#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/blog/3b862564.html" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -461,113 +559,18 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="神经网络判断奇偶数"><a href="#神经网络判断奇偶数" class="headerlink" title="神经网络判断奇偶数"></a>神经网络判断奇偶数</h2><p>拥有神经网络的深度学习比机器学习的一大特点是，深度学习的非线性转换能够实现一定程度上的特征提取和特征组合。但是，当你传入一批自然数进入模型中训练，想要预测奇偶性的时候，你会发现，这个任务有点难。但是，如果你将这些数值转为二进制的时候，这个任务又变得可行。可以看出，深度学习也需要我们做一下数据的预处理工作。当然，也侧边看出了神经网络并非万能。</p>
+          <ul>
+<li>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/blog/c31606b1.html#more" rel="contents">
+              <a class="btn" href="/blog/3b862564.html#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
           <!--/noindex-->
         
       
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://fainke.com/blog/4a3de261.html">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/touXiang.jpg">
-      <meta itemprop="name" content="Fain">
-      <meta itemprop="description" content="深度学习,机器学习,计算机视觉CV,自然语言处理NLP,Python">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="DeepLearning">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/blog/4a3de261.html" class="post-title-link" itemprop="url">ButterWorthFIlter(巴特沃斯滤波器)</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-03-05 01:01:01" itemprop="dateCreated datePublished" datetime="2020-03-05T01:01:01+08:00">2020-03-05</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">机器学习</span></a>
-                </span>
-            </span>
-
-          
-            <span id="/blog/4a3de261.html" class="post-meta-item leancloud_visitors" data-flag-title="ButterWorthFIlter(巴特沃斯滤波器)" title="阅读次数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">阅读次数：</span>
-              <span class="leancloud-visitors-count"></span>
-            </span>
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/blog/4a3de261.html#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/blog/4a3de261.html" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="滤波器与通带与阻带"><a href="#滤波器与通带与阻带" class="headerlink" title="滤波器与通带与阻带"></a>滤波器与通带与阻带</h2><p>工程上根据输出端口对信号频率范围的要求，设计专门的网络，置于输入－输出端口之间，使输出端口所需要的频率分量能够顺利通过，而抑制不需要的频率分量，这种具有选频功能的中间网络，工程上称为<strong>滤波器</strong>。通常将希望保留的频率范围称为<strong>通带</strong>，将希望抑制的频率范围称为<strong>阻带</strong>。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/blog/4a3de261.html#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
+    </li></ul></div>
 
     
     
@@ -664,7 +667,7 @@
           <!--/noindex-->
         
       
-    </div>
+    </li></ul></div>
 
     
     
@@ -682,7 +685,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://fainke.com/blog/1c9e975d.html">
+    <link itemprop="mainEntityOfPage" href="https://fainke.com/blog/4a3de261.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/touXiang.jpg">
@@ -696,7 +699,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/blog/1c9e975d.html" class="post-title-link" itemprop="url">晶圆失效图形自动识别</a>
+            <a href="/blog/4a3de261.html" class="post-title-link" itemprop="url">ButterWorthFIlter(巴特沃斯滤波器)</a>
         </h2>
 
         <div class="post-meta">
@@ -719,7 +722,7 @@
             </span>
 
           
-            <span id="/blog/1c9e975d.html" class="post-meta-item leancloud_visitors" data-flag-title="晶圆失效图形自动识别" title="阅读次数">
+            <span id="/blog/4a3de261.html" class="post-meta-item leancloud_visitors" data-flag-title="ButterWorthFIlter(巴特沃斯滤波器)" title="阅读次数">
               <span class="post-meta-item-icon">
                 <i class="fa fa-eye"></i>
               </span>
@@ -734,8 +737,8 @@
       </span>
       <span class="post-meta-item-text">Valine：</span>
     
-    <a title="valine" href="/blog/1c9e975d.html#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/blog/1c9e975d.html" itemprop="commentCount"></span>
+    <a title="valine" href="/blog/4a3de261.html#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/blog/4a3de261.html" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -750,10 +753,112 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h3 id="问题简介"><a href="#问题简介" class="headerlink" title="问题简介"></a>问题简介</h3><p>半导体制造是按照整盒晶圆为单位进行生产。因此大致同一盒晶圆在生产上基本上是同一时间经过各个工艺步骤，因而可以说同一盒晶圆中的所有单片晶圆所经历的生产环境是一致的。但是，由于单片晶圆所经历的机台<strong>子工艺</strong>仓可能不同，就有可能造成一盒晶圆中的单片晶圆按照一定顺序重复失效；例如所有奇数片低良率，偶数片正常。所以，这时不仅需要分析以整盒晶圆为单位的叠图失效图形，还要具体分析每片晶圆的失效图形。</p>
+          <h2 id="滤波器与通带与阻带">滤波器与通带与阻带</h2>
+<p>工程上根据输出端口对信号频率范围的要求，设计专门的网络，置于输入－输出端口之间，使输出端口所需要的频率分量能够顺利通过，而抑制不需要的频率分量，这种具有选频功能的中间网络，工程上称为<strong>滤波器</strong>。通常将希望保留的频率范围称为<strong>通带</strong>，将希望抑制的频率范围称为<strong>阻带</strong>。
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/blog/1c9e975d.html#more" rel="contents">
+              <a class="btn" href="/blog/4a3de261.html#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </p></div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://fainke.com/blog/76022918.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/touXiang.jpg">
+      <meta itemprop="name" content="Fain">
+      <meta itemprop="description" content="深度学习,机器学习,计算机视觉CV,自然语言处理NLP,Python">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="DeepLearning">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/blog/76022918.html" class="post-title-link" itemprop="url">数字图像处理1-简介（西电）</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-03-05 01:01:01" itemprop="dateCreated datePublished" datetime="2020-03-05T01:01:01+08:00">2020-03-05</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89CV/" itemprop="url" rel="index"><span itemprop="name">计算机视觉CV</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/blog/76022918.html" class="post-meta-item leancloud_visitors" data-flag-title="数字图像处理1-简介（西电）" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/blog/76022918.html#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/blog/76022918.html" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="什么是图像">什么是图像</h2>
+<ol type="1">
+<li>图：物体透射或反射光的分布，是客观存在的。</li>
+<li>像：人对图的印像或认识，是人的感觉。</li>
+<li>图像：是图和像的有机结合，既反映物体的客观存在，又体现人的心理因素；是客观对象的一种可视化表示，它包含了被描述对象的有关信息。</li>
+</ol>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/blog/76022918.html#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -846,7 +951,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>2.1 色度学基础<br>2.2 人的视觉特性<br>2.3 图像数字化<br>2.4 数字图像表示形式和特点</p>
+          <p>2.1 色度学基础 2.2 人的视觉特性 2.3 图像数字化 2.4 数字图像表示形式和特点
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/blog/748d9239.html#more" rel="contents">
@@ -856,7 +961,7 @@
           <!--/noindex-->
         
       
-    </div>
+    </p></div>
 
     
     
@@ -874,7 +979,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://fainke.com/blog/76022918.html">
+    <link itemprop="mainEntityOfPage" href="https://fainke.com/blog/1c9e975d.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/touXiang.jpg">
@@ -888,7 +993,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/blog/76022918.html" class="post-title-link" itemprop="url">数字图像处理1-简介（西电）</a>
+            <a href="/blog/1c9e975d.html" class="post-title-link" itemprop="url">晶圆失效图形自动识别</a>
         </h2>
 
         <div class="post-meta">
@@ -906,12 +1011,12 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89CV/" itemprop="url" rel="index"><span itemprop="name">计算机视觉CV</span></a>
+                  <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">机器学习</span></a>
                 </span>
             </span>
 
           
-            <span id="/blog/76022918.html" class="post-meta-item leancloud_visitors" data-flag-title="数字图像处理1-简介（西电）" title="阅读次数">
+            <span id="/blog/1c9e975d.html" class="post-meta-item leancloud_visitors" data-flag-title="晶圆失效图形自动识别" title="阅读次数">
               <span class="post-meta-item-icon">
                 <i class="fa fa-eye"></i>
               </span>
@@ -926,8 +1031,8 @@
       </span>
       <span class="post-meta-item-text">Valine：</span>
     
-    <a title="valine" href="/blog/76022918.html#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/blog/76022918.html" itemprop="commentCount"></span>
+    <a title="valine" href="/blog/1c9e975d.html#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/blog/1c9e975d.html" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -942,21 +1047,18 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="什么是图像"><a href="#什么是图像" class="headerlink" title="什么是图像"></a>什么是图像</h2><ol>
-<li>图：物体透射或反射光的分布，是客观存在的。</li>
-<li>像：人对图的印像或认识，是人的感觉。</li>
-<li>图像：是图和像的有机结合，既反映物体的客观存在，又体现人的心理因素；是客观对象的一种可视化表示，它包含了被描述对象的有关信息。</li>
-</ol>
+          <h3 id="问题简介">问题简介</h3>
+<p>半导体制造是按照整盒晶圆为单位进行生产。因此大致同一盒晶圆在生产上基本上是同一时间经过各个工艺步骤，因而可以说同一盒晶圆中的所有单片晶圆所经历的生产环境是一致的。但是，由于单片晶圆所经历的机台<strong>子工艺</strong>仓可能不同，就有可能造成一盒晶圆中的单片晶圆按照一定顺序重复失效；例如所有奇数片低良率，偶数片正常。所以，这时不仅需要分析以整盒晶圆为单位的叠图失效图形，还要具体分析每片晶圆的失效图形。
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/blog/76022918.html#more" rel="contents">
+              <a class="btn" href="/blog/1c9e975d.html#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
           <!--/noindex-->
         
       
-    </div>
+    </p></div>
 
     
     
@@ -1066,103 +1168,6 @@
   
 
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://fainke.com/blog/3b862564.html">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/touXiang.jpg">
-      <meta itemprop="name" content="Fain">
-      <meta itemprop="description" content="深度学习,机器学习,计算机视觉CV,自然语言处理NLP,Python">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="DeepLearning">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/blog/3b862564.html" class="post-title-link" itemprop="url">字向量的产生</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-03-05 01:01:01" itemprop="dateCreated datePublished" datetime="2020-03-05T01:01:01+08:00">2020-03-05</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86NLP/" itemprop="url" rel="index"><span itemprop="name">自然语言处理NLP</span></a>
-                </span>
-            </span>
-
-          
-            <span id="/blog/3b862564.html" class="post-meta-item leancloud_visitors" data-flag-title="字向量的产生" title="阅读次数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">阅读次数：</span>
-              <span class="leancloud-visitors-count"></span>
-            </span>
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/blog/3b862564.html#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/blog/3b862564.html" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <ul>
-<li>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/blog/3b862564.html#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-
 
   
   <nav class="pagination">
@@ -1224,8 +1229,7 @@
 
       <div class="site-overview-wrap sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <img class="site-author-image" itemprop="image" alt="Fain"
-      src="/images/touXiang.jpg">
+    <img class="site-author-image" itemprop="image" alt="Fain" src="/images/touXiang.jpg">
   <p class="site-author-name" itemprop="name">Fain</p>
   <div class="site-description" itemprop="description">深度学习,机器学习,计算机视觉CV,自然语言处理NLP,Python</div>
 </div>
@@ -1388,7 +1392,7 @@
   </div>
 
   
-  <script size="300" alpha="0.3" zIndex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+  <script size="300" alpha="0.3" zindex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
   <script src="/lib/anime.min.js"></script>
   <script src="/lib/velocity/velocity.min.js"></script>
   <script src="/lib/velocity/velocity.ui.min.js"></script>

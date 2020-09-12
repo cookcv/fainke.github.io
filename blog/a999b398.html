@@ -88,7 +88,11 @@
   </style>
 </noscript>
 
-</head>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --></head>
 
 <body itemscope itemtype="http://schema.org/WebPage">
   <div class="container use-motion">
@@ -162,9 +166,7 @@
     <i class="fa fa-search"></i>
   </span>
   <div class="search-input-container">
-    <input autocomplete="off" autocapitalize="off"
-           placeholder="搜索..." spellcheck="false"
-           type="search" class="search-input">
+    <input autocomplete="off" autocapitalize="off" placeholder="搜索..." spellcheck="false" type="search" class="search-input">
   </div>
   <span class="popup-btn-close">
     <i class="fa fa-times-circle"></i>
@@ -275,16 +277,14 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p><strong>概述</strong>：在机器学习领域中，通常将特征表示为向量的形式，所以在分析两个特征向量之间的相似性时，常用余弦相似度表示。例如将两篇文章向量化，余弦距离可以避免因为文章的长度不同而导致距离偏大，余弦距离只考虑两篇文章生成的向量的夹角。</p>
-<a id="more"></a>
-
+        <p><strong>概述</strong>：在机器学习领域中，通常将特征表示为向量的形式，所以在分析两个特征向量之间的相似性时，常用余弦相似度表示。例如将两篇文章向量化，余弦距离可以避免因为文章的长度不同而导致距离偏大，余弦距离只考虑两篇文章生成的向量的夹角。 <a id="more"></a></p>
 <p>余弦相似度的取值范围是[-1,1]，相同两个向量的之间的相似度为1。</p>
 <p>余弦距离的取值范围是[0,2]。</p>
-<p>余弦相似度的定义公式为： $\cos (A, B)=\frac{A \cdot B}{|A|<em>{2}|B|</em>{2}} $</p>
-<p>归一化后:：$|A|<em>{2}=1,|B|</em>{2}=1,|A|<em>{2}|B|</em>{2}=1$</p>
+<p>余弦相似度的定义公式为： $(A, B)= $</p>
+<p>归一化后:：<span class="math inline">\(\|A\|_{2}=1,\|B\|_{2}=1,\|A\|_{2}\|B\|_{2}=1\)</span></p>
 <p>余弦距离：</p>
-<p>$\operatorname{dist}(A, B)=1-\cos (A, B)=\frac{|A|<em>{2}|B|</em>{2}-A \cdot B}{|A|<em>{2}|B|</em>{2}}</p>
-<p>欧式距离：$|A-B|^{2}=|A|<em>{2}^{2}+|B|</em>{2}^{2}-2 A \cdot B=2-2 A \cdot B=2(1-A \cdot B)=&gt;|A-B|=\sqrt{2 d i s t(A, B)}$</p>
+<p>$(A, B)=1-(A, B)=</p>
+<p>欧式距离：<span class="math inline">\(|A-B|^{2}=|A|*{2}^{2}+|B|*{2}^{2}-2 A \cdot B=2-2 A \cdot B=2(1-A \cdot B)=&gt;|A-B|=\sqrt{2 d i s t(A, B)}\)</span></p>
 <p>由公式可以看出归一化后，欧式距离与余弦距离存在单调性关系。此时两种距离的值域都为[0,2]。</p>
 <p><strong>欧式距离与余弦距离的对比：</strong></p>
 <p>1.欧式距离的数值受到维度的影响，余弦相似度在高维的情况下也依然保持低维完全相同时相似度为1等性质。</p>
@@ -297,11 +297,11 @@
 <p>在一个集合中，如果每一对元素均可唯一确定一个实数，使得三条距离公理（正定性，对称性，三角不等式）成立，则该实数可以称为这对元素之间的距离。</p>
 <p><strong>证明：</strong></p>
 <p>1.正定性</p>
-<p>余弦距离公式：$\operatorname{dist}(A, B)=1-\cos \theta$，因为$-1 \leq \cos \theta \leq 1$，所以$\operatorname{dist}(A, B) \geq 0$满足正定性。</p>
+<p>余弦距离公式：<span class="math inline">\(\operatorname{dist}(A, B)=1-\cos \theta\)</span>，因为<span class="math inline">\(-1 \leq \cos \theta \leq 1\)</span>，所以<span class="math inline">\(\operatorname{dist}(A, B) \geq 0\)</span>满足正定性。</p>
 <p>2.对称性：</p>
-<p>$\operatorname{dist}(A, B)=1-\cos (A, B)=\frac{|A|<em>{2}|B|</em>{2}-A \cdot B}{|A|<em>{2}|B|</em>{2}}=\frac{|B|<em>{2}|A|</em>{2}-B \cdot A}{|B|<em>{2}|A|</em>{2}}=\operatorname{dist}(B, A)$满足对称性。</p>
+<p><span class="math inline">\(\operatorname{dist}(A, B)=1-\cos (A, B)=\frac{\|A\|_{2}\|B\|_{2}-A \cdot B}{\|A\|_{2}\|B\|_{2}}=\frac{\|B\|_{2}\|A\|_{2}-B \cdot A}{\|B\|_{2}\|A\|_{2}}=\operatorname{dist}(B, A)\)</span>满足对称性。</p>
 <p>3.三角不等式：</p>
-<p>给定A=(1,0),B=(1,1),C=(0,1)，则有$\operatorname{dist}(A, B)=1-\frac{\sqrt{2}}{2}, \operatorname{dist}(B, C)=1-\frac{\sqrt{2}}{2}, \operatorname{dist}(A, C)=1$，因此有$\operatorname{dist}(A, B)+\operatorname{dist}(B, C)=2-\sqrt{2}&lt;1=\operatorname{dist}(A, C)$，所以得出余弦距离不符合三角不等式。</p>
+<p>给定A=(1,0),B=(1,1),C=(0,1)，则有<span class="math inline">\(\operatorname{dist}(A, B)=1-\frac{\sqrt{2}}{2}, \operatorname{dist}(B, C)=1-\frac{\sqrt{2}}{2}, \operatorname{dist}(A, C)=1\)</span>，因此有<span class="math inline">\(\operatorname{dist}(A, B)+\operatorname{dist}(B, C)=2-\sqrt{2}&lt;1=\operatorname{dist}(A, C)\)</span>，所以得出余弦距离不符合三角不等式。</p>
 
     </div>
 
@@ -346,7 +346,7 @@
     <a href="https://fainke.com/blog/a999b398.html" title="余弦距离介绍">https://fainke.com/blog/a999b398.html</a>
   </li>
   <li class="post-copyright-license">
-    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="external nofollow noopener noreferrer" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
   </li>
 </ul>
 </div>
@@ -464,8 +464,7 @@
 
       <div class="site-overview-wrap sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <img class="site-author-image" itemprop="image" alt="Fain"
-      src="/images/touXiang.jpg">
+    <img class="site-author-image" itemprop="image" alt="Fain" src="/images/touXiang.jpg">
   <p class="site-author-name" itemprop="name">Fain</p>
   <div class="site-description" itemprop="description">深度学习,机器学习,计算机视觉CV,自然语言处理NLP,Python</div>
 </div>
@@ -628,7 +627,7 @@
   </div>
 
   
-  <script size="300" alpha="0.3" zIndex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+  <script size="300" alpha="0.3" zindex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
   <script src="/lib/anime.min.js"></script>
   <script src="/lib/velocity/velocity.min.js"></script>
   <script src="/lib/velocity/velocity.ui.min.js"></script>

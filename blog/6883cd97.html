@@ -92,7 +92,11 @@
   </style>
 </noscript>
 
-</head>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --></head>
 
 <body itemscope itemtype="http://schema.org/WebPage">
   <div class="container use-motion">
@@ -166,9 +170,7 @@
     <i class="fa fa-search"></i>
   </span>
   <div class="search-input-container">
-    <input autocomplete="off" autocapitalize="off"
-           placeholder="搜索..." spellcheck="false"
-           type="search" class="search-input">
+    <input autocomplete="off" autocapitalize="off" placeholder="搜索..." spellcheck="false" type="search" class="search-input">
   </div>
   <span class="popup-btn-close">
     <i class="fa fa-times-circle"></i>
@@ -280,13 +282,13 @@
 
       
         <p><strong>简介：</strong> beta分布可以看作一个概率的概率分布，描述所有概率出现的可能性大小。</p>
-<p><strong>举例：</strong> 手中有一枚硬币，该硬币均匀度未知，现在让你说出抛一次出现正面的概率是多少。通过以往的先验知识来判断，正面概率为0.5的这个情况的概率最大。</p>
-<a id="more"></a>
-
-<p><img src="images/BetaDistribution_1.png" alt="image.png"></p>
-<p>这张图是取了120次抛币的实验数据画出的Beta分布图，图中给出0.5的正面概率为最高的。假如现在连续抛了10次，8次为正面，那么此时你判断正面朝上最大概率的概率应该是多少。<br><img src="images/BetaDistribution_2.png" alt="image.png"></p>
+<p><strong>举例：</strong> 手中有一枚硬币，该硬币均匀度未知，现在让你说出抛一次出现正面的概率是多少。通过以往的先验知识来判断，正面概率为0.5的这个情况的概率最大。 <a id="more"></a></p>
+<figure>
+<img src="images/BetaDistribution_1.png" alt="image.png"><figcaption>image.png</figcaption>
+</figure>
+<p>这张图是取了120次抛币的实验数据画出的Beta分布图，图中给出0.5的正面概率为最高的。假如现在连续抛了10次，8次为正面，那么此时你判断正面朝上最大概率的概率应该是多少。 <img src="images/BetaDistribution_2.png" alt="image.png"></p>
 <p>通过Beta图像可以看出最大概率的正面概率已经大于0.5。</p>
-<p><strong>与其它分布的联系：</strong><br>以上Beta分布就简单介绍结束，其实写Beta分布是因为最近在研究狄利克雷分布。<br>Beta分布是二项分布的共轭先验概率分布；<br>Dirichlet分布是多项式分布的共轭先验概率分布。<br>Beat分布可以描述二项分布的概率，是二项分布的概率分布。<br>Dirichlet分布可以描述出多项分布的概率，是多项分布的概率分布，会为每个事件选择概率最高的多项分布作为它的分布。在无监督聚类的时候会使用。</p>
+<p><strong>与其它分布的联系：</strong> 以上Beta分布就简单介绍结束，其实写Beta分布是因为最近在研究狄利克雷分布。 Beta分布是二项分布的共轭先验概率分布； Dirichlet分布是多项式分布的共轭先验概率分布。 Beat分布可以描述二项分布的概率，是二项分布的概率分布。 Dirichlet分布可以描述出多项分布的概率，是多项分布的概率分布，会为每个事件选择概率最高的多项分布作为它的分布。在无监督聚类的时候会使用。</p>
 
     </div>
 
@@ -331,7 +333,7 @@
     <a href="https://fainke.com/blog/6883cd97.html" title="Beta分布随笔">https://fainke.com/blog/6883cd97.html</a>
   </li>
   <li class="post-copyright-license">
-    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="external nofollow noopener noreferrer" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
   </li>
 </ul>
 </div>
@@ -450,8 +452,7 @@
 
       <div class="site-overview-wrap sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <img class="site-author-image" itemprop="image" alt="Fain"
-      src="/images/touXiang.jpg">
+    <img class="site-author-image" itemprop="image" alt="Fain" src="/images/touXiang.jpg">
   <p class="site-author-name" itemprop="name">Fain</p>
   <div class="site-description" itemprop="description">深度学习,机器学习,计算机视觉CV,自然语言处理NLP,Python</div>
 </div>
@@ -614,7 +615,7 @@
   </div>
 
   
-  <script size="300" alpha="0.3" zIndex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+  <script size="300" alpha="0.3" zindex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
   <script src="/lib/anime.min.js"></script>
   <script src="/lib/velocity/velocity.min.js"></script>
   <script src="/lib/velocity/velocity.ui.min.js"></script>

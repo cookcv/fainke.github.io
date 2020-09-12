@@ -92,7 +92,11 @@
   </style>
 </noscript>
 
-</head>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --></head>
 
 <body itemscope itemtype="http://schema.org/WebPage">
   <div class="container use-motion">
@@ -166,9 +170,7 @@
     <i class="fa fa-search"></i>
   </span>
   <div class="search-input-container">
-    <input autocomplete="off" autocapitalize="off"
-           placeholder="搜索..." spellcheck="false"
-           type="search" class="search-input">
+    <input autocomplete="off" autocapitalize="off" placeholder="搜索..." spellcheck="false" type="search" class="search-input">
   </div>
   <span class="popup-btn-close">
     <i class="fa fa-times-circle"></i>
@@ -281,19 +283,23 @@
       
         <p>Faster R-CNN最突出的贡献就在于提出了Region Proposal Network（RPN）代替了Selective Search，从而将候选区域提取的时间开销几乎降为0（2s -&gt; 0.01s） <a id="more"></a></p>
 <h2 id="结构梳理">结构梳理</h2>
-<p>一切都要从一张图的特征开始说起：features。 <img src="images/RPN_ROIHead.png" alt="RPN_Roi Head.png" /></p>
+<p>一切都要从一张图的特征开始说起：features。 <img src="images/RPN_ROIHead.png" alt="RPN_Roi Head.png"></p>
 <p><strong>RPN</strong>接到features后，先做了一次3x3的卷积，再由两个1x1卷积操作分别得到分类score:2x9与位置偏移loc:4x9结构，这两个结构都会被ProposalCreator与rpn_loss所使用。</p>
 <p><strong>AnchorTargetCreator</strong>用box与anchor联合得到拟合目标：loc与label。这里前景与背景的label总数为256，loc图外的标记为-1。</p>
 <p><strong>RPN_LOSS</strong>将会利用上述预测信息与标签信息计算loss，以此来调整使得RPN网络预测的score与loc更好。只对前景计算回归损失。</p>
 <p><strong>ProposalCreator</strong>的任务是拿到score与loc后，将loc转为roi，按照分数筛选先取12000，再通过极大值抑制去除重叠后再按照score选取前2000个roi。</p>
 <p><strong>ProposalTargetCreator</strong>将ProposalCreator中得到的2000个roi与标签box利用ROU再进行筛选，留下正负样本共128个。</p>
-<p><strong>ROI Pooling</strong>层得到这128个rois后，对其坐标对应到特征图，size缩小为1/stride（1/16）。这里在对应的时候，会存在无法整除的现象，所以后来又提出了ROI Align。对应好之后，还要对roi 实施Pooling操作，使得对应好的roi特征图池化到后面层能处理的大小（7x7），在这里还是有量化损失。 <img src="images/ROI_Pooling.gif" alt="ROI_Pooling.gif" /></p>
+<p><strong>ROI Pooling</strong>层得到这128个rois后，对其坐标对应到特征图，size缩小为1/stride（1/16）。这里在对应的时候，会存在无法整除的现象，所以后来又提出了ROI Align。对应好之后，还要对roi 实施Pooling操作，使得对应好的roi特征图池化到后面层能处理的大小（7x7），在这里还是有量化损失。 <img src="images/ROI_Pooling.gif" alt="ROI_Pooling.gif"></p>
 <p><strong>FC 21与FC 84</strong>分别得到20+1（背景）类的分类与目标的位置。得到的数据将会与<strong>ProposalTargetCreator</strong>中的真实标签计算<strong>roi_loss</strong>。</p>
 <p><strong>名词解释：</strong> roi = [y_min,x_min,y_max,x_max]，实际原图坐标。 loc = [dy, dx, dh, dw]各个位置的偏移。</p>
 <h2 id="关于box的回归讲解">关于box的回归讲解：</h2>
 <p><span class="math inline">\(t_*\)</span> 包含真实框与预测框的平移量(<span class="math inline">\(t_x,t_y\)</span>)和尺度缩放(<span class="math inline">\(t_w,t_h\)</span>) <span class="math display">\[
 \begin{array}{c}{t_{x}=\left(G_{x}-P_{x}\right) / P_{w},(6)} \\ {t_{y}=\left(G_{y}-P_{y}\right) / P_{h},(7)} \\ {t_{w}=\log \left(G_{w} / P_{w}\right),(8)} \\ {t_{h}=\log \left(G_{h} / P_{h}\right),(9)}\end{array}
-\]</span> 目标函数为： <span class="math display">\[d_{* }(P)=w_{* }^{T}\Phi_{5}(P)\]</span> 其中<span class="math inline">\(\Phi_{5}(P)\)</span>是输入Proposal的特征向量，w_* 是要学习的参数( * 表示x,y,w,h)， d_*(P)是得到的预测值。 计算目的是让t_*与d_*(P)之间的差距最小，得损失函数为： <span class="math display">\[Loss=\sum_{i}^{N}(t_{*}^{i}-\hat{w}_{*}^{T}\phi_{5}(P^{i}))^{2}\]</span></p>
+\]</span> 目标函数为： <span class="math display">\[
+d_{*}(P)=w_{*}^{T}\Phi_{5}(P)
+\]</span> 其中<span class="math inline">\(\Phi_{5}(P)\)</span>是输入Proposal的特征向量，<span class="math inline">\(w_*\)</span> 是要学习的参数( * 表示x,y,w,h)， <span class="math inline">\(d_{*}(P)\)</span>是得到的预测值。 计算目的是让<span class="math inline">\(t_*\)</span>与<span class="math inline">\(d_*(P)\)</span>之间的差距最小，得损失函数为： <span class="math display">\[
+Loss=\sum_{i}^{N}(t_{*}^{i}-\hat{w}_{*}^{T}\phi_{5}(P^{i}))^{2}
+\]</span></p>
 <p>函数优化目标： <span class="math display">\[W_{*}=\operatorname{argmin}_{w_{*}}\sum_{i}^{N}\left(t_{*}^{i}-\hat{w}_{*}^{T}\phi_{5}\left(P^{i}\right)\right)^{2}+\lambda\left\|\hat{w}_{*}\right\|^{2}\]</span></p>
 <p><strong>为什么<span class="math inline">\(t_x,t_y\)</span>要除以宽高：</strong> 因为，特征图具有尺度不变性，无论之前图像的大小，最终形成的特征图的都是一样的，所以移动的比例都是一样的，所以要除以宽高。</p>
 <p><strong>为什么<span class="math inline">\(t_w,t_h\)</span>要取对数：</strong> 因为缩放尺度必须是正数，刚好exp函数满足要求，反函数即为log。</p>
@@ -348,7 +354,7 @@
     <a href="https://fainke.com/blog/8e69a262.html" title="FasterRCNN结构梳理">https://fainke.com/blog/8e69a262.html</a>
   </li>
   <li class="post-copyright-license">
-    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="external nofollow noopener noreferrer" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
   </li>
 </ul>
 </div>
@@ -395,12 +401,12 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/blog/da5401e0.html" rel="prev" title="Haar特征">
-      <i class="fa fa-chevron-left"></i> Haar特征
+    <a href="/blog/9c9393d0.html" rel="prev" title="ImageNet图像分类对抗攻击-方案整理">
+      <i class="fa fa-chevron-left"></i> ImageNet图像分类对抗攻击-方案整理
     </a></div>
       <div class="post-nav-item">
-    <a href="/blog/3477354.html" rel="next" title="CBNet组合主干网络">
-      CBNet组合主干网络 <i class="fa fa-chevron-right"></i>
+    <a href="/blog/da5401e0.html" rel="next" title="Haar特征">
+      Haar特征 <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
@@ -468,8 +474,7 @@
 
       <div class="site-overview-wrap sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <img class="site-author-image" itemprop="image" alt="Fain"
-      src="/images/touXiang.jpg">
+    <img class="site-author-image" itemprop="image" alt="Fain" src="/images/touXiang.jpg">
   <p class="site-author-name" itemprop="name">Fain</p>
   <div class="site-description" itemprop="description">深度学习,机器学习,计算机视觉CV,自然语言处理NLP,Python</div>
 </div>
@@ -632,7 +637,7 @@
   </div>
 
   
-  <script size="300" alpha="0.3" zIndex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+  <script size="300" alpha="0.3" zindex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
   <script src="/lib/anime.min.js"></script>
   <script src="/lib/velocity/velocity.min.js"></script>
   <script src="/lib/velocity/velocity.ui.min.js"></script>

@@ -90,7 +90,11 @@
   </style>
 </noscript>
 
-</head>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --></head>
 
 <body itemscope itemtype="http://schema.org/WebPage">
   <div class="container use-motion">
@@ -164,9 +168,7 @@
     <i class="fa fa-search"></i>
   </span>
   <div class="search-input-container">
-    <input autocomplete="off" autocapitalize="off"
-           placeholder="搜索..." spellcheck="false"
-           type="search" class="search-input">
+    <input autocomplete="off" autocapitalize="off" placeholder="搜索..." spellcheck="false" type="search" class="search-input">
   </div>
   <span class="popup-btn-close">
     <i class="fa fa-times-circle"></i>
@@ -278,15 +280,13 @@
 
       
         <p><strong>简述：</strong></p>
-<p>PCA是一种线性、非监督、全局的降维算法。在高维的特征数据空间中有可能会包含冗余与噪声，因此需要寻找数据内部的主成分来表征原始数据，从而达到降维与降低训练复杂的目的。</p>
-<a id="more"></a>
-
+<p>PCA是一种线性、非监督、全局的降维算法。在高维的特征数据空间中有可能会包含冗余与噪声，因此需要寻找数据内部的主成分来表征原始数据，从而达到降维与降低训练复杂的目的。 <a id="more"></a></p>
 <p><strong>求解步骤：</strong></p>
 <p>1.对样本数据进行中心化处理；(使数据分布更具方向性，使得特征向量更具原数据表达性。)</p>
 <p>2.求样本协方差矩阵；</p>
 <p>3.对协方差矩阵进行特征值分解，将特征值从大到小排序；</p>
-<p>4.取特征值前m大对应的特征向量W1,W2,…,Wm,将原n维数据通过这些特征向量映射到m维空间中；</p>
-<p>通过以上步骤即可将方差较小的特征（噪声）抛弃。降维后的信息占比为：m维向量特征值的平方和比上n维向量特征值的平方和。$\sqrt{\frac{\sum_{i=1}^{m} \lambda i^{2}}{\sum_{i=1}^{n} \lambda i^{2}}}$</p>
+<p>4.取特征值前m大对应的特征向量W1,W2,...,Wm,将原n维数据通过这些特征向量映射到m维空间中；</p>
+<p>通过以上步骤即可将方差较小的特征（噪声）抛弃。降维后的信息占比为：m维向量特征值的平方和比上n维向量特征值的平方和。<span class="math inline">\(\sqrt{\frac{\sum_{i=1}^{m} \lambda i^{2}}{\sum_{i=1}^{n} \lambda i^{2}}}\)</span></p>
 <p><strong>原理：</strong></p>
 <p>在信号处理领域，我们认为信号具有较大的方差，噪声有较小的方差。信号与噪声之比称之为信噪比，信噪比越大意味着数据质量越好。因此，PCA的目标即最大化数据投影方差，使得降维导致的信息损失最小化。由公式可得协方差对称矩阵，此时，协方差矩阵的第一特征值大小可表示数据降维后在第一主成分上的方差大小。所以，PCA降维的目的可以说是找到这个协方差矩阵的最大特征值和其所对应的特征向量。</p>
 <p><strong>结语：</strong></p>
@@ -335,7 +335,7 @@
     <a href="https://fainke.com/blog/8161fe9d.html" title="PCA最大方差">https://fainke.com/blog/8161fe9d.html</a>
   </li>
   <li class="post-copyright-license">
-    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="external nofollow noopener noreferrer" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
   </li>
 </ul>
 </div>
@@ -455,8 +455,7 @@
 
       <div class="site-overview-wrap sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <img class="site-author-image" itemprop="image" alt="Fain"
-      src="/images/touXiang.jpg">
+    <img class="site-author-image" itemprop="image" alt="Fain" src="/images/touXiang.jpg">
   <p class="site-author-name" itemprop="name">Fain</p>
   <div class="site-description" itemprop="description">深度学习,机器学习,计算机视觉CV,自然语言处理NLP,Python</div>
 </div>
@@ -619,7 +618,7 @@
   </div>
 
   
-  <script size="300" alpha="0.3" zIndex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+  <script size="300" alpha="0.3" zindex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
   <script src="/lib/anime.min.js"></script>
   <script src="/lib/velocity/velocity.min.js"></script>
   <script src="/lib/velocity/velocity.ui.min.js"></script>

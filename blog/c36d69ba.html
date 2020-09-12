@@ -89,7 +89,11 @@
   </style>
 </noscript>
 
-</head>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --></head>
 
 <body itemscope itemtype="http://schema.org/WebPage">
   <div class="container use-motion">
@@ -163,9 +167,7 @@
     <i class="fa fa-search"></i>
   </span>
   <div class="search-input-container">
-    <input autocomplete="off" autocapitalize="off"
-           placeholder="搜索..." spellcheck="false"
-           type="search" class="search-input">
+    <input autocomplete="off" autocapitalize="off" placeholder="搜索..." spellcheck="false" type="search" class="search-input">
   </div>
   <span class="popup-btn-close">
     <i class="fa fa-times-circle"></i>
@@ -276,35 +278,11 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p><strong>Ferguson J D</strong>率先将HMM的状态驻留时间显示化，形成隐半马尔可夫模型。【26】</p>
-<a id="more"></a>
-<hr>
-<p><strong>Eric Bechhoefer</strong>等人使用HSMM预测了转轴的剩余使用寿命。【27】</p>
-<hr>
-<p><strong>Ming Dong</strong>等人提出了基于HSMM和分段HSMM的故障预测统计建模方法，通过显示高斯概率密度函数建立健康状态驻留时间模型，利用状态时间概率分布预测设备的剩余使用寿命，但是没有考虑状态驻留时间对状态转移概率的影响。【28-30】</p>
-<hr>
-<p><strong>Qingming liu</strong>等人将隐半马尔可夫模型与序列蒙特卡罗方法相结合进行设备的在线健康预测，采用HSMM获取健康状态和状态时间之间的转移概率，SMC描述健康状态和设备监测的观测值之间的概率关系。【31】</p>
-<hr>
-<p><strong>杨志波、董明</strong>提出自回归隐半马尔可夫模型，改进了传统HMM假设各观测量相互独立的问题，但是状态数的划分是通过经验值设定的，不具有通用性。【32】</p>
-<hr>
-<p><strong>李巍华</strong>等人提出了连续隐半马尔可夫模型，可用于时间序列的动态建模，并无需全寿命的先验知识，可用于早期故障的在线检测。【33】</p>
-<hr>
-<p><strong>孙磊、贾云</strong>等人利用动态贝叶斯网络对设备早期异常状态进行了自动识别，该方法可以减少模型参数，提高故障识别率，但是退化过程的识别程度有待进一步划分。【34】</p>
-<hr>
-<p><strong>扈玉辰、姚竹婷</strong>通过经验模式分解(Empirical Mode Decomposition EMD)对故障信号进行分解，将形成的本征模函数作为故障特征输入到HSMM中进行训练，有效地提取了非线性、非平稳信号地特征，加快了参数训练速度，提高了故障识别率，但是EMD特征提取的稳定性有待提高。【35】</p>
-<hr>
-<p><strong>曾庆虎</strong>等人使用核主元分析和小波相关特征尺度熵提取特征向量，以此向量作为HSMM的输入进行训练，建立基于HSMM的设备运行状态分类器与故障预测模型，实现设备退化状态识别与故障预测，并利用滚动轴承的失效数据验证其方法的有效性，并进一步提出了基于KPCA-HSMM的设备退化状态识别算法，消除了多通道观测信息冗余，降低了故障特征维度。【36-38】</p>
-<hr>
-<p><strong>张星辉、李风学</strong>等人提出了基于曲线距离分析(Curvilinear Distance Analysis CDA)和HSMM-DBN(Dynamic Bayesian Networks, HSMM-DBN)相结合的齿轮箱齿轮磨损状态识别方法，该方法利用CDA对非线性信号特征进行降维，并利用HSMM-DBN结构降低复杂模型求解的难度。【39】</p>
-<hr>
-<p><strong>王宁、孙树栋</strong>等人提出一种基于时变转移概率的隐半马尔可夫模型(Duration Dependent HSMM,DD-HSMM)，基于改进的前后向算法使参数估计能够自我更新。【40】</p>
-<hr>
-<p><strong>夏震宇、杨波</strong>对HSMM算法进行了改进，将状态持续时间概率分布连续化并假定其服从威布尔分布，根据各阶段状态持续时间概率，计算各时刻的时变故障状态转移概率，改进后的算法提高了故障预测能力，且更加接近设备退化过程。【41】</p>
+        <p><strong>Ferguson J D</strong>率先将HMM的状态驻留时间显示化，形成隐半马尔可夫模型。【26】 <a id="more"></a> **** <strong>Eric Bechhoefer</strong>等人使用HSMM预测了转轴的剩余使用寿命。【27】 **** <strong>Ming Dong</strong>等人提出了基于HSMM和分段HSMM的故障预测统计建模方法，通过显示高斯概率密度函数建立健康状态驻留时间模型，利用状态时间概率分布预测设备的剩余使用寿命，但是没有考虑状态驻留时间对状态转移概率的影响。【28-30】 **** <strong>Qingming liu</strong>等人将隐半马尔可夫模型与序列蒙特卡罗方法相结合进行设备的在线健康预测，采用HSMM获取健康状态和状态时间之间的转移概率，SMC描述健康状态和设备监测的观测值之间的概率关系。【31】 **** <strong>杨志波、董明</strong>提出自回归隐半马尔可夫模型，改进了传统HMM假设各观测量相互独立的问题，但是状态数的划分是通过经验值设定的，不具有通用性。【32】 **** <strong>李巍华</strong>等人提出了连续隐半马尔可夫模型，可用于时间序列的动态建模，并无需全寿命的先验知识，可用于早期故障的在线检测。【33】 **** <strong>孙磊、贾云</strong>等人利用动态贝叶斯网络对设备早期异常状态进行了自动识别，该方法可以减少模型参数，提高故障识别率，但是退化过程的识别程度有待进一步划分。【34】 **** <strong>扈玉辰、姚竹婷</strong>通过经验模式分解(Empirical Mode Decomposition EMD)对故障信号进行分解，将形成的本征模函数作为故障特征输入到HSMM中进行训练，有效地提取了非线性、非平稳信号地特征，加快了参数训练速度，提高了故障识别率，但是EMD特征提取的稳定性有待提高。【35】 **** <strong>曾庆虎</strong>等人使用核主元分析和小波相关特征尺度熵提取特征向量，以此向量作为HSMM的输入进行训练，建立基于HSMM的设备运行状态分类器与故障预测模型，实现设备退化状态识别与故障预测，并利用滚动轴承的失效数据验证其方法的有效性，并进一步提出了基于KPCA-HSMM的设备退化状态识别算法，消除了多通道观测信息冗余，降低了故障特征维度。【36-38】 **** <strong>张星辉、李风学</strong>等人提出了基于曲线距离分析(Curvilinear Distance Analysis CDA)和HSMM-DBN(Dynamic Bayesian Networks, HSMM-DBN)相结合的齿轮箱齿轮磨损状态识别方法，该方法利用CDA对非线性信号特征进行降维，并利用HSMM-DBN结构降低复杂模型求解的难度。【39】 **** <strong>王宁、孙树栋</strong>等人提出一种基于时变转移概率的隐半马尔可夫模型(Duration Dependent HSMM,DD-HSMM)，基于改进的前后向算法使参数估计能够自我更新。【40】 **** <strong>夏震宇、杨波</strong>对HSMM算法进行了改进，将状态持续时间概率分布连续化并假定其服从威布尔分布，根据各阶段状态持续时间概率，计算各时刻的时变故障状态转移概率，改进后的算法提高了故障预测能力，且更加接近设备退化过程。【41】</p>
 <hr>
 <p><strong>何兆民、王少萍</strong>假设设备从开始使用到最终失效会经历3个退化阶段，并针对3个退化阶段给出了三种不同状态的转移概率，结合初始状态转移矩阵，最终得出随时间变化的状态转移矩阵，但是其3个状态的划分是基于经验假设，不具有通用性。【24】</p>
 <hr>
-<p><strong>张正道、崔宝同</strong>为了提高系统分辨率引入加权系数，并基于模糊C均值聚类方法(Fuzzy c-means,FCM)对输入输出进行聚类，将聚类过程中得到的隶属值作为HSMM的附加参数，有效预知了系统状态之间的转移概率，简化了模型的建模计算过程。【42】</p>
-<hr>
+<p><strong>张正道、崔宝同</strong>为了提高系统分辨率引入加权系数，并基于模糊C均值聚类方法(Fuzzy c-means,FCM)对输入输出进行聚类，将聚类过程中得到的隶属值作为HSMM的附加参数，有效预知了系统状态之间的转移概率，简化了模型的建模计算过程。【42】 ****</p>
 
     </div>
 
@@ -349,7 +327,7 @@
     <a href="https://fainke.com/blog/c36d69ba.html" title="【故障预测】马尔可夫应用综述">https://fainke.com/blog/c36d69ba.html</a>
   </li>
   <li class="post-copyright-license">
-    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="external nofollow noopener noreferrer" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
   </li>
 </ul>
 </div>
@@ -468,8 +446,7 @@
 
       <div class="site-overview-wrap sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <img class="site-author-image" itemprop="image" alt="Fain"
-      src="/images/touXiang.jpg">
+    <img class="site-author-image" itemprop="image" alt="Fain" src="/images/touXiang.jpg">
   <p class="site-author-name" itemprop="name">Fain</p>
   <div class="site-description" itemprop="description">深度学习,机器学习,计算机视觉CV,自然语言处理NLP,Python</div>
 </div>
@@ -632,7 +609,7 @@
   </div>
 
   
-  <script size="300" alpha="0.3" zIndex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+  <script size="300" alpha="0.3" zindex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
   <script src="/lib/anime.min.js"></script>
   <script src="/lib/velocity/velocity.min.js"></script>
   <script src="/lib/velocity/velocity.ui.min.js"></script>

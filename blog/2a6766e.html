@@ -22,12 +22,12 @@
     var CONFIG = {"hostname":"fainke.com","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results foundin ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="背景美国运筹学家Sasty于20世纪70年代初提出层次分析法AHP(Analytic Hierarchy Process)AHP：一种定量与特性相结合的、系统化、层次化的分析法。">
+  <meta name="description" content="背景 美国运筹学家Sasty于20世纪70年代初提出层次分析法AHP(Analytic Hierarchy Process) AHP：一种定量与特性相结合的、系统化、层次化的分析法。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="层次分析法介绍">
 <meta property="og:url" content="https://fainke.com/blog/2a6766e.html">
 <meta property="og:site_name" content="DeepLearning">
-<meta property="og:description" content="背景美国运筹学家Sasty于20世纪70年代初提出层次分析法AHP(Analytic Hierarchy Process)AHP：一种定量与特性相结合的、系统化、层次化的分析法。">
+<meta property="og:description" content="背景 美国运筹学家Sasty于20世纪70年代初提出层次分析法AHP(Analytic Hierarchy Process) AHP：一种定量与特性相结合的、系统化、层次化的分析法。">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2019-12-31T17:01:01.000Z">
 <meta property="article:modified_time" content="2020-01-31T17:01:01.000Z">
@@ -89,7 +89,11 @@
   </style>
 </noscript>
 
-</head>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --></head>
 
 <body itemscope itemtype="http://schema.org/WebPage">
   <div class="container use-motion">
@@ -163,9 +167,7 @@
     <i class="fa fa-search"></i>
   </span>
   <div class="search-input-container">
-    <input autocomplete="off" autocapitalize="off"
-           placeholder="搜索..." spellcheck="false"
-           type="search" class="search-input">
+    <input autocomplete="off" autocapitalize="off" placeholder="搜索..." spellcheck="false" type="search" class="search-input">
   </div>
   <span class="popup-btn-close">
     <i class="fa fa-times-circle"></i>
@@ -276,40 +278,47 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>美国运筹学家Sasty于20世纪70年代初提出层次分析法AHP(Analytic Hierarchy Process)<br>AHP：一种定量与特性相结合的、系统化、层次化的分析法。</p>
-<a id="more"></a>
-
+        <h2 id="背景">背景</h2>
+<p>美国运筹学家Sasty于20世纪70年代初提出层次分析法AHP(Analytic Hierarchy Process) AHP：一种定量与特性相结合的、系统化、层次化的分析法。 <a id="more"></a></p>
 <p>深入分析实际问题，将有关因素自上而下分层（目标-准则/指标-方案/对象），上层受下层影响，而层内各因素基本上相对独立。</p>
-<h2 id="建立层次分析结构模型的步骤"><a href="#建立层次分析结构模型的步骤" class="headerlink" title="建立层次分析结构模型的步骤"></a>建立层次分析结构模型的步骤</h2><p><strong>step1:</strong> 将决策问题分为3个层次：目标层O，准则层C，方案层P；每层有若干元素，各层元素间的关系用相连的直线表示。<br><strong>step2:</strong> 构造成对比较阵，用成对比较阵法和1-9尺度，构造各层对上一层每一因素的成对比较阵。</p>
-<p><strong>例子：</strong> 选择旅游地<br><strong>目标层：</strong> O选择旅游地<br><strong>准则层：</strong> C1景色，C2费用，C3居住，C4饮食，C5旅途<br><strong>方案层：</strong> P1桂林，P2黄山，P3北戴河</p>
-<p>接下来每个方案对每个准则进行评判。<br><strong>成对比较阵的元素：</strong> 元素之间两两对比，采用相对比较尺度。<br><strong>相对比较尺度$a_{ij}$</strong> 是由Sasty等人提出1-9尺度$a_{ij}$取值1,2,…,9及其互反数1,1/2,…,1/9。</p>
-<h3 id="定性到定量的转化"><a href="#定性到定量的转化" class="headerlink" title="定性到定量的转化"></a>定性到定量的转化</h3><table>
+<h2 id="建立层次分析结构模型的步骤">建立层次分析结构模型的步骤</h2>
+<p><strong>step1:</strong> 将决策问题分为3个层次：目标层O，准则层C，方案层P；每层有若干元素，各层元素间的关系用相连的直线表示。 <strong>step2:</strong> 构造成对比较阵，用成对比较阵法和1-9尺度，构造各层对上一层每一因素的成对比较阵。</p>
+<p><strong>例子：</strong> 选择旅游地 <strong>目标层：</strong> O选择旅游地 <strong>准则层：</strong> C1景色，C2费用，C3居住，C4饮食，C5旅途 <strong>方案层：</strong> P1桂林，P2黄山，P3北戴河</p>
+<p>接下来每个方案对每个准则进行评判。 <strong>成对比较阵的元素：</strong> 元素之间两两对比，采用相对比较尺度。 <strong>相对比较尺度<span class="math inline">\(a_{ij}\)</span></strong> 是由Sasty等人提出1-9尺度<span class="math inline">\(a_{ij}\)</span>取值1,2,...,9及其互反数1,1/2,...,1/9。</p>
+<h3 id="定性到定量的转化">定性到定量的转化</h3>
+<table>
 <thead>
-<tr>
-<th align="center">尺度$a_{ij}$</th>
+<tr class="header">
+<th style="text-align: center;">尺度<span class="math inline">\(a_{ij}\)</span></th>
 <th>1 2 3 4 5 6 7 8 9</th>
 </tr>
 </thead>
-<tbody><tr>
-<td align="center">$C_i:C_j$的重要性</td>
-<td>相同 稍强 强 明显强 绝对强 …</td>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(C_i:C_j\)</span>的重要性</td>
+<td>相同 稍强 强 明显强 绝对强 ...</td>
 </tr>
-<tr>
-<td align="center">如果因素Ci与Cj对目标影响相同，则尺度定义为1。</td>
-<td></td>
-</tr>
-</tbody></table>
-<h3 id="准则层对目标层的成对比较阵"><a href="#准则层对目标层的成对比较阵" class="headerlink" title="准则层对目标层的成对比较阵"></a>准则层对目标层的成对比较阵</h3><p>利用相对比较尺度$a_{ij}$，比较各准则$C_1,C_2,…,C_n$对目标的重要性$C_i:C_j=&gt;a_{ij}$。设矩阵$A = (a_{ij})<em>{m*n},a</em>{ij}&gt;0,a_{ji}=\frac{1}{a_{ij}}$。在这个例子里，A是5x5矩阵。</p>
+</tbody>
+</table>
+<p>如果因素Ci与Cj对目标影响相同，则尺度定义为1。</p>
+<h3 id="准则层对目标层的成对比较阵">准则层对目标层的成对比较阵</h3>
+<p>利用相对比较尺度<span class="math inline">\(a_{ij}\)</span>，比较各准则<span class="math inline">\(C_1,C_2,...,C_n\)</span>对目标的重要性<span class="math inline">\(C_i:C_j=&gt;a_{ij}\)</span>。设矩阵<span class="math inline">\(A = (a_{ij})_{m*n},a_{ij}&gt;0,a_{ji}=\frac{1}{a_{ij}}\)</span>。在这个例子里，A是5x5矩阵。</p>
 <p>同理可得<strong>方案层对准则层各因素的成对比较阵</strong>。3x3矩阵。</p>
-<h2 id="层次分析法求解步骤"><a href="#层次分析法求解步骤" class="headerlink" title="层次分析法求解步骤"></a>层次分析法求解步骤</h2><h3 id="数学表达式"><a href="#数学表达式" class="headerlink" title="数学表达式"></a>数学表达式</h3><ol>
-<li>第2层对第1层的权重向量为：<br>$w^{(2)}=\left(w_{1}^{(2)}, \cdots, w_{n}^{(2)}\right)^{T}$</li>
-<li>第3层对第2层的权重向量为：<br>$w_{k}^{(3)}=\left(w_{k 1}^{(0)}, \cdots, w_{k m}^{(3)}\right)^{T}, k=1,2, \cdots, n$<br>构造矩阵$W^{(3)}=\left[w_{1}^{(3)}, \cdots, w_{n}^{(3)}\right]$<br>则第3层对底1层的组合权向量$w^{(3)}=W^{(3)} w^{(2)}$</li>
-<li>第s层对第1层的权重向量为:<br>$w^{(s)}=W^{(s)} W^{(s-1)} \cdots W^{(3)} w^{(2)}$<br>其中$W^{(p)}$是由第p层对第p-1层权向量组成的矩阵。</li>
+<h2 id="层次分析法求解步骤">层次分析法求解步骤</h2>
+<h3 id="数学表达式">数学表达式</h3>
+<ol type="1">
+<li>第2层对第1层的权重向量为： <span class="math inline">\(w^{(2)}=\left(w_{1}^{(2)}, \cdots, w_{n}^{(2)}\right)^{T}\)</span></li>
+<li>第3层对第2层的权重向量为： <span class="math inline">\(w_{k}^{(3)}=\left(w_{k 1}^{(0)}, \cdots, w_{k m}^{(3)}\right)^{T}, k=1,2, \cdots, n\)</span> 构造矩阵<span class="math inline">\(W^{(3)}=\left[w_{1}^{(3)}, \cdots, w_{n}^{(3)}\right]\)</span> 则第3层对底1层的组合权向量<span class="math inline">\(w^{(3)}=W^{(3)} w^{(2)}\)</span></li>
+<li>第s层对第1层的权重向量为: <span class="math inline">\(w^{(s)}=W^{(s)} W^{(s-1)} \cdots W^{(3)} w^{(2)}\)</span> 其中<span class="math inline">\(W^{(p)}\)</span>是由第p层对第p-1层权向量组成的矩阵。</li>
 </ol>
-<h3 id="计算权向量并作一致性检验"><a href="#计算权向量并作一致性检验" class="headerlink" title="计算权向量并作一致性检验"></a>计算权向量并作一致性检验</h3><p>对每一成对比较阵计算最大特征根和特征向量，作一致性检验，若通过，则特征向量为权重向量。<br><strong>成对比较阵完全一致的情况：</strong><br>元素满足$a_{i j} \cdot a_{j k}=a_{i k}, \quad i, j, k=1,2, \cdots, n$的正反阵A称一致阵。<br><strong>一致阵性质：</strong><br>① A的秩为1，A的唯一非零特征根为n；<br>② A的任一列向量是对应于n的特征向量；<br>③ A的归一化特征向量可作为权向量。<br><strong>成对比较阵不一致的情况：</strong><br>对于实际问题中不一致（但在允许范围内）的成对比较阵A，我们可用对应于最大特征根$\lambda$的特征向量作为权向量$w$，$Aw = \lambda w$</p>
-<h3 id="组合权向量（作组合一致性检验）"><a href="#组合权向量（作组合一致性检验）" class="headerlink" title="组合权向量（作组合一致性检验）"></a>组合权向量（作组合一致性检验）</h3><p>将多层的权向量组合可作为决策的定量依据。</p>
-<h3 id="一致性检验"><a href="#一致性检验" class="headerlink" title="一致性检验"></a>一致性检验</h3><p>已知：n阶一致阵的唯一非零特征根为n；<br>结论：n阶正互反阵最大特征根$\lambda \geq n$，且$\lambda = n$时为一致阵<br>一致性指标：$CI = \frac{\lambda -n}{n-1}$，CI越大，不一致越严重。<br>由于CI的大小受到矩阵规模的影响，所以加入了随机一致性指标RI，随机模拟得到$a_{ij}$形成A，多次计算CI得到RI来修正。<br>|n| 1 | 2 | 3 | 4 | 5 | … |<br>|:-:|:-:|:-:|:-:|:-:|:-:|:-:|<br>|RI| 0 | 0 | 0.58 | 0.90 | 1.12 | … |<br><strong>定义一致性比率：</strong><br>$CR = CI/RI$<br>当CR&lt;0.1时，通过一致性检验。</p>
-<h3 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h3><p><strong>组合权向量：</strong>第三层对第二层的计算结果<br>| $k$ | 1| 2 | 3 | 4 | 5 |<br>| :—: | :-: | :-: | :-: | :-: | :-: |<br>|$w_k^{(3)}$| 0.595 <br> 0.277 <br> 0.129 <br>| 0.082 <br> 0.236 <br> 0.682 <br>| 0.429 <br> 0.429 <br> 0.142 <br>| 0.633 <br> 0.193 <br> 0.175 <br>| 0.166 <br> 0.166 <br> 0.668 <br>|<br>|$\lambda_k$|3.005 | 3.002 | 3.0 | 3.009 | 3.0 |<br>|$CI_k$| 0.003 | 0.001 | 0.0 | 0.005 | 0.0 |<br>其中第二层对第一层的计算结果为$w^{(2)} : (0.263，0.475，0.055，0.090，0.110)$<br>$RI=0.58(n=3),得CI_k$均可通过一致性检验。<br>方案$P_1$对目标的组合权重为0.595x0.263+…=0.300<br>方案层对目标的组合权重向量为$(0.300，0.246，0.456)^T$<br>可以得到第三个方案最优。</p>
+<h3 id="计算权向量并作一致性检验">计算权向量并作一致性检验</h3>
+<p>对每一成对比较阵计算最大特征根和特征向量，作一致性检验，若通过，则特征向量为权重向量。 <strong>成对比较阵完全一致的情况：</strong> 元素满足<span class="math inline">\(a_{i j} \cdot a_{j k}=a_{i k}, \quad i, j, k=1,2, \cdots, n\)</span>的正反阵A称一致阵。 <strong>一致阵性质：</strong> ① A的秩为1，A的唯一非零特征根为n； ② A的任一列向量是对应于n的特征向量； ③ A的归一化特征向量可作为权向量。 <strong>成对比较阵不一致的情况：</strong> 对于实际问题中不一致（但在允许范围内）的成对比较阵A，我们可用对应于最大特征根<span class="math inline">\(\lambda\)</span>的特征向量作为权向量<span class="math inline">\(w\)</span>，<span class="math inline">\(Aw = \lambda w\)</span></p>
+<h3 id="组合权向量作组合一致性检验">组合权向量（作组合一致性检验）</h3>
+<p>将多层的权向量组合可作为决策的定量依据。</p>
+<h3 id="一致性检验">一致性检验</h3>
+<p>已知：n阶一致阵的唯一非零特征根为n； 结论：n阶正互反阵最大特征根<span class="math inline">\(\lambda \geq n\)</span>，且<span class="math inline">\(\lambda = n\)</span>时为一致阵 一致性指标：<span class="math inline">\(CI = \frac{\lambda -n}{n-1}\)</span>，CI越大，不一致越严重。 由于CI的大小受到矩阵规模的影响，所以加入了随机一致性指标RI，随机模拟得到<span class="math inline">\(a_{ij}\)</span>形成A，多次计算CI得到RI来修正。 |n| 1 | 2 | 3 | 4 | 5 | ... | |:-:|:-:|:-:|:-:|:-:|:-:|:-:| |RI| 0 | 0 | 0.58 | 0.90 | 1.12 | ... | <strong>定义一致性比率：</strong> <span class="math inline">\(CR = CI/RI\)</span> 当CR&lt;0.1时，通过一致性检验。</p>
+<h3 id="示例">示例</h3>
+<p><strong>组合权向量：</strong>第三层对第二层的计算结果 | <span class="math inline">\(k\)</span> | 1| 2 | 3 | 4 | 5 | | :---: | :-: | :-: | :-: | :-: | :-: | |<span class="math inline">\(w_k^{(3)}\)</span>| 0.595 <br> 0.277 <br> 0.129 <br>| 0.082 <br> 0.236 <br> 0.682 <br>| 0.429 <br> 0.429 <br> 0.142 <br>| 0.633 <br> 0.193 <br> 0.175 <br>| 0.166 <br> 0.166 <br> 0.668 <br>| |<span class="math inline">\(\lambda_k\)</span>|3.005 | 3.002 | 3.0 | 3.009 | 3.0 | |<span class="math inline">\(CI_k\)</span>| 0.003 | 0.001 | 0.0 | 0.005 | 0.0 | 其中第二层对第一层的计算结果为<span class="math inline">\(w^{(2)} : (0.263，0.475，0.055，0.090，0.110)\)</span> <span class="math inline">\(RI=0.58(n=3),得CI_k\)</span>均可通过一致性检验。 方案<span class="math inline">\(P_1\)</span>对目标的组合权重为0.595x0.263+...=0.300 方案层对目标的组合权重向量为<span class="math inline">\((0.300，0.246，0.456)^T\)</span> 可以得到第三个方案最优。</p>
 <blockquote>
 <p>参考自华中农业大学数学建模课程</p>
 </blockquote>
@@ -357,7 +366,7 @@
     <a href="https://fainke.com/blog/2a6766e.html" title="层次分析法介绍">https://fainke.com/blog/2a6766e.html</a>
   </li>
   <li class="post-copyright-license">
-    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="external nofollow noopener noreferrer" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
   </li>
 </ul>
 </div>
@@ -471,14 +480,13 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%83%8C%E6%99%AF"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BB%BA%E7%AB%8B%E5%B1%82%E6%AC%A1%E5%88%86%E6%9E%90%E7%BB%93%E6%9E%84%E6%A8%A1%E5%9E%8B%E7%9A%84%E6%AD%A5%E9%AA%A4"><span class="nav-number">2.</span> <span class="nav-text">建立层次分析结构模型的步骤</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9A%E6%80%A7%E5%88%B0%E5%AE%9A%E9%87%8F%E7%9A%84%E8%BD%AC%E5%8C%96"><span class="nav-number">2.1.</span> <span class="nav-text">定性到定量的转化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%87%86%E5%88%99%E5%B1%82%E5%AF%B9%E7%9B%AE%E6%A0%87%E5%B1%82%E7%9A%84%E6%88%90%E5%AF%B9%E6%AF%94%E8%BE%83%E9%98%B5"><span class="nav-number">2.2.</span> <span class="nav-text">准则层对目标层的成对比较阵</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B1%82%E6%AC%A1%E5%88%86%E6%9E%90%E6%B3%95%E6%B1%82%E8%A7%A3%E6%AD%A5%E9%AA%A4"><span class="nav-number">3.</span> <span class="nav-text">层次分析法求解步骤</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E5%AD%A6%E8%A1%A8%E8%BE%BE%E5%BC%8F"><span class="nav-number">3.1.</span> <span class="nav-text">数学表达式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%A1%E7%AE%97%E6%9D%83%E5%90%91%E9%87%8F%E5%B9%B6%E4%BD%9C%E4%B8%80%E8%87%B4%E6%80%A7%E6%A3%80%E9%AA%8C"><span class="nav-number">3.2.</span> <span class="nav-text">计算权向量并作一致性检验</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%84%E5%90%88%E6%9D%83%E5%90%91%E9%87%8F%EF%BC%88%E4%BD%9C%E7%BB%84%E5%90%88%E4%B8%80%E8%87%B4%E6%80%A7%E6%A3%80%E9%AA%8C%EF%BC%89"><span class="nav-number">3.3.</span> <span class="nav-text">组合权向量（作组合一致性检验）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%E8%87%B4%E6%80%A7%E6%A3%80%E9%AA%8C"><span class="nav-number">3.4.</span> <span class="nav-text">一致性检验</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A4%BA%E4%BE%8B"><span class="nav-number">3.5.</span> <span class="nav-text">示例</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%83%8C%E6%99%AF"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BB%BA%E7%AB%8B%E5%B1%82%E6%AC%A1%E5%88%86%E6%9E%90%E7%BB%93%E6%9E%84%E6%A8%A1%E5%9E%8B%E7%9A%84%E6%AD%A5%E9%AA%A4"><span class="nav-number">2.</span> <span class="nav-text">建立层次分析结构模型的步骤</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9A%E6%80%A7%E5%88%B0%E5%AE%9A%E9%87%8F%E7%9A%84%E8%BD%AC%E5%8C%96"><span class="nav-number">2.1.</span> <span class="nav-text">定性到定量的转化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%87%86%E5%88%99%E5%B1%82%E5%AF%B9%E7%9B%AE%E6%A0%87%E5%B1%82%E7%9A%84%E6%88%90%E5%AF%B9%E6%AF%94%E8%BE%83%E9%98%B5"><span class="nav-number">2.2.</span> <span class="nav-text">准则层对目标层的成对比较阵</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B1%82%E6%AC%A1%E5%88%86%E6%9E%90%E6%B3%95%E6%B1%82%E8%A7%A3%E6%AD%A5%E9%AA%A4"><span class="nav-number">3.</span> <span class="nav-text">层次分析法求解步骤</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E5%AD%A6%E8%A1%A8%E8%BE%BE%E5%BC%8F"><span class="nav-number">3.1.</span> <span class="nav-text">数学表达式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%A1%E7%AE%97%E6%9D%83%E5%90%91%E9%87%8F%E5%B9%B6%E4%BD%9C%E4%B8%80%E8%87%B4%E6%80%A7%E6%A3%80%E9%AA%8C"><span class="nav-number">3.2.</span> <span class="nav-text">计算权向量并作一致性检验</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%84%E5%90%88%E6%9D%83%E5%90%91%E9%87%8F%E4%BD%9C%E7%BB%84%E5%90%88%E4%B8%80%E8%87%B4%E6%80%A7%E6%A3%80%E9%AA%8C"><span class="nav-number">3.3.</span> <span class="nav-text">组合权向量（作组合一致性检验）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%E8%87%B4%E6%80%A7%E6%A3%80%E9%AA%8C"><span class="nav-number">3.4.</span> <span class="nav-text">一致性检验</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A4%BA%E4%BE%8B"><span class="nav-number">3.5.</span> <span class="nav-text">示例</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
       <div class="site-overview-wrap sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <img class="site-author-image" itemprop="image" alt="Fain"
-      src="/images/touXiang.jpg">
+    <img class="site-author-image" itemprop="image" alt="Fain" src="/images/touXiang.jpg">
   <p class="site-author-name" itemprop="name">Fain</p>
   <div class="site-description" itemprop="description">深度学习,机器学习,计算机视觉CV,自然语言处理NLP,Python</div>
 </div>
@@ -641,7 +649,7 @@
   </div>
 
   
-  <script size="300" alpha="0.3" zIndex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+  <script size="300" alpha="0.3" zindex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
   <script src="/lib/anime.min.js"></script>
   <script src="/lib/velocity/velocity.min.js"></script>
   <script src="/lib/velocity/velocity.ui.min.js"></script>

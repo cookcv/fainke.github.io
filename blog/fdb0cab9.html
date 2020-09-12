@@ -22,12 +22,12 @@
     var CONFIG = {"hostname":"fainke.com","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results foundin ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="为什么要剪枝一颗完全生长的决策树难免会遇到过拟合的情况。因此，我们需要对决策树进行剪枝，提升模型的泛化能力。决策树的剪枝操作通常有两种方法，预剪枝与后剪枝。">
+  <meta name="description" content="为什么要剪枝 一颗完全生长的决策树难免会遇到过拟合的情况。因此，我们需要对决策树进行剪枝，提升模型的泛化能力。 决策树的剪枝操作通常有两种方法，预剪枝与后剪枝。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="决策树剪枝">
 <meta property="og:url" content="https://fainke.com/blog/fdb0cab9.html">
 <meta property="og:site_name" content="DeepLearning">
-<meta property="og:description" content="为什么要剪枝一颗完全生长的决策树难免会遇到过拟合的情况。因此，我们需要对决策树进行剪枝，提升模型的泛化能力。决策树的剪枝操作通常有两种方法，预剪枝与后剪枝。">
+<meta property="og:description" content="为什么要剪枝 一颗完全生长的决策树难免会遇到过拟合的情况。因此，我们需要对决策树进行剪枝，提升模型的泛化能力。 决策树的剪枝操作通常有两种方法，预剪枝与后剪枝。">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2019-12-31T17:01:01.000Z">
 <meta property="article:modified_time" content="2020-01-31T17:01:01.000Z">
@@ -88,7 +88,11 @@
   </style>
 </noscript>
 
-</head>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --></head>
 
 <body itemscope itemtype="http://schema.org/WebPage">
   <div class="container use-motion">
@@ -162,9 +166,7 @@
     <i class="fa fa-search"></i>
   </span>
   <div class="search-input-container">
-    <input autocomplete="off" autocapitalize="off"
-           placeholder="搜索..." spellcheck="false"
-           type="search" class="search-input">
+    <input autocomplete="off" autocapitalize="off" placeholder="搜索..." spellcheck="false" type="search" class="search-input">
   </div>
   <span class="popup-btn-close">
     <i class="fa fa-times-circle"></i>
@@ -275,15 +277,14 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p><strong>为什么要剪枝</strong><br>一颗完全生长的决策树难免会遇到过拟合的情况。因此，我们需要对决策树进行剪枝，提升模型的泛化能力。<br>决策树的剪枝操作通常有两种方法，预剪枝与后剪枝。</p>
+        <p><strong>为什么要剪枝</strong> 一颗完全生长的决策树难免会遇到过拟合的情况。因此，我们需要对决策树进行剪枝，提升模型的泛化能力。 决策树的剪枝操作通常有两种方法，预剪枝与后剪枝。</p>
 <a id="more"></a>
-
-<p><strong>预剪枝</strong><br>预剪枝的核心思想是在树中节点进行扩展之前，先计算当前的划分是否能带来模型泛化能力的提升，如果不能，则不再继续生长子树。此时可能存在不同类别的样本同时存于节点中，可以按照多数投票的原则判断该节点所属类别。预剪枝对于何时停止决策树的生长有以下几种方法：<br>(1) 当树达到一定深度的时候，停止树的生长；<br>(2) 当到达当前节点的样本数量小于某个阈值的时候，停止树的生长；<br>(3) 计算每次分裂对测试集的准确度的提升，当小于某个阈值的时候，不再继续生长。<br>预剪枝具有思想直接、算法简单、效率高等特点，适合解决大规模数据的问题。但是，对于上述阈值，需要经验判断。此外，预剪枝有欠拟合的风险，因为，虽然当前的划分会导致测试集准确率降低或提升不高，但在之后的划分中，准确率可能会有显著提升。</p>
-<p><strong>后剪枝</strong><br>后剪枝的核心思想是让算法生成一颗完全生长的决策树，然后自底向上计算是否剪枝。剪枝过程将子树删除，有一个叶子节点替代，该节点的类别同样用投票决定。同样，后剪枝也可以通过在测试集上的准确率来判断，如果剪枝过后准确率有所提升，则进行剪枝。相比于预剪枝，后剪枝的泛化能力更强，但是计算开销会更大。</p>
+<p><strong>预剪枝</strong> 预剪枝的核心思想是在树中节点进行扩展之前，先计算当前的划分是否能带来模型泛化能力的提升，如果不能，则不再继续生长子树。此时可能存在不同类别的样本同时存于节点中，可以按照多数投票的原则判断该节点所属类别。预剪枝对于何时停止决策树的生长有以下几种方法： (1) 当树达到一定深度的时候，停止树的生长； (2) 当到达当前节点的样本数量小于某个阈值的时候，停止树的生长； (3) 计算每次分裂对测试集的准确度的提升，当小于某个阈值的时候，不再继续生长。 预剪枝具有思想直接、算法简单、效率高等特点，适合解决大规模数据的问题。但是，对于上述阈值，需要经验判断。此外，预剪枝有欠拟合的风险，因为，虽然当前的划分会导致测试集准确率降低或提升不高，但在之后的划分中，准确率可能会有显著提升。</p>
+<p><strong>后剪枝</strong> 后剪枝的核心思想是让算法生成一颗完全生长的决策树，然后自底向上计算是否剪枝。剪枝过程将子树删除，有一个叶子节点替代，该节点的类别同样用投票决定。同样，后剪枝也可以通过在测试集上的准确率来判断，如果剪枝过后准确率有所提升，则进行剪枝。相比于预剪枝，后剪枝的泛化能力更强，但是计算开销会更大。</p>
 <p><strong>后剪枝方法：</strong>错误率降低剪枝(Reduced Error Pruning,REP)、悲观剪枝(Pessimistic Error Pruning,PEP)、代价复杂度剪枝(Cost Complexity Pruning,CCP)、最小误差剪枝(Minimum Error Pruning,MEP)、CVP(Critical Value Pruning)、OPP(Optimal Pruning)等。</p>
-<p><strong>CCP代价复杂度剪枝：</strong><br>(1) 从完整决策树$T_0$开始，生成一个子树序列${T_0,T_1,T_2,…,T_n}$，其中$T_{i+1}$由$T_i$生成。$T_n$为树的根节点（剪到最后只剩根节点）。<br>(2) 在子树序列中，根据真实误差选择最佳的决策树。<br><strong>详细剪枝步骤：</strong><br>步骤(1)从${T_0}$开始，剪枝$T_i$中关于训练数据集合误差增加最小的分支以得到$T_{i+1}$。具体的，当一棵树$T$在节点$t$处剪枝时，它的误差增加可以用$R(t)-R(T_t)$表示，其中$R(t)$表示进行剪枝之后的该节点误差，$R(T_t)$表示未进行剪枝时子树$T_t$的误差。考虑到树的复杂性因素，我们用$|L(T_t)|$表示子树$T_t$的叶子节点个数，则树在节点$t$处剪枝后的误差增加率为$\alpha = \frac{R(t)-R(T_t)} {|L(T_t)|-1}$ 在得到$T_t$后，我们每一步选择$\alpha$最小的节点进行剪枝。</p>
-<p>步骤(2),我们需要从子树序列中选出真实误差最小的决策树。CCP给出了两种常用的方法：一种是基于独立剪枝数据集，该方法与REP类似，但是由于只能从子树序列${T_0,T_1,T_2,…,T_n}$中选择最佳决策树，而非像REP能在所有可能的子树中寻求最优解，因此模型效果上会有一定的不足。另一只方案是采取K折交叉验证来选取最优决策树。</p>
-<p><strong>总结</strong><br>代价复杂度剪枝使用交叉验证策略的时候，不需要用到测试数据集，精度与REP差不多，但形成的树复杂度小。但是，由于生成子树序列的时间复杂度与原始决策树的非叶子节点个数呈现二次关系，导致算法相比REP、PEP、MEP等线性复杂度的后剪枝方法运行时间更大。</p>
+<p><strong>CCP代价复杂度剪枝：</strong> (1) 从完整决策树<span class="math inline">\(T_0\)</span>开始，生成一个子树序列<span class="math inline">\(\{T_0,T_1,T_2,...,T_n\}\)</span>，其中<span class="math inline">\(T_{i+1}\)</span>由<span class="math inline">\(T_i\)</span>生成。<span class="math inline">\(T_n\)</span>为树的根节点（剪到最后只剩根节点）。 (2) 在子树序列中，根据真实误差选择最佳的决策树。 <strong>详细剪枝步骤：</strong> 步骤(1)从<span class="math inline">\({T_0}\)</span>开始，剪枝<span class="math inline">\(T_i\)</span>中关于训练数据集合误差增加最小的分支以得到<span class="math inline">\(T_{i+1}\)</span>。具体的，当一棵树<span class="math inline">\(T\)</span>在节点<span class="math inline">\(t\)</span>处剪枝时，它的误差增加可以用<span class="math inline">\(R(t)-R(T_t)\)</span>表示，其中<span class="math inline">\(R(t)\)</span>表示进行剪枝之后的该节点误差，<span class="math inline">\(R(T_t)\)</span>表示未进行剪枝时子树<span class="math inline">\(T_t\)</span>的误差。考虑到树的复杂性因素，我们用<span class="math inline">\(|L(T_t)|\)</span>表示子树<span class="math inline">\(T_t\)</span>的叶子节点个数，则树在节点<span class="math inline">\(t\)</span>处剪枝后的误差增加率为<span class="math inline">\(\alpha = \frac{R(t)-R(T_t)} {|L(T_t)|-1}\)</span> 在得到<span class="math inline">\(T_t\)</span>后，我们每一步选择<span class="math inline">\(\alpha\)</span>最小的节点进行剪枝。</p>
+<p>步骤(2),我们需要从子树序列中选出真实误差最小的决策树。CCP给出了两种常用的方法：一种是基于独立剪枝数据集，该方法与REP类似，但是由于只能从子树序列<span class="math inline">\(\{T_0,T_1,T_2,...,T_n\}\)</span>中选择最佳决策树，而非像REP能在所有可能的子树中寻求最优解，因此模型效果上会有一定的不足。另一只方案是采取K折交叉验证来选取最优决策树。</p>
+<p><strong>总结</strong> 代价复杂度剪枝使用交叉验证策略的时候，不需要用到测试数据集，精度与REP差不多，但形成的树复杂度小。但是，由于生成子树序列的时间复杂度与原始决策树的非叶子节点个数呈现二次关系，导致算法相比REP、PEP、MEP等线性复杂度的后剪枝方法运行时间更大。</p>
 <p>剪枝过程在决策树模型中占据着极其重要的地位，有很多研究表明，剪枝比树的生成更为关键。对于不同划分标准生成的过拟合决策树，在经过剪枝之后都能保留最重要的属性划分，因此最终的性能差距并不大。</p>
 
     </div>
@@ -329,7 +330,7 @@
     <a href="https://fainke.com/blog/fdb0cab9.html" title="决策树剪枝">https://fainke.com/blog/fdb0cab9.html</a>
   </li>
   <li class="post-copyright-license">
-    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="external nofollow noopener noreferrer" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
   </li>
 </ul>
 </div>
@@ -447,8 +448,7 @@
 
       <div class="site-overview-wrap sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <img class="site-author-image" itemprop="image" alt="Fain"
-      src="/images/touXiang.jpg">
+    <img class="site-author-image" itemprop="image" alt="Fain" src="/images/touXiang.jpg">
   <p class="site-author-name" itemprop="name">Fain</p>
   <div class="site-description" itemprop="description">深度学习,机器学习,计算机视觉CV,自然语言处理NLP,Python</div>
 </div>
@@ -611,7 +611,7 @@
   </div>
 
   
-  <script size="300" alpha="0.3" zIndex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+  <script size="300" alpha="0.3" zindex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
   <script src="/lib/anime.min.js"></script>
   <script src="/lib/velocity/velocity.min.js"></script>
   <script src="/lib/velocity/velocity.ui.min.js"></script>

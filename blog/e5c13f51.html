@@ -22,12 +22,12 @@
     var CONFIG = {"hostname":"fainke.com","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results foundin ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="简介 方阵作为线性算子，它的所有征值的全体统方阵的谱。 方阵的谱半径为最大的特征值； 矩阵A的谱半径：(ATA)的最大特征值； 谱聚类：是一种基于图的聚类方法，通过对样本数据的拉普拉斯矩阵的特征向量进行聚类，从而达到对样本聚类的目的。">
+  <meta name="description" content="简介  方阵作为线性算子，它的所有征值的全体统方阵的谱。 方阵的谱半径为最大的特征值； 矩阵A的谱半径：(ATA)的最大特征值； 谱聚类：是一种基于图的聚类方法，通过对样本数据的拉普拉斯矩阵的特征向量进行聚类，从而达到对样本聚类的目的。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="谱聚类学习">
 <meta property="og:url" content="https://fainke.com/blog/e5c13f51.html">
 <meta property="og:site_name" content="DeepLearning">
-<meta property="og:description" content="简介 方阵作为线性算子，它的所有征值的全体统方阵的谱。 方阵的谱半径为最大的特征值； 矩阵A的谱半径：(ATA)的最大特征值； 谱聚类：是一种基于图的聚类方法，通过对样本数据的拉普拉斯矩阵的特征向量进行聚类，从而达到对样本聚类的目的。">
+<meta property="og:description" content="简介  方阵作为线性算子，它的所有征值的全体统方阵的谱。 方阵的谱半径为最大的特征值； 矩阵A的谱半径：(ATA)的最大特征值； 谱聚类：是一种基于图的聚类方法，通过对样本数据的拉普拉斯矩阵的特征向量进行聚类，从而达到对样本聚类的目的。">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2019-12-31T17:01:01.000Z">
 <meta property="article:modified_time" content="2020-01-31T17:01:01.000Z">
@@ -89,7 +89,11 @@
   </style>
 </noscript>
 
-</head>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --></head>
 
 <body itemscope itemtype="http://schema.org/WebPage">
   <div class="container use-motion">
@@ -163,9 +167,7 @@
     <i class="fa fa-search"></i>
   </span>
   <div class="search-input-container">
-    <input autocomplete="off" autocapitalize="off"
-           placeholder="搜索..." spellcheck="false"
-           type="search" class="search-input">
+    <input autocomplete="off" autocapitalize="off" placeholder="搜索..." spellcheck="false" type="search" class="search-input">
   </div>
   <span class="popup-btn-close">
     <i class="fa fa-times-circle"></i>
@@ -276,20 +278,19 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><ol>
+        <h2 id="简介">简介</h2>
+<ol type="1">
 <li>方阵作为线性算子，它的所有征值的全体统方阵的谱。</li>
 <li>方阵的谱半径为最大的特征值；</li>
 <li>矩阵A的谱半径：(ATA)的最大特征值；</li>
-<li>谱聚类：是一种基于图的聚类方法，通过对样本数据的拉普拉斯矩阵的特征向量进行聚类，从而达到对样本聚类的目的。<a id="more"></a>
-
-</li>
+<li>谱聚类：是一种基于图的聚类方法，通过对样本数据的拉普拉斯矩阵的特征向量进行聚类，从而达到对样本聚类的目的。 <a id="more"></a></li>
 </ol>
-<h2 id="基础概念"><a href="#基础概念" class="headerlink" title="基础概念"></a>基础概念</h2><p>无向图：G=(V,E)<br>邻接矩阵：$W=(w_{ij})i,j=1,…,n$，对称阵。<br>顶点的度：对角矩阵D,$d_i=\sum^n_{j=1}w_{ij}$表示某个顶点，所有与它连接的相似度和。</p>
-<h2 id="谱分析的整体过程"><a href="#谱分析的整体过程" class="headerlink" title="谱分析的整体过程"></a>谱分析的整体过程</h2><ol>
-<li><p>计算数据彼此之间的相似度，构成相似度矩阵(相似度图)。（关于相似度的计算可以用欧式距离，也可以用高斯函数。）</p>
-</li>
-<li><p>接下来，用相似度图来解决样本数据的聚类问题。找到图的一个划分，形成若干个组（Group）,使得不同组之间有较低的权值，组内有较高的权值。</p>
-</li>
+<h2 id="基础概念">基础概念</h2>
+<p>无向图：G=(V,E) 邻接矩阵：<span class="math inline">\(W=(w_{ij})i,j=1,...,n\)</span>，对称阵。 顶点的度：对角矩阵D,<span class="math inline">\(d_i=\sum^n_{j=1}w_{ij}\)</span>表示某个顶点，所有与它连接的相似度和。</p>
+<h2 id="谱分析的整体过程">谱分析的整体过程</h2>
+<ol type="1">
+<li><p>计算数据彼此之间的相似度，构成相似度矩阵(相似度图)。（关于相似度的计算可以用欧式距离，也可以用高斯函数。）</p></li>
+<li><p>接下来，用相似度图来解决样本数据的聚类问题。找到图的一个划分，形成若干个组（Group）,使得不同组之间有较低的权值，组内有较高的权值。</p></li>
 </ol>
 
     </div>
@@ -335,7 +336,7 @@
     <a href="https://fainke.com/blog/e5c13f51.html" title="谱聚类学习">https://fainke.com/blog/e5c13f51.html</a>
   </li>
   <li class="post-copyright-license">
-    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="external nofollow noopener noreferrer" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
   </li>
 </ul>
 </div>
@@ -455,8 +456,7 @@
 
       <div class="site-overview-wrap sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <img class="site-author-image" itemprop="image" alt="Fain"
-      src="/images/touXiang.jpg">
+    <img class="site-author-image" itemprop="image" alt="Fain" src="/images/touXiang.jpg">
   <p class="site-author-name" itemprop="name">Fain</p>
   <div class="site-description" itemprop="description">深度学习,机器学习,计算机视觉CV,自然语言处理NLP,Python</div>
 </div>
@@ -619,7 +619,7 @@
   </div>
 
   
-  <script size="300" alpha="0.3" zIndex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+  <script size="300" alpha="0.3" zindex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
   <script src="/lib/anime.min.js"></script>
   <script src="/lib/velocity/velocity.min.js"></script>
   <script src="/lib/velocity/velocity.ui.min.js"></script>

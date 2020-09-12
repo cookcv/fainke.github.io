@@ -22,12 +22,10 @@
     var CONFIG = {"hostname":"fainke.com","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results foundin ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="-">
-<meta property="og:type" content="article">
+  <meta property="og:type" content="article">
 <meta property="og:title" content="XGBoost二阶泰勒展开式推导">
 <meta property="og:url" content="https://fainke.com/blog/4fe4eb0b.html">
 <meta property="og:site_name" content="DeepLearning">
-<meta property="og:description" content="-">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2019-12-31T17:01:01.000Z">
 <meta property="article:modified_time" content="2020-01-31T17:01:01.000Z">
@@ -89,7 +87,11 @@
   </style>
 </noscript>
 
-</head>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --></head>
 
 <body itemscope itemtype="http://schema.org/WebPage">
   <div class="container use-motion">
@@ -163,9 +165,7 @@
     <i class="fa fa-search"></i>
   </span>
   <div class="search-input-container">
-    <input autocomplete="off" autocapitalize="off"
-           placeholder="搜索..." spellcheck="false"
-           type="search" class="search-input">
+    <input autocomplete="off" autocapitalize="off" placeholder="搜索..." spellcheck="false" type="search" class="search-input">
   </div>
   <span class="popup-btn-close">
     <i class="fa fa-times-circle"></i>
@@ -276,11 +276,11 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>-</p>
-<a id="more"></a>
-
-<p><strong>目标函数：</strong> $\mathrm{obj}=\sum_{i=1}^{n} l\left(y_{i}, \hat{y}<em>{i}^{(t)}\right)+\sum</em>{i=1}^{t} \Omega\left(f_{i}\right)$<br>其中$y_i$是真实值，$\hat{y}<em>{i}^{(t)}$是总t棵树的预测值，$l$是loss function，$\Omega$是正则项，防止过拟合。$f$是一棵CART树，$f</em>{t}\left(x_{i}\right)$是输入数据$x_i$后第t棵树的输出值。<br>**$\hat{y}<em>{i}^{(t)}$与$f</em>{t}\left(x_{i}\right)$的关系为：**<br>$\hat{y}<em>{i}^{(t)}=\sum</em>{k=1}^{t} f_{k}\left(x_{i}\right)=\hat{y}<em>{i}^{(t-1)}+f</em>{t}\left(x_{i}\right)$<br><strong>因此，目标函数即可转为：</strong><br>$\begin{aligned} \mathrm{obj}^{(t)} &amp;=\sum_{i=1}^{n} l\left(y_{i}, \hat{y}<em>{i}^{(t)}\right)+\sum</em>{i=1}^{t} \Omega\left(f_{i}\right) \ &amp;=\sum_{i=1}^{n} l\left(y_{i}, \hat{y}<em>{i}^{(t-1)}+f</em>{t}\left(x_{i}\right)\right)+\Omega\left(f_{t}\right)+\text {constant } \end{aligned}$</p>
-<p><strong>泰勒展开公式：</strong> $f(x+\Delta x) \simeq f(x)+f^{\prime}(x) \Delta x+\frac{1}{2} f^{\prime \prime}(x) \Delta x^{2}$<br><strong>将损失函数泰勒展开至二阶：</strong><br>$\mathrm{obj}^{(t)}=\sum_{i=1}^{n}\left[l\left(y_{i}, \hat{y}<em>{i}^{(t-1)}\right)+g</em>{i} f_{t}\left(x_{i}\right)+\frac{1}{2} h_{i} f_{t}^{2}\left(x_{i}\right)\right]+\Omega\left(f_{t}\right)+constant$<br>其中$g_{i}=\partial_{\hat{y}^{(t-1)}} l\left(y_{i}, \hat{y}^{(t-1)}\right)$，$h_{i}=\partial_{\hat{y}^{(t-1)}}^{2} l\left(y_{i}, \hat{y}^{(t-1)}\right)$<br>分别表示对$\hat{y}<em>{i}^{(t-1)}$求一次与二次偏导。<br>与泰勒展开式对应来看，其中x为$\hat{y}</em>{i}^{(t-1)}$，$\Delta x$为$f_{t}\left(x_{i}\right)$</p>
+        <ul>
+<li><a id="more"></a></li>
+</ul>
+<p><strong>目标函数：</strong> <span class="math inline">\(\mathrm{obj}=\sum_{i=1}^{n} l\left(y_{i}, \hat{y}_{i}^{(t)}\right)+\sum_{i=1}^{t} \Omega\left(f_{i}\right)\)</span> 其中<span class="math inline">\(y_i\)</span>是真实值，<span class="math inline">\(\hat{y}_{i}^{(t)}\)</span>是总t棵树的预测值，<span class="math inline">\(l\)</span>是loss function，<span class="math inline">\(\Omega\)</span>是正则项，防止过拟合。<span class="math inline">\(f\)</span>是一棵CART树，<span class="math inline">\(f_{t}\left(x_{i}\right)\)</span>是输入数据<span class="math inline">\(x_i\)</span>后第t棵树的输出值。 <strong><span class="math inline">\(\hat{y}_{i}^{(t)}\)</span>与<span class="math inline">\(f_{t}\left(x_{i}\right)\)</span>的关系为：</strong> <span class="math inline">\(\hat{y}_{i}^{(t)}=\sum_{k=1}^{t} f_{k}\left(x_{i}\right)=\hat{y}_{i}^{(t-1)}+f_{t}\left(x_{i}\right)\)</span> <strong>因此，目标函数即可转为：</strong> <span class="math inline">\(\begin{aligned} \mathrm{obj}^{(t)} &amp;=\sum_{i=1}^{n} l\left(y_{i}, \hat{y}_{i}^{(t)}\right)+\sum_{i=1}^{t} \Omega\left(f_{i}\right) \\ &amp;=\sum_{i=1}^{n} l\left(y_{i}, \hat{y}_{i}^{(t-1)}+f_{t}\left(x_{i}\right)\right)+\Omega\left(f_{t}\right)+\text {constant } \end{aligned}\)</span></p>
+<p><strong>泰勒展开公式：</strong> <span class="math inline">\(f(x+\Delta x) \simeq f(x)+f^{\prime}(x) \Delta x+\frac{1}{2} f^{\prime \prime}(x) \Delta x^{2}\)</span> <strong>将损失函数泰勒展开至二阶：</strong> <span class="math inline">\(\mathrm{obj}^{(t)}=\sum_{i=1}^{n}\left[l\left(y_{i}, \hat{y}_{i}^{(t-1)}\right)+g_{i} f_{t}\left(x_{i}\right)+\frac{1}{2} h_{i} f_{t}^{2}\left(x_{i}\right)\right]+\Omega\left(f_{t}\right)+constant\)</span> 其中<span class="math inline">\(g_{i}=\partial_{\hat{y}^{(t-1)}} l\left(y_{i}, \hat{y}^{(t-1)}\right)\)</span>，<span class="math inline">\(h_{i}=\partial_{\hat{y}^{(t-1)}}^{2} l\left(y_{i}, \hat{y}^{(t-1)}\right)\)</span> 分别表示对<span class="math inline">\(\hat{y}_{i}^{(t-1)}\)</span>求一次与二次偏导。 与泰勒展开式对应来看，其中x为<span class="math inline">\(\hat{y}_{i}^{(t-1)}\)</span>，<span class="math inline">\(\Delta x\)</span>为<span class="math inline">\(f_{t}\left(x_{i}\right)\)</span></p>
 
     </div>
 
@@ -325,7 +325,7 @@
     <a href="https://fainke.com/blog/4fe4eb0b.html" title="XGBoost二阶泰勒展开式推导">https://fainke.com/blog/4fe4eb0b.html</a>
   </li>
   <li class="post-copyright-license">
-    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="external nofollow noopener noreferrer" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
   </li>
 </ul>
 </div>
@@ -444,8 +444,7 @@
 
       <div class="site-overview-wrap sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <img class="site-author-image" itemprop="image" alt="Fain"
-      src="/images/touXiang.jpg">
+    <img class="site-author-image" itemprop="image" alt="Fain" src="/images/touXiang.jpg">
   <p class="site-author-name" itemprop="name">Fain</p>
   <div class="site-description" itemprop="description">深度学习,机器学习,计算机视觉CV,自然语言处理NLP,Python</div>
 </div>
@@ -608,7 +607,7 @@
   </div>
 
   
-  <script size="300" alpha="0.3" zIndex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+  <script size="300" alpha="0.3" zindex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
   <script src="/lib/anime.min.js"></script>
   <script src="/lib/velocity/velocity.min.js"></script>
   <script src="/lib/velocity/velocity.ui.min.js"></script>

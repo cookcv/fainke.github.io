@@ -22,12 +22,10 @@
     var CONFIG = {"hostname":"fainke.com","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results foundin ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="-">
-<meta property="og:type" content="article">
+  <meta property="og:type" content="article">
 <meta property="og:title" content="隐马尔可夫模型HMM学习笔记">
 <meta property="og:url" content="https://fainke.com/blog/34933be3.html">
 <meta property="og:site_name" content="DeepLearning">
-<meta property="og:description" content="-">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://fainke.com/blog/images/HMMLearn_1.png">
 <meta property="og:image" content="https://fainke.com/blog/images/HMMLearn_2.png">
@@ -92,7 +90,11 @@
   </style>
 </noscript>
 
-</head>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --></head>
 
 <body itemscope itemtype="http://schema.org/WebPage">
   <div class="container use-motion">
@@ -166,9 +168,7 @@
     <i class="fa fa-search"></i>
   </span>
   <div class="search-input-container">
-    <input autocomplete="off" autocapitalize="off"
-           placeholder="搜索..." spellcheck="false"
-           type="search" class="search-input">
+    <input autocomplete="off" autocapitalize="off" placeholder="搜索..." spellcheck="false" type="search" class="search-input">
   </div>
   <span class="popup-btn-close">
     <i class="fa fa-times-circle"></i>
@@ -279,19 +279,23 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>-</p>
-<a id="more"></a>
-
-<p><strong>一个模型</strong><br>HMM定义为$\lambda = (N,M,\pi,A,B)$</p>
-<p><strong>N：</strong>模型中马尔可夫链的状态数目$[s_1,s_2,…,s_N]$。如果记t时刻Markov链所处的状态$q_t$，那么$q_t \in (s_1,s_2,…,s_N)$。</p>
-<p><strong>M：</strong>每个状态可能输出的观测符号数目$[\theta_1,\theta_2,…,\theta_M]$。如果记t时刻Markov链所处的观测值维$O_t$，那么$O_t \in (\theta_1,\theta_2,…,\theta_M)$。</p>
-<p><strong>$\pi$：</strong>初始状态概率分布矢量，$\pi = (\pi_1,\pi_2,…,\pi_N)$。某一时刻处于某一状态的概率。$\pi = P(q_t=s_i),1 \leq i \leq N $。</p>
-<p><strong>A：</strong>状态转移概率矩阵。$A={ a_{ij} }_{NN}$ 。$a_ij = P(q_{t+1}=s_j,q_t = s_i);1\leq i,j\leq N$表示两个状态之间的转移概率。</p>
-<p><strong>B：</strong>观测符号概率分布，$B = { b_j(k)}_{NM}$。其中：$b_j(k) = P(O_t=V_k \mid q_i = s_j)$。对于连续HMM，B是一组观察值概率函数，即$B = {b_j(X),j=1,2,…,N }$。</p>
-<p><strong>两个假设：</strong><br>齐次Markov假设：t+1时刻的隐藏状态只与t时刻的隐藏状态有关。<br>观察独立假设：t时刻的隐藏状态只与t时刻的观测变量有关。</p>
-<p><strong>三个问题：</strong><br>Evaluation：当已知各个参数，如何求得某个观测序列的概率。<br>Learning：参数训练，EM算法（Baum-Welch）<br>Decoding：已知观测序列，求的参数使对应隐藏序列概率最大<br><img src="images/HMMLearn_1.png" alt="forward.png"></p>
-<p><img src="images/HMMLearn_2.png" alt="backward.png"></p>
-<p><img src="images/HMMLearn_3.png" alt="Learning.png"></p>
+        <ul>
+<li><a id="more"></a></li>
+</ul>
+<p><strong>一个模型</strong> HMM定义为<span class="math inline">\(\lambda = (N,M,\pi,A,B)\)</span></p>
+<p><strong>N：</strong>模型中马尔可夫链的状态数目<span class="math inline">\([s_1,s_2,...,s_N]\)</span>。如果记t时刻Markov链所处的状态<span class="math inline">\(q_t\)</span>，那么<span class="math inline">\(q_t \in (s_1,s_2,...,s_N)\)</span>。</p>
+<p><strong>M：</strong>每个状态可能输出的观测符号数目<span class="math inline">\([\theta_1,\theta_2,...,\theta_M]\)</span>。如果记t时刻Markov链所处的观测值维<span class="math inline">\(O_t\)</span>，那么<span class="math inline">\(O_t \in (\theta_1,\theta_2,...,\theta_M)\)</span>。</p>
+<p><strong><span class="math inline">\(\pi\)</span>：</strong>初始状态概率分布矢量，<span class="math inline">\(\pi = (\pi_1,\pi_2,...,\pi_N)\)</span>。某一时刻处于某一状态的概率。$= P(q_t=s_i),1 i N $。</p>
+<p><strong>A：</strong>状态转移概率矩阵。<span class="math inline">\(A=\{ a_{ij} \}_{NN}\)</span> 。<span class="math inline">\(a_ij = P(q_{t+1}=s_j,q_t = s_i);1\leq i,j\leq N\)</span>表示两个状态之间的转移概率。</p>
+<p><strong>B：</strong>观测符号概率分布，<span class="math inline">\(B = \{ b_j(k)\}_{NM}\)</span>。其中：<span class="math inline">\(b_j(k) = P(O_t=V_k \mid q_i = s_j)\)</span>。对于连续HMM，B是一组观察值概率函数，即<span class="math inline">\(B = \{b_j(X),j=1,2,...,N \}\)</span>。</p>
+<p><strong>两个假设：</strong> 齐次Markov假设：t+1时刻的隐藏状态只与t时刻的隐藏状态有关。 观察独立假设：t时刻的隐藏状态只与t时刻的观测变量有关。</p>
+<p><strong>三个问题：</strong> Evaluation：当已知各个参数，如何求得某个观测序列的概率。 Learning：参数训练，EM算法（Baum-Welch） Decoding：已知观测序列，求的参数使对应隐藏序列概率最大 <img src="images/HMMLearn_1.png" alt="forward.png"></p>
+<figure>
+<img src="images/HMMLearn_2.png" alt="backward.png"><figcaption>backward.png</figcaption>
+</figure>
+<figure>
+<img src="images/HMMLearn_3.png" alt="Learning.png"><figcaption>Learning.png</figcaption>
+</figure>
 
     </div>
 
@@ -336,7 +340,7 @@
     <a href="https://fainke.com/blog/34933be3.html" title="隐马尔可夫模型HMM学习笔记">https://fainke.com/blog/34933be3.html</a>
   </li>
   <li class="post-copyright-license">
-    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="external nofollow noopener noreferrer" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
   </li>
 </ul>
 </div>
@@ -454,8 +458,7 @@
 
       <div class="site-overview-wrap sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <img class="site-author-image" itemprop="image" alt="Fain"
-      src="/images/touXiang.jpg">
+    <img class="site-author-image" itemprop="image" alt="Fain" src="/images/touXiang.jpg">
   <p class="site-author-name" itemprop="name">Fain</p>
   <div class="site-description" itemprop="description">深度学习,机器学习,计算机视觉CV,自然语言处理NLP,Python</div>
 </div>
@@ -618,7 +621,7 @@
   </div>
 
   
-  <script size="300" alpha="0.3" zIndex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+  <script size="300" alpha="0.3" zindex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
   <script src="/lib/anime.min.js"></script>
   <script src="/lib/velocity/velocity.min.js"></script>
   <script src="/lib/velocity/velocity.ui.min.js"></script>

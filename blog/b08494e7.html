@@ -22,12 +22,12 @@
     var CONFIG = {"hostname":"fainke.com","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results foundin ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="GIoU提出背景从图中我么可以看出，优化BBox参数的常用距离损失与使该度量值最大化之间存在差距。常理来说，度量最佳目标是度量本身，直接用IoU作为loss来计算会更加有效，但是IoU指的是BBox之间的交并比，前提是必须有交集的两个Box才能计算，为了解决这个问题，GIoU被提出。">
+  <meta name="description" content="GIoU提出背景 从图中我么可以看出，优化BBox参数的常用距离损失与使该度量值最大化之间存在差距。常理来说，度量最佳目标是度量本身，直接用IoU作为loss来计算会更加有效，但是IoU指的是BBox之间的交并比，前提是必须有交集的两个Box才能计算，为了解决这个问题，GIoU被提出。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="检测任务Loss之GIOU">
 <meta property="og:url" content="https://fainke.com/blog/b08494e7.html">
 <meta property="og:site_name" content="DeepLearning">
-<meta property="og:description" content="GIoU提出背景从图中我么可以看出，优化BBox参数的常用距离损失与使该度量值最大化之间存在差距。常理来说，度量最佳目标是度量本身，直接用IoU作为loss来计算会更加有效，但是IoU指的是BBox之间的交并比，前提是必须有交集的两个Box才能计算，为了解决这个问题，GIoU被提出。">
+<meta property="og:description" content="GIoU提出背景 从图中我么可以看出，优化BBox参数的常用距离损失与使该度量值最大化之间存在差距。常理来说，度量最佳目标是度量本身，直接用IoU作为loss来计算会更加有效，但是IoU指的是BBox之间的交并比，前提是必须有交集的两个Box才能计算，为了解决这个问题，GIoU被提出。">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://fainke.com/blog/images/GIOU_1.png">
 <meta property="og:image" content="https://fainke.com/blog/images/GIOU_2.png">
@@ -93,7 +93,11 @@
   </style>
 </noscript>
 
-</head>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --></head>
 
 <body itemscope itemtype="http://schema.org/WebPage">
   <div class="container use-motion">
@@ -167,9 +171,7 @@
     <i class="fa fa-search"></i>
   </span>
   <div class="search-input-container">
-    <input autocomplete="off" autocapitalize="off"
-           placeholder="搜索..." spellcheck="false"
-           type="search" class="search-input">
+    <input autocomplete="off" autocapitalize="off" placeholder="搜索..." spellcheck="false" type="search" class="search-input">
   </div>
   <span class="popup-btn-close">
     <i class="fa fa-times-circle"></i>
@@ -280,11 +282,12 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h3 id="GIoU提出背景"><a href="#GIoU提出背景" class="headerlink" title="GIoU提出背景"></a>GIoU提出背景</h3><p>从图中我么可以看出，优化BBox参数的常用距离损失与使该度量值最大化之间存在差距。常理来说，度量最佳目标是度量本身，直接用IoU作为loss来计算会更加有效，但是IoU指的是BBox之间的交并比，前提是必须有交集的两个Box才能计算，为了解决这个问题，GIoU被提出。</p>
-<a id="more"></a>
-<p><img src="images/GIOU_1.png"></p>
-<h3 id="GIou介绍"><a href="#GIou介绍" class="headerlink" title="GIou介绍"></a>GIou介绍</h3><p>对于任意两个Box，我们可以找到一个最小的封闭框C，让C把A,B包含在内，然后我们计算C中没有覆盖A和B的面积占C总面积的比值，然后用A与B的IoU减去这个比值。<br>$$GIoU_{AB} = IoU_{AB} - \frac{C-(A \bigcup B)}{|C|},Loss = 1 - GIoU$$</p>
-<h4 id="表现"><a href="#表现" class="headerlink" title="表现"></a>表现</h4><p><img src="images/GIOU_2.png"></p>
+        <h3 id="giou提出背景">GIoU提出背景</h3>
+<p>从图中我么可以看出，优化BBox参数的常用距离损失与使该度量值最大化之间存在差距。常理来说，度量最佳目标是度量本身，直接用IoU作为loss来计算会更加有效，但是IoU指的是BBox之间的交并比，前提是必须有交集的两个Box才能计算，为了解决这个问题，GIoU被提出。 <a id="more"></a> <img src="images/GIOU_1.png"></p>
+<h3 id="giou介绍">GIou介绍</h3>
+<p>对于任意两个Box，我们可以找到一个最小的封闭框C，让C把A,B包含在内，然后我们计算C中没有覆盖A和B的面积占C总面积的比值，然后用A与B的IoU减去这个比值。 <span class="math display">\[GIoU_{AB} = IoU_{AB} - \frac{C-(A \bigcup B)}{|C|},Loss = 1 - GIoU\]</span></p>
+<h4 id="表现">表现</h4>
+<p><img src="images/GIOU_2.png"></p>
 <p><img src="images/GIOU_3.png"></p>
 <p>从图上我们可以看出，GIoU在MS COCO 2018的test数据集上更加优秀。</p>
 
@@ -331,7 +334,7 @@
     <a href="https://fainke.com/blog/b08494e7.html" title="检测任务Loss之GIOU">https://fainke.com/blog/b08494e7.html</a>
   </li>
   <li class="post-copyright-license">
-    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="external nofollow noopener noreferrer" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
   </li>
 </ul>
 </div>
@@ -378,8 +381,8 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/blog/17ea3cd3.html" rel="prev" title="梯度下降优化方法总结">
-      <i class="fa fa-chevron-left"></i> 梯度下降优化方法总结
+    <a href="/blog/439cc94e.html" rel="prev" title="模型剪枝工具推荐">
+      <i class="fa fa-chevron-left"></i> 模型剪枝工具推荐
     </a></div>
       <div class="post-nav-item">
     <a href="/blog/c1d77713.html" rel="next" title="梯度爆炸与梯度消失">
@@ -445,14 +448,13 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#GIoU%E6%8F%90%E5%87%BA%E8%83%8C%E6%99%AF"><span class="nav-number">1.</span> <span class="nav-text">GIoU提出背景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#GIou%E4%BB%8B%E7%BB%8D"><span class="nav-number">2.</span> <span class="nav-text">GIou介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%A1%A8%E7%8E%B0"><span class="nav-number">2.1.</span> <span class="nav-text">表现</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#giou%E6%8F%90%E5%87%BA%E8%83%8C%E6%99%AF"><span class="nav-number">1.</span> <span class="nav-text">GIoU提出背景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#giou%E4%BB%8B%E7%BB%8D"><span class="nav-number">2.</span> <span class="nav-text">GIou介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%A1%A8%E7%8E%B0"><span class="nav-number">2.1.</span> <span class="nav-text">表现</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
       <div class="site-overview-wrap sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <img class="site-author-image" itemprop="image" alt="Fain"
-      src="/images/touXiang.jpg">
+    <img class="site-author-image" itemprop="image" alt="Fain" src="/images/touXiang.jpg">
   <p class="site-author-name" itemprop="name">Fain</p>
   <div class="site-description" itemprop="description">深度学习,机器学习,计算机视觉CV,自然语言处理NLP,Python</div>
 </div>
@@ -615,7 +617,7 @@
   </div>
 
   
-  <script size="300" alpha="0.3" zIndex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+  <script size="300" alpha="0.3" zindex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
   <script src="/lib/anime.min.js"></script>
   <script src="/lib/velocity/velocity.min.js"></script>
   <script src="/lib/velocity/velocity.ui.min.js"></script>

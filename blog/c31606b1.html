@@ -22,12 +22,12 @@
     var CONFIG = {"hostname":"fainke.com","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results foundin ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="神经网络判断奇偶数拥有神经网络的深度学习比机器学习的一大特点是，深度学习的非线性转换能够实现一定程度上的特征提取和特征组合。但是，当你传入一批自然数进入模型中训练，想要预测奇偶性的时候，你会发现，这个任务有点难。但是，如果你将这些数值转为二进制的时候，这个任务又变得可行。可以看出，深度学习也需要我们做一下数据的预处理工作。当然，也侧边看出了神经网络并非万能。">
+  <meta name="description" content="神经网络判断奇偶数 拥有神经网络的深度学习比机器学习的一大特点是，深度学习的非线性转换能够实现一定程度上的特征提取和特征组合。但是，当你传入一批自然数进入模型中训练，想要预测奇偶性的时候，你会发现，这个任务有点难。但是，如果你将这些数值转为二进制的时候，这个任务又变得可行。可以看出，深度学习也需要我们做一下数据的预处理工作。当然，也侧边看出了神经网络并非万能。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="神经网络能否直接判断奇偶数">
 <meta property="og:url" content="https://fainke.com/blog/c31606b1.html">
 <meta property="og:site_name" content="DeepLearning">
-<meta property="og:description" content="神经网络判断奇偶数拥有神经网络的深度学习比机器学习的一大特点是，深度学习的非线性转换能够实现一定程度上的特征提取和特征组合。但是，当你传入一批自然数进入模型中训练，想要预测奇偶性的时候，你会发现，这个任务有点难。但是，如果你将这些数值转为二进制的时候，这个任务又变得可行。可以看出，深度学习也需要我们做一下数据的预处理工作。当然，也侧边看出了神经网络并非万能。">
+<meta property="og:description" content="神经网络判断奇偶数 拥有神经网络的深度学习比机器学习的一大特点是，深度学习的非线性转换能够实现一定程度上的特征提取和特征组合。但是，当你传入一批自然数进入模型中训练，想要预测奇偶性的时候，你会发现，这个任务有点难。但是，如果你将这些数值转为二进制的时候，这个任务又变得可行。可以看出，深度学习也需要我们做一下数据的预处理工作。当然，也侧边看出了神经网络并非万能。">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-03-04T17:01:01.000Z">
 <meta property="article:modified_time" content="2020-03-04T17:01:01.000Z">
@@ -88,7 +88,11 @@
   </style>
 </noscript>
 
-</head>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --></head>
 
 <body itemscope itemtype="http://schema.org/WebPage">
   <div class="container use-motion">
@@ -162,9 +166,7 @@
     <i class="fa fa-search"></i>
   </span>
   <div class="search-input-container">
-    <input autocomplete="off" autocapitalize="off"
-           placeholder="搜索..." spellcheck="false"
-           type="search" class="search-input">
+    <input autocomplete="off" autocapitalize="off" placeholder="搜索..." spellcheck="false" type="search" class="search-input">
   </div>
   <span class="popup-btn-close">
     <i class="fa fa-times-circle"></i>
@@ -268,22 +270,19 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="神经网络判断奇偶数"><a href="#神经网络判断奇偶数" class="headerlink" title="神经网络判断奇偶数"></a>神经网络判断奇偶数</h2><p>拥有神经网络的深度学习比机器学习的一大特点是，深度学习的非线性转换能够实现一定程度上的特征提取和特征组合。但是，当你传入一批自然数进入模型中训练，想要预测奇偶性的时候，你会发现，这个任务有点难。但是，如果你将这些数值转为二进制的时候，这个任务又变得可行。可以看出，深度学习也需要我们做一下数据的预处理工作。当然，也侧边看出了神经网络并非万能。</p>
-<a id="more"></a>
-
-<p><strong>1. 神经网络如何针对当前的任务建立模型</strong><br>比如检测，分割，分类等问题。这些问题都有一个共同点，同一个类别的目标在高维空间里也在同一个区域。这样在高维空间里，我们的神经网络将这些空间分割成多个块，每个块预测出一个类别，就能达到很高的指标。</p>
-<p><strong>2. 神经网络为什么无法直接通过自然数数据直接构建特征预测奇偶性</strong></p>
-<blockquote>
-<p>作者:王赟 Maigo(Facebook 研究科学家)</p>
-</blockquote>
+        <h2 id="神经网络判断奇偶数">神经网络判断奇偶数</h2>
+<p>拥有神经网络的深度学习比机器学习的一大特点是，深度学习的非线性转换能够实现一定程度上的特征提取和特征组合。但是，当你传入一批自然数进入模型中训练，想要预测奇偶性的时候，你会发现，这个任务有点难。但是，如果你将这些数值转为二进制的时候，这个任务又变得可行。可以看出，深度学习也需要我们做一下数据的预处理工作。当然，也侧边看出了神经网络并非万能。 <a id="more"></a></p>
+<p><strong>1. 神经网络如何针对当前的任务建立模型</strong> 比如检测，分割，分类等问题。这些问题都有一个共同点，同一个类别的目标在高维空间里也在同一个区域。这样在高维空间里，我们的神经网络将这些空间分割成多个块，每个块预测出一个类别，就能达到很高的指标。</p>
+<p><strong>2. 神经网络为什么无法直接通过自然数数据直接构建特征预测奇偶性</strong> &gt;作者:王赟 Maigo(Facebook 研究科学家)</p>
 <p>机器学习里面有一个「没有免费午餐」定理（No Free Lunch Theorem）：任意一种算法，如果对于某些类型的问题效果好，必然对于另一些类型的问题效果差。各种模型都有自己的先验假设，如果数据分布符合这个先验假设，学习效果就好，否则就差。比如很多模型都假设数据是线性可分的，对于线性不可分的数据效果就不好。</p>
-<p><strong>不平滑的输入导致难以拟合</strong><br>机器学习适合处理的问题，一般都有这么一个特点：在特征空间中相近的输入，对应的输出一般也相近（暂且称为「平滑性」）。这是机器学习能够把从训练数据中学到的知识推广（generalize）到新数据上的前提。如果一个问题不「平滑」，也就是说，输入稍微变一点儿，输出往往都会有巨大的变化，那么机器学习一般就会表现得惨不忍睹。</p>
-<p>比如，如果直接输入自然数0,1,2,3,…n(n很大)，这就是一个典型的「不平滑」问题：输入稍微变动一点儿(从2变成相邻数3)，输出就会有很大变动(从一个标签转为另一个标签)。还有一个例子是，输入是若干个布尔特征，输出是它们的异或。那么，输入中有一个布尔值发生了变化，就会导致输出发生翻天覆地的变化。在自然语言处理中，也会存在一个字的改变，导致整个句子的语义发生改变，所以给模型加入了先验，使用了word embedding 来刻画单词之间的距离和位置关系。</p>
-<p><strong>激活函数的影响</strong><br>奇偶判断的核心规律是周期性，与relu是完全违背的，这些激活函数都没有太多的转折，不会像周期性函数cos/sin把特征空间切得很碎，relu可以看作只有两段区域。强行使用relu会使得神经网络需要拟合数轴上的每个数，无法完成任何泛化。当然，如果以后让激活函数具有周期性，那么也许也可以解决这类周期性的问题。但是损失函数的问题又会出现，这类崎岖的损失曲面将会很难找到全局最优解。</p>
-<p><strong>信息论解释</strong><br>从信息论也可以理解，一个所有符号出现概率均等的系统，将无法对符号进行压缩。一个问题的解空间，可以用符号表示，如果对其中特征完全不了解，可以认为所有符号出现的概率均等，也将无法对解空间进行压缩，也就不存在一种相对高效的解法。</p>
-<p><strong>3. 为什么转为二进制之后，神经网络就可以工作了</strong><br>这是因为通过设计合适的特征，把问题转化成一个【平滑】的问题。从信息论的角度来说，奇偶性的信息就藏在二进制的最后一位，信息就在那里，可是神经网络竟然无法捕获它。如果我们把输入数值转换成二进制，每一位作为一个布尔特征，一般的机器学习方法都会很容易地学习到个位特征就对应着答案，而其它特征与答案无关。通过最后一位是0还是1就可以直接判断label, 这是典型的data leakage.</p>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><blockquote>
-<p><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/364113452">https://www.zhihu.com/question/364113452</a></p>
+<p><strong>不平滑的输入导致难以拟合</strong> 机器学习适合处理的问题，一般都有这么一个特点：在特征空间中相近的输入，对应的输出一般也相近（暂且称为「平滑性」）。这是机器学习能够把从训练数据中学到的知识推广（generalize）到新数据上的前提。如果一个问题不「平滑」，也就是说，输入稍微变一点儿，输出往往都会有巨大的变化，那么机器学习一般就会表现得惨不忍睹。</p>
+<p>比如，如果直接输入自然数0,1,2,3,...n(n很大)，这就是一个典型的「不平滑」问题：输入稍微变动一点儿(从2变成相邻数3)，输出就会有很大变动(从一个标签转为另一个标签)。还有一个例子是，输入是若干个布尔特征，输出是它们的异或。那么，输入中有一个布尔值发生了变化，就会导致输出发生翻天覆地的变化。在自然语言处理中，也会存在一个字的改变，导致整个句子的语义发生改变，所以给模型加入了先验，使用了word embedding 来刻画单词之间的距离和位置关系。</p>
+<p><strong>激活函数的影响</strong> 奇偶判断的核心规律是周期性，与relu是完全违背的，这些激活函数都没有太多的转折，不会像周期性函数cos/sin把特征空间切得很碎，relu可以看作只有两段区域。强行使用relu会使得神经网络需要拟合数轴上的每个数，无法完成任何泛化。当然，如果以后让激活函数具有周期性，那么也许也可以解决这类周期性的问题。但是损失函数的问题又会出现，这类崎岖的损失曲面将会很难找到全局最优解。</p>
+<p><strong>信息论解释</strong> 从信息论也可以理解，一个所有符号出现概率均等的系统，将无法对符号进行压缩。一个问题的解空间，可以用符号表示，如果对其中特征完全不了解，可以认为所有符号出现的概率均等，也将无法对解空间进行压缩，也就不存在一种相对高效的解法。</p>
+<p><strong>3. 为什么转为二进制之后，神经网络就可以工作了</strong> 这是因为通过设计合适的特征，把问题转化成一个【平滑】的问题。从信息论的角度来说，奇偶性的信息就藏在二进制的最后一位，信息就在那里，可是神经网络竟然无法捕获它。如果我们把输入数值转换成二进制，每一位作为一个布尔特征，一般的机器学习方法都会很容易地学习到个位特征就对应着答案，而其它特征与答案无关。通过最后一位是0还是1就可以直接判断label, 这是典型的data leakage.</p>
+<h2 id="参考">参考</h2>
+<blockquote>
+<p>https://www.zhihu.com/question/364113452</p>
 </blockquote>
 
     </div>
@@ -329,7 +328,7 @@
     <a href="https://fainke.com/blog/c31606b1.html" title="神经网络能否直接判断奇偶数">https://fainke.com/blog/c31606b1.html</a>
   </li>
   <li class="post-copyright-license">
-    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="external nofollow noopener noreferrer" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
   </li>
 </ul>
 </div>
@@ -375,12 +374,12 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/blog/4a3de261.html" rel="prev" title="ButterWorthFIlter(巴特沃斯滤波器)">
-      <i class="fa fa-chevron-left"></i> ButterWorthFIlter(巴特沃斯滤波器)
+    <a href="/blog/ee15081e.html" rel="prev" title="深度学习问答">
+      <i class="fa fa-chevron-left"></i> 深度学习问答
     </a></div>
       <div class="post-nav-item">
-    <a href="/blog/4f7ea913.html" rel="next" title="CNN如何学到图片中的位置信息">
-      CNN如何学到图片中的位置信息 <i class="fa fa-chevron-right"></i>
+    <a href="/blog/94778ed3.html" rel="next" title="秩和检验">
+      秩和检验 <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
@@ -448,8 +447,7 @@
 
       <div class="site-overview-wrap sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <img class="site-author-image" itemprop="image" alt="Fain"
-      src="/images/touXiang.jpg">
+    <img class="site-author-image" itemprop="image" alt="Fain" src="/images/touXiang.jpg">
   <p class="site-author-name" itemprop="name">Fain</p>
   <div class="site-description" itemprop="description">深度学习,机器学习,计算机视觉CV,自然语言处理NLP,Python</div>
 </div>
@@ -612,7 +610,7 @@
   </div>
 
   
-  <script size="300" alpha="0.3" zIndex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+  <script size="300" alpha="0.3" zindex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
   <script src="/lib/anime.min.js"></script>
   <script src="/lib/velocity/velocity.min.js"></script>
   <script src="/lib/velocity/velocity.ui.min.js"></script>

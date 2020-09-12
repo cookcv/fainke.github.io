@@ -22,12 +22,12 @@
     var CONFIG = {"hostname":"fainke.com","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results foundin ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="简述这篇文章提出two-stream CNN架构，two-stream包括经典网络结构regular stream和处理边界信息的shape stream。这两个处理流并行处理不同的任务，相互协调工作。regular stream可以帮助shape stream只关注边界信息而不被一些无用的噪声干扰；shape stream可以辅助regular stream做更精确的识别。并且该架构在微小物体上">
+  <meta name="description" content="简述 这篇文章提出two-stream CNN架构，two-stream包括经典网络结构regular stream和处理边界信息的shape stream。这两个处理流并行处理不同的任务，相互协调工作。regular stream可以帮助shape stream只关注边界信息而不被一些无用的噪声干扰；shape stream可以辅助regular stream做更精确的识别。并且该架构在微小物体">
 <meta property="og:type" content="article">
 <meta property="og:title" content="双流检测Gated-SCNN">
 <meta property="og:url" content="https://fainke.com/blog/ac56438f.html">
 <meta property="og:site_name" content="DeepLearning">
-<meta property="og:description" content="简述这篇文章提出two-stream CNN架构，two-stream包括经典网络结构regular stream和处理边界信息的shape stream。这两个处理流并行处理不同的任务，相互协调工作。regular stream可以帮助shape stream只关注边界信息而不被一些无用的噪声干扰；shape stream可以辅助regular stream做更精确的识别。并且该架构在微小物体上">
+<meta property="og:description" content="简述 这篇文章提出two-stream CNN架构，two-stream包括经典网络结构regular stream和处理边界信息的shape stream。这两个处理流并行处理不同的任务，相互协调工作。regular stream可以帮助shape stream只关注边界信息而不被一些无用的噪声干扰；shape stream可以辅助regular stream做更精确的识别。并且该架构在微小物体">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://fainke.com/blog/images/GatedSCNN_1.png">
 <meta property="og:image" content="https://fainke.com/blog/images/GatedSCNN_2.png">
@@ -94,7 +94,11 @@
   </style>
 </noscript>
 
-</head>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --></head>
 
 <body itemscope itemtype="http://schema.org/WebPage">
   <div class="container use-motion">
@@ -168,9 +172,7 @@
     <i class="fa fa-search"></i>
   </span>
   <div class="search-input-container">
-    <input autocomplete="off" autocapitalize="off"
-           placeholder="搜索..." spellcheck="false"
-           type="search" class="search-input">
+    <input autocomplete="off" autocapitalize="off" placeholder="搜索..." spellcheck="false" type="search" class="search-input">
   </div>
   <span class="popup-btn-close">
     <i class="fa fa-times-circle"></i>
@@ -281,37 +283,38 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="简述"><a href="#简述" class="headerlink" title="简述"></a>简述</h2><p>这篇文章提出two-stream CNN架构，two-stream包括经典网络结构regular stream和处理边界信息的shape stream。这两个处理流并行处理不同的任务，相互协调工作。regular stream可以帮助shape stream只关注边界信息而不被一些无用的噪声干扰；shape stream可以辅助regular stream做更精确的识别。并且该架构在微小物体上有着明显提升。</p>
+        <h2 id="简述">简述</h2>
+<p>这篇文章提出two-stream CNN架构，two-stream包括经典网络结构regular stream和处理边界信息的shape stream。这两个处理流并行处理不同的任务，相互协调工作。regular stream可以帮助shape stream只关注边界信息而不被一些无用的噪声干扰；shape stream可以辅助regular stream做更精确的识别。并且该架构在微小物体上有着明显提升。</p>
 <a id="more"></a>
-
-<p><img src="images/GatedSCNN_1.png" alt="Gated-SCNN.png"></p>
-<h2 id="细节描述"><a href="#细节描述" class="headerlink" title="细节描述"></a>细节描述</h2><h3 id="Shape-Stream是如何工作的"><a href="#Shape-Stream是如何工作的" class="headerlink" title="Shape Stream是如何工作的"></a>Shape Stream是如何工作的</h3><p>作者在Shape Stream中添加了门控结构Gated Convolutional Layer，让Shape Stream将注意力放在它该处理的任务上即边界信息。<br><strong>其中attention map 的公式为：</strong><br>$$<br>\alpha_{t}=\sigma\left(C_{1 \times 1}\left(s_{t} | r_{t}\right)\right)<br>$$</p>
-<ol>
-<li>$r_t$与$s_t$分别对应regular and shape streams；</li>
-<li>||表示的是$s_t$与$r_t$concatenating；</li>
+<figure>
+<img src="images/GatedSCNN_1.png" alt="Gated-SCNN.png"><figcaption>Gated-SCNN.png</figcaption>
+</figure>
+<h2 id="细节描述">细节描述</h2>
+<h3 id="shape-stream是如何工作的">Shape Stream是如何工作的</h3>
+<p>作者在Shape Stream中添加了门控结构Gated Convolutional Layer，让Shape Stream将注意力放在它该处理的任务上即边界信息。 <strong>其中attention map 的公式为：</strong> <span class="math display">\[
+\alpha_{t}=\sigma\left(C_{1 \times 1}\left(s_{t} \| r_{t}\right)\right)
+\]</span></p>
+<ol type="1">
+<li><span class="math inline">\(r_t\)</span>与<span class="math inline">\(s_t\)</span>分别对应regular and shape streams；</li>
+<li>||表示的是<span class="math inline">\(s_t\)</span>与<span class="math inline">\(r_t\)</span>concatenating；</li>
 <li>最后对1x1卷积添加sigmoid卷积。至此一个attention map就形成了。</li>
 </ol>
 <p><strong>GCL 的计算公式为:</strong></p>
-<p><img src="images/GatedSCNN_2.png" alt="GCL"></p>
-<p>表示的是：$s_t$逐像素与attention map$\alpha_t$点乘，取得感兴趣区域信息。再通过加权值为wt的残差网络。</p>
-<p><strong>多任务学习损失函数：</strong></p>
-<ol>
-<li>预测边界信息使用的是BCE，用来监督更新both the regular and shape streams的参数；</li>
-<li>预测语义信息使用的是CE，监督更新所有的网络参数。<br>$$\mathcal{L}^{\theta \phi, \gamma}=\lambda_{1} \mathcal{L}<em>{B C E}^{\theta, \phi}(s, \hat{s})+\lambda</em>{2} \mathcal{L}_{C E}^{\theta \phi, \gamma}(\hat{y}, f)$$</li>
-</ol>
-<p>这里的$\lambda_1,\lambda_2$是用来控制两种损失权重的超参。</p>
-<p><strong>Dual Task Regularizer：</strong><br>最后对two-stream的误差函数加入正则化项。<br>$\mathcal{L}^{\theta \phi, \gamma}=\mathcal{L}<em>{r e g \rightarrow}^{\theta \phi, \gamma}+ \mathcal{L}</em>{r e g_{\leftarrow}}^{\theta \phi, \gamma}$<br>其中<br>$\mathcal{L}<em>{r e g \rightarrow}^{\theta \phi, \gamma}=\lambda</em>{3} \sum_{p^{+}}\left|\zeta\left(p^{+}\right)-\hat{\zeta}\left(p^{+}\right)\right|$<br>$\mathcal{L}<em>{r e g</em>{\leftarrow}}^{\theta \phi, \gamma}=\lambda_{4} \sum_{k, p} \mathbb{1}<em>{s</em>{p}}\left[\hat{y}<em>{p}^{k} \log p\left(y</em>{p}^{k} | r, s\right)\right]$<br>$\zeta=\frac{1}{\sqrt{2}}\left|\nabla\left(G * \arg \max _{k} p\left(y^{k} | r, s\right)\right)\right|$</p>
-<ol>
-<li>$\zeta$表示指定像素是否属于输入图像的某个语义信息，通过对分割输出求空间导数即可。</li>
-<li>$P^+$表示的是真值与预测值都非零的像素坐标。</li>
-<li>$\lambda_3,\lambda_4$都是权重超参。</li>
-<li>$\mathbb{1}_{s}={1 : s&gt;\text { thrs }}$，置信度阈值，论文中定为0.8。</li>
-</ol>
-<h2 id="成绩"><a href="#成绩" class="headerlink" title="成绩"></a>成绩</h2><p>在用 Cityscapes 基准测试中，这个模型的 mIoU 比 DeepLab-v3 高出 1.5%，F-boundary 得分比 DeepLab-v3 高 4%。在更小的目标上，该模型能够实现 7% 的 IoU 提升。</p>
-<p><img src="images/GatedSCNN_3.png" alt="Comparison in terms of IoU vs state-of-the-art baselines on the Cityscapes val set"></p>
-<p><strong>总结：</strong><br>论文得来终觉浅，绝知此事要代码。等代码出来后再好好梳理一遍。<br><img src="images/GatedSCNN_4.png" alt="Gated-SCNN"></p>
+<figure>
+<img src="images/GatedSCNN_2.png" alt="GCL"><figcaption>GCL</figcaption>
+</figure>
+<p>表示的是：<span class="math inline">\(s_t\)</span>逐像素与attention map<span class="math inline">\(\alpha_t\)</span>点乘，取得感兴趣区域信息。再通过加权值为wt的残差网络。</p>
+<p><strong>多任务学习损失函数：</strong> 1. 预测边界信息使用的是BCE，用来监督更新both the regular and shape streams的参数； 2. 预测语义信息使用的是CE，监督更新所有的网络参数。 <span class="math display">\[\mathcal{L}^{\theta \phi, \gamma}=\lambda_{1} \mathcal{L}_{B C E}^{\theta, \phi}(s, \hat{s})+\lambda_{2} \mathcal{L}_{C E}^{\theta \phi, \gamma}(\hat{y}, f)\]</span></p>
+<p>这里的<span class="math inline">\(\lambda_1,\lambda_2\)</span>是用来控制两种损失权重的超参。</p>
+<p><strong>Dual Task Regularizer：</strong> 最后对two-stream的误差函数加入正则化项。 <span class="math inline">\(\mathcal{L}^{\theta \phi, \gamma}=\mathcal{L}_{r e g \rightarrow}^{\theta \phi, \gamma}+ \mathcal{L}_{r e g_{\leftarrow}}^{\theta \phi, \gamma}\)</span> 其中 <span class="math inline">\(\mathcal{L}_{r e g \rightarrow}^{\theta \phi, \gamma}=\lambda_{3} \sum_{p^{+}}\left|\zeta\left(p^{+}\right)-\hat{\zeta}\left(p^{+}\right)\right|\)</span> <span class="math inline">\(\mathcal{L}_{r e g_{\leftarrow}}^{\theta \phi, \gamma}=\lambda_{4} \sum_{k, p} \mathbb{1}_{s_{p}}\left[\hat{y}_{p}^{k} \log p\left(y_{p}^{k} | r, s\right)\right]\)</span> <span class="math inline">\(\zeta=\frac{1}{\sqrt{2}}\left\|\nabla\left(G * \arg \max _{k} p\left(y^{k} | r, s\right)\right)\right\|\)</span> 1. <span class="math inline">\(\zeta\)</span>表示指定像素是否属于输入图像的某个语义信息，通过对分割输出求空间导数即可。 2. <span class="math inline">\(P^+\)</span>表示的是真值与预测值都非零的像素坐标。 3. <span class="math inline">\(\lambda_3,\lambda_4\)</span>都是权重超参。 4. <span class="math inline">\(\mathbb{1}_{s}=\{1 : s&gt;\text { thrs }\}\)</span>，置信度阈值，论文中定为0.8。</p>
+<h2 id="成绩">成绩</h2>
+<p>在用 Cityscapes 基准测试中，这个模型的 mIoU 比 DeepLab-v3 高出 1.5%，F-boundary 得分比 DeepLab-v3 高 4%。在更小的目标上，该模型能够实现 7% 的 IoU 提升。</p>
+<figure>
+<img src="images/GatedSCNN_3.png" alt="Comparison in terms of IoU vs state-of-the-art baselines on the Cityscapes val set"><figcaption>Comparison in terms of IoU vs state-of-the-art baselines on the Cityscapes val set</figcaption>
+</figure>
+<p><strong>总结：</strong> 论文得来终觉浅，绝知此事要代码。等代码出来后再好好梳理一遍。 <img src="images/GatedSCNN_4.png" alt="Gated-SCNN"></p>
 <blockquote>
-<p>论文：Gated-SCNN: Gated Shape CNNs for Semantic Segmentation（2019.07）<br>地址：<a target="_blank" rel="noopener" href="https://arxiv.org/abs/1907.05740">https://arxiv.org/abs/1907.05740</a><br>来自：英伟达</p>
+<p>论文：Gated-SCNN: Gated Shape CNNs for Semantic Segmentation（2019.07） 地址：https://arxiv.org/abs/1907.05740 来自：英伟达</p>
 </blockquote>
 
     </div>
@@ -357,7 +360,7 @@
     <a href="https://fainke.com/blog/ac56438f.html" title="双流检测Gated-SCNN">https://fainke.com/blog/ac56438f.html</a>
   </li>
   <li class="post-copyright-license">
-    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="external nofollow noopener noreferrer" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
   </li>
 </ul>
 </div>
@@ -471,14 +474,13 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AE%80%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text">简述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%86%E8%8A%82%E6%8F%8F%E8%BF%B0"><span class="nav-number">2.</span> <span class="nav-text">细节描述</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Shape-Stream%E6%98%AF%E5%A6%82%E4%BD%95%E5%B7%A5%E4%BD%9C%E7%9A%84"><span class="nav-number">2.1.</span> <span class="nav-text">Shape Stream是如何工作的</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%88%90%E7%BB%A9"><span class="nav-number">3.</span> <span class="nav-text">成绩</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AE%80%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text">简述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%86%E8%8A%82%E6%8F%8F%E8%BF%B0"><span class="nav-number">2.</span> <span class="nav-text">细节描述</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#shape-stream%E6%98%AF%E5%A6%82%E4%BD%95%E5%B7%A5%E4%BD%9C%E7%9A%84"><span class="nav-number">2.1.</span> <span class="nav-text">Shape Stream是如何工作的</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%88%90%E7%BB%A9"><span class="nav-number">3.</span> <span class="nav-text">成绩</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
       <div class="site-overview-wrap sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <img class="site-author-image" itemprop="image" alt="Fain"
-      src="/images/touXiang.jpg">
+    <img class="site-author-image" itemprop="image" alt="Fain" src="/images/touXiang.jpg">
   <p class="site-author-name" itemprop="name">Fain</p>
   <div class="site-description" itemprop="description">深度学习,机器学习,计算机视觉CV,自然语言处理NLP,Python</div>
 </div>
@@ -641,7 +643,7 @@
   </div>
 
   
-  <script size="300" alpha="0.3" zIndex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+  <script size="300" alpha="0.3" zindex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
   <script src="/lib/anime.min.js"></script>
   <script src="/lib/velocity/velocity.min.js"></script>
   <script src="/lib/velocity/velocity.ui.min.js"></script>

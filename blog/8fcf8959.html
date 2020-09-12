@@ -22,12 +22,10 @@
     var CONFIG = {"hostname":"fainke.com","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results foundin ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="-">
-<meta property="og:type" content="article">
+  <meta property="og:type" content="article">
 <meta property="og:title" content="样本方差为何除以n-1">
 <meta property="og:url" content="https://fainke.com/blog/8fcf8959.html">
 <meta property="og:site_name" content="DeepLearning">
-<meta property="og:description" content="-">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2019-12-31T17:01:01.000Z">
 <meta property="article:modified_time" content="2020-01-31T17:01:01.000Z">
@@ -88,7 +86,11 @@
   </style>
 </noscript>
 
-</head>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --></head>
 
 <body itemscope itemtype="http://schema.org/WebPage">
   <div class="container use-motion">
@@ -162,9 +164,7 @@
     <i class="fa fa-search"></i>
   </span>
   <div class="search-input-container">
-    <input autocomplete="off" autocapitalize="off"
-           placeholder="搜索..." spellcheck="false"
-           type="search" class="search-input">
+    <input autocomplete="off" autocapitalize="off" placeholder="搜索..." spellcheck="false" type="search" class="search-input">
   </div>
   <span class="popup-btn-close">
     <i class="fa fa-times-circle"></i>
@@ -275,16 +275,16 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>-</p>
-<a id="more"></a>
-
-<p>**1.**设样本均值为$\overline{X}$，样本方差为$S^2$，总体均值为$\mu$，总体方差为$\sigma^{2}$，那么样本方差$S^2$的公式为：$S^{2}=\frac{1}{n-1} \sum_{i=1}^{n}\left(x_{i}-\overline{X}\right)^{2}$</p>
+        <ul>
+<li><a id="more"></a></li>
+</ul>
+<p><strong>1.</strong>设样本均值为<span class="math inline">\(\overline{X}\)</span>，样本方差为<span class="math inline">\(S^2\)</span>，总体均值为<span class="math inline">\(\mu\)</span>，总体方差为<span class="math inline">\(\sigma^{2}\)</span>，那么样本方差<span class="math inline">\(S^2\)</span>的公式为：<span class="math inline">\(S^{2}=\frac{1}{n-1} \sum_{i=1}^{n}\left(x_{i}-\overline{X}\right)^{2}\)</span></p>
 <p><strong>2.知识补充</strong></p>
 <p>（1）为何样本均值的方差等于总体方差除以总体单位数？</p>
-<p>答：设X为随机变量，X1,X2,…,Xn为其n个样本，D(X)为方差。根据方差的性质，有$D(X+Y)=D X+D Y$，以及$D(k X)=k^{2} * D(X)$，其中X和Y相互独立，k为常数。于是有$D\left(\frac{\sum_{i=1}^{n} X_{i}}{n}\right)=D\left(\sum_{i=1}^{n} \frac{X_{i}}{n}\right)=\frac{\sum_{i=1}^{n} D\left(X_{i}\right)}{n^{2}}=\frac{1}{n} D(X)$</p>
+<p>答：设X为随机变量，X1,X2,...,Xn为其n个样本，D(X)为方差。根据方差的性质，有<span class="math inline">\(D(X+Y)=D X+D Y\)</span>，以及<span class="math inline">\(D(k X)=k^{2} * D(X)\)</span>，其中X和Y相互独立，k为常数。于是有<span class="math inline">\(D\left(\frac{\sum_{i=1}^{n} X_{i}}{n}\right)=D\left(\sum_{i=1}^{n} \frac{X_{i}}{n}\right)=\frac{\sum_{i=1}^{n} D\left(X_{i}\right)}{n^{2}}=\frac{1}{n} D(X)\)</span></p>
 <p><strong>3.公式证明</strong></p>
-<p>假设样本方差的公式为:$S_{1}^{2}=\frac{1}{n} \sum_{i=1}^{n}\left(X_{i}-\overline{X}\right)^{2}$有：</p>
-<p>$E\left(S_{1}^{2}\right)=\frac{1}{n} \sum_{i=1}^{n} E\left(\left(X_{i}-\overline{X}\right)^{2}\right)=\frac{1}{n} E\left(\sum_{i=1}^{n}\left(X_{i}-\mu+\mu-\overline{X}\right)^{2}\right)$<br>$=\frac{1}{n} E\left(\sum_{i=1}^{n}\left(\left(X_{i}-\mu\right)^{2}-2\left(X_{i}-\mu\right)(\overline{X}-\mu)+(\overline{X}-\mu)^{2}\right)\right)$<br>$=\frac{1}{n} E\left(\sum_{i=1}^{n}\left(X_{i}-\mu\right)^{2}-2 \sum_{i=1}^{n}\left(X_{i}-\mu\right)(\overline{X}-\mu)+n(\overline{X}-\mu)^{2}\right)$<br>$=\frac{1}{n} E\left(\sum_{i=1}^{n}\left(X_{i}-\mu\right)^{2}-n(\overline{X}-\mu)(\overline{X}-\mu)+n(\overline{X}-\mu)^{2}\right)$<br>$=\frac{1}{n} E\left(\sum_{i=1}^{n}\left(X_{i}-\mu\right)^{2}-n E(\overline{X}-\mu)(\overline{X}-\mu)+n(\overline{X}-\mu)^{2}\right)$<br>$=\frac{1}{n}\left(\sum_{i=1}^{n}\left(X_{i}-\mu\right)^{2}-n E(\overline{X}-\mu)(\overline{X}-\mu)+n(\overline{X}-\mu)^{2}\right)$<br>$=\frac{1}{n}(n \operatorname{Var}(X)-n \operatorname{Var}(\overline{X}))$<br>$=\operatorname{Var}(X)-\operatorname{Var}(\overline{X})=\sigma^{2}-\frac{\sigma^{2}}{n}=\frac{n-1}{n} \sigma^{2}$</p>
+<p>假设样本方差的公式为:<span class="math inline">\(S_{1}^{2}=\frac{1}{n} \sum_{i=1}^{n}\left(X_{i}-\overline{X}\right)^{2}\)</span>有：</p>
+<p><span class="math inline">\(E\left(S_{1}^{2}\right)=\frac{1}{n} \sum_{i=1}^{n} E\left(\left(X_{i}-\overline{X}\right)^{2}\right)=\frac{1}{n} E\left(\sum_{i=1}^{n}\left(X_{i}-\mu+\mu-\overline{X}\right)^{2}\right)\)</span> <span class="math inline">\(=\frac{1}{n} E\left(\sum_{i=1}^{n}\left(\left(X_{i}-\mu\right)^{2}-2\left(X_{i}-\mu\right)(\overline{X}-\mu)+(\overline{X}-\mu)^{2}\right)\right)\)</span> <span class="math inline">\(=\frac{1}{n} E\left(\sum_{i=1}^{n}\left(X_{i}-\mu\right)^{2}-2 \sum_{i=1}^{n}\left(X_{i}-\mu\right)(\overline{X}-\mu)+n(\overline{X}-\mu)^{2}\right)\)</span> <span class="math inline">\(=\frac{1}{n} E\left(\sum_{i=1}^{n}\left(X_{i}-\mu\right)^{2}-n(\overline{X}-\mu)(\overline{X}-\mu)+n(\overline{X}-\mu)^{2}\right)\)</span> <span class="math inline">\(=\frac{1}{n} E\left(\sum_{i=1}^{n}\left(X_{i}-\mu\right)^{2}-n E(\overline{X}-\mu)(\overline{X}-\mu)+n(\overline{X}-\mu)^{2}\right)\)</span> <span class="math inline">\(=\frac{1}{n}\left(\sum_{i=1}^{n}\left(X_{i}-\mu\right)^{2}-n E(\overline{X}-\mu)(\overline{X}-\mu)+n(\overline{X}-\mu)^{2}\right)\)</span> <span class="math inline">\(=\frac{1}{n}(n \operatorname{Var}(X)-n \operatorname{Var}(\overline{X}))\)</span> <span class="math inline">\(=\operatorname{Var}(X)-\operatorname{Var}(\overline{X})=\sigma^{2}-\frac{\sigma^{2}}{n}=\frac{n-1}{n} \sigma^{2}\)</span></p>
 <p>样本方差有偏是因为样本均值相对总体有偏，在这种情况下，样本方差比总体方差小1/n个总体方差，所以分母为n-1即可做到无偏。</p>
 
     </div>
@@ -330,7 +330,7 @@
     <a href="https://fainke.com/blog/8fcf8959.html" title="样本方差为何除以n-1">https://fainke.com/blog/8fcf8959.html</a>
   </li>
   <li class="post-copyright-license">
-    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="external nofollow noopener noreferrer" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
   </li>
 </ul>
 </div>
@@ -448,8 +448,7 @@
 
       <div class="site-overview-wrap sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <img class="site-author-image" itemprop="image" alt="Fain"
-      src="/images/touXiang.jpg">
+    <img class="site-author-image" itemprop="image" alt="Fain" src="/images/touXiang.jpg">
   <p class="site-author-name" itemprop="name">Fain</p>
   <div class="site-description" itemprop="description">深度学习,机器学习,计算机视觉CV,自然语言处理NLP,Python</div>
 </div>
@@ -612,7 +611,7 @@
   </div>
 
   
-  <script size="300" alpha="0.3" zIndex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+  <script size="300" alpha="0.3" zindex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
   <script src="/lib/anime.min.js"></script>
   <script src="/lib/velocity/velocity.min.js"></script>
   <script src="/lib/velocity/velocity.ui.min.js"></script>

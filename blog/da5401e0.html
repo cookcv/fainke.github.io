@@ -22,12 +22,12 @@
     var CONFIG = {"hostname":"fainke.com","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results foundin ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="简介当下的人脸检测主要为以下两种方法：  基于知识的检测方法：检测器官特征和器官之间的几何关系 基于统计的检测方法：像素相似性度量  基于知识的方法主要利用先验知识将人脸看作器官特征的组合，根据眼睛、眉毛、嘴巴、鼻子等器官的特征以及相互之间的几何位置关系来检测人脸。 基于统计的方法则将人脸看作一个整体的模式——二维像素矩阵，从统计的观点通过大量人脸图像样本构造人脸模式空间，根据相似度量来判断人脸是">
+  <meta name="description" content="简介 当下的人脸检测主要为以下两种方法： 1. 基于知识的检测方法：检测器官特征和器官之间的几何关系 2. 基于统计的检测方法：像素相似性度量 基于知识的方法主要利用先验知识将人脸看作器官特征的组合，根据眼睛、眉毛、嘴巴、鼻子等器官的特征以及相互之间的几何位置关系来检测人脸。 基于统计的方法则将人脸看作一个整体的模式——二维像素矩阵，从统计的观点通过大量人脸图像样本构造人脸模式空间，根据相似度量来">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Haar特征">
 <meta property="og:url" content="https://fainke.com/blog/da5401e0.html">
 <meta property="og:site_name" content="DeepLearning">
-<meta property="og:description" content="简介当下的人脸检测主要为以下两种方法：  基于知识的检测方法：检测器官特征和器官之间的几何关系 基于统计的检测方法：像素相似性度量  基于知识的方法主要利用先验知识将人脸看作器官特征的组合，根据眼睛、眉毛、嘴巴、鼻子等器官的特征以及相互之间的几何位置关系来检测人脸。 基于统计的方法则将人脸看作一个整体的模式——二维像素矩阵，从统计的观点通过大量人脸图像样本构造人脸模式空间，根据相似度量来判断人脸是">
+<meta property="og:description" content="简介 当下的人脸检测主要为以下两种方法： 1. 基于知识的检测方法：检测器官特征和器官之间的几何关系 2. 基于统计的检测方法：像素相似性度量 基于知识的方法主要利用先验知识将人脸看作器官特征的组合，根据眼睛、眉毛、嘴巴、鼻子等器官的特征以及相互之间的几何位置关系来检测人脸。 基于统计的方法则将人脸看作一个整体的模式——二维像素矩阵，从统计的观点通过大量人脸图像样本构造人脸模式空间，根据相似度量来">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://fainke.com/blog/images/Haar_1.png">
 <meta property="og:image" content="https://fainke.com/blog/images/Haar_2.png">
@@ -93,7 +93,11 @@
   </style>
 </noscript>
 
-</head>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --></head>
 
 <body itemscope itemtype="http://schema.org/WebPage">
   <div class="container use-motion">
@@ -167,9 +171,7 @@
     <i class="fa fa-search"></i>
   </span>
   <div class="search-input-container">
-    <input autocomplete="off" autocapitalize="off"
-           placeholder="搜索..." spellcheck="false"
-           type="search" class="search-input">
+    <input autocomplete="off" autocapitalize="off" placeholder="搜索..." spellcheck="false" type="search" class="search-input">
   </div>
   <span class="popup-btn-close">
     <i class="fa fa-times-circle"></i>
@@ -280,45 +282,40 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p>当下的人脸检测主要为以下两种方法：</p>
-<ol>
-<li>基于<strong>知识</strong>的检测方法：检测器官特征和器官之间的几何关系</li>
-<li>基于<strong>统计</strong>的检测方法：像素相似性度量</li>
-</ol>
+        <h3 id="简介">简介</h3>
+<p>当下的人脸检测主要为以下两种方法： 1. 基于<strong>知识</strong>的检测方法：检测器官特征和器官之间的几何关系 2. 基于<strong>统计</strong>的检测方法：像素相似性度量</p>
 <p>基于知识的方法主要利用先验知识将人脸看作器官特征的组合，根据眼睛、眉毛、嘴巴、鼻子等器官的特征以及相互之间的几何位置关系来检测人脸。</p>
 <p>基于统计的方法则将人脸看作一个整体的模式——二维像素矩阵，从统计的观点通过大量人脸图像样本构造人脸模式空间，根据相似度量来判断人脸是否存在。</p>
-<p>本文主要介绍的是基于统计的检测方法Haar，Haar特征值反映了图像的灰度变化情况。通过改变特征模板的大小和位置，可在图像子窗口中穷举出大量的特征。</p>
-<a id="more"></a>
-
-
-
-<p><strong>Haar分类器=Haar-like特征+AdaBoost算法+级联+积分图</strong><br>要理解Haar分类器，那么就需要理解构成它的每一部分。<br>Haar-like特征：检测提供基础特征；<br>积分图：为了加速特征的计算而使用的算法；<br>AdaBoost：训练区分人脸与非人脸强分类器；<br>级联：把强分类器级联在一起，提高准确率。</p>
-<h3 id="Haar特征其数目计算"><a href="#Haar特征其数目计算" class="headerlink" title="Haar特征其数目计算"></a>Haar特征其数目计算</h3><p>w=白色区域像素之和-黑色区域像素之和<br>得到的就是这个区域的一个特征值，这个特征值可以用来区分人脸与非人脸。当然，一个特征的区分度是很有限的。为了增加区分度，可以对多个矩形特征计算得到一个区分度更大的特征值，然而在一个窗口中怎样排列能够更好的体现人脸的特征，这是未知的所以需要AdaBoost算法去训练找到，在训练前需要将每种组合穷举出来，为了增加计算特征值的速度，使用了积分图（单独写一篇文章）。</p>
-<p><img src="images/Haar_1.png" alt="Haar_1"></p>
-<p><strong>特征数计算</strong><br>比如上图中的1(a)特征，特征大小为2x1，在24x24的图像上，水平可滑动23步，垂直可滑动24步。当特征水平放大为4*1后，水平滑动步数为24-4+1=21步数。其步数随特征放大递减，python代码可表示为range(1,23+1,2)，总共个数为sum(range(1,23+1,2))=144。同理垂直方向计算得到的特征总个数为sum(range(1,24+1,1))=300。整个1(a)的特征个数为144*300 = 43200。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">def getHaar(W,H,w,h):</span><br><span class="line">    X &#x3D; int(W&#x2F;w)</span><br><span class="line">    Y &#x3D; int(H&#x2F;h)</span><br><span class="line">    count &#x3D; 0</span><br><span class="line">    for i in range(1,X+1):</span><br><span class="line">        for j in range(1,Y+1):</span><br><span class="line">            for x in range(1,W-i*w+1+1):</span><br><span class="line">                for y in range(1,H-j*h+1+1):</span><br><span class="line">                    count+&#x3D;1     </span><br><span class="line">    return count</span><br></pre></td></tr></table></figure>
-
+<p>本文主要介绍的是基于统计的检测方法Haar，Haar特征值反映了图像的灰度变化情况。通过改变特征模板的大小和位置，可在图像子窗口中穷举出大量的特征。 <a id="more"></a></p>
+<p><strong>Haar分类器=Haar-like特征+AdaBoost算法+级联+积分图</strong> 要理解Haar分类器，那么就需要理解构成它的每一部分。 Haar-like特征：检测提供基础特征； 积分图：为了加速特征的计算而使用的算法； AdaBoost：训练区分人脸与非人脸强分类器； 级联：把强分类器级联在一起，提高准确率。</p>
+<h3 id="haar特征其数目计算">Haar特征其数目计算</h3>
+<p>w=白色区域像素之和-黑色区域像素之和 得到的就是这个区域的一个特征值，这个特征值可以用来区分人脸与非人脸。当然，一个特征的区分度是很有限的。为了增加区分度，可以对多个矩形特征计算得到一个区分度更大的特征值，然而在一个窗口中怎样排列能够更好的体现人脸的特征，这是未知的所以需要AdaBoost算法去训练找到，在训练前需要将每种组合穷举出来，为了增加计算特征值的速度，使用了积分图（单独写一篇文章）。</p>
+<figure>
+<img src="images/Haar_1.png" alt="Haar_1"><figcaption>Haar_1</figcaption>
+</figure>
+<p><strong>特征数计算</strong> 比如上图中的1(a)特征，特征大小为2x1，在24x24的图像上，水平可滑动23步，垂直可滑动24步。当特征水平放大为4*1后，水平滑动步数为24-4+1=21步数。其步数随特征放大递减，python代码可表示为range(1,23+1,2)，总共个数为sum(range(1,23+1,2))=144。同理垂直方向计算得到的特征总个数为sum(range(1,24+1,1))=300。整个1(a)的特征个数为144*300 = 43200。 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">def getHaar(W,H,w,h):</span><br><span class="line">    X &#x3D; int(W&#x2F;w)</span><br><span class="line">    Y &#x3D; int(H&#x2F;h)</span><br><span class="line">    count &#x3D; 0</span><br><span class="line">    for i in range(1,X+1):</span><br><span class="line">        for j in range(1,Y+1):</span><br><span class="line">            for x in range(1,W-i*w+1+1):</span><br><span class="line">                for y in range(1,H-j*h+1+1):</span><br><span class="line">                    count+&#x3D;1     </span><br><span class="line">    return count</span><br></pre></td></tr></table></figure></p>
 <p>同理其它类型的特征数目也可以计算得到。但是，对于45rotated的特征，其矩形框的宽，高（w,h）表示如图所示。W,H为图片大小。</p>
-<p><img src="images/Haar_2.png" alt="Haar_2"></p>
+<figure>
+<img src="images/Haar_2.png" alt="Haar_2"><figcaption>Haar_2</figcaption>
+</figure>
 <hr>
-<h3 id="训练"><a href="#训练" class="headerlink" title="训练"></a>训练</h3><p>下图是我们用三个Haar-like特征f1，f2，f3来判断输入数据是否为人脸。</p>
-<p><img src="images/Haar_3.png" alt="Haar_3"></p>
-<p>一个弱分类器就是一个基本和上图类似的决策树，最基本的弱分类器只包含一个Haar-like特征，也就是它的决策树只有一层，被称为树桩（stump）。</p>
-<hr>
-<p><strong>弱分类器</strong>的训练即是找到一个分类阈值使其成为最优弱分类器。<br>寻找的步骤：<br>1.对于每个特征f，计算所有训练样本的特征值，并按特征值大小排序。<br>2.扫描排序好的特征值，对排序好的<strong>每个元素</strong>，计算四个值。<br>3.全部人脸样本的权重之和t1;<br>4.全部非人脸样本的权重之和t0;<br>5.在此元素之前的非人脸样本的权重之和s0；<br>6.最终得到每个元素的分类误差r=min((s1+(t0-s0)),(s0+(t1-s1)))<br>7.寻找r值最小的元素作为最优阈值。<br><strong>补充</strong><br>这最优的weak classifier是这么得来的，比如说对于特征A 我们用特征A对所有样本取特征值，然后根据特征值排序所有样本，可以想象，具有明显人脸特征的样本和具有明显非人脸特征的样本应该分别处于这个排序的两端，但肯定有一些样本 不是那么明显就能被A特征区分开，我们要做的是在其中取一个阈值。想象一个点在排好序的直线上滑动 滑动到某一个位置，使得我们能够最好的用特征A区分人脸和非人脸，也就是说，错误率最低，若得到这个阈值，则此时我们找到一个相对特征A的最优weak classifier。由此类推，对所有的特征都如法炮制。我们会得到对应于n个特征的n个最优weak classifier，从里面选一个最最优的，最后得出你想要的那个最优weak classifier。</p>
-<hr>
-<p><strong>强分类器</strong>的诞生需要T轮的迭代，具体操作如下：</p>
-<ol>
+<h3 id="训练">训练</h3>
+<p>下图是我们用三个Haar-like特征f1，f2，f3来判断输入数据是否为人脸。</p>
+<figure>
+<img src="images/Haar_3.png" alt="Haar_3"><figcaption>Haar_3</figcaption>
+</figure>
+<p>一个弱分类器就是一个基本和上图类似的决策树，最基本的弱分类器只包含一个Haar-like特征，也就是它的决策树只有一层，被称为树桩（stump）。 **** <strong>弱分类器</strong>的训练即是找到一个分类阈值使其成为最优弱分类器。 寻找的步骤： 1.对于每个特征f，计算所有训练样本的特征值，并按特征值大小排序。 2.扫描排序好的特征值，对排序好的<strong>每个元素</strong>，计算四个值。 3.全部人脸样本的权重之和t1; 4.全部非人脸样本的权重之和t0; 5.在此元素之前的非人脸样本的权重之和s0； 6.最终得到每个元素的分类误差r=min((s1+(t0-s0)),(s0+(t1-s1))) 7.寻找r值最小的元素作为最优阈值。 <strong>补充</strong> 这最优的weak classifier是这么得来的，比如说对于特征A 我们用特征A对所有样本取特征值，然后根据特征值排序所有样本，可以想象，具有明显人脸特征的样本和具有明显非人脸特征的样本应该分别处于这个排序的两端，但肯定有一些样本 不是那么明显就能被A特征区分开，我们要做的是在其中取一个阈值。想象一个点在排好序的直线上滑动 滑动到某一个位置，使得我们能够最好的用特征A区分人脸和非人脸，也就是说，错误率最低，若得到这个阈值，则此时我们找到一个相对特征A的最优weak classifier。由此类推，对所有的特征都如法炮制。我们会得到对应于n个特征的n个最优weak classifier，从里面选一个最最优的，最后得出你想要的那个最优weak classifier。 **** <strong>强分类器</strong>的诞生需要T轮的迭代，具体操作如下：</p>
+<ol type="1">
 <li>给定训练样本集S，共N个样本，其中X和Y分别对应于正样本和负样本； T为训练的最大循环次数；　　</li>
 <li>初始化样本权重为1/N ，即为训练样本的初始概率分布；　</li>
 <li>第一次迭代训练N个样本，得到第一个最优弱分类器。</li>
 <li>提高上一轮中被误判的样本的权重；</li>
 <li>将新的样本和上次本分错的样本放在一起进行新一轮的训练。</li>
 <li>循环执行4-5步骤，T轮后得到T个最优弱分类器。</li>
-<li>组合T个最优弱分类器得到强分类器。</li>
+<li>组合T个最优弱分类器得到强分类器。 ****</li>
 </ol>
-<hr>
-<h3 id="论文列表："><a href="#论文列表：" class="headerlink" title="论文列表："></a>论文列表：</h3><blockquote>
+<h3 id="论文列表">论文列表：</h3>
+<blockquote>
 <p>【1】《Rapid Object Detection using a Boosted Cascade of Simple Features》</p>
 <p>【2】《Robust Real-Time Face Detection》</p>
 <p>【3】《An Extended Set of Haar-like Features for &gt;Rapid Object Detection》</p>
@@ -328,7 +325,7 @@
 <p>【7】《The Strength of Weak Learnability》</p>
 <p>【8】《Boosting a weak learning algorithm》</p>
 <p>【9】《A Decision-Theoretic Generalization of On-Line Learning and an Application to Boosting》</p>
-<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/ello/archive/2012/04/28/2475419.html">https://www.cnblogs.com/ello/archive/2012/04/28/2475419.html</a></p>
+<p>https://www.cnblogs.com/ello/archive/2012/04/28/2475419.html</p>
 </blockquote>
 
     </div>
@@ -374,7 +371,7 @@
     <a href="https://fainke.com/blog/da5401e0.html" title="Haar特征">https://fainke.com/blog/da5401e0.html</a>
   </li>
   <li class="post-copyright-license">
-    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="external nofollow noopener noreferrer" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
   </li>
 </ul>
 </div>
@@ -421,12 +418,12 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/blog/9c9393d0.html" rel="prev" title="ImageNet图像分类对抗攻击-方案整理">
-      <i class="fa fa-chevron-left"></i> ImageNet图像分类对抗攻击-方案整理
+    <a href="/blog/8e69a262.html" rel="prev" title="FasterRCNN结构梳理">
+      <i class="fa fa-chevron-left"></i> FasterRCNN结构梳理
     </a></div>
       <div class="post-nav-item">
-    <a href="/blog/8e69a262.html" rel="next" title="FasterRCNN结构梳理">
-      FasterRCNN结构梳理 <i class="fa fa-chevron-right"></i>
+    <a href="/blog/3477354.html" rel="next" title="CBNet组合主干网络">
+      CBNet组合主干网络 <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
@@ -488,14 +485,13 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AE%80%E4%BB%8B"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Haar%E7%89%B9%E5%BE%81%E5%85%B6%E6%95%B0%E7%9B%AE%E8%AE%A1%E7%AE%97"><span class="nav-number">2.</span> <span class="nav-text">Haar特征其数目计算</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%AD%E7%BB%83"><span class="nav-number">3.</span> <span class="nav-text">训练</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%BA%E6%96%87%E5%88%97%E8%A1%A8%EF%BC%9A"><span class="nav-number">4.</span> <span class="nav-text">论文列表：</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AE%80%E4%BB%8B"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#haar%E7%89%B9%E5%BE%81%E5%85%B6%E6%95%B0%E7%9B%AE%E8%AE%A1%E7%AE%97"><span class="nav-number">2.</span> <span class="nav-text">Haar特征其数目计算</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%AD%E7%BB%83"><span class="nav-number">3.</span> <span class="nav-text">训练</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%BA%E6%96%87%E5%88%97%E8%A1%A8"><span class="nav-number">4.</span> <span class="nav-text">论文列表：</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
       <div class="site-overview-wrap sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <img class="site-author-image" itemprop="image" alt="Fain"
-      src="/images/touXiang.jpg">
+    <img class="site-author-image" itemprop="image" alt="Fain" src="/images/touXiang.jpg">
   <p class="site-author-name" itemprop="name">Fain</p>
   <div class="site-description" itemprop="description">深度学习,机器学习,计算机视觉CV,自然语言处理NLP,Python</div>
 </div>
@@ -658,7 +654,7 @@
   </div>
 
   
-  <script size="300" alpha="0.3" zIndex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+  <script size="300" alpha="0.3" zindex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
   <script src="/lib/anime.min.js"></script>
   <script src="/lib/velocity/velocity.min.js"></script>
   <script src="/lib/velocity/velocity.ui.min.js"></script>

@@ -29,13 +29,13 @@
 <meta property="og:site_name" content="DeepLearning">
 <meta property="og:description" content="概述 ReLU函数的计算是在卷积之后进行的，因此它与tanh函数和sigmoid函数一样，同属于非线性激活函数。ReLU函数的倒数在正数部分是恒等于1的，因此在深度网络中使用relu激活函数就不会导致梯度小时和爆炸的问题。并且，ReLU函数计算速度快，加快了网络的训练。不过，如果梯度过大，导致很多负数，由于负数部分值为0，这些神经元将无法激活（可通过设置较小学习率来解决）。">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://fainke.com/blog/images%5CReLu.png">
+<meta property="og:image" content="https://fainke.com/blog/images/ReLu.png">
 <meta property="article:published_time" content="2019-12-31T17:01:01.000Z">
 <meta property="article:modified_time" content="2020-01-31T17:01:01.000Z">
 <meta property="article:author" content="Fain">
 <meta property="article:tag" content="激活函数">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://fainke.com/blog/images%5CReLu.png">
+<meta name="twitter:image" content="https://fainke.com/blog/images/ReLu.png">
 
 <link rel="canonical" href="https://fainke.com/blog/6a3ffb6e.html">
 
@@ -90,7 +90,11 @@
   </style>
 </noscript>
 
-</head>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --></head>
 
 <body itemscope itemtype="http://schema.org/WebPage">
   <div class="container use-motion">
@@ -164,9 +168,7 @@
     <i class="fa fa-search"></i>
   </span>
   <div class="search-input-container">
-    <input autocomplete="off" autocapitalize="off"
-           placeholder="搜索..." spellcheck="false"
-           type="search" class="search-input">
+    <input autocomplete="off" autocapitalize="off" placeholder="搜索..." spellcheck="false" type="search" class="search-input">
   </div>
   <span class="popup-btn-close">
     <i class="fa fa-times-circle"></i>
@@ -277,27 +279,38 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p> ReLU函数的计算是在卷积之后进行的，因此它与tanh函数和sigmoid函数一样，同属于非线性激活函数。ReLU函数的倒数在正数部分是恒等于1的，因此在深度网络中使用relu激活函数就不会导致梯度小时和爆炸的问题。并且，ReLU函数计算速度快，加快了网络的训练。不过，如果梯度过大，导致很多负数，由于负数部分值为0，这些神经元将无法激活（可通过设置较小学习率来解决）。</p>
-<a id="more"></a>
-
-<p><img src="images%5CReLu.png" alt="ReLu"></p>
-<h2 id="1-ReLu"><a href="#1-ReLu" class="headerlink" title="1.ReLu"></a>1.ReLu</h2><p>$$\operatorname{Re} \mathrm{LU}(\mathrm{x})=\max (\mathrm{x}, 0)=\left{\begin{array}{l}{0, x&lt;0} \ {x, x&gt;0}\end{array}\right.$$<br>后向推导过程：设$l$层输出为$z^l$,经过激活函数后的输出为$z^{l+1}$；记损失函数L关于第$l$层的输出$z^l$的偏导为$\delta^{l}=\frac{\partial L}{\partial z^{l}}$,则损失函数L关于第$l$层的偏导为：<br>$$\delta^{l}=\frac{\partial L}{\partial z^{l+1}} \frac{\partial z^{l+1}}{\partial z^{l}} \ =\delta^{l+1} \frac{\partial \operatorname{Re} L U\left(z^{l}\right)}{\partial z^{l}} \ =\delta^{l+1}\left{\begin{array}{ll}{1} &amp; {z^{l}&gt;0} \ {0} &amp; {z^{l}&lt;=0}\end{array}\right.$$</p>
+        <h2 id="概述">概述</h2>
+<p>ReLU函数的计算是在卷积之后进行的，因此它与tanh函数和sigmoid函数一样，同属于非线性激活函数。ReLU函数的倒数在正数部分是恒等于1的，因此在深度网络中使用relu激活函数就不会导致梯度小时和爆炸的问题。并且，ReLU函数计算速度快，加快了网络的训练。不过，如果梯度过大，导致很多负数，由于负数部分值为0，这些神经元将无法激活（可通过设置较小学习率来解决）。 <a id="more"></a></p>
+<figure>
+<img src="images\ReLu.png" alt="ReLu"><figcaption>ReLu</figcaption>
+</figure>
+<h2 id="relu">1.ReLu</h2>
+<p><span class="math display">\[\operatorname{Re} \mathrm{LU}(\mathrm{x})=\max (\mathrm{x}, 0)=\left\{\begin{array}{l}{0, x&lt;0} \\ {x, x&gt;0}\end{array}\right.\]</span> 后向推导过程：设<span class="math inline">\(l\)</span>层输出为<span class="math inline">\(z^l\)</span>,经过激活函数后的输出为<span class="math inline">\(z^{l+1}\)</span>；记损失函数L关于第<span class="math inline">\(l\)</span>层的输出<span class="math inline">\(z^l\)</span>的偏导为<span class="math inline">\(\delta^{l}=\frac{\partial L}{\partial z^{l}}\)</span>,则损失函数L关于第<span class="math inline">\(l\)</span>层的偏导为： <span class="math display">\[\delta^{l}=\frac{\partial L}{\partial z^{l+1}} \frac{\partial z^{l+1}}{\partial z^{l}} \\ =\delta^{l+1} \frac{\partial \operatorname{Re} L U\left(z^{l}\right)}{\partial z^{l}} \\ =\delta^{l+1}\left\{\begin{array}{ll}{1} &amp; {z^{l}&gt;0} \\ {0} &amp; {z^{l}&lt;=0}\end{array}\right.\]</span></p>
 <hr>
-<h2 id="2-LeakReLU"><a href="#2-LeakReLU" class="headerlink" title="2.LeakReLU"></a>2.LeakReLU</h2><p>$$LeakReLU(z)=\left{\begin{array}{ll}{z} &amp; {z&gt;0} \ {\alpha z} &amp; {z&lt;=0, \alpha=0.1}\end{array}\right.$$<br>在负数部分给予一个小的梯度。由Relu可知损失函数L关于第$l$层的偏导为：<br>$$\delta^{l}=\left{\begin{array}{ll}{\delta^{l+1}} &amp; {z^{l}&gt;0} \ {\alpha \delta^{l+1}} &amp; {z^{l}&lt;=0, \alpha=0.1}\end{array}\right.$$</p>
+<h2 id="leakrelu">2.LeakReLU</h2>
+<p><span class="math display">\[LeakReLU(z)=\left\{\begin{array}{ll}{z} &amp; {z&gt;0} \\ {\alpha z} &amp; {z&lt;=0, \alpha=0.1}\end{array}\right.\]</span> 在负数部分给予一个小的梯度。由Relu可知损失函数L关于第<span class="math inline">\(l\)</span>层的偏导为： <span class="math display">\[\delta^{l}=\left\{\begin{array}{ll}{\delta^{l+1}} &amp; {z^{l}&gt;0} \\ {\alpha \delta^{l+1}} &amp; {z^{l}&lt;=0, \alpha=0.1}\end{array}\right.\]</span></p>
 <hr>
-<h2 id="3-PReLU"><a href="#3-PReLU" class="headerlink" title="3.PReLU"></a>3.PReLU</h2><p>表达式与LeakReLu相同，只不过$\alpha$可以学习。损失函数L关于参数$\alpha$的偏导为：<br>$$\frac{\partial L}{\partial \alpha}=\frac{\partial L}{\partial z^{l+1}} \frac{\partial z^{l+1}}{\partial \alpha}\<br>\delta^{l}=\delta^{l+1} \frac{\partial P R e L U\left(z^{l}\right)}{\partial \alpha} \<br>\delta^{l}=\delta^{l+1}\left{\begin{array}{ll}{0} &amp; {z^{l}&gt;0} \ {z^{l}} &amp; {z^{l}&lt;=0}\end{array}\right. \<br>\delta^{l}=\left{\begin{array}{ll}{0} &amp; {z^{l}&gt;0} \ {\delta^{l+1} z^{l}} &amp; {z^{l}&lt;=0}\end{array}\right.$$</p>
+<h2 id="prelu">3.PReLU</h2>
+<p>表达式与LeakReLu相同，只不过<span class="math inline">\(\alpha\)</span>可以学习。损失函数L关于参数<span class="math inline">\(\alpha\)</span>的偏导为： <span class="math display">\[\frac{\partial L}{\partial \alpha}=\frac{\partial L}{\partial z^{l+1}} \frac{\partial z^{l+1}}{\partial \alpha}\\
+\delta^{l}=\delta^{l+1} \frac{\partial P R e L U\left(z^{l}\right)}{\partial \alpha} \\
+\delta^{l}=\delta^{l+1}\left\{\begin{array}{ll}{0} &amp; {z^{l}&gt;0} \\ {z^{l}} &amp; {z^{l}&lt;=0}\end{array}\right. \\
+\delta^{l}=\left\{\begin{array}{ll}{0} &amp; {z^{l}&gt;0} \\ {\delta^{l+1} z^{l}} &amp; {z^{l}&lt;=0}\end{array}\right.\]</span></p>
 <hr>
-<h2 id="4-ELU"><a href="#4-ELU" class="headerlink" title="4.ELU"></a>4.ELU</h2><p>$$f(z)=\left{\begin{array}{ll}{z} &amp; {z&gt;0} \ {\alpha(\exp (z)-1)} &amp; {z \leq 0}\end{array}\right.$$<br>由LeakRelu可知损失函数L关于第$l$层的偏导为：<br>$$\delta^{l}=\left{\begin{array}{ll}{\delta^{l+1}} &amp; {z^{l}&gt;0} \ {\alpha \delta^{l+1} \exp \left(z^{l}\right)} &amp; {z^{l}&lt;=0}\end{array}\right.$$</p>
+<h2 id="elu">4.ELU</h2>
+<p><span class="math display">\[f(z)=\left\{\begin{array}{ll}{z} &amp; {z&gt;0} \\ {\alpha(\exp (z)-1)} &amp; {z \leq 0}\end{array}\right.\]</span> 由LeakRelu可知损失函数L关于第<span class="math inline">\(l\)</span>层的偏导为： <span class="math display">\[\delta^{l}=\left\{\begin{array}{ll}{\delta^{l+1}} &amp; {z^{l}&gt;0} \\ {\alpha \delta^{l+1} \exp \left(z^{l}\right)} &amp; {z^{l}&lt;=0}\end{array}\right.\]</span></p>
 <hr>
-<h2 id="5-SELU"><a href="#5-SELU" class="headerlink" title="5.SELU"></a>5.SELU</h2><p>$$\operatorname{SELU}(z)=\lambda\left{\begin{array}{ll}{z} &amp; {z&gt;0} \ {\alpha(\exp (z)-1)} &amp; {z&lt;=0}\end{array}\right.$$<br>由ELU可知损失函数L关于第$l$层的偏导为：</p>
-<p>$$\delta^{l}=\lambda\left{\begin{array}{ll}{\delta^{l+1}} &amp; {z^{l}&gt;0} \ {\alpha \delta^{l+1} \exp \left(z^{l}\right)} &amp; {z^{l}&lt;=0}\end{array}\right.$$</p>
+<h2 id="selu">5.SELU</h2>
+<p><span class="math display">\[\operatorname{SELU}(z)=\lambda\left\{\begin{array}{ll}{z} &amp; {z&gt;0} \\ {\alpha(\exp (z)-1)} &amp; {z&lt;=0}\end{array}\right.\]</span> 由ELU可知损失函数L关于第<span class="math inline">\(l\)</span>层的偏导为：</p>
+<p><span class="math display">\[\delta^{l}=\lambda\left\{\begin{array}{ll}{\delta^{l+1}} &amp; {z^{l}&gt;0} \\ {\alpha \delta^{l+1} \exp \left(z^{l}\right)} &amp; {z^{l}&lt;=0}\end{array}\right.\]</span></p>
 <hr>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p> 当激活值的均值非0时，就会对下一层造成一个bias，如果激活值之间不会相互抵消（即均值非0），会导致下一层的激活单元有bias shift。如此叠加，单元越多时，bias shift就会越大。除了ReLU，其它激活函数都将输出的平均值接近0，从而加快模型收敛，类似于Batch Normalization的效果，但是计算复杂度更低。虽然LeakReLU和PReLU都也有负值，但是它们不保证在不激活状态下（就是在输入为负的状态下）对噪声鲁棒。反观ELU在输入取较小值时具有软饱和的特性，提升了对噪声的鲁棒性。</p>
-<h2 id="题图代码"><a href="#题图代码" class="headerlink" title="题图代码"></a>题图代码</h2><details>
-<summary><b>Python Relu Code</b></summary>
-
+<h2 id="总结">总结</h2>
+<p>当激活值的均值非0时，就会对下一层造成一个bias，如果激活值之间不会相互抵消（即均值非0），会导致下一层的激活单元有bias shift。如此叠加，单元越多时，bias shift就会越大。除了ReLU，其它激活函数都将输出的平均值接近0，从而加快模型收敛，类似于Batch Normalization的效果，但是计算复杂度更低。虽然LeakReLU和PReLU都也有负值，但是它们不保证在不激活状态下（就是在输入为负的状态下）对噪声鲁棒。反观ELU在输入取较小值时具有软饱和的特性，提升了对噪声的鲁棒性。</p>
+<h2 id="题图代码">题图代码</h2>
+<details>
+<p><summary><b>Python Relu Code</b></summary></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">## 公众号:深度学习视觉</span><br><span class="line">## Author:Fain</span><br><span class="line">## Blog:Fainke.com</span><br><span class="line">#</span><br><span class="line">import matplotlib.pyplot as plt</span><br><span class="line">import numpy as np</span><br><span class="line">import seaborn as sns</span><br><span class="line">%matplotlib inline</span><br><span class="line">sns.set(style&#x3D;&quot;darkgrid&quot;) </span><br><span class="line">#</span><br><span class="line">fig &#x3D; plt.figure(figsize&#x3D;(12,6))</span><br><span class="line">#</span><br><span class="line">plt.xlim([-10, 10]);</span><br><span class="line">plt.ylim([-1, 1.6]);</span><br><span class="line">#</span><br><span class="line"># 定义数值</span><br><span class="line">x &#x3D; np.sort(np.linspace(-10,10,1000))</span><br><span class="line">#</span><br><span class="line"># ReLu 函数</span><br><span class="line">relu&#x3D; [max(item,0) for item in x]</span><br><span class="line">#</span><br><span class="line"># LeakReLu函数</span><br><span class="line">alpha &#x3D; 0.1</span><br><span class="line">leakRelu &#x3D; [item if item&gt;0 else item*alpha for item in x]</span><br><span class="line">#</span><br><span class="line"># PReLu函数</span><br><span class="line">alpha &#x3D; 0.1 # 可以学习的参数</span><br><span class="line">leakRelu &#x3D; [item if item&gt;0 else item*alpha for item in x]</span><br><span class="line">#</span><br><span class="line"># ELU函数</span><br><span class="line">alpha &#x3D; 0.2</span><br><span class="line">elu &#x3D; [item if item&gt;0 else (np.exp(item)-1)*alpha for item in x]</span><br><span class="line">#</span><br><span class="line"># SELU函数</span><br><span class="line">alpha &#x3D; 1</span><br><span class="line">r &#x3D; 0.5</span><br><span class="line">selu &#x3D; [item if item&gt;0 else (np.exp(item)-1)*alpha for item in x]</span><br><span class="line">selu &#x3D; list(map(lambda x:x*r,selu))</span><br><span class="line">#</span><br><span class="line"># 绘图</span><br><span class="line">plt.plot(x,relu,color&#x3D;&quot;#ff0000&quot;, label &#x3D; r&quot;ReLu&quot;, marker&#x3D;&#39;*&#39;)</span><br><span class="line">plt.plot(x,leakRelu,color&#x3D;&quot;#0000ff&quot;, label &#x3D; r&quot;LeakReLu&quot;)</span><br><span class="line">plt.plot(x,elu,color&#x3D;&quot;#00ff00&quot;, label &#x3D; r&quot;ELU&quot;)</span><br><span class="line">plt.plot(x,selu,color&#x3D;&quot;#00ffee&quot;, label &#x3D; r&quot;SELU&quot;)</span><br><span class="line"></span><br><span class="line">plt.legend(prop&#x3D;&#123;&#39;family&#39; : &#39;Times New Roman&#39;, &#39;size&#39;   : 16&#125;)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
 </details>
+
     </div>
 
     
@@ -341,7 +354,7 @@
     <a href="https://fainke.com/blog/6a3ffb6e.html" title="ReLu激活函数">https://fainke.com/blog/6a3ffb6e.html</a>
   </li>
   <li class="post-copyright-license">
-    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="external nofollow noopener noreferrer" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
   </li>
 </ul>
 </div>
@@ -391,8 +404,8 @@
       <i class="fa fa-chevron-left"></i> ScratchDet - Train from Scratch
     </a></div>
       <div class="post-nav-item">
-    <a href="/blog/5218e405.html" rel="next" title="Python高阶语法随笔">
-      Python高阶语法随笔 <i class="fa fa-chevron-right"></i>
+    <a href="/blog/61b26bf3.html" rel="next" title="Python四大排序算法">
+      Python四大排序算法 <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
@@ -454,14 +467,13 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A6%82%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-ReLu"><span class="nav-number">2.</span> <span class="nav-text">1.ReLu</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-LeakReLU"><span class="nav-number">3.</span> <span class="nav-text">2.LeakReLU</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-PReLU"><span class="nav-number">4.</span> <span class="nav-text">3.PReLU</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-ELU"><span class="nav-number">5.</span> <span class="nav-text">4.ELU</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-SELU"><span class="nav-number">6.</span> <span class="nav-text">5.SELU</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">7.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A2%98%E5%9B%BE%E4%BB%A3%E7%A0%81"><span class="nav-number">8.</span> <span class="nav-text">题图代码</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A6%82%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#relu"><span class="nav-number">2.</span> <span class="nav-text">1.ReLu</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#leakrelu"><span class="nav-number">3.</span> <span class="nav-text">2.LeakReLU</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#prelu"><span class="nav-number">4.</span> <span class="nav-text">3.PReLU</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#elu"><span class="nav-number">5.</span> <span class="nav-text">4.ELU</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#selu"><span class="nav-number">6.</span> <span class="nav-text">5.SELU</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">7.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A2%98%E5%9B%BE%E4%BB%A3%E7%A0%81"><span class="nav-number">8.</span> <span class="nav-text">题图代码</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
       <div class="site-overview-wrap sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <img class="site-author-image" itemprop="image" alt="Fain"
-      src="/images/touXiang.jpg">
+    <img class="site-author-image" itemprop="image" alt="Fain" src="/images/touXiang.jpg">
   <p class="site-author-name" itemprop="name">Fain</p>
   <div class="site-description" itemprop="description">深度学习,机器学习,计算机视觉CV,自然语言处理NLP,Python</div>
 </div>
@@ -624,7 +636,7 @@
   </div>
 
   
-  <script size="300" alpha="0.3" zIndex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+  <script size="300" alpha="0.3" zindex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
   <script src="/lib/anime.min.js"></script>
   <script src="/lib/velocity/velocity.min.js"></script>
   <script src="/lib/velocity/velocity.ui.min.js"></script>

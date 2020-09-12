@@ -89,7 +89,11 @@
   </style>
 </noscript>
 
-</head>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --></head>
 
 <body itemscope itemtype="http://schema.org/WebPage">
   <div class="container use-motion">
@@ -163,9 +167,7 @@
     <i class="fa fa-search"></i>
   </span>
   <div class="search-input-container">
-    <input autocomplete="off" autocapitalize="off"
-           placeholder="搜索..." spellcheck="false"
-           type="search" class="search-input">
+    <input autocomplete="off" autocapitalize="off" placeholder="搜索..." spellcheck="false" type="search" class="search-input">
   </div>
   <span class="popup-btn-close">
     <i class="fa fa-times-circle"></i>
@@ -270,15 +272,31 @@
 
       
         <ul>
-<li><a id="more"></a>
-
-</li>
+<li><a id="more"></a></li>
 </ul>
-<h2 id="one-hot"><a href="#one-hot" class="headerlink" title="one hot"></a>one hot</h2><p>比如有7个字，红橙黄绿青蓝紫，它们用onehot的表示形式如下:<br><font face="黑体"  size="4" color="#f00">红:(1,0,0,0,0,0,0)</font><br><font face="黑体"  size="4" color="#FF7F00">橙:(0,1,0,0,0,0,0)</font><br><font face="黑体"  size="4" color="#FF0">黄:(0,0,1,0,0,0,0)</font><br><font face="黑体"  size="4" color="#0F0">绿:(0,0,0,1,0,0,0)</font><br><font face="黑体"  size="4" color="#0FF">青:(0,0,0,0,1,0,0)</font><br><font face="黑体"  size="4" color="#00F">蓝:(0,0,0,0,0,1,0)</font><br><font face="黑体"  size="4" color="#8B00FF">紫:(0,0,0,0,0,0,1)</font></p>
+<h2 id="one-hot">one hot</h2>
+<p>比如有7个字，红橙黄绿青蓝紫，它们用onehot的表示形式如下: <font face="黑体" size="4" color="#f00">红:(1,0,0,0,0,0,0)</font> <font face="黑体" size="4" color="#FF7F00">橙:(0,1,0,0,0,0,0)</font> <font face="黑体" size="4" color="#FF0">黄:(0,0,1,0,0,0,0)</font> <font face="黑体" size="4" color="#0F0">绿:(0,0,0,1,0,0,0)</font> <font face="黑体" size="4" color="#0FF">青:(0,0,0,0,1,0,0)</font> <font face="黑体" size="4" color="#00F">蓝:(0,0,0,0,0,1,0)</font> <font face="黑体" size="4" color="#8B00FF">紫:(0,0,0,0,0,0,1)</font></p>
 <p>这是最初的字(词)向量的表示方式，有多少字就需要多少维度，造成维度过高，表示过于稀疏。并且字与字之间的距离都相等，这不符合实际情况，比如，红橙的距离小于红绿的距离，onehot表示法无法体现这一特征，也即缺乏语义信息。</p>
-<h2 id="Word2Vec"><a href="#Word2Vec" class="headerlink" title="Word2Vec"></a>Word2Vec</h2><p>由于OneHot编码方式的缺陷，所以诞生了诸如Word2Vec这类新的编码算法。<br>原来的编码是(vocabSize,dimension)。以七色前个字为例,oneHot的编码后的矩阵为H = (2,7),第一个2是输入字的个数，第二个7是一个字表示的维度，在onehot表示方法中也是词汇表中字的总个数。现在通过新的一种办法将字的表示维度降低到3，也就是(2,7)*(7,3)=&gt;(7,3)。这里矩阵(7,3)是参数矩阵，onehot矩阵将会通过这个参数矩阵映射到新的维度中，也是降维。(7,3)第一个位置依然是词汇表字的个数，3表示一个字的表示维度。当然这个3是调控的。</p>
-<p>$$<br>\left(\begin{array}{cccccc}<br>1&amp;0&amp;0&amp;0&amp;0&amp;0&amp;0 \<br>0&amp;1&amp;0&amp;0&amp;0&amp;0&amp;0<br>\end{array}\right)\left(\begin{array}{lll}<br>w_{11} &amp; w_{12} &amp; w_{13} \<br>w_{21} &amp; w_{22} &amp; w_{23} \<br>w_{31} &amp; w_{32} &amp; w_{33} \<br>w_{41} &amp; w_{42} &amp; w_{43} \<br>w_{51} &amp; w_{52} &amp; w_{53} \<br>w_{61} &amp; w_{62} &amp; w_{63} \<br>w_{71} &amp; w_{72} &amp; w_{73}<br>\end{array}\right)=\left(\begin{array}{lllll}<br>w_{11} &amp; w_{12} &amp; w_{13} \<br>w_{21} &amp; w_{22} &amp; w_{23}<br>\end{array}\right)<br>$$<br>到这里，你会发现一个有趣的现象，第一个字映射后的字向量就是参数矩阵的第一行，依此类推，第二个字映射后的字向量就是参数矩阵的第二行。有这样的一种性质存在，矩阵乘法都不用做了，直接都过索引查找参数矩阵就可以了。</p>
-<p>到这里也就发现了，其实字向量的获取就是通过语言模型的训练得到的一组参数阵。语言模型的训练有很多种，比如，通过预测前后两句话是否是连续。则模型通过onehot=&gt;全连接参数阵w=&gt;…=&gt;softmax，通过训练这样的一种任务来更新参数阵，最终，参数阵将会承受着表示字向量的任务。</p>
+<h2 id="word2vec">Word2Vec</h2>
+<p>由于OneHot编码方式的缺陷，所以诞生了诸如Word2Vec这类新的编码算法。 原来的编码是(vocabSize,dimension)。以七色前个字为例,oneHot的编码后的矩阵为H = (2,7),第一个2是输入字的个数，第二个7是一个字表示的维度，在onehot表示方法中也是词汇表中字的总个数。现在通过新的一种办法将字的表示维度降低到3，也就是(2,7)*(7,3)=&gt;(7,3)。这里矩阵(7,3)是参数矩阵，onehot矩阵将会通过这个参数矩阵映射到新的维度中，也是降维。(7,3)第一个位置依然是词汇表字的个数，3表示一个字的表示维度。当然这个3是调控的。</p>
+<p><span class="math display">\[
+\left(\begin{array}{cccccc}
+1&amp;0&amp;0&amp;0&amp;0&amp;0&amp;0 \\
+0&amp;1&amp;0&amp;0&amp;0&amp;0&amp;0 
+\end{array}\right)\left(\begin{array}{lll}
+w_{11} &amp; w_{12} &amp; w_{13} \\
+w_{21} &amp; w_{22} &amp; w_{23} \\
+w_{31} &amp; w_{32} &amp; w_{33} \\
+w_{41} &amp; w_{42} &amp; w_{43} \\
+w_{51} &amp; w_{52} &amp; w_{53} \\
+w_{61} &amp; w_{62} &amp; w_{63} \\
+w_{71} &amp; w_{72} &amp; w_{73}
+\end{array}\right)=\left(\begin{array}{lllll}
+w_{11} &amp; w_{12} &amp; w_{13} \\
+w_{21} &amp; w_{22} &amp; w_{23} 
+\end{array}\right)
+\]</span> 到这里，你会发现一个有趣的现象，第一个字映射后的字向量就是参数矩阵的第一行，依此类推，第二个字映射后的字向量就是参数矩阵的第二行。有这样的一种性质存在，矩阵乘法都不用做了，直接都过索引查找参数矩阵就可以了。</p>
+<p>到这里也就发现了，其实字向量的获取就是通过语言模型的训练得到的一组参数阵。语言模型的训练有很多种，比如，通过预测前后两句话是否是连续。则模型通过onehot=&gt;全连接参数阵w=&gt;...=&gt;softmax，通过训练这样的一种任务来更新参数阵，最终，参数阵将会承受着表示字向量的任务。</p>
 <p>为什么这样表示的字向量可以正确表示字之间的距离。</p>
 
     </div>
@@ -324,7 +342,7 @@
     <a href="https://fainke.com/blog/3b862564.html" title="字向量的产生">https://fainke.com/blog/3b862564.html</a>
   </li>
   <li class="post-copyright-license">
-    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="external nofollow noopener noreferrer" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
   </li>
 </ul>
 </div>
@@ -373,12 +391,12 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/blog/1b2588a1.html" rel="prev" title="TFLite安卓项目解读">
-      <i class="fa fa-chevron-left"></i> TFLite安卓项目解读
+    <a href="/blog/393c1f25.html" rel="prev" title="差异分析">
+      <i class="fa fa-chevron-left"></i> 差异分析
     </a></div>
       <div class="post-nav-item">
-    <a href="/blog/94778ed3.html" rel="next" title="秩和检验">
-      秩和检验 <i class="fa fa-chevron-right"></i>
+    <a href="/blog/1b2588a1.html" rel="next" title="TFLite安卓项目解读">
+      TFLite安卓项目解读 <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
@@ -440,14 +458,13 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#one-hot"><span class="nav-number">1.</span> <span class="nav-text">one hot</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Word2Vec"><span class="nav-number">2.</span> <span class="nav-text">Word2Vec</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#one-hot"><span class="nav-number">1.</span> <span class="nav-text">one hot</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#word2vec"><span class="nav-number">2.</span> <span class="nav-text">Word2Vec</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
       <div class="site-overview-wrap sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <img class="site-author-image" itemprop="image" alt="Fain"
-      src="/images/touXiang.jpg">
+    <img class="site-author-image" itemprop="image" alt="Fain" src="/images/touXiang.jpg">
   <p class="site-author-name" itemprop="name">Fain</p>
   <div class="site-description" itemprop="description">深度学习,机器学习,计算机视觉CV,自然语言处理NLP,Python</div>
 </div>
@@ -610,7 +627,7 @@
   </div>
 
   
-  <script size="300" alpha="0.3" zIndex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+  <script size="300" alpha="0.3" zindex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
   <script src="/lib/anime.min.js"></script>
   <script src="/lib/velocity/velocity.min.js"></script>
   <script src="/lib/velocity/velocity.ui.min.js"></script>

@@ -22,12 +22,12 @@
     var CONFIG = {"hostname":"fainke.com","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results foundin ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="论文目标  每次一个新的网络出现都需要经过高代价的ImageNet预训练处理。 现存主干网络都是为分类场景设计，直接拿来用，效果并不能做到最优。  综上在现有主干网络的基础上建立一个更有强大的主干网络，称为复合主干网络。 ****">
+  <meta name="description" content="论文目标  每次一个新的网络出现都需要经过高代价的ImageNet预训练处理。 现存主干网络都是为分类场景设计，直接拿来用，效果并不能做到最优。  综上在现有主干网络的基础上建立一个更有强大的主干网络，称为复合主干网络。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="CBNet组合主干网络">
 <meta property="og:url" content="https://fainke.com/blog/3477354.html">
 <meta property="og:site_name" content="DeepLearning">
-<meta property="og:description" content="论文目标  每次一个新的网络出现都需要经过高代价的ImageNet预训练处理。 现存主干网络都是为分类场景设计，直接拿来用，效果并不能做到最优。  综上在现有主干网络的基础上建立一个更有强大的主干网络，称为复合主干网络。 ****">
+<meta property="og:description" content="论文目标  每次一个新的网络出现都需要经过高代价的ImageNet预训练处理。 现存主干网络都是为分类场景设计，直接拿来用，效果并不能做到最优。  综上在现有主干网络的基础上建立一个更有强大的主干网络，称为复合主干网络。">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://fainke.com/blog/images/CBNet_1.png">
 <meta property="og:image" content="https://fainke.com/blog/images/CBNet_2.png">
@@ -285,42 +285,52 @@
 
       
         <hr>
-<h2 id="论文目标">论文目标</h2>
-<ol type="1">
+<h2 id="论文目标"><a class="markdownIt-Anchor" href="#论文目标"></a> 论文目标</h2>
+<ol>
 <li>每次一个新的网络出现都需要经过高代价的ImageNet预训练处理。</li>
 <li>现存主干网络都是为分类场景设计，直接拿来用，效果并不能做到最优。</li>
 </ol>
-<p>综上在现有主干网络的基础上建立一个更有强大的主干网络，称为复合主干网络。 **** <a id="more"></a></p>
-<h2 id="论文主要做法">论文主要做法</h2>
-<p><img src="images/CBNet_1.png"></p>
+<p>综上在现有主干网络的基础上建立一个更有强大的主干网络，称为复合主干网络。</p>
+<hr>
+<a id="more"></a>
+<h2 id="论文主要做法"><a class="markdownIt-Anchor" href="#论文主要做法"></a> 论文主要做法</h2>
+<p><img src="images/CBNet_1.png" alt></p>
 <p>组合连接邻近独立优秀主干网络，CBNet 将前一个主干网络的输出特征（即高层抽象特征）输入到下一个主干网络的对应层级中，一直到最后一个主干网络（Lead Backbone），然后使用 Lead Backbone 的特征图进行目标检测。通过这样做，将多个高级和低级特性融合在一起，以生成更丰富的特征表示。本网络结构的预训练模型参数来自于每个独立的网络。</p>
-<p><img src="images/CBNet_2.png"></p>
-<p>四种主干组合的形式： 1. <strong>邻近高级组合：</strong>（Adjacent Higher-Level Composition，AHLC）来自辅助主干网的每个输出特征使用复合连接块输入到相邻的主干网中。</p>
-<ol start="2" type="1">
-<li><p><strong>同层组合：</strong>（Same Level Composition，SLC）是另一种简单的合成样式，它将前一个主干的相邻低层阶段的输出提供给后一个主干。如图所示，此样式不使用复合连接块。来自低层主干网的特征被直接添加到相邻的主干网中。</p></li>
-<li><p><strong>邻近低层组合：</strong>（Adjacent Lower-Level Composition，ALLC）非常类似于AHLC。唯一不同的是，来自前一个主干网底层的特征被传递给后续的主干网。</p></li>
-<li><p><strong>密集高层组合：</strong>（Dense Higher-Level Composition，DHLC）的灵感来自DenseNet，每一层都连接到所有后续的层，在一个阶段建立一个稠密的连接。</p></li>
+<p><img src="images/CBNet_2.png" alt></p>
+<p>四种主干组合的形式：</p>
+<ol>
+<li>
+<p><strong>邻近高级组合：</strong>（Adjacent Higher-Level Composition，AHLC）来自辅助主干网的每个输出特征使用复合连接块输入到相邻的主干网中。</p>
+</li>
+<li>
+<p><strong>同层组合：</strong>（Same Level Composition，SLC）是另一种简单的合成样式，它将前一个主干的相邻低层阶段的输出提供给后一个主干。如图所示，此样式不使用复合连接块。来自低层主干网的特征被直接添加到相邻的主干网中。</p>
+</li>
+<li>
+<p><strong>邻近低层组合：</strong>（Adjacent Lower-Level Composition，ALLC）非常类似于AHLC。唯一不同的是，来自前一个主干网底层的特征被传递给后续的主干网。</p>
+</li>
+<li>
+<p><strong>密集高层组合：</strong>（Dense Higher-Level Composition，DHLC）的灵感来自DenseNet，每一层都连接到所有后续的层，在一个阶段建立一个稠密的连接。</p>
+</li>
 </ol>
 <p>这四种组合方式，AHLC效果较好：</p>
-<p><img src="images/CBNet_3.png"></p>
+<p><img src="images/CBNet_3.png" alt></p>
 <hr>
-<h2 id="论文效果">论文效果</h2>
-<ol type="1">
+<h2 id="论文效果"><a class="markdownIt-Anchor" href="#论文效果"></a> 论文效果</h2>
+<ol>
 <li>它将 FPN、Mask R-CNN 和 Cascade R-CNN 在 COCO 数据集上的 mAP 提升了 1.5%-3.0%。</li>
 <li>简单地将 CBNet 集成到基线检测器 Cascade Mask R-CNN，即可实现单个模型在 COCO 数据集上的mAP达到 53.3。</li>
 </ol>
-<p><img src="images/CBNet_4.png"></p>
-<p><img src="images/CBNet_5.png"></p>
+<p><img src="images/CBNet_4.png" alt></p>
+<p><img src="images/CBNet_5.png" alt></p>
 <hr>
-<h2 id="特征提取效果">特征提取效果</h2>
+<h2 id="特征提取效果"><a class="markdownIt-Anchor" href="#特征提取效果"></a> 特征提取效果</h2>
 <p>研究者认为 CBNet 性能优于单个目标检测主干网络的根本原因是：相比于后者，CBNet 提取出的基础特征更具表示性。</p>
-<figure>
-<img src="images/CBNet_6.png" alt="CBNet (Dual-ResNet101) 和原始主干网络 (ResNet101) 提取特征的视觉对比，基线检测器为 FPN-ResNet101"><figcaption>CBNet (Dual-ResNet101) 和原始主干网络 (ResNet101) 提取特征的视觉对比，基线检测器为 FPN-ResNet101</figcaption>
-</figure>
-<p>　对于每一个主干网络，上图根据前景物体的大小，对 Res2 和 Res5 进行可视化。我们可以看到 CBNet 的特征图更具表示性，它的前景物体激活值更大，背景的激活值更小。</p>
-<h2 id="论文代码">论文代码</h2>
+<p><img src="images/CBNet_6.png" alt="CBNet (Dual-ResNet101) 和原始主干网络 (ResNet101) 提取特征的视觉对比，基线检测器为 FPN-ResNet101"></p>
+<p>对于每一个主干网络，上图根据前景物体的大小，对 Res2 和 Res5 进行可视化。我们可以看到 CBNet 的特征图更具表示性，它的前景物体激活值更大，背景的激活值更小。</p>
+<h2 id="论文代码"><a class="markdownIt-Anchor" href="#论文代码"></a> 论文代码</h2>
 <blockquote>
-<p>https://arxiv.org/pdf/1909.03625.pdf https://github.com/PKUbahuangliuhe/CBNet</p>
+<p><a target="_blank" rel="external nofollow noopener noreferrer" href="https://arxiv.org/pdf/1909.03625.pdf">https://arxiv.org/pdf/1909.03625.pdf</a><br>
+<a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/PKUbahuangliuhe/CBNet">https://github.com/PKUbahuangliuhe/CBNet</a></p>
 </blockquote>
 
     </div>
@@ -412,8 +422,8 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/blog/510b302a.html" rel="prev" title="Anchor尺寸选择">
-      <i class="fa fa-chevron-left"></i> Anchor尺寸选择
+    <a href="/blog/8e69a262.html" rel="prev" title="FasterRCNN结构梳理">
+      <i class="fa fa-chevron-left"></i> FasterRCNN结构梳理
     </a></div>
       <div class="post-nav-item">
     <a href="/blog/3db5b568.html" rel="next" title="Boosting_Bagging介绍">
@@ -479,7 +489,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%BA%E6%96%87%E7%9B%AE%E6%A0%87"><span class="nav-number">1.</span> <span class="nav-text">论文目标</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%BA%E6%96%87%E4%B8%BB%E8%A6%81%E5%81%9A%E6%B3%95"><span class="nav-number">2.</span> <span class="nav-text">论文主要做法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%BA%E6%96%87%E6%95%88%E6%9E%9C"><span class="nav-number">3.</span> <span class="nav-text">论文效果</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%89%B9%E5%BE%81%E6%8F%90%E5%8F%96%E6%95%88%E6%9E%9C"><span class="nav-number">4.</span> <span class="nav-text">特征提取效果</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%BA%E6%96%87%E4%BB%A3%E7%A0%81"><span class="nav-number">5.</span> <span class="nav-text">论文代码</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%BA%E6%96%87%E7%9B%AE%E6%A0%87"><span class="nav-number">1.</span> <span class="nav-text"> 论文目标</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%BA%E6%96%87%E4%B8%BB%E8%A6%81%E5%81%9A%E6%B3%95"><span class="nav-number">2.</span> <span class="nav-text"> 论文主要做法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%BA%E6%96%87%E6%95%88%E6%9E%9C"><span class="nav-number">3.</span> <span class="nav-text"> 论文效果</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%89%B9%E5%BE%81%E6%8F%90%E5%8F%96%E6%95%88%E6%9E%9C"><span class="nav-number">4.</span> <span class="nav-text"> 特征提取效果</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%BA%E6%96%87%E4%BB%A3%E7%A0%81"><span class="nav-number">5.</span> <span class="nav-text"> 论文代码</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 

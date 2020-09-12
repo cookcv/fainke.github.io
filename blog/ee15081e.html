@@ -284,80 +284,79 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h3 id="感知器与逻辑回归的区别">感知器与逻辑回归的区别</h3>
-<p>多层感知器是我们用于分类的最基本的神经网络之一。在二分类问题上，线性分类器的目的就是找一个超平面把正负两类分开，感知器相当于一个阶跃函数，直接区分是0还是1，而逻辑回归则是给予0到1之间的概率。当然，如果我们调节逻辑回归的阈值，使得输出非0即1，则就成了感知器。 <a id="more"></a></p>
-<figure>
-<img src="images/DeepLearningQuestion21_1.jpg" alt="DeepLearningQuestion21_1"><figcaption>DeepLearningQuestion21_1</figcaption>
-</figure>
+        <h3 id="感知器与逻辑回归的区别"><a class="markdownIt-Anchor" href="#感知器与逻辑回归的区别"></a> 感知器与逻辑回归的区别</h3>
+<p>多层感知器是我们用于分类的最基本的神经网络之一。在二分类问题上，线性分类器的目的就是找一个超平面把正负两类分开，感知器相当于一个阶跃函数，直接区分是0还是1，而逻辑回归则是给予0到1之间的概率。当然，如果我们调节逻辑回归的阈值，使得输出非0即1，则就成了感知器。</p>
+<a id="more"></a>
+<p><img src="images/DeepLearningQuestion21_1.jpg" alt="DeepLearningQuestion21_1"></p>
 <p>感知器的损失函数为误分类点的函数间隔之和，函数间隔可以理解为样本与分类超平面的距离。误分类点距离分类超平面越远，则损失函数值越大。只有误分类的点会影响损失函数的值。</p>
-<p><span class="math inline">\(L=-y(w^Tx+b)\)</span></p>
-<p><span class="math inline">\(w^Tx+b\)</span>是分割的超平面</p>
-<ol type="1">
-<li><p>当正类数据分类到-1结果中，y=1，但超平面对应的值为-1，此时损失值大于0。</p></li>
-<li><p>当负类数据分类到1结果中，y=-1，但超平面对应的值为1，此时损失值大于0。</p></li>
+<p><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>L</mi><mo>=</mo><mo>−</mo><mi>y</mi><mo stretchy="false">(</mo><msup><mi>w</mi><mi>T</mi></msup><mi>x</mi><mo>+</mo><mi>b</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">L=-y(w^Tx+b)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault">L</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1.0913309999999998em;vertical-align:-0.25em;"></span><span class="mord">−</span><span class="mord mathdefault" style="margin-right:0.03588em;">y</span><span class="mopen">(</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.02691em;">w</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8413309999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight" style="margin-right:0.13889em;">T</span></span></span></span></span></span></span></span><span class="mord mathdefault">x</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">b</span><span class="mclose">)</span></span></span></span></p>
+<p><span class="katex"><span class="katex-mathml"><math><semantics><mrow><msup><mi>w</mi><mi>T</mi></msup><mi>x</mi><mo>+</mo><mi>b</mi></mrow><annotation encoding="application/x-tex">w^Tx+b</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.924661em;vertical-align:-0.08333em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.02691em;">w</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8413309999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight" style="margin-right:0.13889em;">T</span></span></span></span></span></span></span></span><span class="mord mathdefault">x</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathdefault">b</span></span></span></span>是分割的超平面</p>
+<ol>
+<li>
+<p>当正类数据分类到-1结果中，y=1，但超平面对应的值为-1，此时损失值大于0。</p>
+</li>
+<li>
+<p>当负类数据分类到1结果中，y=-1，但超平面对应的值为1，此时损失值大于0。</p>
+</li>
 </ol>
 <p>Logistic回归的损失函数为logistic损失函数，当分类错误时，函数间隔越大，则损失函数值越大。当分类正确时，样本点距离超平面越远，则损失函数值越小。所有的样本点分布情况都会影响损失函数最后的值。模型更加平滑。</p>
-<p><span class="math inline">\(log(1+exp(-y(w^Tx+b)))\)</span></p>
-<h3 id="权重和偏差在神经网络中起什么作用">权重和偏差在神经网络中起什么作用</h3>
-<p><span class="math inline">\(w_1x_1 + w_2x_2 + w_3x_3 + ... + w_nx_n &gt;= b\)</span></p>
+<p><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>l</mi><mi>o</mi><mi>g</mi><mo stretchy="false">(</mo><mn>1</mn><mo>+</mo><mi>e</mi><mi>x</mi><mi>p</mi><mo stretchy="false">(</mo><mo>−</mo><mi>y</mi><mo stretchy="false">(</mo><msup><mi>w</mi><mi>T</mi></msup><mi>x</mi><mo>+</mo><mi>b</mi><mo stretchy="false">)</mo><mo stretchy="false">)</mo><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">log(1+exp(-y(w^Tx+b)))</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault">o</span><span class="mord mathdefault" style="margin-right:0.03588em;">g</span><span class="mopen">(</span><span class="mord">1</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1.0913309999999998em;vertical-align:-0.25em;"></span><span class="mord mathdefault">e</span><span class="mord mathdefault">x</span><span class="mord mathdefault">p</span><span class="mopen">(</span><span class="mord">−</span><span class="mord mathdefault" style="margin-right:0.03588em;">y</span><span class="mopen">(</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.02691em;">w</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8413309999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight" style="margin-right:0.13889em;">T</span></span></span></span></span></span></span></span><span class="mord mathdefault">x</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">b</span><span class="mclose">)</span><span class="mclose">)</span><span class="mclose">)</span></span></span></span></p>
+<h3 id="权重和偏差在神经网络中起什么作用"><a class="markdownIt-Anchor" href="#权重和偏差在神经网络中起什么作用"></a> 权重和偏差在神经网络中起什么作用</h3>
+<p><span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>w</mi><mn>1</mn></msub><msub><mi>x</mi><mn>1</mn></msub><mo>+</mo><msub><mi>w</mi><mn>2</mn></msub><msub><mi>x</mi><mn>2</mn></msub><mo>+</mo><msub><mi>w</mi><mn>3</mn></msub><msub><mi>x</mi><mn>3</mn></msub><mo>+</mo><mi mathvariant="normal">.</mi><mi mathvariant="normal">.</mi><mi mathvariant="normal">.</mi><mo>+</mo><msub><mi>w</mi><mi>n</mi></msub><msub><mi>x</mi><mi>n</mi></msub><mo>&gt;</mo><mo>=</mo><mi>b</mi></mrow><annotation encoding="application/x-tex">w_1x_1 + w_2x_2 + w_3x_3 + ... + w_nx_n &gt;= b</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.73333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.02691em;">w</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.02691em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord"><span class="mord mathdefault">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.73333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.02691em;">w</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.02691em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord"><span class="mord mathdefault">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.73333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.02691em;">w</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.02691em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">3</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord"><span class="mord mathdefault">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">3</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.66666em;vertical-align:-0.08333em;"></span><span class="mord">.</span><span class="mord">.</span><span class="mord">.</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.6891em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.02691em;">w</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:-0.02691em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">n</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord"><span class="mord mathdefault">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">n</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">&gt;</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathdefault">b</span></span></span></span></p>
 <p>简单来说，权重就是某个因素的重要程度，bias值其实就是一个阈值，只有当左边部分不小于这个bias的时候，神经元的输出才会为正。</p>
 <p>也有理解，这里的bias是所选模型自带的固有的误差，因为选的模型必不可能是完美的，bias与数据无关，是模型自带的。</p>
 <p>并且，在有些场合里，bias的使用也没有意义，比如在batch normalization层之前的层就没必要加，因为会被归一化抵消掉。</p>
-<h3 id="可否令隐藏层所有神经元具有相同的bias">可否令隐藏层所有神经元具有相同的bias</h3>
+<h3 id="可否令隐藏层所有神经元具有相同的bias"><a class="markdownIt-Anchor" href="#可否令隐藏层所有神经元具有相同的bias"></a> 可否令隐藏层所有神经元具有相同的bias</h3>
 <p>本质上，在每个层或每个神经元处也可以具有不同的偏差值。但是，最好对隐藏层中的所有神经元都只有一个偏差矩阵。</p>
-<h3 id="激活函数的作用">激活函数的作用</h3>
+<h3 id="激活函数的作用"><a class="markdownIt-Anchor" href="#激活函数的作用"></a> 激活函数的作用</h3>
 <p>由于非线性的激活函数的存在，使得模型可以捕获非线性关系。如果没有激活函数，那么无论多深的网络都只是简单的线性模型，无法捕获数据中的复杂模式。</p>
-<h3 id="神经网络中权重初始化的值都一样会怎么样">神经网络中权重初始化的值都一样会怎么样</h3>
+<h3 id="神经网络中权重初始化的值都一样会怎么样"><a class="markdownIt-Anchor" href="#神经网络中权重初始化的值都一样会怎么样"></a> 神经网络中权重初始化的值都一样会怎么样</h3>
 <p>如果所有神经元具有相同的权重值，则每个隐藏单元将获得完全相同的信号。尽管这可能在正向传播过程中起作用，但反向传播期间损失函数的导数每次都将会相同。最终模型将会欠拟合。</p>
-<h3 id="前向传播与反向传播的工作原理">前向传播与反向传播的工作原理</h3>
-<p><strong>前向传播：</strong>在每个隐藏层，我们计算每个节点上激活的输出，然后进一步传播到下一层，直到到达最终输出层。由于我们从输入端开始到最终输出层，因此我们向前移动，这称为前向传播。</p>
-<p><strong>反向传播：</strong>为了最小化损失函数，我们从最终损失函数开始，并通过链式法则计算每个隐藏层的梯度，返回到每个隐藏层，这时我们向后移动，因此称为反向传播。</p>
-<figure>
-<img src="images/bp_fp_1.jpeg" alt="bp_fp_1"><figcaption>bp_fp_1</figcaption>
-</figure>
+<h3 id="前向传播与反向传播的工作原理"><a class="markdownIt-Anchor" href="#前向传播与反向传播的工作原理"></a> 前向传播与反向传播的工作原理</h3>
+<p>**前向传播：**在每个隐藏层，我们计算每个节点上激活的输出，然后进一步传播到下一层，直到到达最终输出层。由于我们从输入端开始到最终输出层，因此我们向前移动，这称为前向传播。</p>
+<p>**反向传播：**为了最小化损失函数，我们从最终损失函数开始，并通过链式法则计算每个隐藏层的梯度，返回到每个隐藏层，这时我们向后移动，因此称为反向传播。</p>
+<p><img src="images/bp_fp_1.jpeg" alt="bp_fp_1"></p>
 <p><strong>前向传播:</strong></p>
-<figure>
-<img src="images/fp.jpg" alt="fp"><figcaption>fp</figcaption>
-</figure>
+<p><img src="images/fp.jpg" alt="fp"></p>
 <p><strong>反向传播:</strong></p>
-<figure>
-<img src="images/bp_l2.jpg" alt="bp_l2"><figcaption>bp_l2</figcaption>
-</figure>
-<figure>
-<img src="images/bp_l1.png" alt="bp_l1"><figcaption>bp_l1</figcaption>
-</figure>
-<h3 id="深度学习常用的数据类型">深度学习常用的数据类型</h3>
+<p><img src="images/bp_l2.jpg" alt="bp_l2"></p>
+<p><img src="images/bp_l1.png" alt="bp_l1"></p>
+<h3 id="深度学习常用的数据类型"><a class="markdownIt-Anchor" href="#深度学习常用的数据类型"></a> 深度学习常用的数据类型</h3>
 <p>深度学习含有从最简单的数据结构（如列表）到复杂的数据结构（如计算图）的数据类型。</p>
-<p><strong>List：</strong>元素的有序序列。</p>
-<p><strong>Matrix：</strong>具有行和列的元素的有序序列。</p>
-<p><strong>Dataframe：</strong>数据框就像矩阵一样，但是它包含实际数据，其中列名和行表示数据集中的每个数据点。</p>
-<p><strong>Tensors：</strong>张量在PyTorch和TensorFlow中都使用，就像深度学习的基本编程单元一样。就像多维数组一样，我们可以对它们执行许多数学运算。</p>
-<p><strong>Computation Graphs：</strong>计算图为我们提供了执行操作的顺序，每个节点表示神经网络中的操作或组件。</p>
-<h3 id="为什么要使用batch-normalization">为什么要使用Batch Normalization</h3>
+<p>**List：**元素的有序序列。</p>
+<p>**Matrix：**具有行和列的元素的有序序列。</p>
+<p>**Dataframe：**数据框就像矩阵一样，但是它包含实际数据，其中列名和行表示数据集中的每个数据点。</p>
+<p>**Tensors：**张量在PyTorch和TensorFlow中都使用，就像深度学习的基本编程单元一样。就像多维数组一样，我们可以对它们执行许多数学运算。</p>
+<p>**Computation Graphs：**计算图为我们提供了执行操作的顺序，每个节点表示神经网络中的操作或组件。</p>
+<h3 id="为什么要使用batch-normalization"><a class="markdownIt-Anchor" href="#为什么要使用batch-normalization"></a> 为什么要使用Batch Normalization</h3>
 <p>关于一些其他归一化方法，可以看这篇文章<a href="https://fainke.com/blog/7d202220.html">深度学习归一化</a></p>
 <p>模型将归一化后的输入传入激活函数。</p>
-<ol type="1">
-<li><p>加快模型收敛的速度的技术。</p></li>
-<li><p>解决了梯度消失的问题。</p></li>
-<li><p>增加了模型泛化能力，使得dropout技术可以去掉。</p></li>
+<ol>
+<li>
+<p>加快模型收敛的速度的技术。</p>
+</li>
+<li>
+<p>解决了梯度消失的问题。</p>
+</li>
+<li>
+<p>增加了模型泛化能力，使得dropout技术可以去掉。</p>
+</li>
 </ol>
-<h3 id="例举一些激活函数">例举一些激活函数</h3>
+<h3 id="例举一些激活函数"><a class="markdownIt-Anchor" href="#例举一些激活函数"></a> 例举一些激活函数</h3>
 <p><a href="https://fainke.com/blog/6a3ffb6e.html">ReLu系列激活函数</a></p>
-<figure>
-<img src="images/activationFunction.jpg" alt="activationFunction"><figcaption>activationFunction</figcaption>
-</figure>
-<h3 id="为什么cnn在图像上表现很好">为什么CNN在图像上表现很好</h3>
+<p><img src="images/activationFunction.jpg" alt="activationFunction"></p>
+<h3 id="为什么cnn在图像上表现很好"><a class="markdownIt-Anchor" href="#为什么cnn在图像上表现很好"></a> 为什么CNN在图像上表现很好</h3>
 <p>CNN本质是在识别曲线和边缘信息。直接将图像数据作为输入，不仅无需人工对图像进行预处理和额外的特征抽取等复杂操作，而且以其特有的细粒度特征提取方式，使得对图像的处理达到了几近人力的水平。</p>
-<h3 id="为什么rnns在文本上表现很好">为什么RNNs在文本上表现很好</h3>
+<h3 id="为什么rnns在文本上表现很好"><a class="markdownIt-Anchor" href="#为什么rnns在文本上表现很好"></a> 为什么RNNs在文本上表现很好</h3>
 <p>RNNs的循环特性为下一节点保留前一节点的信息。</p>
-<h3 id="cnn中的填充方式valid与same之间的区别">CNN中的填充方式Valid与Same之间的区别</h3>
+<h3 id="cnn中的填充方式valid与same之间的区别"><a class="markdownIt-Anchor" href="#cnn中的填充方式valid与same之间的区别"></a> CNN中的填充方式Valid与Same之间的区别</h3>
 <p><strong>valid padding</strong>：不进行任何处理，只使用原始图像，不允许卷积核超出原始图像边界。当余下部分不够卷积核大小时，直接舍去。</p>
 <p><strong>same padding</strong>：进行填充，允许卷积核超出原始图像边界，并使得卷积后结果的大小与原来的一致。使得余下部分能够参与卷积，所以padding一些数据。</p>
-<h3 id="梯度消失与梯度爆炸">梯度消失与梯度爆炸</h3>
+<h3 id="梯度消失与梯度爆炸"><a class="markdownIt-Anchor" href="#梯度消失与梯度爆炸"></a> 梯度消失与梯度爆炸</h3>
 <p><a href="https://fainke.com/blog/c1d77713.html">梯度消失与梯度爆炸</a></p>
-<h3 id="lstm是如何解决梯度消失与梯度爆炸">LSTM是如何解决梯度消失与梯度爆炸</h3>
+<h3 id="lstm是如何解决梯度消失与梯度爆炸"><a class="markdownIt-Anchor" href="#lstm是如何解决梯度消失与梯度爆炸"></a> LSTM是如何解决梯度消失与梯度爆炸</h3>
 <p>LSTM是一种RNNs模型，由于添加了门控结构，所以可以记住关键信息，梯度不会随着时间步长的增加而消失。</p>
-<h3 id="为什么gru比lstm更快">为什么GRU比LSTM更快</h3>
+<h3 id="为什么gru比lstm更快"><a class="markdownIt-Anchor" href="#为什么gru比lstm更快"></a> 为什么GRU比LSTM更快</h3>
 <p>GRU取消了遗忘门，将输入和“忘记”门组合到一个更新门中。元素的减少使得模型复杂度降低，所以更快。</p>
 
     </div>
@@ -449,12 +448,12 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/blog/6883cd97.html" rel="prev" title="Beta分布随笔">
-      <i class="fa fa-chevron-left"></i> Beta分布随笔
+    <a href="/blog/510b302a.html" rel="prev" title="Anchor尺寸选择">
+      <i class="fa fa-chevron-left"></i> Anchor尺寸选择
     </a></div>
       <div class="post-nav-item">
-    <a href="/blog/510b302a.html" rel="next" title="Anchor尺寸选择">
-      Anchor尺寸选择 <i class="fa fa-chevron-right"></i>
+    <a href="/blog/c31606b1.html" rel="next" title="神经网络能否直接判断奇偶数">
+      神经网络能否直接判断奇偶数 <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
@@ -516,7 +515,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%84%9F%E7%9F%A5%E5%99%A8%E4%B8%8E%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">1.</span> <span class="nav-text">感知器与逻辑回归的区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9D%83%E9%87%8D%E5%92%8C%E5%81%8F%E5%B7%AE%E5%9C%A8%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E4%B8%AD%E8%B5%B7%E4%BB%80%E4%B9%88%E4%BD%9C%E7%94%A8"><span class="nav-number">2.</span> <span class="nav-text">权重和偏差在神经网络中起什么作用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%AF%E5%90%A6%E4%BB%A4%E9%9A%90%E8%97%8F%E5%B1%82%E6%89%80%E6%9C%89%E7%A5%9E%E7%BB%8F%E5%85%83%E5%85%B7%E6%9C%89%E7%9B%B8%E5%90%8C%E7%9A%84bias"><span class="nav-number">3.</span> <span class="nav-text">可否令隐藏层所有神经元具有相同的bias</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%BF%80%E6%B4%BB%E5%87%BD%E6%95%B0%E7%9A%84%E4%BD%9C%E7%94%A8"><span class="nav-number">4.</span> <span class="nav-text">激活函数的作用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E4%B8%AD%E6%9D%83%E9%87%8D%E5%88%9D%E5%A7%8B%E5%8C%96%E7%9A%84%E5%80%BC%E9%83%BD%E4%B8%80%E6%A0%B7%E4%BC%9A%E6%80%8E%E4%B9%88%E6%A0%B7"><span class="nav-number">5.</span> <span class="nav-text">神经网络中权重初始化的值都一样会怎么样</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%89%8D%E5%90%91%E4%BC%A0%E6%92%AD%E4%B8%8E%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD%E7%9A%84%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86"><span class="nav-number">6.</span> <span class="nav-text">前向传播与反向传播的工作原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%B8%B8%E7%94%A8%E7%9A%84%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="nav-number">7.</span> <span class="nav-text">深度学习常用的数据类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E4%BD%BF%E7%94%A8batch-normalization"><span class="nav-number">8.</span> <span class="nav-text">为什么要使用Batch Normalization</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BE%8B%E4%B8%BE%E4%B8%80%E4%BA%9B%E6%BF%80%E6%B4%BB%E5%87%BD%E6%95%B0"><span class="nav-number">9.</span> <span class="nav-text">例举一些激活函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88cnn%E5%9C%A8%E5%9B%BE%E5%83%8F%E4%B8%8A%E8%A1%A8%E7%8E%B0%E5%BE%88%E5%A5%BD"><span class="nav-number">10.</span> <span class="nav-text">为什么CNN在图像上表现很好</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88rnns%E5%9C%A8%E6%96%87%E6%9C%AC%E4%B8%8A%E8%A1%A8%E7%8E%B0%E5%BE%88%E5%A5%BD"><span class="nav-number">11.</span> <span class="nav-text">为什么RNNs在文本上表现很好</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#cnn%E4%B8%AD%E7%9A%84%E5%A1%AB%E5%85%85%E6%96%B9%E5%BC%8Fvalid%E4%B8%8Esame%E4%B9%8B%E9%97%B4%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">12.</span> <span class="nav-text">CNN中的填充方式Valid与Same之间的区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A2%AF%E5%BA%A6%E6%B6%88%E5%A4%B1%E4%B8%8E%E6%A2%AF%E5%BA%A6%E7%88%86%E7%82%B8"><span class="nav-number">13.</span> <span class="nav-text">梯度消失与梯度爆炸</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#lstm%E6%98%AF%E5%A6%82%E4%BD%95%E8%A7%A3%E5%86%B3%E6%A2%AF%E5%BA%A6%E6%B6%88%E5%A4%B1%E4%B8%8E%E6%A2%AF%E5%BA%A6%E7%88%86%E7%82%B8"><span class="nav-number">14.</span> <span class="nav-text">LSTM是如何解决梯度消失与梯度爆炸</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88gru%E6%AF%94lstm%E6%9B%B4%E5%BF%AB"><span class="nav-number">15.</span> <span class="nav-text">为什么GRU比LSTM更快</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%84%9F%E7%9F%A5%E5%99%A8%E4%B8%8E%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">1.</span> <span class="nav-text"> 感知器与逻辑回归的区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9D%83%E9%87%8D%E5%92%8C%E5%81%8F%E5%B7%AE%E5%9C%A8%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E4%B8%AD%E8%B5%B7%E4%BB%80%E4%B9%88%E4%BD%9C%E7%94%A8"><span class="nav-number">2.</span> <span class="nav-text"> 权重和偏差在神经网络中起什么作用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%AF%E5%90%A6%E4%BB%A4%E9%9A%90%E8%97%8F%E5%B1%82%E6%89%80%E6%9C%89%E7%A5%9E%E7%BB%8F%E5%85%83%E5%85%B7%E6%9C%89%E7%9B%B8%E5%90%8C%E7%9A%84bias"><span class="nav-number">3.</span> <span class="nav-text"> 可否令隐藏层所有神经元具有相同的bias</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%BF%80%E6%B4%BB%E5%87%BD%E6%95%B0%E7%9A%84%E4%BD%9C%E7%94%A8"><span class="nav-number">4.</span> <span class="nav-text"> 激活函数的作用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E4%B8%AD%E6%9D%83%E9%87%8D%E5%88%9D%E5%A7%8B%E5%8C%96%E7%9A%84%E5%80%BC%E9%83%BD%E4%B8%80%E6%A0%B7%E4%BC%9A%E6%80%8E%E4%B9%88%E6%A0%B7"><span class="nav-number">5.</span> <span class="nav-text"> 神经网络中权重初始化的值都一样会怎么样</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%89%8D%E5%90%91%E4%BC%A0%E6%92%AD%E4%B8%8E%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD%E7%9A%84%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86"><span class="nav-number">6.</span> <span class="nav-text"> 前向传播与反向传播的工作原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%B8%B8%E7%94%A8%E7%9A%84%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="nav-number">7.</span> <span class="nav-text"> 深度学习常用的数据类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E4%BD%BF%E7%94%A8batch-normalization"><span class="nav-number">8.</span> <span class="nav-text"> 为什么要使用Batch Normalization</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BE%8B%E4%B8%BE%E4%B8%80%E4%BA%9B%E6%BF%80%E6%B4%BB%E5%87%BD%E6%95%B0"><span class="nav-number">9.</span> <span class="nav-text"> 例举一些激活函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88cnn%E5%9C%A8%E5%9B%BE%E5%83%8F%E4%B8%8A%E8%A1%A8%E7%8E%B0%E5%BE%88%E5%A5%BD"><span class="nav-number">10.</span> <span class="nav-text"> 为什么CNN在图像上表现很好</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88rnns%E5%9C%A8%E6%96%87%E6%9C%AC%E4%B8%8A%E8%A1%A8%E7%8E%B0%E5%BE%88%E5%A5%BD"><span class="nav-number">11.</span> <span class="nav-text"> 为什么RNNs在文本上表现很好</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#cnn%E4%B8%AD%E7%9A%84%E5%A1%AB%E5%85%85%E6%96%B9%E5%BC%8Fvalid%E4%B8%8Esame%E4%B9%8B%E9%97%B4%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">12.</span> <span class="nav-text"> CNN中的填充方式Valid与Same之间的区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A2%AF%E5%BA%A6%E6%B6%88%E5%A4%B1%E4%B8%8E%E6%A2%AF%E5%BA%A6%E7%88%86%E7%82%B8"><span class="nav-number">13.</span> <span class="nav-text"> 梯度消失与梯度爆炸</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#lstm%E6%98%AF%E5%A6%82%E4%BD%95%E8%A7%A3%E5%86%B3%E6%A2%AF%E5%BA%A6%E6%B6%88%E5%A4%B1%E4%B8%8E%E6%A2%AF%E5%BA%A6%E7%88%86%E7%82%B8"><span class="nav-number">14.</span> <span class="nav-text"> LSTM是如何解决梯度消失与梯度爆炸</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88gru%E6%AF%94lstm%E6%9B%B4%E5%BF%AB"><span class="nav-number">15.</span> <span class="nav-text"> 为什么GRU比LSTM更快</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 

@@ -281,14 +281,15 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="赛题社会价值">赛题社会价值</h2>
-<p>通过计算机自动识别大面积卫星图中的物体，有助于预估农产品产量，城市面积等工作。 <a id="more"></a></p>
+        <h2 id="赛题社会价值"><a class="markdownIt-Anchor" href="#赛题社会价值"></a> 赛题社会价值</h2>
+<p>通过计算机自动识别大面积卫星图中的物体，有助于预估农产品产量，城市面积等工作。</p>
+<a id="more"></a>
 <hr>
-<h2 id="赛题所属类型">赛题所属类型</h2>
+<h2 id="赛题所属类型"><a class="markdownIt-Anchor" href="#赛题所属类型"></a> 赛题所属类型</h2>
 <p>图像分割与分类</p>
 <hr>
-<h2 id="赛题特点">赛题特点</h2>
-<ol type="1">
+<h2 id="赛题特点"><a class="markdownIt-Anchor" href="#赛题特点"></a> 赛题特点</h2>
+<ol>
 <li>类间差异小；</li>
 <li>存在标注噪声；</li>
 <li>物体尺度差异大；</li>
@@ -296,24 +297,37 @@
 <li>图片尺寸达到30亿左右的像素，无法直接训练。</li>
 </ol>
 <hr>
-<h2 id="赛题工作">赛题工作</h2>
-<h3 id="模型选择">模型选择</h3>
-<p>本次分割的图像中，全局信息很重要，某一个类别的确定会受到它周边像素与类别的影响。 本次比赛最佳模型框架deeplab v3+。</p>
-<h3 id="数据处理">数据处理</h3>
-<ol type="1">
-<li><p>为了应对图片过大的现象，本次比赛采取了滑动裁剪的方法，每次选取图片大小1024x1024，滑动步长设置为512，剔除无效区域占比过高的样本。由于滑动采样操作会对边缘的预测产生影响，所以，预测结果只保留中间区域（512x512）。</p></li>
-<li><p>一些常规的数据增强方法。</p></li>
+<h2 id="赛题工作"><a class="markdownIt-Anchor" href="#赛题工作"></a> 赛题工作</h2>
+<h3 id="模型选择"><a class="markdownIt-Anchor" href="#模型选择"></a> 模型选择</h3>
+<p>本次分割的图像中，全局信息很重要，某一个类别的确定会受到它周边像素与类别的影响。<br>
+本次比赛最佳模型框架deeplab v3+。</p>
+<h3 id="数据处理"><a class="markdownIt-Anchor" href="#数据处理"></a> 数据处理</h3>
+<ol>
+<li>
+<p>为了应对图片过大的现象，本次比赛采取了滑动裁剪的方法，每次选取图片大小1024x1024，滑动步长设置为512，剔除无效区域占比过高的样本。由于滑动采样操作会对边缘的预测产生影响，所以，预测结果只保留中间区域（512x512）。</p>
+</li>
+<li>
+<p>一些常规的数据增强方法。</p>
+</li>
 </ol>
-<h3 id="训练处理">训练处理</h3>
-<ol type="1">
-<li><p>本次分类使用的是多分类交叉熵损失函数，并为不同类别添加不同的权重。</p></li>
-<li><p>标签平滑。采取软标签训练，区别于0和1的这样的硬标签，可以为难易程度不同的样本给予不同程度的标签值。</p></li>
-<li><p>使用半监督的方式，为没有标签的图片生成软标签，增加样本。</p></li>
-<li><p>因为数据集比较小，即使使用了各种数据增强技术，还是会有过拟合的风险，可以选取多个snapshot使用参数均值的方法对模型参数进行融合可以提高模型的泛化能力。但是传统的方法是对一个模型进行多次训练来取得多个snapshot，这会需要很多的计算时间。相比之下，根据不同评价标准选择融合的snapshot，也就是选择最小验证loss，最大mIoU，和训练最后（通常是训练loss最小）的三个模型参数进行融合。为了增加三个模型的差异性，可以采用Cyclic Cosine Annealing的方法。反复进入多个局部最小值。</p></li>
+<h3 id="训练处理"><a class="markdownIt-Anchor" href="#训练处理"></a> 训练处理</h3>
+<ol>
+<li>
+<p>本次分类使用的是多分类交叉熵损失函数，并为不同类别添加不同的权重。</p>
+</li>
+<li>
+<p>标签平滑。采取软标签训练，区别于0和1的这样的硬标签，可以为难易程度不同的样本给予不同程度的标签值。</p>
+</li>
+<li>
+<p>使用半监督的方式，为没有标签的图片生成软标签，增加样本。</p>
+</li>
+<li>
+<p>因为数据集比较小，即使使用了各种数据增强技术，还是会有过拟合的风险，可以选取多个snapshot使用参数均值的方法对模型参数进行融合可以提高模型的泛化能力。但是传统的方法是对一个模型进行多次训练来取得多个snapshot，这会需要很多的计算时间。相比之下，根据不同评价标准选择融合的snapshot，也就是选择最小验证loss，最大mIoU，和训练最后（通常是训练loss最小）的三个模型参数进行融合。为了增加三个模型的差异性，可以采用Cyclic Cosine Annealing的方法。反复进入多个局部最小值。</p>
+</li>
 </ol>
-<p><img src="images/detective_1.png"></p>
-<h3 id="预测结果处理">预测结果处理</h3>
-<ol type="1">
+<p><img src="images/detective_1.png" alt></p>
+<h3 id="预测结果处理"><a class="markdownIt-Anchor" href="#预测结果处理"></a> 预测结果处理</h3>
+<ol>
 <li>由于预测生成的图片会存在一些毛刺，小连通域等现象。所以，采取了一些图像的膨胀与腐蚀的处理。<a href="https://fainke.com/blog/61e6e20f.html">形态学开运算闭运算</a></li>
 </ol>
 
@@ -475,7 +489,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%B5%9B%E9%A2%98%E7%A4%BE%E4%BC%9A%E4%BB%B7%E5%80%BC"><span class="nav-number">1.</span> <span class="nav-text">赛题社会价值</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%B5%9B%E9%A2%98%E6%89%80%E5%B1%9E%E7%B1%BB%E5%9E%8B"><span class="nav-number">2.</span> <span class="nav-text">赛题所属类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%B5%9B%E9%A2%98%E7%89%B9%E7%82%B9"><span class="nav-number">3.</span> <span class="nav-text">赛题特点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%B5%9B%E9%A2%98%E5%B7%A5%E4%BD%9C"><span class="nav-number">4.</span> <span class="nav-text">赛题工作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A8%A1%E5%9E%8B%E9%80%89%E6%8B%A9"><span class="nav-number">4.1.</span> <span class="nav-text">模型选择</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86"><span class="nav-number">4.2.</span> <span class="nav-text">数据处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%AD%E7%BB%83%E5%A4%84%E7%90%86"><span class="nav-number">4.3.</span> <span class="nav-text">训练处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A2%84%E6%B5%8B%E7%BB%93%E6%9E%9C%E5%A4%84%E7%90%86"><span class="nav-number">4.4.</span> <span class="nav-text">预测结果处理</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%B5%9B%E9%A2%98%E7%A4%BE%E4%BC%9A%E4%BB%B7%E5%80%BC"><span class="nav-number">1.</span> <span class="nav-text"> 赛题社会价值</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%B5%9B%E9%A2%98%E6%89%80%E5%B1%9E%E7%B1%BB%E5%9E%8B"><span class="nav-number">2.</span> <span class="nav-text"> 赛题所属类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%B5%9B%E9%A2%98%E7%89%B9%E7%82%B9"><span class="nav-number">3.</span> <span class="nav-text"> 赛题特点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%B5%9B%E9%A2%98%E5%B7%A5%E4%BD%9C"><span class="nav-number">4.</span> <span class="nav-text"> 赛题工作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A8%A1%E5%9E%8B%E9%80%89%E6%8B%A9"><span class="nav-number">4.1.</span> <span class="nav-text"> 模型选择</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86"><span class="nav-number">4.2.</span> <span class="nav-text"> 数据处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%AD%E7%BB%83%E5%A4%84%E7%90%86"><span class="nav-number">4.3.</span> <span class="nav-text"> 训练处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A2%84%E6%B5%8B%E7%BB%93%E6%9E%9C%E5%A4%84%E7%90%86"><span class="nav-number">4.4.</span> <span class="nav-text"> 预测结果处理</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 

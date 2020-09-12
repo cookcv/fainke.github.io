@@ -277,13 +277,17 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>论文Link：<a target="_blank" rel="external nofollow noopener noreferrer" href="https://arxiv.org/pdf/1701.04128.pdf">Understanding the Effective Receptive Field in Deep Convolutional Neural Networks</a> Code:<a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/sfzhang15/SFD" class="uri">https://github.com/sfzhang15/SFD</a></p>
+        <p>论文Link：<a target="_blank" rel="external nofollow noopener noreferrer" href="https://arxiv.org/pdf/1701.04128.pdf">Understanding the Effective Receptive Field in Deep Convolutional Neural Networks</a><br>
+Code:<a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/sfzhang15/SFD">https://github.com/sfzhang15/SFD</a></p>
 <p>这篇人脸检测器论文依据感受野来设计anchor的大小。</p>
-<p>在物体检测中，Anchor在每一层对应尺度该如何选择。 <a id="more"></a></p>
-<ol type="1">
-<li>传播间隔相等原则 检测层的步长大小决定了anchor的间隔。例如conv3_3的步长为4，而其anchor尺寸为16x16，即每隔4个像素存在一个16x16的anchor，在所有检测层上，anchor的 尺寸均为步长的4倍，即为传播间隔相等原则。从而确保图像上不同尺寸的anchor<strong>密度</strong>相同，使得不同大小人脸能够很好的与anchor匹配上。</li>
+<p>在物体检测中，Anchor在每一层对应尺度该如何选择。</p>
+<a id="more"></a>
+<ol>
+<li>传播间隔相等原则<br>
+检测层的步长大小决定了anchor的间隔。例如conv3_3的步长为4，而其anchor尺寸为16x16，即每隔4个像素存在一个16x16的anchor，在所有检测层上，anchor的 尺寸均为步长的4倍，即为传播间隔相等原则。从而确保图像上不同尺寸的anchor<strong>密度</strong>相同，使得不同大小人脸能够很好的与anchor匹配上。</li>
 </ol>
-<p>如果网络浅层anchor设计中设计了很多小尺寸的anchor，因此会造成负样本数量剧增，从而引起小尺寸人脸的高false-positive率。 那么可以对于每一个小尺寸anchor，进行N次人脸和背景分类，选择其中某个<strong>背景score最高</strong>的一个作为该anchor的score，以此降低误检为人脸的anchor数量，从而降低假阳性率。</p>
+<p>如果网络浅层anchor设计中设计了很多小尺寸的anchor，因此会造成负样本数量剧增，从而引起小尺寸人脸的高false-positive率。<br>
+那么可以对于每一个小尺寸anchor，进行N次人脸和背景分类，选择其中某个<strong>背景score最高</strong>的一个作为该anchor的score，以此降低误检为人脸的anchor数量，从而降低假阳性率。</p>
 
     </div>
 
@@ -374,12 +378,12 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/blog/ee15081e.html" rel="prev" title="深度学习问答">
-      <i class="fa fa-chevron-left"></i> 深度学习问答
+    <a href="/blog/6883cd97.html" rel="prev" title="Beta分布随笔">
+      <i class="fa fa-chevron-left"></i> Beta分布随笔
     </a></div>
       <div class="post-nav-item">
-    <a href="/blog/3477354.html" rel="next" title="CBNet组合主干网络">
-      CBNet组合主干网络 <i class="fa fa-chevron-right"></i>
+    <a href="/blog/ee15081e.html" rel="next" title="深度学习问答">
+      深度学习问答 <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>

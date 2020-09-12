@@ -277,98 +277,120 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>粗糙集理论的主要思想是利用已知的知识库，将不精确或不确定的知识用已知的知识库中的知识来（近似）刻画。 <a id="more"></a></p>
+        <p>粗糙集理论的主要思想是利用已知的知识库，将不精确或不确定的知识用已知的知识库中的知识来（近似）刻画。</p>
+<a id="more"></a>
 <hr>
-<p><strong>基本粗糙集理论的主要存在的问题：</strong> 1）对原始数据本身的模糊性缺乏相应的处理能力； 2）对于粗糙集的边界区域的刻画过于简单； 3）粗糙集理论的方法在可用信息不完全的情况下将对象们归类于某一具体的类，通常分类是确定的，但并未提供数理统计中所常用的在一个给定错误率的条件下将尽可能多的对象进行分类的方法，而实际中常常遇到这类问题。</p>
+<p><strong>基本粗糙集理论的主要存在的问题：</strong><br>
+1）对原始数据本身的模糊性缺乏相应的处理能力；<br>
+2）对于粗糙集的边界区域的刻画过于简单；<br>
+3）粗糙集理论的方法在可用信息不完全的情况下将对象们归类于某一具体的类，通常分类是确定的，但并未提供数理统计中所常用的在一个给定错误率的条件下将尽可能多的对象进行分类的方法，而实际中常常遇到这类问题。</p>
 <hr>
 <p>该理论与其他处理不确定和不精确问题理论的最显著的区别是它无需提供问题所需处理的数据集合之外的任何先验信息，所以对问题的不确定性的描述或处理可以说比较客观。</p>
 <hr>
-<p>论域：包含若干对象的非空有限集。 概念：任意集合X属于论域U为一个概念。 空概念：一个空集视为空概念。 知识：由任意个这样的X组成的自己簇形成了论域中抽象知识，是一种能力，用来分类对象。 对象：任何实体，物品、属性、概率等。 不可定义集：对于论域U上任意一个子集X，X不一定能用知识库中的知识来精确表达。</p>
+<p>论域：包含若干对象的非空有限集。<br>
+概念：任意集合X属于论域U为一个概念。<br>
+空概念：一个空集视为空概念。<br>
+知识：由任意个这样的X组成的自己簇形成了论域中抽象知识，是一种能力，用来分类对象。<br>
+对象：任何实体，物品、属性、概率等。<br>
+不可定义集：对于论域U上任意一个子集X，X不一定能用知识库中的知识来精确表达。</p>
 <hr>
-<p>信息系统四元组（U,Q,V,f），其中 U是对象集合， Q是属性集合（包括条件属性C和决策属性D）， V是属性的值域， f是一种映射，反应对象集合之间的值。</p>
+<p>信息系统四元组（U,Q,V,f），其中<br>
+U是对象集合，<br>
+Q是属性集合（包括条件属性C和决策属性D），<br>
+V是属性的值域，<br>
+f是一种映射，反应对象集合之间的值。</p>
 <table>
 <thead>
-<tr class="header">
-<th style="text-align: center;">U</th>
-<th style="text-align: center;">a</th>
-<th style="text-align: center;">b</th>
-<th style="text-align: center;">c</th>
-<th style="text-align: center;">d</th>
-<th style="text-align: center;">e</th>
+<tr>
+<th style="text-align:center">U</th>
+<th style="text-align:center">a</th>
+<th style="text-align:center">b</th>
+<th style="text-align:center">c</th>
+<th style="text-align:center">d</th>
+<th style="text-align:center">e</th>
 </tr>
 </thead>
 <tbody>
-<tr class="odd">
-<td style="text-align: center;">1</td>
-<td style="text-align: center;">1</td>
-<td style="text-align: center;">0</td>
-<td style="text-align: center;">1</td>
-<td style="text-align: center;">2</td>
-<td style="text-align: center;">0</td>
+<tr>
+<td style="text-align:center">1</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">0</td>
 </tr>
-<tr class="even">
-<td style="text-align: center;">2</td>
-<td style="text-align: center;">0</td>
-<td style="text-align: center;">1</td>
-<td style="text-align: center;">1</td>
-<td style="text-align: center;">1</td>
-<td style="text-align: center;">2</td>
+<tr>
+<td style="text-align:center">2</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">2</td>
 </tr>
-<tr class="odd">
-<td style="text-align: center;">3</td>
-<td style="text-align: center;">2</td>
-<td style="text-align: center;">0</td>
-<td style="text-align: center;">0</td>
-<td style="text-align: center;">1</td>
-<td style="text-align: center;">1</td>
+<tr>
+<td style="text-align:center">3</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">1</td>
 </tr>
-<tr class="even">
-<td style="text-align: center;">4</td>
-<td style="text-align: center;">1</td>
-<td style="text-align: center;">1</td>
-<td style="text-align: center;">0</td>
-<td style="text-align: center;">2</td>
-<td style="text-align: center;">2</td>
+<tr>
+<td style="text-align:center">4</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">2</td>
 </tr>
-<tr class="odd">
-<td style="text-align: center;">5</td>
-<td style="text-align: center;">1</td>
-<td style="text-align: center;">0</td>
-<td style="text-align: center;">1</td>
-<td style="text-align: center;">0</td>
-<td style="text-align: center;">1</td>
+<tr>
+<td style="text-align:center">5</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">1</td>
 </tr>
-<tr class="even">
-<td style="text-align: center;">6</td>
-<td style="text-align: center;">2</td>
-<td style="text-align: center;">2</td>
-<td style="text-align: center;">0</td>
-<td style="text-align: center;">1</td>
-<td style="text-align: center;">1</td>
+<tr>
+<td style="text-align:center">6</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">1</td>
 </tr>
-<tr class="odd">
-<td style="text-align: center;">7</td>
-<td style="text-align: center;">2</td>
-<td style="text-align: center;">1</td>
-<td style="text-align: center;">1</td>
-<td style="text-align: center;">1</td>
-<td style="text-align: center;">2</td>
+<tr>
+<td style="text-align:center">7</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">2</td>
 </tr>
-<tr class="even">
-<td style="text-align: center;">8</td>
-<td style="text-align: center;">0</td>
-<td style="text-align: center;">1</td>
-<td style="text-align: center;">1</td>
-<td style="text-align: center;">0</td>
-<td style="text-align: center;">1</td>
+<tr>
+<td style="text-align:center">8</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">1</td>
 </tr>
 </tbody>
 </table>
-<p>U = (1,2,3,4,5,6,7,8) Q = (a,b,c,d,e) V = (0,1,2) U/Ind(a) = ((1,4,5),(2,8),(3,6,7)),由条件属性a决定对U的划分。 U/Ind(a,b,c)=((1,5),(2,8),(3),(4),(6),(7)) 若<span class="math inline">\((x,y)\in IND(P)\)</span>，则称x和y是P不可分辨的，即依据P中所含各属性无法将x和y区分开。比如2和8无法依据属性a分开。</p>
+<p>U = (1,2,3,4,5,6,7,8)<br>
+Q = (a,b,c,d,e)<br>
+V = (0,1,2)<br>
+U/Ind(a) = ((1,4,5),(2,8),(3,6,7)),由条件属性a决定对U的划分。<br>
+U/Ind(a,b,c)=((1,5),(2,8),(3),(4),(6),(7))<br>
+若<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo stretchy="false">(</mo><mi>x</mi><mo separator="true">,</mo><mi>y</mi><mo stretchy="false">)</mo><mo>∈</mo><mi>I</mi><mi>N</mi><mi>D</mi><mo stretchy="false">(</mo><mi>P</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">(x,y)\in IND(P)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathdefault">x</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.03588em;">y</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">∈</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.07847em;">I</span><span class="mord mathdefault" style="margin-right:0.10903em;">N</span><span class="mord mathdefault" style="margin-right:0.02778em;">D</span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.13889em;">P</span><span class="mclose">)</span></span></span></span>，则称x和y是P不可分辨的，即依据P中所含各属性无法将x和y区分开。比如2和8无法依据属性a分开。</p>
 <hr>
 <p>假定关于论域的某种知识，并使用属性和属性值来描述论域中的对象，如果两个对象（或对象集合）具有相同的属性和属性值，则它们之间具有不可分辨关系。</p>
 <hr>
-<p>一般约简 决策表T=(U,P,C,D)中条件属性集C的一个子集B是关于D独立的，并且PosB(D)=PosC(D)，则称B是C的一个D约简(reduct)，B和C在D上的效果是一样的。将所有类似B这样的约简子集求交集即可得到属性集合C的核(Core)。 核的意义： (1)因为核包含于所有约简之中，所以核可以作为所有约简的计算基础。 (2)核在知识约简中是不能消去的特征集合。</p>
+<p>一般约简<br>
+决策表T=(U,P,C,D)中条件属性集C的一个子集B是关于D独立的，并且PosB(D)=PosC(D)，则称B是C的一个D约简(reduct)，B和C在D上的效果是一样的。将所有类似B这样的约简子集求交集即可得到属性集合C的核(Core)。<br>
+核的意义：<br>
+(1)因为核包含于所有约简之中，所以核可以作为所有约简的计算基础。<br>
+(2)核在知识约简中是不能消去的特征集合。</p>
 
     </div>
 

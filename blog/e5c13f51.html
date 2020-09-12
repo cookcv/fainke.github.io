@@ -278,19 +278,26 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="简介">简介</h2>
-<ol type="1">
+        <h2 id="简介"><a class="markdownIt-Anchor" href="#简介"></a> 简介</h2>
+<ol>
 <li>方阵作为线性算子，它的所有征值的全体统方阵的谱。</li>
 <li>方阵的谱半径为最大的特征值；</li>
 <li>矩阵A的谱半径：(ATA)的最大特征值；</li>
-<li>谱聚类：是一种基于图的聚类方法，通过对样本数据的拉普拉斯矩阵的特征向量进行聚类，从而达到对样本聚类的目的。 <a id="more"></a></li>
+<li>谱聚类：是一种基于图的聚类方法，通过对样本数据的拉普拉斯矩阵的特征向量进行聚类，从而达到对样本聚类的目的。</li>
 </ol>
-<h2 id="基础概念">基础概念</h2>
-<p>无向图：G=(V,E) 邻接矩阵：<span class="math inline">\(W=(w_{ij})i,j=1,...,n\)</span>，对称阵。 顶点的度：对角矩阵D,<span class="math inline">\(d_i=\sum^n_{j=1}w_{ij}\)</span>表示某个顶点，所有与它连接的相似度和。</p>
-<h2 id="谱分析的整体过程">谱分析的整体过程</h2>
-<ol type="1">
-<li><p>计算数据彼此之间的相似度，构成相似度矩阵(相似度图)。（关于相似度的计算可以用欧式距离，也可以用高斯函数。）</p></li>
-<li><p>接下来，用相似度图来解决样本数据的聚类问题。找到图的一个划分，形成若干个组（Group）,使得不同组之间有较低的权值，组内有较高的权值。</p></li>
+<a id="more"></a>
+<h2 id="基础概念"><a class="markdownIt-Anchor" href="#基础概念"></a> 基础概念</h2>
+<p>无向图：G=(V,E)<br>
+邻接矩阵：<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>W</mi><mo>=</mo><mo stretchy="false">(</mo><msub><mi>w</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub><mo stretchy="false">)</mo><mi>i</mi><mo separator="true">,</mo><mi>j</mi><mo>=</mo><mn>1</mn><mo separator="true">,</mo><mi mathvariant="normal">.</mi><mi mathvariant="normal">.</mi><mi mathvariant="normal">.</mi><mo separator="true">,</mo><mi>n</mi></mrow><annotation encoding="application/x-tex">W=(w_{ij})i,j=1,...,n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.13889em;">W</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1.036108em;vertical-align:-0.286108em;"></span><span class="mopen">(</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.02691em;">w</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.311664em;"><span style="top:-2.5500000000000003em;margin-left:-0.02691em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">i</span><span class="mord mathdefault mtight" style="margin-right:0.05724em;">j</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span><span class="mclose">)</span><span class="mord mathdefault">i</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.05724em;">j</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.8388800000000001em;vertical-align:-0.19444em;"></span><span class="mord">1</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord">.</span><span class="mord">.</span><span class="mord">.</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault">n</span></span></span></span>，对称阵。<br>
+顶点的度：对角矩阵D,<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>d</mi><mi>i</mi></msub><mo>=</mo><msubsup><mo>∑</mo><mrow><mi>j</mi><mo>=</mo><mn>1</mn></mrow><mi>n</mi></msubsup><msub><mi>w</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub></mrow><annotation encoding="application/x-tex">d_i=\sum^n_{j=1}w_{ij}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.84444em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault">d</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1.24011em;vertical-align:-0.43581800000000004em;"></span><span class="mop"><span class="mop op-symbol small-op" style="position:relative;top:-0.0000050000000000050004em;">∑</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.804292em;"><span style="top:-2.40029em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.05724em;">j</span><span class="mrel mtight">=</span><span class="mord mtight">1</span></span></span></span><span style="top:-3.2029em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">n</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.43581800000000004em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.02691em;">w</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.311664em;"><span style="top:-2.5500000000000003em;margin-left:-0.02691em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">i</span><span class="mord mathdefault mtight" style="margin-right:0.05724em;">j</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span></span></span></span>表示某个顶点，所有与它连接的相似度和。</p>
+<h2 id="谱分析的整体过程"><a class="markdownIt-Anchor" href="#谱分析的整体过程"></a> 谱分析的整体过程</h2>
+<ol>
+<li>
+<p>计算数据彼此之间的相似度，构成相似度矩阵(相似度图)。（关于相似度的计算可以用欧式距离，也可以用高斯函数。）</p>
+</li>
+<li>
+<p>接下来，用相似度图来解决样本数据的聚类问题。找到图的一个划分，形成若干个组（Group）,使得不同组之间有较低的权值，组内有较高的权值。</p>
+</li>
 </ol>
 
     </div>
@@ -450,7 +457,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AE%80%E4%BB%8B"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5"><span class="nav-number">2.</span> <span class="nav-text">基础概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%B0%B1%E5%88%86%E6%9E%90%E7%9A%84%E6%95%B4%E4%BD%93%E8%BF%87%E7%A8%8B"><span class="nav-number">3.</span> <span class="nav-text">谱分析的整体过程</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AE%80%E4%BB%8B"><span class="nav-number">1.</span> <span class="nav-text"> 简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5"><span class="nav-number">2.</span> <span class="nav-text"> 基础概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%B0%B1%E5%88%86%E6%9E%90%E7%9A%84%E6%95%B4%E4%BD%93%E8%BF%87%E7%A8%8B"><span class="nav-number">3.</span> <span class="nav-text"> 谱分析的整体过程</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 

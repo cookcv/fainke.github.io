@@ -269,10 +269,11 @@
 
       
         <ul>
-<li><a id="more"></a></li>
+<li></li>
 </ul>
-<h2 id="manifests">manifests</h2>
-<h3 id="androidmanifest.xml">AndroidManifest.xml</h3>
+<a id="more"></a>
+<h2 id="manifests"><a class="markdownIt-Anchor" href="#manifests"></a> manifests</h2>
+<h3 id="androidmanifestxml"><a class="markdownIt-Anchor" href="#androidmanifestxml"></a> AndroidManifest.xml</h3>
 <p>应用清单，这个文件中包含了APP的配置信息，系统需要根据里面的内容运行APP的代码，显示界面。</p>
 <ul>
 <li>为应用的 Java 软件包命名。软件包名称充当应用的唯一标识符。</li>
@@ -284,61 +285,65 @@
 <li>列出应用必须链接到的库</li>
 </ul>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">&lt;manifest xmlns:android=<span class="string">&quot;http://schemas.android.com/apk/res/android&quot;</span></span><br><span class="line">    package=<span class="string">&quot;org.tensorflow.lite.examples.detection&quot;</span>&gt;</span><br><span class="line">    android:versionCode=<span class="string">&quot;1&quot;</span></span><br><span class="line"></span><br><span class="line">    android:versionName=<span class="string">&quot;1.0.0.1&quot;</span></span><br><span class="line">    &lt;uses-sdk /&gt;</span><br><span class="line"></span><br><span class="line">    &lt;uses-permission android:name=<span class="string">&quot;android.permission.CAMERA&quot;</span> /&gt;</span><br><span class="line"></span><br><span class="line">    &lt;uses-feature android:name=<span class="string">&quot;android.hardware.camera&quot;</span> /&gt;</span><br><span class="line">    &lt;uses-feature android:name=<span class="string">&quot;android.hardware.camera.autofocus&quot;</span> /&gt;</span><br><span class="line"></span><br><span class="line">    &lt;application</span><br><span class="line">        android:allowBackup=<span class="string">&quot;false&quot;</span></span><br><span class="line">        android:icon=<span class="string">&quot;@mipmap/ic_launcher&quot;</span></span><br><span class="line">        android:label=<span class="string">&quot;@string/tfe_od_app_name&quot;</span></span><br><span class="line">        android:roundIcon=<span class="string">&quot;@mipmap/ic_launcher_round&quot;</span></span><br><span class="line">        android:supportsRtl=<span class="string">&quot;true&quot;</span></span><br><span class="line">        android:theme=<span class="string">&quot;@style/AppTheme.ObjectDetection&quot;</span>&gt;</span><br><span class="line"></span><br><span class="line">        &lt;activity</span><br><span class="line">            android:name=<span class="string">&quot;.DetectorActivity&quot;</span></span><br><span class="line">            android:label=<span class="string">&quot;@string/tfe_od_app_name&quot;</span></span><br><span class="line">            android:screenOrientation=<span class="string">&quot;portrait&quot;</span>&gt;</span><br><span class="line">            &lt;intent-filter&gt;</span><br><span class="line">                &lt;action android:name=<span class="string">&quot;android.intent.action.MAIN&quot;</span> /&gt;</span><br><span class="line">                &lt;category android:name=<span class="string">&quot;android.intent.category.LAUNCHER&quot;</span> /&gt;</span><br><span class="line">            &lt;/intent-filter&gt;</span><br><span class="line">        &lt;/activity&gt;</span><br><span class="line"></span><br><span class="line">    &lt;/application&gt;</span><br><span class="line">&lt;/manifest&gt;</span><br></pre></td></tr></table></figure>
-<h5 id="manifest元素">manifest元素</h5>
+<h5 id="manifest元素"><a class="markdownIt-Anchor" href="#manifest元素"></a> manifest元素</h5>
 <p>所有的xml都必须包含<manifest>元素。这是文件的根节点。并且指明xmlns:android和package属性。它必须要包含<application>元素。</application></manifest></p>
-<h6 id="xmlnsandroid属性">xmlns:android属性</h6>
+<h6 id="xmlnsandroid属性"><a class="markdownIt-Anchor" href="#xmlnsandroid属性"></a> xmlns:android属性</h6>
 <p>这个属性定义了Android命名空间，是个定值，不需要要手动修改。</p>
-<h6 id="package属性">package属性</h6>
+<h6 id="package属性"><a class="markdownIt-Anchor" href="#package属性"></a> package属性</h6>
 <p>这是一个完整的Java语言风格包名。包名由英文字母（大小写均可）、数字和下划线组成。每个独立的名字必须以字母开头。包名也代表着唯一的application ID，用来发布应用。不过，在APK构建过程的最后一步，package名会被build.gradle文件中的applicationId属性取代。</p>
 <p>构建APK的时候，构建系统使用这个属性来做两件事：</p>
-<ol type="1">
-<li><p>生成R.java类时用这个名字作为命名空间（用于访问APP的资源）</p>
-<p>比如：package被设置成org.tensorflow.lite.examples.detection，那么生成的R类就是：org.tensorflow.lite.examples.detection.R。</p></li>
-<li><p>用来生成在manifest文件中定义的类的完整类名。比如package被设置成org.tensorflow.lite.examples.detection，并且activity元素被声明成<activity android:name=".DetectorActivity">，完整的类名就是org.tensorflow.lite.examples.detection.DetectorActivity。</activity></p></li>
+<ol>
+<li>
+<p>生成R.java类时用这个名字作为命名空间（用于访问APP的资源）</p>
+<p>比如：package被设置成org.tensorflow.lite.examples.detection，那么生成的R类就是：org.tensorflow.lite.examples.detection.R。</p>
+</li>
+<li>
+<p>用来生成在manifest文件中定义的类的完整类名。比如package被设置成org.tensorflow.lite.examples.detection，并且activity元素被声明成<activity android:name=".DetectorActivity">，完整的类名就是org.tensorflow.lite.examples.detection.DetectorActivity。</activity></p>
+</li>
 </ol>
-<h6 id="androidversioncode属性">android:versionCode属性</h6>
+<h6 id="androidversioncode属性"><a class="markdownIt-Anchor" href="#androidversioncode属性"></a> android:versionCode属性</h6>
 <p>内部的版本号。用来表明哪个版本更新。这个数字不会显示给用户。显示给用户的是versionName。这个数字必须是整数。不能用16进制，也就是说不接受&quot;0x1&quot;这种参数。这个功能也可以放在build.gradle文件中指定。</p>
-<h6 id="androidversionname属性">android:versionName属性</h6>
+<h6 id="androidversionname属性"><a class="markdownIt-Anchor" href="#androidversionname属性"></a> android:versionName属性</h6>
 <p>显示给用户看的版本号。</p>
-<h5 id="uses-feature元素">uses-feature元素</h5>
+<h5 id="uses-feature元素"><a class="markdownIt-Anchor" href="#uses-feature元素"></a> uses-feature元素</h5>
 <p>Google Play利用这个元素的值从不符合应用需要的设备上将应用过滤。</p>
 <p>这东西的作用是将APP所依赖的硬件或者软件条件告诉别人。它说明了APP的哪些功能可以随设备的变化而变化。</p>
 <p>使用的时候要注意，必须在单独的<uses-feature>元素中指定每个功能，如果要多个功能，需要多个<uses-feture>元素。比如要求设备同时具有相机和相机自动对焦功能：</uses-feture></uses-feature></p>
-<h6 id="xmlnsandroid属性-1">xmlns:android属性</h6>
+<h6 id="xmlnsandroid属性-2"><a class="markdownIt-Anchor" href="#xmlnsandroid属性-2"></a> xmlns:android属性</h6>
 <p>该属性以字符串形式指定了APP要用的硬件或软件功能。</p>
-<h6 id="androidrequired属性">android:required属性</h6>
+<h6 id="androidrequired属性"><a class="markdownIt-Anchor" href="#androidrequired属性"></a> android:required属性</h6>
 <p>这项属性如果值为true表示需要这项功能否则应用无法工作，如果为false表示应用在必要时会使用该功能，但是如果没有此功能应用也能工作。</p>
-<h6 id="androidglesversion属性">android:glEsVersion属性</h6>
+<h6 id="androidglesversion属性"><a class="markdownIt-Anchor" href="#androidglesversion属性"></a> android:glEsVersion属性</h6>
 <p>指明应用需要的Opengl ES版本。高16位表示主版本号，低16位表示次版本号。例如，如果是要3.2的版本，就是0x00030002。如果定义多个glEsVersion，应用会自动启用最高的设置。</p>
-<h5 id="application元素">application元素</h5>
+<h5 id="application元素"><a class="markdownIt-Anchor" href="#application元素"></a> application元素</h5>
 <p>此元素描述了应用的配置。这是一个必备的元素，它包含了很多子元素来描述应用的组件，它的属性影响到所有的子组件。许多属性（例如icon、label、permission、process、taskAffinity和allowTaskReparenting）都可以设置成默认值。</p>
-<h6 id="androidallowbackup属性">android:allowBackup属性</h6>
+<h6 id="androidallowbackup属性"><a class="markdownIt-Anchor" href="#androidallowbackup属性"></a> android:allowBackup属性</h6>
 <p>表示是否允许APP加入到备份还原的结构中。如果设置成false，那么应用就不会备份还原。默认值为true</p>
-<h6 id="androidfullbackupcontent属性">android:fullBackupContent属性</h6>
+<h6 id="androidfullbackupcontent属性"><a class="markdownIt-Anchor" href="#androidfullbackupcontent属性"></a> android:fullBackupContent属性</h6>
 <p>这个属性指向了一个xml文件，该文件中包含了在进行自动备份时的完全备份规则。这些规则定义了哪些文件需要备份。此属性是一个可选属性。默认情况下，自动备份包含了大部分app文件。</p>
-<h6 id="androidsupportsrtl属性">android:supportsRtl属性</h6>
+<h6 id="androidsupportsrtl属性"><a class="markdownIt-Anchor" href="#androidsupportsrtl属性"></a> android:supportsRtl属性</h6>
 <p>声明你的APP是否支持RTL（Right To Left）布局。如果设置成true，并且targetSdkVersion被设置成17或更高。很多RTL API会被集火，这样你的应用就可以显示RTL布局了。如果设置成false或者targetSdkVersion被设置成16或更低。那些RTL API就不起作用了。该属性的默认的值是false。</p>
-<h6 id="androidicon">android:icon</h6>
+<h6 id="androidicon"><a class="markdownIt-Anchor" href="#androidicon"></a> android:icon</h6>
 <p>APP的图标，以及每个组件的默认图标。可以在组价中自定义图标。这个属性必须设置成一个引用，指向一个可绘制的资源，这个资源必须包含图片。系统不设置默认图标。</p>
-<h2 id="detection">detection</h2>
-<h3 id="customview">customview</h3>
-<h4 id="autofittextureview">AutoFitTextureView</h4>
-<h4 id="overlayview">OverlayView</h4>
-<h4 id="recognitionscoreview">RecognitionScoreView</h4>
-<h4 id="resultsview">ResultsView</h4>
-<h3 id="env">env</h3>
-<h4 id="borderedtext">BorderedText</h4>
-<h4 id="imageutils">ImageUtils</h4>
-<h4 id="logger">Logger</h4>
-<h4 id="size">Size</h4>
-<h3 id="tflite">tflite</h3>
-<h4 id="classifier">Classifier</h4>
-<h4 id="tfliteobjectdetectionapimodel">TFLiteObjectDetectionAPIModel</h4>
-<h3 id="tflite-1">tflite</h3>
-<h4 id="classifier-1">Classifier</h4>
-<h4 id="tfliteobjectdetectionapimodel-1">TFLiteObjectDetectionAPIModel</h4>
-<h3 id="tracking">Tracking</h3>
-<h4 id="multiboxtracker">MultiBoxTracker</h4>
+<h2 id="detection"><a class="markdownIt-Anchor" href="#detection"></a> detection</h2>
+<h3 id="customview"><a class="markdownIt-Anchor" href="#customview"></a> customview</h3>
+<h4 id="autofittextureview"><a class="markdownIt-Anchor" href="#autofittextureview"></a> AutoFitTextureView</h4>
+<h4 id="overlayview"><a class="markdownIt-Anchor" href="#overlayview"></a> OverlayView</h4>
+<h4 id="recognitionscoreview"><a class="markdownIt-Anchor" href="#recognitionscoreview"></a> RecognitionScoreView</h4>
+<h4 id="resultsview"><a class="markdownIt-Anchor" href="#resultsview"></a> ResultsView</h4>
+<h3 id="env"><a class="markdownIt-Anchor" href="#env"></a> env</h3>
+<h4 id="borderedtext"><a class="markdownIt-Anchor" href="#borderedtext"></a> BorderedText</h4>
+<h4 id="imageutils"><a class="markdownIt-Anchor" href="#imageutils"></a> ImageUtils</h4>
+<h4 id="logger"><a class="markdownIt-Anchor" href="#logger"></a> Logger</h4>
+<h4 id="size"><a class="markdownIt-Anchor" href="#size"></a> Size</h4>
+<h3 id="tflite"><a class="markdownIt-Anchor" href="#tflite"></a> tflite</h3>
+<h4 id="classifier"><a class="markdownIt-Anchor" href="#classifier"></a> Classifier</h4>
+<h4 id="tfliteobjectdetectionapimodel"><a class="markdownIt-Anchor" href="#tfliteobjectdetectionapimodel"></a> TFLiteObjectDetectionAPIModel</h4>
+<h3 id="tflite-2"><a class="markdownIt-Anchor" href="#tflite-2"></a> tflite</h3>
+<h4 id="classifier-2"><a class="markdownIt-Anchor" href="#classifier-2"></a> Classifier</h4>
+<h4 id="tfliteobjectdetectionapimodel-2"><a class="markdownIt-Anchor" href="#tfliteobjectdetectionapimodel-2"></a> TFLiteObjectDetectionAPIModel</h4>
+<h3 id="tracking"><a class="markdownIt-Anchor" href="#tracking"></a> Tracking</h3>
+<h4 id="multiboxtracker"><a class="markdownIt-Anchor" href="#multiboxtracker"></a> MultiBoxTracker</h4>
 
     </div>
 
@@ -496,7 +501,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#manifests"><span class="nav-number">1.</span> <span class="nav-text">manifests</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#androidmanifest.xml"><span class="nav-number">1.1.</span> <span class="nav-text">AndroidManifest.xml</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#manifest%E5%85%83%E7%B4%A0"><span class="nav-number">1.1.0.1.</span> <span class="nav-text">manifest元素</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#xmlnsandroid%E5%B1%9E%E6%80%A7"><span class="nav-number">1.1.0.1.1.</span> <span class="nav-text">xmlns:android属性</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#package%E5%B1%9E%E6%80%A7"><span class="nav-number">1.1.0.1.2.</span> <span class="nav-text">package属性</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#androidversioncode%E5%B1%9E%E6%80%A7"><span class="nav-number">1.1.0.1.3.</span> <span class="nav-text">android:versionCode属性</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#androidversionname%E5%B1%9E%E6%80%A7"><span class="nav-number">1.1.0.1.4.</span> <span class="nav-text">android:versionName属性</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#uses-feature%E5%85%83%E7%B4%A0"><span class="nav-number">1.1.0.2.</span> <span class="nav-text">uses-feature元素</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#xmlnsandroid%E5%B1%9E%E6%80%A7-1"><span class="nav-number">1.1.0.2.1.</span> <span class="nav-text">xmlns:android属性</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#androidrequired%E5%B1%9E%E6%80%A7"><span class="nav-number">1.1.0.2.2.</span> <span class="nav-text">android:required属性</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#androidglesversion%E5%B1%9E%E6%80%A7"><span class="nav-number">1.1.0.2.3.</span> <span class="nav-text">android:glEsVersion属性</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#application%E5%85%83%E7%B4%A0"><span class="nav-number">1.1.0.3.</span> <span class="nav-text">application元素</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#androidallowbackup%E5%B1%9E%E6%80%A7"><span class="nav-number">1.1.0.3.1.</span> <span class="nav-text">android:allowBackup属性</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#androidfullbackupcontent%E5%B1%9E%E6%80%A7"><span class="nav-number">1.1.0.3.2.</span> <span class="nav-text">android:fullBackupContent属性</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#androidsupportsrtl%E5%B1%9E%E6%80%A7"><span class="nav-number">1.1.0.3.3.</span> <span class="nav-text">android:supportsRtl属性</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#androidicon"><span class="nav-number">1.1.0.3.4.</span> <span class="nav-text">android:icon</span></a></li></ol></li></ol></li></ol></li></ol><li class="nav-item nav-level-2"><a class="nav-link" href="#detection"><span class="nav-number">2.</span> <span class="nav-text">detection</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#customview"><span class="nav-number">2.1.</span> <span class="nav-text">customview</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#autofittextureview"><span class="nav-number">2.1.1.</span> <span class="nav-text">AutoFitTextureView</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#overlayview"><span class="nav-number">2.1.2.</span> <span class="nav-text">OverlayView</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#recognitionscoreview"><span class="nav-number">2.1.3.</span> <span class="nav-text">RecognitionScoreView</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#resultsview"><span class="nav-number">2.1.4.</span> <span class="nav-text">ResultsView</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#env"><span class="nav-number">2.2.</span> <span class="nav-text">env</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#borderedtext"><span class="nav-number">2.2.1.</span> <span class="nav-text">BorderedText</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#imageutils"><span class="nav-number">2.2.2.</span> <span class="nav-text">ImageUtils</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#logger"><span class="nav-number">2.2.3.</span> <span class="nav-text">Logger</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#size"><span class="nav-number">2.2.4.</span> <span class="nav-text">Size</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#tflite"><span class="nav-number">2.3.</span> <span class="nav-text">tflite</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#classifier"><span class="nav-number">2.3.1.</span> <span class="nav-text">Classifier</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#tfliteobjectdetectionapimodel"><span class="nav-number">2.3.2.</span> <span class="nav-text">TFLiteObjectDetectionAPIModel</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#tflite-1"><span class="nav-number">2.4.</span> <span class="nav-text">tflite</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#classifier-1"><span class="nav-number">2.4.1.</span> <span class="nav-text">Classifier</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#tfliteobjectdetectionapimodel-1"><span class="nav-number">2.4.2.</span> <span class="nav-text">TFLiteObjectDetectionAPIModel</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#tracking"><span class="nav-number">2.5.</span> <span class="nav-text">Tracking</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#multiboxtracker"><span class="nav-number">2.5.1.</span> <span class="nav-text">MultiBoxTracker</span></a></li></ol></li></ol></li></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#manifests"><span class="nav-number">1.</span> <span class="nav-text"> manifests</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#androidmanifestxml"><span class="nav-number">1.1.</span> <span class="nav-text"> AndroidManifest.xml</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#manifest%E5%85%83%E7%B4%A0"><span class="nav-number">1.1.0.1.</span> <span class="nav-text"> manifest元素</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#xmlnsandroid%E5%B1%9E%E6%80%A7"><span class="nav-number">1.1.0.1.1.</span> <span class="nav-text"> xmlns:android属性</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#package%E5%B1%9E%E6%80%A7"><span class="nav-number">1.1.0.1.2.</span> <span class="nav-text"> package属性</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#androidversioncode%E5%B1%9E%E6%80%A7"><span class="nav-number">1.1.0.1.3.</span> <span class="nav-text"> android:versionCode属性</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#androidversionname%E5%B1%9E%E6%80%A7"><span class="nav-number">1.1.0.1.4.</span> <span class="nav-text"> android:versionName属性</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#uses-feature%E5%85%83%E7%B4%A0"><span class="nav-number">1.1.0.2.</span> <span class="nav-text"> uses-feature元素</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#xmlnsandroid%E5%B1%9E%E6%80%A7-2"><span class="nav-number">1.1.0.2.1.</span> <span class="nav-text"> xmlns:android属性</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#androidrequired%E5%B1%9E%E6%80%A7"><span class="nav-number">1.1.0.2.2.</span> <span class="nav-text"> android:required属性</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#androidglesversion%E5%B1%9E%E6%80%A7"><span class="nav-number">1.1.0.2.3.</span> <span class="nav-text"> android:glEsVersion属性</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#application%E5%85%83%E7%B4%A0"><span class="nav-number">1.1.0.3.</span> <span class="nav-text"> application元素</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#androidallowbackup%E5%B1%9E%E6%80%A7"><span class="nav-number">1.1.0.3.1.</span> <span class="nav-text"> android:allowBackup属性</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#androidfullbackupcontent%E5%B1%9E%E6%80%A7"><span class="nav-number">1.1.0.3.2.</span> <span class="nav-text"> android:fullBackupContent属性</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#androidsupportsrtl%E5%B1%9E%E6%80%A7"><span class="nav-number">1.1.0.3.3.</span> <span class="nav-text"> android:supportsRtl属性</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#androidicon"><span class="nav-number">1.1.0.3.4.</span> <span class="nav-text"> android:icon</span></a></li></ol></li></ol></li></ol></li></ol><li class="nav-item nav-level-2"><a class="nav-link" href="#detection"><span class="nav-number">2.</span> <span class="nav-text"> detection</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#customview"><span class="nav-number">2.1.</span> <span class="nav-text"> customview</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#autofittextureview"><span class="nav-number">2.1.1.</span> <span class="nav-text"> AutoFitTextureView</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#overlayview"><span class="nav-number">2.1.2.</span> <span class="nav-text"> OverlayView</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#recognitionscoreview"><span class="nav-number">2.1.3.</span> <span class="nav-text"> RecognitionScoreView</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#resultsview"><span class="nav-number">2.1.4.</span> <span class="nav-text"> ResultsView</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#env"><span class="nav-number">2.2.</span> <span class="nav-text"> env</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#borderedtext"><span class="nav-number">2.2.1.</span> <span class="nav-text"> BorderedText</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#imageutils"><span class="nav-number">2.2.2.</span> <span class="nav-text"> ImageUtils</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#logger"><span class="nav-number">2.2.3.</span> <span class="nav-text"> Logger</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#size"><span class="nav-number">2.2.4.</span> <span class="nav-text"> Size</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#tflite"><span class="nav-number">2.3.</span> <span class="nav-text"> tflite</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#classifier"><span class="nav-number">2.3.1.</span> <span class="nav-text"> Classifier</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#tfliteobjectdetectionapimodel"><span class="nav-number">2.3.2.</span> <span class="nav-text"> TFLiteObjectDetectionAPIModel</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#tflite-2"><span class="nav-number">2.4.</span> <span class="nav-text"> tflite</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#classifier-2"><span class="nav-number">2.4.1.</span> <span class="nav-text"> Classifier</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#tfliteobjectdetectionapimodel-2"><span class="nav-number">2.4.2.</span> <span class="nav-text"> TFLiteObjectDetectionAPIModel</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#tracking"><span class="nav-number">2.5.</span> <span class="nav-text"> Tracking</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#multiboxtracker"><span class="nav-number">2.5.1.</span> <span class="nav-text"> MultiBoxTracker</span></a></li></ol></li></ol></li></div>
       </div>
       <!--/noindex-->
 

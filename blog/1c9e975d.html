@@ -277,39 +277,50 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h3 id="问题简介">问题简介</h3>
-<p>半导体制造是按照整盒晶圆为单位进行生产。因此大致同一盒晶圆在生产上基本上是同一时间经过各个工艺步骤，因而可以说同一盒晶圆中的所有单片晶圆所经历的生产环境是一致的。但是，由于单片晶圆所经历的机台<strong>子工艺</strong>仓可能不同，就有可能造成一盒晶圆中的单片晶圆按照一定顺序重复失效；例如所有奇数片低良率，偶数片正常。所以，这时不仅需要分析以整盒晶圆为单位的叠图失效图形，还要具体分析每片晶圆的失效图形。 <a id="more"></a></p>
+        <h3 id="问题简介"><a class="markdownIt-Anchor" href="#问题简介"></a> 问题简介</h3>
+<p>半导体制造是按照整盒晶圆为单位进行生产。因此大致同一盒晶圆在生产上基本上是同一时间经过各个工艺步骤，因而可以说同一盒晶圆中的所有单片晶圆所经历的生产环境是一致的。但是，由于单片晶圆所经历的机台<strong>子工艺</strong>仓可能不同，就有可能造成一盒晶圆中的单片晶圆按照一定顺序重复失效；例如所有奇数片低良率，偶数片正常。所以，这时不仅需要分析以整盒晶圆为单位的叠图失效图形，还要具体分析每片晶圆的失效图形。</p>
+<a id="more"></a>
 <p>接下来将会讨论的失效类型图</p>
-<figure>
-<img src="images/CircuitProbing_0.jpg" alt="CircuitProbing"><figcaption>CircuitProbing</figcaption>
-</figure>
-<h3 id="方法简介">方法简介</h3>
+<p><img src="images/CircuitProbing_0.jpg" alt="CircuitProbing"></p>
+<h3 id="方法简介"><a class="markdownIt-Anchor" href="#方法简介"></a> 方法简介</h3>
 <p>不同的机台会造成不同晶圆的失效图形，比如：</p>
-<ol type="1">
-<li><p>化学机械研磨机台容易造成刮伤，<strong>刮伤型失效</strong>；</p></li>
-<li><p>光刻机根据掩模版所刻图形在同一片晶圆上进行重复曝光，则会造成晶圆<strong>重复性失效</strong>。</p></li>
-<li><p>测试机台不稳定(误宰)，则芯片将按照测试顺序发生<strong>连续失效</strong>；而<strong>连续失效</strong>做单片分析即可。误宰现象也表现为重复型失效。</p></li>
+<ol>
+<li>
+<p>化学机械研磨机台容易造成刮伤，<strong>刮伤型失效</strong>；</p>
+</li>
+<li>
+<p>光刻机根据掩模版所刻图形在同一片晶圆上进行重复曝光，则会造成晶圆<strong>重复性失效</strong>。</p>
+</li>
+<li>
+<p>测试机台不稳定(误宰)，则芯片将按照测试顺序发生<strong>连续失效</strong>；而<strong>连续失效</strong>做单片分析即可。误宰现象也表现为重复型失效。</p>
+</li>
 </ol>
 <p>观察晶圆图是一项寻找良率问题及了解缺陷特征的重要分析手段。通过晶圆图可以具体了解此片晶圆的良率以及<strong>某种测试项</strong>的失效芯片在晶圆上的分布(图2.1.1)，进行正确的归类，判断可疑的工艺步骤，从而改善晶圆的制程。</p>
-<figure>
-<img src="images/CircuitProbing_1.jpg" alt="CircuitProbing"><figcaption>CircuitProbing</figcaption>
-</figure>
+<p><img src="images/CircuitProbing_1.jpg" alt="CircuitProbing"></p>
 <p>叠图指将同一盒晶圆的25片晶圆的测试结果进行叠加。图2.1.2。</p>
-<ol type="1">
-<li><p>良率叠图：将同一盒的25片晶圆的合格芯片进行相同位置叠加。</p></li>
-<li><p>单项测试项失效叠图：对25片晶圆在<strong>某一项测试项</strong>上失效的芯片进行相同位置叠加。</p></li>
+<ol>
+<li>
+<p>良率叠图：将同一盒的25片晶圆的合格芯片进行相同位置叠加。</p>
+</li>
+<li>
+<p>单项测试项失效叠图：对25片晶圆在<strong>某一项测试项</strong>上失效的芯片进行相同位置叠加。</p>
+</li>
 </ol>
 <p>晶圆上各个位置叠加失效状况可由叠图的颜色深浅表示，某一区域颜色越浅，则表示该区域合格芯片数目不多。</p>
-<h2 id="具体方法">具体方法</h2>
+<h2 id="具体方法"><a class="markdownIt-Anchor" href="#具体方法"></a> 具体方法</h2>
 <p>如何用统计或聚类分析的方法对叠图和单片晶圆进行自动判别分类。</p>
-<h3 id="数据准备">数据准备</h3>
-<figure>
-<img src="images/CircuitProbing_2.jpg" alt="CircuitProbing2"><figcaption>CircuitProbing2</figcaption>
-</figure>
-<ol type="1">
-<li><p>表2.2.1：单片晶圆的原始测试数据。</p></li>
-<li><p>表2.2.2：良率叠图原始数据。是将25片晶圆的原始数据进行位置良率计算便可得到。如第一行数据，说明25片晶圆中有24片晶圆的芯片在此位置为合格芯片。</p></li>
-<li><p>表2.2.3：失效芯片位置分析需要首先把表2.2.2中的数据转化为能够确切代表位置好坏的0，1数据表。</p></li>
+<h3 id="数据准备"><a class="markdownIt-Anchor" href="#数据准备"></a> 数据准备</h3>
+<p><img src="images/CircuitProbing_2.jpg" alt="CircuitProbing2"></p>
+<ol>
+<li>
+<p>表2.2.1：单片晶圆的原始测试数据。</p>
+</li>
+<li>
+<p>表2.2.2：良率叠图原始数据。是将25片晶圆的原始数据进行位置良率计算便可得到。如第一行数据，说明25片晶圆中有24片晶圆的芯片在此位置为合格芯片。</p>
+</li>
+<li>
+<p>表2.2.3：失效芯片位置分析需要首先把表2.2.2中的数据转化为能够确切代表位置好坏的0，1数据表。</p>
+</li>
 </ol>
 <p>利用正态分布理论，我们设定μ-r*σ为良率分界线。比如在6sigma之外则认为是异常，其错误概率大概是百万分之一。r可以调节严格程度。本实验取r=3。</p>
 <blockquote>
@@ -319,53 +330,67 @@
 </blockquote>
 <p>利用上述叠图良率数据，</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">bin_list = [<span class="number">96</span>,<span class="number">92</span>,<span class="number">96</span>,<span class="number">100</span>,<span class="number">88</span>,<span class="number">76</span>,<span class="number">36.4</span>,<span class="number">56</span>,<span class="number">72</span>,<span class="number">88</span>,<span class="number">60</span>,<span class="number">84</span>,<span class="number">88</span>,<span class="number">92</span>,<span class="number">88</span>,<span class="number">23</span>,<span class="number">68</span>,<span class="number">100</span>,<span class="number">76</span>,<span class="number">64</span>,<span class="number">52</span>,<span class="number">64</span>,<span class="number">68</span>,<span class="number">88</span>,<span class="number">84</span>,<span class="number">96</span>,<span class="number">72</span>,<span class="number">88</span>,<span class="number">84</span>]</span><br><span class="line">bin_mean = np.mean() <span class="comment"># bin_mean = 77.22</span></span><br><span class="line">bin_median = np.median(bin_list) <span class="comment"># bin_median = 84</span></span><br><span class="line">bin_std = np.std() <span class="comment"># bin_std = 18.51</span></span><br><span class="line"></span><br><span class="line">q3 = np.percentile(bin_list,<span class="number">75</span>) <span class="comment">#75%的分位数,q3=88</span></span><br><span class="line"></span><br><span class="line">q1 = np.percentile(bin_list,<span class="number">25</span>) <span class="comment">#25%的分位数,q1=68</span></span><br><span class="line">iqr = q3 - q1 <span class="comment"># iqr = 20 # 四分距IQR</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># r = 3, 良率界限在21.696/39.56, 3sigma=0.9974</span></span><br><span class="line">bin_mean - <span class="number">3</span>*bin_std = <span class="number">21.696</span> <span class="comment"># 因为异常点拉低了数值</span></span><br><span class="line">bin_median - <span class="number">3</span>*iqr/<span class="number">1.35</span> = <span class="number">39.56</span> <span class="comment"># 消除异常点的影响</span></span><br><span class="line"><span class="comment"># r = 2, 良率界限在40.204/54.63, 2sigma=0.9544</span></span><br><span class="line">bin_mean - <span class="number">2</span>*bin_std = <span class="number">40.204</span></span><br><span class="line">bin_median - <span class="number">2</span>*iqr/<span class="number">1.35</span> = <span class="number">54.63</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<figure>
-<img src="images/CircuitProbing_3.jpg" alt="CircuitProbing_3"><figcaption>CircuitProbing_3</figcaption>
-</figure>
+<p><img src="images/CircuitProbing_3.jpg" alt="CircuitProbing_3"></p>
 <p>实际中，过低良率会拉低良率分界线，使得一些问题位置无法筛选出出来。所以，实际应用中良率分界线采用median-r*IQR/1.35，可以去除异常点的影响，更稳健。如果不存在异常值，那么上述两种计算方式的值将会相似。</p>
-<h3 id="簇失效刮伤型失效连续型失效判定方法">簇失效、刮伤型失效、连续型失效判定方法</h3>
-<h4 id="层次分析法">层次分析法</h4>
-<ol type="1">
-<li><p>将数据准备段中有问题的数据筛选出来；</p></li>
-<li><p>用聚类方法BIRCH建立CF树；</p></li>
-<li><p>定义同一个簇的距离，若d=1，则认为X方向或者Y方向相邻的两个位置是同一簇；若d=1.414，则认为对角相邻范围内的两个位置属于同一簇；具体设定可以根据产品以及客户要求。</p></li>
-<li><p>结合CF树以及所定义的d值便可以确定出问题位置是否有形成簇效应。</p></li>
-<li><p>在形成簇失效的基础上，如果所有行或列的问题位置个数都在给定的刮伤型范围内，则认为是刮伤型失效，如果只有单行或单列形成的簇效应则为连续性失效。</p></li>
+<h3 id="簇失效-刮伤型失效-连续型失效判定方法"><a class="markdownIt-Anchor" href="#簇失效-刮伤型失效-连续型失效判定方法"></a> 簇失效、刮伤型失效、连续型失效判定方法</h3>
+<h4 id="层次分析法"><a class="markdownIt-Anchor" href="#层次分析法"></a> 层次分析法</h4>
+<ol>
+<li>
+<p>将数据准备段中有问题的数据筛选出来；</p>
+</li>
+<li>
+<p>用聚类方法BIRCH建立CF树；</p>
+</li>
+<li>
+<p>定义同一个簇的距离，若d=1，则认为X方向或者Y方向相邻的两个位置是同一簇；若d=1.414，则认为对角相邻范围内的两个位置属于同一簇；具体设定可以根据产品以及客户要求。</p>
+</li>
+<li>
+<p>结合CF树以及所定义的d值便可以确定出问题位置是否有形成簇效应。</p>
+</li>
+<li>
+<p>在形成簇失效的基础上，如果所有行或列的问题位置个数都在给定的刮伤型范围内，则认为是刮伤型失效，如果只有单行或单列形成的簇效应则为连续性失效。</p>
+</li>
 </ol>
 <p>至此，即可以判断出叠图是簇失效、刮伤型失效、连续型失效中的哪一种。</p>
-<h4 id="判断失效区域">判断失效区域</h4>
+<h4 id="判断失效区域"><a class="markdownIt-Anchor" href="#判断失效区域"></a> 判断失效区域</h4>
 <p>因为这三种失效有很多种，需要进一步将问题晶圆归类，进行后续分析。</p>
 <p>一般我们认为，晶圆上同一区域的同一种测试项目失效是由同一种根源造成的。</p>
 <p>将默认晶圆化分区域，如果，簇效应区域与默认晶圆的某一个区域A相似度达到阈值，则认为是区域A的簇效应。</p>
-<h3 id="重复型失效判定方法">重复型失效判定方法</h3>
+<h3 id="重复型失效判定方法"><a class="markdownIt-Anchor" href="#重复型失效判定方法"></a> 重复型失效判定方法</h3>
 <p>掩模版相关或DUT(device under test)相关。</p>
-<figure>
-<img src="images/CircuitProbing_4.jpg" alt="CircuitProbing_4"><figcaption>CircuitProbing_4</figcaption>
-</figure>
+<p><img src="images/CircuitProbing_4.jpg" alt="CircuitProbing_4"></p>
 <p>如果掩模版出现沾污，则由于光刻的重复性，可以从图中看到重复性的不良位置。如上图，则可以判断再掩模版的(3,1)位置的失效率很高。而DUT与掩模版信息类似。</p>
-<h4 id="无信息判断">无信息判断</h4>
+<h4 id="无信息判断"><a class="markdownIt-Anchor" href="#无信息判断"></a> 无信息判断</h4>
 <p>当缺少掩模版或DUT信息，分析人员只有整盒晶圆的叠图信息，此时图形判别分析步骤如下：</p>
-<ol type="1">
-<li><p>分别按照每行和每列计算此行/列中1的个数，并将它们分别按行、列排序。</p></li>
-<li><p>取出行方向和列方向问题位置<strong>最多</strong>的行和列，判断剩余行或列是否与之成等差数列。行或列任何一项此判别成立则说明此图存在重复性失效。</p></li>
+<ol>
+<li>
+<p>分别按照每行和每列计算此行/列中1的个数，并将它们分别按行、列排序。</p>
+</li>
+<li>
+<p>取出行方向和列方向问题位置<strong>最多</strong>的行和列，判断剩余行或列是否与之成等差数列。行或列任何一项此判别成立则说明此图存在重复性失效。</p>
+</li>
 </ol>
 <p>上述方法无法判断是由光刻工艺造成的还是由测试造成的。</p>
-<h4 id="有信息判断">有信息判断</h4>
-<ol type="1">
-<li><p>将之前的晶圆坐标替换成掩模版或者DUT坐标。</p></li>
-<li><p>将位置信息与Flag列所示的好坏信息进行逻辑回归分析。</p></li>
-<li><p>通过统计参数，如Pvalue的大小，判定结果是否具有统计显著性，即掩模版位置或DUT位置中是否有某个或某些位置与其它位置的芯片良率表现有明显差异。若结果具有统计显著性(Pvalue&lt;0.05)，则说明此盒晶圆存在掩模版相关重复性失效或者DUT相关重复性失效。</p></li>
+<h4 id="有信息判断"><a class="markdownIt-Anchor" href="#有信息判断"></a> 有信息判断</h4>
+<ol>
+<li>
+<p>将之前的晶圆坐标替换成掩模版或者DUT坐标。</p>
+</li>
+<li>
+<p>将位置信息与Flag列所示的好坏信息进行逻辑回归分析。</p>
+</li>
+<li>
+<p>通过统计参数，如Pvalue的大小，判定结果是否具有统计显著性，即掩模版位置或DUT位置中是否有某个或某些位置与其它位置的芯片良率表现有明显差异。若结果具有统计显著性(Pvalue&lt;0.05)，则说明此盒晶圆存在掩模版相关重复性失效或者DUT相关重复性失效。</p>
+</li>
 </ol>
-<h4 id="逻辑回归分析">逻辑回归分析</h4>
+<h4 id="逻辑回归分析"><a class="markdownIt-Anchor" href="#逻辑回归分析"></a> 逻辑回归分析</h4>
 <p>逻辑回归模型是对二分类因变量0/1进行回归分析时最为普遍的多元量化分析方法。</p>
 <p>该分析方法可以从诸多影响因素中，建立模型判断事件的结果。</p>
-<h3 id="单片晶圆失效图形判别方法">单片晶圆失效图形判别方法</h3>
-<figure>
-<img src="images/CircuitProbing_5.jpg" alt="CircuitProbing_5"><figcaption>CircuitProbing_5</figcaption>
-</figure>
+<h3 id="单片晶圆失效图形判别方法"><a class="markdownIt-Anchor" href="#单片晶圆失效图形判别方法"></a> 单片晶圆失效图形判别方法</h3>
+<p><img src="images/CircuitProbing_5.jpg" alt="CircuitProbing_5"></p>
 <p>其中Flag列所定义的数据为处理数据。此例中分析的是BIN7的晶圆失效图形，所以，发生BIN7失效的位置Flag标志为1，其余位置为0。同理，其它BIN也这么做。</p>
 <p>单片晶圆失效图形判别同样也存在簇失效，刮伤失效以及重复型失效，他们的判别方法与叠图的判别方法一致。</p>
-<h2 id="题图code">题图Code</h2>
+<h2 id="题图code"><a class="markdownIt-Anchor" href="#题图code"></a> 题图Code</h2>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"><span class="comment"># x=np.random.randint(0,100,100)#生成【0-100】之间的100个数据,即 数据集</span></span><br><span class="line">bin_list = [<span class="number">96</span>,<span class="number">92</span>,<span class="number">96</span>,<span class="number">100</span>,<span class="number">88</span>,<span class="number">76</span>,<span class="number">36.4</span>,<span class="number">56</span>,<span class="number">72</span>,<span class="number">88</span>,<span class="number">60</span>,<span class="number">84</span>,<span class="number">88</span>,<span class="number">92</span>,<span class="number">88</span>,<span class="number">23</span>,<span class="number">68</span>,<span class="number">100</span>,<span class="number">76</span>,<span class="number">64</span>,<span class="number">52</span>,<span class="number">64</span>,<span class="number">68</span>,<span class="number">88</span>,<span class="number">84</span>,<span class="number">96</span>,<span class="number">72</span>,<span class="number">88</span>,<span class="number">84</span>]<span class="comment"># 良率数据集</span></span><br><span class="line">bins=np.arange(<span class="number">0</span>,<span class="number">101</span>,<span class="number">10</span>)<span class="comment">#设置连续的边界值，即直方图的分布区间[0,10],[10,20]...</span></span><br><span class="line">width=<span class="number">9</span><span class="comment">#柱状图的宽度</span></span><br><span class="line"><span class="comment">#直方图会进行统计各个区间的数值</span></span><br><span class="line">frequency_each,_,_= plt.hist(bin_list,bins,color=<span class="string">&#x27;deepskyblue&#x27;</span>,width=width,alpha=<span class="number">0.7</span>)<span class="comment">#alpha设置透明度，0为完全透明</span></span><br><span class="line">plt.xlabel(<span class="string">&#x27;Yield&#x27;</span>)</span><br><span class="line">plt.ylabel(<span class="string">&#x27;Count&#x27;</span>)</span><br><span class="line">plt.xlim(<span class="number">0</span>,<span class="number">100</span>)<span class="comment">#设置x轴分布范围</span></span><br><span class="line">plt.plot(bins[<span class="number">1</span>:]-(width//<span class="number">2</span>),frequency_each,color=<span class="string">&#x27;palevioletred&#x27;</span>)<span class="comment">#利用返回值来绘制区间中点连线</span></span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>原文：晶圆失效图形自动识别系统在ULSI良率管理中的应用研究_黄珺</p>
@@ -527,7 +552,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E7%AE%80%E4%BB%8B"><span class="nav-number">1.</span> <span class="nav-text">问题简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%B9%E6%B3%95%E7%AE%80%E4%BB%8B"><span class="nav-number">2.</span> <span class="nav-text">方法简介</span></a></li></ol><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B7%E4%BD%93%E6%96%B9%E6%B3%95"><span class="nav-number"></span> <span class="nav-text">具体方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%87%86%E5%A4%87"><span class="nav-number">1.</span> <span class="nav-text">数据准备</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%B0%87%E5%A4%B1%E6%95%88%E5%88%AE%E4%BC%A4%E5%9E%8B%E5%A4%B1%E6%95%88%E8%BF%9E%E7%BB%AD%E5%9E%8B%E5%A4%B1%E6%95%88%E5%88%A4%E5%AE%9A%E6%96%B9%E6%B3%95"><span class="nav-number">2.</span> <span class="nav-text">簇失效、刮伤型失效、连续型失效判定方法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B1%82%E6%AC%A1%E5%88%86%E6%9E%90%E6%B3%95"><span class="nav-number">2.1.</span> <span class="nav-text">层次分析法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%A4%E6%96%AD%E5%A4%B1%E6%95%88%E5%8C%BA%E5%9F%9F"><span class="nav-number">2.2.</span> <span class="nav-text">判断失效区域</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%87%8D%E5%A4%8D%E5%9E%8B%E5%A4%B1%E6%95%88%E5%88%A4%E5%AE%9A%E6%96%B9%E6%B3%95"><span class="nav-number">3.</span> <span class="nav-text">重复型失效判定方法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%97%A0%E4%BF%A1%E6%81%AF%E5%88%A4%E6%96%AD"><span class="nav-number">3.1.</span> <span class="nav-text">无信息判断</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9C%89%E4%BF%A1%E6%81%AF%E5%88%A4%E6%96%AD"><span class="nav-number">3.2.</span> <span class="nav-text">有信息判断</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92%E5%88%86%E6%9E%90"><span class="nav-number">3.3.</span> <span class="nav-text">逻辑回归分析</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8D%95%E7%89%87%E6%99%B6%E5%9C%86%E5%A4%B1%E6%95%88%E5%9B%BE%E5%BD%A2%E5%88%A4%E5%88%AB%E6%96%B9%E6%B3%95"><span class="nav-number">4.</span> <span class="nav-text">单片晶圆失效图形判别方法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A2%98%E5%9B%BEcode"><span class="nav-number"></span> <span class="nav-text">题图Code</span></a></li></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E7%AE%80%E4%BB%8B"><span class="nav-number">1.</span> <span class="nav-text"> 问题简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%B9%E6%B3%95%E7%AE%80%E4%BB%8B"><span class="nav-number">2.</span> <span class="nav-text"> 方法简介</span></a></li></ol><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B7%E4%BD%93%E6%96%B9%E6%B3%95"><span class="nav-number"></span> <span class="nav-text"> 具体方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%87%86%E5%A4%87"><span class="nav-number">1.</span> <span class="nav-text"> 数据准备</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%B0%87%E5%A4%B1%E6%95%88-%E5%88%AE%E4%BC%A4%E5%9E%8B%E5%A4%B1%E6%95%88-%E8%BF%9E%E7%BB%AD%E5%9E%8B%E5%A4%B1%E6%95%88%E5%88%A4%E5%AE%9A%E6%96%B9%E6%B3%95"><span class="nav-number">2.</span> <span class="nav-text"> 簇失效、刮伤型失效、连续型失效判定方法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B1%82%E6%AC%A1%E5%88%86%E6%9E%90%E6%B3%95"><span class="nav-number">2.1.</span> <span class="nav-text"> 层次分析法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%A4%E6%96%AD%E5%A4%B1%E6%95%88%E5%8C%BA%E5%9F%9F"><span class="nav-number">2.2.</span> <span class="nav-text"> 判断失效区域</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%87%8D%E5%A4%8D%E5%9E%8B%E5%A4%B1%E6%95%88%E5%88%A4%E5%AE%9A%E6%96%B9%E6%B3%95"><span class="nav-number">3.</span> <span class="nav-text"> 重复型失效判定方法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%97%A0%E4%BF%A1%E6%81%AF%E5%88%A4%E6%96%AD"><span class="nav-number">3.1.</span> <span class="nav-text"> 无信息判断</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9C%89%E4%BF%A1%E6%81%AF%E5%88%A4%E6%96%AD"><span class="nav-number">3.2.</span> <span class="nav-text"> 有信息判断</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92%E5%88%86%E6%9E%90"><span class="nav-number">3.3.</span> <span class="nav-text"> 逻辑回归分析</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8D%95%E7%89%87%E6%99%B6%E5%9C%86%E5%A4%B1%E6%95%88%E5%9B%BE%E5%BD%A2%E5%88%A4%E5%88%AB%E6%96%B9%E6%B3%95"><span class="nav-number">4.</span> <span class="nav-text"> 单片晶圆失效图形判别方法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A2%98%E5%9B%BEcode"><span class="nav-number"></span> <span class="nav-text"> 题图Code</span></a></li></div>
       </div>
       <!--/noindex-->
 

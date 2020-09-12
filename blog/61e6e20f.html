@@ -29,14 +29,14 @@
 <meta property="og:site_name" content="DeepLearning">
 <meta property="og:description" content="腐蚀和膨胀是对像素值大的部分而言的，即高亮白部分而不是黑色部分；以下图片前景物体为高亮像素，背景为低亮像素。">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://fainke.com/blog/images/开运算.png">
-<meta property="og:image" content="https://fainke.com/blog/images/闭运算.png">
+<meta property="og:image" content="https://fainke.com/blog/images/%E5%BC%80%E8%BF%90%E7%AE%97.png">
+<meta property="og:image" content="https://fainke.com/blog/images/%E9%97%AD%E8%BF%90%E7%AE%97.png">
 <meta property="article:published_time" content="2019-12-31T17:01:01.000Z">
 <meta property="article:modified_time" content="2020-01-31T17:01:01.000Z">
 <meta property="article:author" content="Fain">
 <meta property="article:tag" content="图像处理">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://fainke.com/blog/images/开运算.png">
+<meta name="twitter:image" content="https://fainke.com/blog/images/%E5%BC%80%E8%BF%90%E7%AE%97.png">
 
 <link rel="canonical" href="https://fainke.com/blog/61e6e20f.html">
 
@@ -280,21 +280,37 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>腐蚀和膨胀是对像素值大的部分而言的，即高亮白部分而不是黑色部分；以下图片前景物体为高亮像素，背景为低亮像素。 <a id="more"></a></p>
+        <p>腐蚀和膨胀是对像素值大的部分而言的，即高亮白部分而不是黑色部分；以下图片前景物体为高亮像素，背景为低亮像素。</p>
+<a id="more"></a>
 <p><strong>膨胀(dilated)</strong> 是图像中的高亮部分进行膨胀，领域扩张，效果图拥有比原图更大的高亮区域；操作的时候表现为相邻区域用极大值代替，高亮区域增加。</p>
 <p><strong>腐蚀(eroded)</strong> 是图像中的高亮部分被腐蚀掉，领域缩减，效果图拥有比原图更小的高亮区域；操作的时候表现为相邻区域用极小值代替,高亮区域减少。</p>
-<p><strong>开运算</strong> 先腐蚀再膨胀 ① 开运算能够除去孤立的小点，毛刺和小桥，而总的位置和形状不便。 ② 开运算是一个基于几何运算的滤波器。 ③ 结构元素大小的不同将导致滤波效果的不同。 ④ 不同的结构元素的选择导致了不同的分割，即提取出不同的特征。</p>
-<p>开运算的效果图如下图所示：清除噪点，把一些太小的物体过滤。 <img src="images/开运算.png" alt="image.png"></p>
-<p><strong>闭运算</strong> 先膨胀再腐蚀 ① 闭运算能够填平前景物体内的小裂缝，而总的位置和形状不变。 ② 闭运算是通过填充图像的凹角来滤波图像的。 ③ 结构元素大小的不同将导致滤波效果的不同。 ④ 不同结构元素的选择导致了不同的分割。</p>
-<p>闭运算的效果图如下图所示：融合细微连接的图块，如果图像中存在断连物体，可以用此方法修复连接。 <img src="images/闭运算.png" alt="image.png"></p>
+<p><strong>开运算</strong><br>
+先腐蚀再膨胀<br>
+① 开运算能够除去孤立的小点，毛刺和小桥，而总的位置和形状不便。<br>
+② 开运算是一个基于几何运算的滤波器。<br>
+③ 结构元素大小的不同将导致滤波效果的不同。<br>
+④ 不同的结构元素的选择导致了不同的分割，即提取出不同的特征。</p>
+<p>开运算的效果图如下图所示：清除噪点，把一些太小的物体过滤。<br>
+<img src="images/%E5%BC%80%E8%BF%90%E7%AE%97.png" alt="image.png"></p>
+<p><strong>闭运算</strong><br>
+先膨胀再腐蚀<br>
+① 闭运算能够填平前景物体内的小裂缝，而总的位置和形状不变。<br>
+② 闭运算是通过填充图像的凹角来滤波图像的。<br>
+③ 结构元素大小的不同将导致滤波效果的不同。<br>
+④ 不同结构元素的选择导致了不同的分割。</p>
+<p>闭运算的效果图如下图所示：融合细微连接的图块，如果图像中存在断连物体，可以用此方法修复连接。<br>
+<img src="images/%E9%97%AD%E8%BF%90%E7%AE%97.png" alt="image.png"></p>
 <details>
-<summary><b>Python Code</b></summary> <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> cv2</span><br><span class="line"><span class="comment"># 读取图片</span></span><br><span class="line">img = cv2.imread(<span class="string">&#x27;./image.png&#x27;</span>,<span class="number">0</span>)</span><br><span class="line"><span class="comment"># 定义核结构元素</span></span><br><span class="line">kernel = cv2.getStructuringElement(cv2.MORPH_RECT,(<span class="number">3</span>, <span class="number">3</span>))</span><br><span class="line"><span class="comment"># 腐蚀图像</span></span><br><span class="line">eroded = cv2.erode(img,kernel)</span><br><span class="line"><span class="comment"># 显示腐蚀后的图像</span></span><br><span class="line">cv2.imshow(<span class="string">&quot;Eroded Image&quot;</span>,eroded)</span><br><span class="line"><span class="comment">#膨胀图像</span></span><br><span class="line">dilated = cv2.dilate(img,kernel)</span><br><span class="line"><span class="comment">#显示膨胀后的图像</span></span><br><span class="line">cv2.imshow(<span class="string">&quot;Dilated Image&quot;</span>,dilated);</span><br><span class="line"><span class="comment"># 开运算</span></span><br><span class="line">opened = cv2.morphologyEx(img, cv2.MORPH_OPEN, kernel)</span><br><span class="line"><span class="comment"># 显示开运算后的图像</span></span><br><span class="line">cv2.imshow(<span class="string">&quot;Open&quot;</span>, opened)</span><br><span class="line"><span class="comment">#闭运算</span></span><br><span class="line">closed = cv2.morphologyEx(img, cv2.MORPH_CLOSE, kernel)</span><br><span class="line"><span class="comment">#显示闭运算后的图像</span></span><br><span class="line">cv2.imshow(<span class="string">&quot;Close&quot;</span>,closed);</span><br></pre></td></tr></table></figure>
+<summary><b>Python Code</b></summary>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> cv2</span><br><span class="line"><span class="comment"># 读取图片</span></span><br><span class="line">img = cv2.imread(<span class="string">&#x27;./image.png&#x27;</span>,<span class="number">0</span>)</span><br><span class="line"><span class="comment"># 定义核结构元素</span></span><br><span class="line">kernel = cv2.getStructuringElement(cv2.MORPH_RECT,(<span class="number">3</span>, <span class="number">3</span>))</span><br><span class="line"><span class="comment"># 腐蚀图像</span></span><br><span class="line">eroded = cv2.erode(img,kernel)</span><br><span class="line"><span class="comment"># 显示腐蚀后的图像</span></span><br><span class="line">cv2.imshow(<span class="string">&quot;Eroded Image&quot;</span>,eroded)</span><br><span class="line"><span class="comment">#膨胀图像</span></span><br><span class="line">dilated = cv2.dilate(img,kernel)</span><br><span class="line"><span class="comment">#显示膨胀后的图像</span></span><br><span class="line">cv2.imshow(<span class="string">&quot;Dilated Image&quot;</span>,dilated);</span><br><span class="line"><span class="comment"># 开运算</span></span><br><span class="line">opened = cv2.morphologyEx(img, cv2.MORPH_OPEN, kernel)</span><br><span class="line"><span class="comment"># 显示开运算后的图像</span></span><br><span class="line">cv2.imshow(<span class="string">&quot;Open&quot;</span>, opened)</span><br><span class="line"><span class="comment">#闭运算</span></span><br><span class="line">closed = cv2.morphologyEx(img, cv2.MORPH_CLOSE, kernel)</span><br><span class="line"><span class="comment">#显示闭运算后的图像</span></span><br><span class="line">cv2.imshow(<span class="string">&quot;Close&quot;</span>,closed);</span><br></pre></td></tr></table></figure>
 </details>
 <details>
-<summary><b>删除图像中小物体的Python API</b></summary> <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">skimage.morphology.remove_small_objects(ar, min_size=<span class="number">64</span>, connectivity=<span class="number">1</span>, in_place=<span class="literal">False</span>)</span><br><span class="line"><span class="comment"># ar: 待操作的bool型数组。</span></span><br><span class="line"><span class="comment"># min_size: 最小连通区域尺寸，小于该尺寸的都将被删除。默认为64.</span></span><br><span class="line"><span class="comment"># connectivity: 邻接模式，1表示4邻接(up,down,left,right)，2表示8邻接(up_left,up_right,down_left,down_right)</span></span><br><span class="line"><span class="comment"># in_place: bool型值，如果为True,表示直接在输入图像中删除小块区域，否则进行复制后再删除。默认为False.</span></span><br></pre></td></tr></table></figure>
+<summary><b>删除图像中小物体的Python API</b></summary>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">skimage.morphology.remove_small_objects(ar, min_size=<span class="number">64</span>, connectivity=<span class="number">1</span>, in_place=<span class="literal">False</span>)</span><br><span class="line"><span class="comment"># ar: 待操作的bool型数组。</span></span><br><span class="line"><span class="comment"># min_size: 最小连通区域尺寸，小于该尺寸的都将被删除。默认为64.</span></span><br><span class="line"><span class="comment"># connectivity: 邻接模式，1表示4邻接(up,down,left,right)，2表示8邻接(up_left,up_right,down_left,down_right)</span></span><br><span class="line"><span class="comment"># in_place: bool型值，如果为True,表示直接在输入图像中删除小块区域，否则进行复制后再删除。默认为False.</span></span><br></pre></td></tr></table></figure>
 </details>
 <blockquote>
-<p>参考链接 https://blog.csdn.net/hanshanbuleng/article/details/80657148</p>
+<p>参考链接<br>
+<a target="_blank" rel="external nofollow noopener noreferrer" href="https://blog.csdn.net/hanshanbuleng/article/details/80657148">https://blog.csdn.net/hanshanbuleng/article/details/80657148</a></p>
 </blockquote>
 
     </div>

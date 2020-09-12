@@ -276,7 +276,8 @@
 
       
           <ul>
-<li>
+<li></li>
+</ul>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/blog/8fcf8959.html#more" rel="contents">
@@ -286,7 +287,7 @@
           <!--/noindex-->
         
       
-    </li></ul></div>
+    </div>
 
     
     
@@ -380,7 +381,8 @@
 
       
           <ul>
-<li>
+<li></li>
+</ul>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/blog/c7300247.html#more" rel="contents">
@@ -390,7 +392,7 @@
           <!--/noindex-->
         
       
-    </li></ul></div>
+    </div>
 
     
     
@@ -483,8 +485,8 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h1 id="主要内容">1. 主要内容</h1>
-<p><strong>SGD，Momentum，AdaGrad，RMSProp，Adam</strong>
+          <h1 id="1-主要内容"><a class="markdownIt-Anchor" href="#1-主要内容"></a> 1. 主要内容</h1>
+<p><strong>SGD，Momentum，AdaGrad，RMSProp，Adam</strong></p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/blog/17ea3cd3.html#more" rel="contents">
@@ -494,7 +496,111 @@
           <!--/noindex-->
         
       
-    </p></div>
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://fainke.com/blog/b08494e7.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/touXiang.jpg">
+      <meta itemprop="name" content="Fain">
+      <meta itemprop="description" content="深度学习,机器学习,计算机视觉CV,自然语言处理NLP,Python">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="DeepLearning">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/blog/b08494e7.html" class="post-title-link" itemprop="url">检测任务Loss之GIOU</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-01-01 01:01:01" itemprop="dateCreated datePublished" datetime="2020-01-01T01:01:01+08:00">2020-01-01</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-02-01 01:01:01" itemprop="dateModified" datetime="2020-02-01T01:01:01+08:00">2020-02-01</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89CV/" itemprop="url" rel="index"><span itemprop="name">计算机视觉CV</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/blog/b08494e7.html" class="post-meta-item leancloud_visitors" data-flag-title="检测任务Loss之GIOU" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/blog/b08494e7.html#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/blog/b08494e7.html" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="giou提出背景"><a class="markdownIt-Anchor" href="#giou提出背景"></a> GIoU提出背景</h3>
+<p>从图中我么可以看出，优化BBox参数的常用距离损失与使该度量值最大化之间存在差距。常理来说，度量最佳目标是度量本身，直接用IoU作为loss来计算会更加有效，但是IoU指的是BBox之间的交并比，前提是必须有交集的两个Box才能计算，为了解决这个问题，GIoU被提出。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/blog/b08494e7.html#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
 
     
     
@@ -588,7 +694,8 @@
 
       
           <ul>
-<li>
+<li></li>
+</ul>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/blog/c1d77713.html#more" rel="contents">
@@ -598,111 +705,7 @@
           <!--/noindex-->
         
       
-    </li></ul></div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://fainke.com/blog/b08494e7.html">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/touXiang.jpg">
-      <meta itemprop="name" content="Fain">
-      <meta itemprop="description" content="深度学习,机器学习,计算机视觉CV,自然语言处理NLP,Python">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="DeepLearning">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/blog/b08494e7.html" class="post-title-link" itemprop="url">检测任务Loss之GIOU</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-01-01 01:01:01" itemprop="dateCreated datePublished" datetime="2020-01-01T01:01:01+08:00">2020-01-01</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-02-01 01:01:01" itemprop="dateModified" datetime="2020-02-01T01:01:01+08:00">2020-02-01</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89CV/" itemprop="url" rel="index"><span itemprop="name">计算机视觉CV</span></a>
-                </span>
-            </span>
-
-          
-            <span id="/blog/b08494e7.html" class="post-meta-item leancloud_visitors" data-flag-title="检测任务Loss之GIOU" title="阅读次数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">阅读次数：</span>
-              <span class="leancloud-visitors-count"></span>
-            </span>
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/blog/b08494e7.html#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/blog/b08494e7.html" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="giou提出背景">GIoU提出背景</h3>
-<p>从图中我么可以看出，优化BBox参数的常用距离损失与使该度量值最大化之间存在差距。常理来说，度量最佳目标是度量本身，直接用IoU作为loss来计算会更加有效，但是IoU指的是BBox之间的交并比，前提是必须有交集的两个Box才能计算，为了解决这个问题，GIoU被提出。
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/blog/b08494e7.html#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </p></div>
+    </div>
 
     
     
@@ -796,7 +799,8 @@
 
       
           <p><strong>剪枝一直都是一个十分必要的工作。</strong></p>
-<p><strong>谷歌：</strong> Link:<a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/tensorflow/model-optimization">TensorFlow Model Optimization Toolkit</a>
+<p><strong>谷歌：</strong><br>
+Link:<a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/tensorflow/model-optimization">TensorFlow Model Optimization Toolkit</a></p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/blog/439cc94e.html#more" rel="contents">
@@ -806,7 +810,7 @@
           <!--/noindex-->
         
       
-    </p></div>
+    </div>
 
     
     
@@ -899,7 +903,8 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p><strong>混淆矩阵：</strong> 也称为误差矩阵，是一种特定的表格布局，允许可视化算法的性能，通常是监督学习的算法（在无监督学习通常称为<strong>匹配矩阵</strong>）。矩阵的每一行代表预测类中的实例，而每列代表实际类中的实例（反之亦然）。从字面理解：看出系统是否混淆了两个类（即通常将一个类错误标记为另一个类）（多类可以合并为二分类）。
+          <p><strong>混淆矩阵：</strong><br>
+也称为误差矩阵，是一种特定的表格布局，允许可视化算法的性能，通常是监督学习的算法（在无监督学习通常称为<strong>匹配矩阵</strong>）。矩阵的每一行代表预测类中的实例，而每列代表实际类中的实例（反之亦然）。从字面理解：看出系统是否混淆了两个类（即通常将一个类错误标记为另一个类）（多类可以合并为二分类）。</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/blog/9fc22fc9.html#more" rel="contents">
@@ -909,7 +914,7 @@
           <!--/noindex-->
         
       
-    </p></div>
+    </div>
 
     
     
@@ -1002,7 +1007,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p><strong>内容包含：</strong>BatchNormalization、LayerNormalization、InstanceNorm、GroupNorm、SwitchableNorm
+          <p>**内容包含：**BatchNormalization、LayerNormalization、InstanceNorm、GroupNorm、SwitchableNorm</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/blog/7d202220.html#more" rel="contents">
@@ -1012,7 +1017,7 @@
           <!--/noindex-->
         
       
-    </p></div>
+    </div>
 
     
     
@@ -1105,9 +1110,10 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="理论感受野">理论感受野</h2>
+          <h2 id="理论感受野"><a class="markdownIt-Anchor" href="#理论感受野"></a> 理论感受野</h2>
 <p>能够影响单个卷积输出值的输入区域。</p>
-<p>比如1个3x3的卷积核，stride=1，输出的点是由3x3大小的感受野提供的。如果再跟上一个2x2的pooling层，那么pooling层输出的一个点是由4x4的感受野提供的。 解释，因为2x2的pooling层上的每个点是由3x3视野提供的，但是，卷积核的stride=1，所以，感受野上下增加1，为4x4。
+<p>比如1个3x3的卷积核，stride=1，输出的点是由3x3大小的感受野提供的。如果再跟上一个2x2的pooling层，那么pooling层输出的一个点是由4x4的感受野提供的。<br>
+解释，因为2x2的pooling层上的每个点是由3x3视野提供的，但是，卷积核的stride=1，所以，感受野上下增加1，为4x4。</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/blog/f328077.html#more" rel="contents">
@@ -1117,7 +1123,7 @@
           <!--/noindex-->
         
       
-    </p></div>
+    </div>
 
     
     
@@ -1210,8 +1216,10 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <ol type="1">
-<li>NN-SVG Github:<a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/alexlenail/NN-SVG">NN-SVG</a>
+          <ol>
+<li>NN-SVG<br>
+Github:<a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/alexlenail/NN-SVG">NN-SVG</a></li>
+</ol>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/blog/9908d8ed.html#more" rel="contents">
@@ -1221,7 +1229,7 @@
           <!--/noindex-->
         
       
-    </li></ol></div>
+    </div>
 
     
     

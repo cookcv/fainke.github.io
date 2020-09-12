@@ -22,12 +22,12 @@
     var CONFIG = {"hostname":"fainke.com","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results foundin ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="论文名：ScratchDet: Training Single-Shot Object Detectors from 论文链接：https:&#x2F;&#x2F;arxiv.org&#x2F;pdf&#x2F;1810.08425.pdfScratch 这篇论文主要的贡献如下  这是一个融入了BatchNorm使得更好地收敛的检测器，在诸如VGG与Resnet上都可以很好的表现。 修改了网络第一层结构，使得检测准确性有明显的提升，尤其">
+  <meta name="description" content="论文名：ScratchDet: Training Single-Shot Object Detectors from 论文链接：https:&#x2F;&#x2F;arxiv.org&#x2F;pdf&#x2F;1810.08425.pdfScratch  这篇论文主要的贡献如下 (1) 这是一个融入了BatchNorm使得更好地收敛的检测器，在诸如VGG与Resnet上都可以很好的表现。 (2) 修改了网络第一层结构，使得检测准确性有">
 <meta property="og:type" content="article">
 <meta property="og:title" content="ScratchDet - Train from Scratch">
 <meta property="og:url" content="https://fainke.com/blog/f5df260e.html">
 <meta property="og:site_name" content="DeepLearning">
-<meta property="og:description" content="论文名：ScratchDet: Training Single-Shot Object Detectors from 论文链接：https:&#x2F;&#x2F;arxiv.org&#x2F;pdf&#x2F;1810.08425.pdfScratch 这篇论文主要的贡献如下  这是一个融入了BatchNorm使得更好地收敛的检测器，在诸如VGG与Resnet上都可以很好的表现。 修改了网络第一层结构，使得检测准确性有明显的提升，尤其">
+<meta property="og:description" content="论文名：ScratchDet: Training Single-Shot Object Detectors from 论文链接：https:&#x2F;&#x2F;arxiv.org&#x2F;pdf&#x2F;1810.08425.pdfScratch  这篇论文主要的贡献如下 (1) 这是一个融入了BatchNorm使得更好地收敛的检测器，在诸如VGG与Resnet上都可以很好的表现。 (2) 修改了网络第一层结构，使得检测准确性有">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://fainke.com/blog/images/ScratchDet-01.png">
 <meta property="og:image" content="https://fainke.com/blog/images/ScratchDet-02.png">
@@ -283,29 +283,30 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p><strong>论文名：ScratchDet: Training Single-Shot Object Detectors from 论文链接：https://arxiv.org/pdf/1810.08425.pdfScratch</strong></p>
-<h3 id="这篇论文主要的贡献如下">这篇论文主要的贡献如下</h3>
-<ol type="1">
-<li>这是一个融入了BatchNorm使得更好地收敛的检测器，在诸如VGG与Resnet上都可以很好的表现。</li>
-<li>修改了网络第一层结构，使得检测准确性有明显的提升，尤其是在小物体检测上。</li>
-<li>SractchDet比最前沿的train_from_scratch还要优秀，甚至比一些基于预训练的网络得到的结果也好。 <a id="more"></a></li>
-</ol>
-<h3 id="batchnorm的影响">BatchNorm的影响</h3>
-<p><img src="images/ScratchDet-01.png"></p>
-<ol type="1">
+        <p><strong>论文名：ScratchDet: Training Single-Shot Object Detectors from<br>
+论文链接：<a target="_blank" rel="external nofollow noopener noreferrer" href="https://arxiv.org/pdf/1810.08425.pdfScratch">https://arxiv.org/pdf/1810.08425.pdfScratch</a></strong></p>
+<h3 id="这篇论文主要的贡献如下"><a class="markdownIt-Anchor" href="#这篇论文主要的贡献如下"></a> 这篇论文主要的贡献如下</h3>
+<p>(1) 这是一个融入了BatchNorm使得更好地收敛的检测器，在诸如VGG与Resnet上都可以很好的表现。<br>
+(2) 修改了网络第一层结构，使得检测准确性有明显的提升，尤其是在小物体检测上。<br>
+(3) SractchDet比最前沿的train_from_scratch还要优秀，甚至比一些基于预训练的网络得到的结果也好。</p>
+<a id="more"></a>
+<h3 id="batchnorm的影响"><a class="markdownIt-Anchor" href="#batchnorm的影响"></a> BatchNorm的影响</h3>
+<p><img src="images/ScratchDet-01.png" alt></p>
+<ol>
 <li>使用BatchSize为128，并且没有加入BatchNorm，最后在VOC2007上得到67.6mAP。</li>
 <li>加上BatchNorm后，得出的结果提升到71.0mAP，并且优化曲面更加平滑，因此可以使用更大的学习率来加速训练。</li>
 <li>大学习率的使用导致更容易跳出局部最优解。修改初始学习率10倍后，得出的结果提升到75.6mAP。</li>
 </ol>
-<p><img src="images/ScratchDet-02.png"> 4. BatchNorm的使用，使得在大的learn rate下，使用预训练的结果反而不如不使用预训练的结果。没有BatchNorm的情况下使用大学习率，模型很容易崩溃不收敛。</p>
-<h3 id="第一层下采样的影响">第一层下采样的影响</h3>
-<p><img src="images/ScratchDet-03.png"></p>
-<ol type="1">
+<p><img src="images/ScratchDet-02.png" alt><br>
+4. BatchNorm的使用，使得在大的learn rate下，使用预训练的结果反而不如不使用预训练的结果。没有BatchNorm的情况下使用大学习率，模型很容易崩溃不收敛。</p>
+<h3 id="第一层下采样的影响"><a class="markdownIt-Anchor" href="#第一层下采样的影响"></a> 第一层下采样的影响</h3>
+<p><img src="images/ScratchDet-03.png" alt></p>
+<ol>
 <li>一般情况下，RestNet-101优秀于VGG-16，但是，在小输入下（300x300）,基于SSD，VGG-16却在检测上表现得更好。该现象发生的原因是由于Resnet在第一层卷积时的下采样操作（stride=2），而VGGNet第一层stride=1。这点差异使得小目标检测下VGGNet表现得更好。</li>
 <li>为了验证上述观点得正确性，实验中将ResNet-18得第一层下采样修改stride=1，使得结果从73.1mAP提升到77.6mAP。在此之下，又将第二层做了同样的修改，然而这次的实验结果并没有多大的提升。所以，通过实验得到，第一层的下采样对于检测有着重大影响，尤其是小目标的检测。</li>
 </ol>
-<h3 id="四种结构的实验结果">四种结构的实验结果</h3>
-<p><img src="images/ScratchDet-04.png"></p>
+<h3 id="四种结构的实验结果"><a class="markdownIt-Anchor" href="#四种结构的实验结果"></a> 四种结构的实验结果</h3>
+<p><img src="images/ScratchDet-04.png" alt></p>
 <p>图中四种结构在Pascal2012与2007上做训练，在2007test集上做测试的mAP从左到右分别为73.1，75.3，77.6，78.5。</p>
 
     </div>
@@ -465,7 +466,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%99%E7%AF%87%E8%AE%BA%E6%96%87%E4%B8%BB%E8%A6%81%E7%9A%84%E8%B4%A1%E7%8C%AE%E5%A6%82%E4%B8%8B"><span class="nav-number">1.</span> <span class="nav-text">这篇论文主要的贡献如下</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#batchnorm%E7%9A%84%E5%BD%B1%E5%93%8D"><span class="nav-number">2.</span> <span class="nav-text">BatchNorm的影响</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%E5%B1%82%E4%B8%8B%E9%87%87%E6%A0%B7%E7%9A%84%E5%BD%B1%E5%93%8D"><span class="nav-number">3.</span> <span class="nav-text">第一层下采样的影响</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9B%9B%E7%A7%8D%E7%BB%93%E6%9E%84%E7%9A%84%E5%AE%9E%E9%AA%8C%E7%BB%93%E6%9E%9C"><span class="nav-number">4.</span> <span class="nav-text">四种结构的实验结果</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%99%E7%AF%87%E8%AE%BA%E6%96%87%E4%B8%BB%E8%A6%81%E7%9A%84%E8%B4%A1%E7%8C%AE%E5%A6%82%E4%B8%8B"><span class="nav-number">1.</span> <span class="nav-text"> 这篇论文主要的贡献如下</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#batchnorm%E7%9A%84%E5%BD%B1%E5%93%8D"><span class="nav-number">2.</span> <span class="nav-text"> BatchNorm的影响</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%E5%B1%82%E4%B8%8B%E9%87%87%E6%A0%B7%E7%9A%84%E5%BD%B1%E5%93%8D"><span class="nav-number">3.</span> <span class="nav-text"> 第一层下采样的影响</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9B%9B%E7%A7%8D%E7%BB%93%E6%9E%84%E7%9A%84%E5%AE%9E%E9%AA%8C%E7%BB%93%E6%9E%9C"><span class="nav-number">4.</span> <span class="nav-text"> 四种结构的实验结果</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 

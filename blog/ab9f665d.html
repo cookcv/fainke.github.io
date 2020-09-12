@@ -277,30 +277,50 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p><strong>假设检验介绍：</strong> 由于样本的抽样存在误差，所以出现了假设检验。假设检验是用来判断样本与样本，样本与总体的差异是由抽样误差引起还是本质差别造成的统计推断方法。假设检验的结论是概率性的，不是绝对的肯定或否定。</p>
-<p>检验假设是针对总体特征而言，包括相互对立的两个方面：<strong>零假设</strong>和<strong>备选假设</strong>，它们在逻辑方面是互补的，也就是说，如果其中一个假设为真，则另一个假设为假；如果我们推翻了其中一个假设，那就必须承认另一个假设。 <a id="more"></a></p>
-<p><strong>样例：</strong> 假设某种产品要求厚度不高于17.5，现在抽样了一笔数据 [16.9,16.9,16.9,15.8,16.9,17.9,16.9,16.9,16.9,16.9]，均值位16.89，存在一个厚度17.9的产品。那么这批产品是否合格。 零假设(H0)：不合格。 备选假设(H1)：合格。 接下来我们要用统计概率的知识来证明这笔数据合格。 计算这笔数据在17.5要求下的t值与概率p <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">from scipy import stats</span><br><span class="line">height &#x3D; [16.9,16.9,16.9,15.8,16.9,17.9,16.9,16.9,16.9,16.9]</span><br><span class="line">t,p &#x3D; stats.ttest_1samp(height ,17.5)</span><br><span class="line"># 得到 t&#x3D;-3.893, p&#x3D;0.0036  &#x3D;&gt; p&#x2F;2&#x3D;0.0018</span><br><span class="line"># 0.0036是双侧检验值，这里是左尾单侧检验问题，所以除以2。</span><br><span class="line"># t位负数，表示样本平均数在总体均数的左边。</span><br><span class="line"># p值表示该样本分布下以17.5为均值的概率，0.0018&lt;0.05表示不在接受区域内。</span><br><span class="line"># 在这里，t位负的时候，p越小则产品越满足要求,有足够的证据拒绝原假设H0。</span><br><span class="line"># 如果p&#x2F;2靠近显著水平值0.05时，则产品越接近H0不合格的零假设（原假设）。</span><br></pre></td></tr></table></figure> <strong>假设检验存在的风险：</strong> 假设检验是根据样本的情况作的统计推断，该推断存在出错的可能，一般假设检验有如下两类错误。 1. Ⅰ型错误，第一类错误、假阳性错误,就是在假设检验作推断结论时，拒绝了实际上是正确的原假设H0，其概率用α表示（拒绝正确）。Ⅰ型错误是针对原假设而言的， α就是事先规定 的 允 许 犯 Ⅰ 型 错 误 的 概 率 值 ， 如 规 定α=0.05，意味着在某特定总体抽样， 100次拒绝H0的假设检验中，最多有5次允许发生第一类错误。与此相应，推断正确的可能性为1-α， 1-α又称为可信度。 2. Ⅱ型错误，第二类错误、假阴性错误， 即接受实际上是不成立的H0。就是无效假设原本是不正确的，但所算得的统计量不足以拒绝它，错误地得出了无差别的结论（接受错误）。Ⅱ型错误是针对备择假设而言的，其概率值用β表示。β值的大小一般未知，只有在不同总体特征已知的基础上，按预定的α和n才能做出估算。</p>
-<p><strong>知识补充：</strong> 1. 标准误差SE = S(样本标准差)/sqrt(样本数) 2. t检验值t=(样本均值-总体均值)/样本标准差 3. t值的正负表示样本数据得均值在总体数据均值的左右。根据查表可以得到概率P，概率P取单侧检验值还是双侧检验值取决于具体任务。 5. 著名的英国统计家 Ronald Fisher 把1/20 作为标准，即 0.05，称作<strong>显著水平</strong>，小于这个值就表示零假设不成立。</p>
+        <p><strong>假设检验介绍：</strong><br>
+由于样本的抽样存在误差，所以出现了假设检验。假设检验是用来判断样本与样本，样本与总体的差异是由抽样误差引起还是本质差别造成的统计推断方法。假设检验的结论是概率性的，不是绝对的肯定或否定。</p>
+<p>检验假设是针对总体特征而言，包括相互对立的两个方面：<strong>零假设</strong>和<strong>备选假设</strong>，它们在逻辑方面是互补的，也就是说，如果其中一个假设为真，则另一个假设为假；如果我们推翻了其中一个假设，那就必须承认另一个假设。</p>
+<a id="more"></a>
+<p><strong>样例：</strong><br>
+假设某种产品要求厚度不高于17.5，现在抽样了一笔数据 [16.9,16.9,16.9,15.8,16.9,17.9,16.9,16.9,16.9,16.9]，均值位16.89，存在一个厚度17.9的产品。那么这批产品是否合格。<br>
+零假设(H0)：不合格。<br>
+备选假设(H1)：合格。<br>
+接下来我们要用统计概率的知识来证明这笔数据合格。<br>
+计算这笔数据在17.5要求下的t值与概率p</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">from scipy import stats</span><br><span class="line">height &#x3D; [16.9,16.9,16.9,15.8,16.9,17.9,16.9,16.9,16.9,16.9]</span><br><span class="line">t,p &#x3D; stats.ttest_1samp(height ,17.5)</span><br><span class="line"># 得到 t&#x3D;-3.893, p&#x3D;0.0036  &#x3D;&gt; p&#x2F;2&#x3D;0.0018</span><br><span class="line"># 0.0036是双侧检验值，这里是左尾单侧检验问题，所以除以2。</span><br><span class="line"># t位负数，表示样本平均数在总体均数的左边。</span><br><span class="line"># p值表示该样本分布下以17.5为均值的概率，0.0018&lt;0.05表示不在接受区域内。</span><br><span class="line"># 在这里，t位负的时候，p越小则产品越满足要求,有足够的证据拒绝原假设H0。</span><br><span class="line"># 如果p&#x2F;2靠近显著水平值0.05时，则产品越接近H0不合格的零假设（原假设）。</span><br></pre></td></tr></table></figure>
+<p><strong>假设检验存在的风险：</strong><br>
+假设检验是根据样本的情况作的统计推断，该推断存在出错的可能，一般假设检验有如下两类错误。</p>
+<ol>
+<li>Ⅰ型错误，第一类错误、假阳性错误,就是在假设检验作推断结论时，拒绝了实际上是正确的原假设H0，其概率用α表示（拒绝正确）。Ⅰ型错误是针对原假设而言的， α就是事先规定 的 允 许 犯 Ⅰ 型 错 误 的 概 率 值 ， 如 规 定α=0.05，意味着在某特定总体抽样， 100次拒绝H0的假设检验中，最多有5次允许发生第一类错误。与此相应，推断正确的可能性为1-α， 1-α又称为可信度。</li>
+<li>Ⅱ型错误，第二类错误、假阴性错误， 即接受实际上是不成立的H0。就是无效假设原本是不正确的，但所算得的统计量不足以拒绝它，错误地得出了无差别的结论（接受错误）。Ⅱ型错误是针对备择假设而言的，其概率值用β表示。β值的大小一般未知，只有在不同总体特征已知的基础上，按预定的α和n才能做出估算。</li>
+</ol>
+<p><strong>知识补充：</strong></p>
+<ol>
+<li>标准误差SE = S(样本标准差)/sqrt(样本数)</li>
+<li>t检验值t=(样本均值-总体均值)/样本标准差</li>
+<li>t值的正负表示样本数据得均值在总体数据均值的左右。根据查表可以得到概率P，概率P取单侧检验值还是双侧检验值取决于具体任务。</li>
+<li>著名的英国统计家 Ronald Fisher 把1/20 作为标准，即 0.05，称作<strong>显著水平</strong>，小于这个值就表示零假设不成立。</li>
+</ol>
 <table>
 <thead>
-<tr class="header">
+<tr>
 <th>假设检验类型</th>
 <th>目的</th>
 <th>案例</th>
 </tr>
 </thead>
 <tbody>
-<tr class="odd">
+<tr>
 <td>单样本检测</td>
 <td>检验单个样本的平均值是否等于目标值。</td>
 <td>抽样的产品的均值是否低于总体均值。</td>
 </tr>
-<tr class="even">
+<tr>
 <td>相关配对检测</td>
 <td>检验相关样本观测值之差的平均值是否等于目标值。</td>
 <td>验证斯特鲁普效应。</td>
 </tr>
-<tr class="odd">
+<tr>
 <td>独立双样本检测</td>
 <td>检验两个独立样本的平均值是否等于目标值。</td>
 <td>喝牛奶与不喝牛奶的两组人群的身高对比统计。</td>

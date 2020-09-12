@@ -278,51 +278,75 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="实体关系抽取">实体关系抽取</h2>
-<p>需求方提供与糖尿病相关的中文学术论文及糖尿病临床指南。我们从中抽取实体之间的关系。实体之间的关系共十类。 <a id="more"></a></p>
-<h3 id="场景">场景</h3>
+        <h2 id="实体关系抽取"><a class="markdownIt-Anchor" href="#实体关系抽取"></a> 实体关系抽取</h2>
+<p>需求方提供与糖尿病相关的中文学术论文及糖尿病临床指南。我们从中抽取实体之间的关系。实体之间的关系共十类。</p>
+<a id="more"></a>
+<h3 id="场景"><a class="markdownIt-Anchor" href="#场景"></a> 场景</h3>
 <p>本方案通过枚举所有实体对之间是否有关系建模，所以需要产生所有实体对之间的关系数据(有关系与无关系)。</p>
-<p><strong>正样本与负样本：</strong> 例子：句子：实体1xxx实体2,xxx实体3。 由上述句子可以生成实体1-实体2，实体1-实体3，实体2-实体3，共三个备选样本，假设实体1-实体2为一个正样本(即这两个样本之间有关系)，那么剩余的两种组合即为负样本。当然，这种样本制作方式会带来很高的正负样本比。</p>
-<p><strong>数据分析：</strong> 通过数据分析，可以得到，两个有关系的实体有71%可能在一个句子中，有21%的可能分布在相邻的两个句子中。</p>
+<p><strong>正样本与负样本：</strong><br>
+例子：句子：实体1xxx实体2,xxx实体3。<br>
+由上述句子可以生成实体1-实体2，实体1-实体3，实体2-实体3，共三个备选样本，假设实体1-实体2为一个正样本(即这两个样本之间有关系)，那么剩余的两种组合即为负样本。当然，这种样本制作方式会带来很高的正负样本比。</p>
+<p><strong>数据分析：</strong><br>
+通过数据分析，可以得到，两个有关系的实体有71%可能在一个句子中，有21%的可能分布在相邻的两个句子中。</p>
 <p>实体含有的信息：实体名字与其表示的向量，实体位置，</p>
 <p><strong>数据样本生成：</strong></p>
-<ol type="1">
+<ol>
 <li>如果通过常规的句子切割方式，一来诸如半角符号的存在，无法判断是小数点还是句子结束符。二来通过这样的方式生成的样本长度均值在150左右。</li>
 <li>本方案通过将【实体1xxx实体2】这样的结构作为一条样本，但是，考虑到上下文的重要性，又在这样的样本前后追加20个字符【xx实体1xxx实体2xx】。最后的文本长度控制在100左右。中间文本超阈值范围的不计。</li>
 <li>为了再次降低正负样本比例，清除无关实体构成的句子。</li>
 </ol>
 <p><strong>特征制作：</strong></p>
-<ol type="1">
-<li><p>词性特征：将字的所属词的词性进行embedding.</p></li>
-<li><p>词边界特征：通过BIOE标记法获得的标记进行embedding.</p></li>
-<li><p>标记实体所在位置。实体位置标记1，其它字标志为0。</p></li>
-<li><p>由于疾病最后一个字往往比较重要，所以将标注方式换为B(Begin),I(Inside),O(Outside),E(End),S(Single)。多了E和S。</p></li>
-<li><p>实体对之间的距离作为关系。</p></li>
+<ol>
+<li>
+<p>词性特征：将字的所属词的词性进行embedding.</p>
+</li>
+<li>
+<p>词边界特征：通过BIOE标记法获得的标记进行embedding.</p>
+</li>
+<li>
+<p>标记实体所在位置。实体位置标记1，其它字标志为0。</p>
+</li>
+<li>
+<p>由于疾病最后一个字往往比较重要，所以将标注方式换为B(Begin),I(Inside),O(Outside),E(End),S(Single)。多了E和S。</p>
+</li>
+<li>
+<p>实体对之间的距离作为关系。</p>
+</li>
 </ol>
 <p><strong>采用字向量：</strong></p>
-<ol type="1">
+<ol>
 <li>中文的分词困难，特别是医疗领域含有大量的专业词汇。</li>
 <li>对于稀少的专有名词的训练很艰难。</li>
 <li>大量的未登录词，词的覆盖率只有55+%，而字的覆盖率达到90+%</li>
 </ol>
 <p><strong>字向量的选择：</strong></p>
-<ol type="1">
-<li><p>Word2Vec获得的字向量本次实验效果优于Glove.但是由于负样本的上下文环境多种多样，所以引进了动态字向量。动态字词向量含有上下文的语义信息。</p></li>
-<li><p>由于 Word2Vec 和 Glove 学习得到的字向量是固定不变的，即一个字只有一种字向量，显然不适合用于多义词。而 ELMo 算法使用了深度双向语言模型 (biLM)，只训练语言模型，而字向量是在输入句子实时获得的，因此字向量与上下文信息密切相关，可以较好地区分歧义。</p></li>
-<li><p>ELMo 是一种动态词向量算法，在大型的语料库里训练一个 biLSTM (双向LSTM模型)<strong>语言模型</strong>。下游任务需要获取单词词向量的时候，将整个被向量化的句子输入biLSTM（在 ELMo 中使用了 CNN-BIG-LSTM 生成的词向量），利用 biLSTM 的输出作为单词的词向量，包含了上下文信息。可以理解成，biLSTM 是一个函数，函数的输入是一个句子，输出是句子中单词的词向量。</p></li>
-<li><p>biLSTM 中不同层得到的词向量侧重点不同，输入层采用的 CNN-BIG-LSTM 词向量可以比较好编码词性信息，第 1 层 LSTM 可以比较好编码句法信息，第 2 层 LSTM 可以比较好编码单词语义信息。通过多层词向量的融合得到最终词向量，最终词向量可以兼顾多种不同层次的信息。</p></li>
+<ol>
+<li>
+<p>Word2Vec获得的字向量本次实验效果优于Glove.但是由于负样本的上下文环境多种多样，所以引进了动态字向量。动态字词向量含有上下文的语义信息。</p>
+</li>
+<li>
+<p>由于 Word2Vec 和 Glove 学习得到的字向量是固定不变的，即一个字只有一种字向量，显然不适合用于多义词。而 ELMo 算法使用了深度双向语言模型 (biLM)，只训练语言模型，而字向量是在输入句子实时获得的，因此字向量与上下文信息密切相关，可以较好地区分歧义。</p>
+</li>
+<li>
+<p>ELMo 是一种动态词向量算法，在大型的语料库里训练一个 biLSTM (双向LSTM模型)<strong>语言模型</strong>。下游任务需要获取单词词向量的时候，将整个被向量化的句子输入biLSTM（在 ELMo 中使用了 CNN-BIG-LSTM 生成的词向量），利用 biLSTM 的输出作为单词的词向量，包含了上下文信息。可以理解成，biLSTM 是一个函数，函数的输入是一个句子，输出是句子中单词的词向量。</p>
+</li>
+<li>
+<p>biLSTM 中不同层得到的词向量侧重点不同，输入层采用的 CNN-BIG-LSTM 词向量可以比较好编码词性信息，第 1 层 LSTM 可以比较好编码句法信息，第 2 层 LSTM 可以比较好编码单词语义信息。通过多层词向量的融合得到最终词向量，最终词向量可以兼顾多种不同层次的信息。</p>
+</li>
 </ol>
 <p><strong>Loss的设置：</strong></p>
 <p>由于负样本的文本模式复杂多样，无规律可循，所以，对于负样本作为一个类别去预测就会很难提取这个类别的共性特征。因此，将10+1类的预测改为10类的预测，然后设置阈值来区分是不是负样本，这样提高了召回率。</p>
-<p>预测阶段，设t是模型正负样本的判断阈偵： 1、如果有预测得分人于等于t，则选取最大得分对应的类别为预测类别； 2、如果预测得分均小0，则该样本为负类。</p>
-<p><strong>Loss公式:</strong><span class="math inline">\(L=log(1+exp(\gamma(m^+ - s_{\theta(x)_{y^+}}))) + log(1+exp(\gamma(m^- + s_{\theta(x)_{c^-}})))\)</span></p>
+<p>预测阶段，设t是模型正负样本的判断阈偵：<br>
+1、如果有预测得分人于等于t，则选取最大得分对应的类别为预测类别；<br>
+2、如果预测得分均小0，则该样本为负类。</p>
+<p><strong>Loss公式:</strong><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>L</mi><mo>=</mo><mi>l</mi><mi>o</mi><mi>g</mi><mo stretchy="false">(</mo><mn>1</mn><mo>+</mo><mi>e</mi><mi>x</mi><mi>p</mi><mo stretchy="false">(</mo><mi>γ</mi><mo stretchy="false">(</mo><msup><mi>m</mi><mo>+</mo></msup><mo>−</mo><msub><mi>s</mi><mrow><mi>θ</mi><mo stretchy="false">(</mo><mi>x</mi><msub><mo stretchy="false">)</mo><msup><mi>y</mi><mo>+</mo></msup></msub></mrow></msub><mo stretchy="false">)</mo><mo stretchy="false">)</mo><mo stretchy="false">)</mo><mo>+</mo><mi>l</mi><mi>o</mi><mi>g</mi><mo stretchy="false">(</mo><mn>1</mn><mo>+</mo><mi>e</mi><mi>x</mi><mi>p</mi><mo stretchy="false">(</mo><mi>γ</mi><mo stretchy="false">(</mo><msup><mi>m</mi><mo>−</mo></msup><mo>+</mo><msub><mi>s</mi><mrow><mi>θ</mi><mo stretchy="false">(</mo><mi>x</mi><msub><mo stretchy="false">)</mo><msup><mi>c</mi><mo>−</mo></msup></msub></mrow></msub><mo stretchy="false">)</mo><mo stretchy="false">)</mo><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">L=log(1+exp(\gamma(m^+ - s_{\theta(x)_{y^+}}))) + log(1+exp(\gamma(m^- + s_{\theta(x)_{c^-}})))</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault">L</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault">o</span><span class="mord mathdefault" style="margin-right:0.03588em;">g</span><span class="mopen">(</span><span class="mord">1</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1.021331em;vertical-align:-0.25em;"></span><span class="mord mathdefault">e</span><span class="mord mathdefault">x</span><span class="mord mathdefault">p</span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.05556em;">γ</span><span class="mopen">(</span><span class="mord"><span class="mord mathdefault">m</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.771331em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mbin mtight">+</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1.2247249999999998em;vertical-align:-0.47472499999999984em;"></span><span class="mord"><span class="mord mathdefault">s</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3448em;"><span style="top:-2.5198em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.02778em;">θ</span><span class="mopen mtight">(</span><span class="mord mathdefault mtight">x</span><span class="mclose mtight"><span class="mclose mtight">)</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3448em;"><span style="top:-2.3448em;margin-left:0em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.626664285714286em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.03588em;">y</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8773299999999999em;"><span style="top:-2.87733em;margin-right:0.1em;"><span class="pstrut" style="height:2.58333em;"></span><span class="mbin mtight">+</span></span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.42074999999999996em;"><span></span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.47472499999999984em;"><span></span></span></span></span></span></span><span class="mclose">)</span><span class="mclose">)</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault">o</span><span class="mord mathdefault" style="margin-right:0.03588em;">g</span><span class="mopen">(</span><span class="mord">1</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1.021331em;vertical-align:-0.25em;"></span><span class="mord mathdefault">e</span><span class="mord mathdefault">x</span><span class="mord mathdefault">p</span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.05556em;">γ</span><span class="mopen">(</span><span class="mord"><span class="mord mathdefault">m</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.771331em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mbin mtight">−</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1.1275049999999998em;vertical-align:-0.37750499999999987em;"></span><span class="mord"><span class="mord mathdefault">s</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3448em;"><span style="top:-2.5198000000000005em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.02778em;">θ</span><span class="mopen mtight">(</span><span class="mord mathdefault mtight">x</span><span class="mclose mtight"><span class="mclose mtight">)</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3448em;"><span style="top:-2.3448em;margin-left:0em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.626664285714286em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mathdefault mtight">c</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8773299999999999em;"><span style="top:-2.87733em;margin-right:0.1em;"><span class="pstrut" style="height:2.58333em;"></span><span class="mbin mtight">−</span></span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2818642857142857em;"><span></span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.37750499999999987em;"><span></span></span></span></span></span></span><span class="mclose">)</span><span class="mclose">)</span><span class="mclose">)</span></span></span></span></p>
 <p>m+ = 2.5, 指的是正样本的阈值，要大于2.5。</p>
 <p>m- = 0.5, 指的是负样本的阈值，要小于0.5。</p>
-<p><span class="math inline">\(\gamma\)</span>为模型损失的缩放超参。</p>
-<p><span class="math inline">\(s_{\theta}\)</span>是sigmod函数。</p>
-<p><span class="math inline">\(c^-\)</span>是除了预测正确的类别，第二大预测的分值。</p>
+<p><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>γ</mi></mrow><annotation encoding="application/x-tex">\gamma</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.19444em;"></span><span class="mord mathdefault" style="margin-right:0.05556em;">γ</span></span></span></span>为模型损失的缩放超参。</p>
+<p><span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>s</mi><mi>θ</mi></msub></mrow><annotation encoding="application/x-tex">s_{\theta}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.58056em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault">s</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33610799999999996em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.02778em;">θ</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>是sigmod函数。</p>
+<p><span class="katex"><span class="katex-mathml"><math><semantics><mrow><msup><mi>c</mi><mo>−</mo></msup></mrow><annotation encoding="application/x-tex">c^-</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.771331em;vertical-align:0em;"></span><span class="mord"><span class="mord mathdefault">c</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.771331em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mbin mtight">−</span></span></span></span></span></span></span></span></span></span></span>是除了预测正确的类别，第二大预测的分值。</p>
 <p>本Loss比交叉熵Loss的准确率低，但召回率高，F1也高。</p>
-<h3 id="图谱的功能">图谱的功能</h3>
+<h3 id="图谱的功能"><a class="markdownIt-Anchor" href="#图谱的功能"></a> 图谱的功能</h3>
 <p>查询某一个实体的属性与对应的关系实体。比如疾病与其对应相关的药物，对应的检查方法。关于药物也可以推理出它的用量用法属性。</p>
 
     </div>
@@ -482,7 +506,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E4%BD%93%E5%85%B3%E7%B3%BB%E6%8A%BD%E5%8F%96"><span class="nav-number">1.</span> <span class="nav-text">实体关系抽取</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9C%BA%E6%99%AF"><span class="nav-number">1.1.</span> <span class="nav-text">场景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9B%BE%E8%B0%B1%E7%9A%84%E5%8A%9F%E8%83%BD"><span class="nav-number">1.2.</span> <span class="nav-text">图谱的功能</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E4%BD%93%E5%85%B3%E7%B3%BB%E6%8A%BD%E5%8F%96"><span class="nav-number">1.</span> <span class="nav-text"> 实体关系抽取</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9C%BA%E6%99%AF"><span class="nav-number">1.1.</span> <span class="nav-text"> 场景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9B%BE%E8%B0%B1%E7%9A%84%E5%8A%9F%E8%83%BD"><span class="nav-number">1.2.</span> <span class="nav-text"> 图谱的功能</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 

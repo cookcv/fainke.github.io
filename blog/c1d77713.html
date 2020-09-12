@@ -283,39 +283,70 @@
 
       
         <ul>
-<li><a id="more"></a></li>
+<li></li>
 </ul>
-<h2 id="梯度爆炸与梯度消失">梯度爆炸与梯度消失</h2>
-<p><strong>sigmoid数学公式:</strong> <span class="math inline">\(f(x)=\frac{1}{1+e^{-x}}\)</span> 值域为[0,1]</p>
-<p><strong>sigmoid求导公式：</strong> <span class="math inline">\(f^{\prime}(x)=f(x)(1-f(x))\)</span> 值域为[0,1/4]</p>
+<a id="more"></a>
+<h2 id="梯度爆炸与梯度消失"><a class="markdownIt-Anchor" href="#梯度爆炸与梯度消失"></a> 梯度爆炸与梯度消失</h2>
+<p><strong>sigmoid数学公式:</strong> <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>f</mi><mo stretchy="false">(</mo><mi>x</mi><mo stretchy="false">)</mo><mo>=</mo><mfrac><mn>1</mn><mrow><mn>1</mn><mo>+</mo><msup><mi>e</mi><mrow><mo>−</mo><mi>x</mi></mrow></msup></mrow></mfrac></mrow><annotation encoding="application/x-tex">f(x)=\frac{1}{1+e^{-x}}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord mathdefault">x</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1.2484389999999999em;vertical-align:-0.403331em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.845108em;"><span style="top:-2.655em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span><span class="mbin mtight">+</span><span class="mord mtight"><span class="mord mathdefault mtight">e</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.7026642857142857em;"><span style="top:-2.786em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mord mtight">−</span><span class="mord mathdefault mtight">x</span></span></span></span></span></span></span></span></span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.403331em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span> 值域为[0,1]</p>
+<p><strong>sigmoid求导公式：</strong> <span class="katex"><span class="katex-mathml"><math><semantics><mrow><msup><mi>f</mi><mo mathvariant="normal">′</mo></msup><mo stretchy="false">(</mo><mi>x</mi><mo stretchy="false">)</mo><mo>=</mo><mi>f</mi><mo stretchy="false">(</mo><mi>x</mi><mo stretchy="false">)</mo><mo stretchy="false">(</mo><mn>1</mn><mo>−</mo><mi>f</mi><mo stretchy="false">(</mo><mi>x</mi><mo stretchy="false">)</mo><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">f^{\prime}(x)=f(x)(1-f(x))</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.001892em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.751892em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathdefault">x</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord mathdefault">x</span><span class="mclose">)</span><span class="mopen">(</span><span class="mord">1</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord mathdefault">x</span><span class="mclose">)</span><span class="mclose">)</span></span></span></span> 值域为[0,1/4]</p>
 <p><strong>实际现象：</strong> 当我们使用sigmoid function作为激活函数时，随着神经网络的隐藏层数增加，训练误差反而增大，造成了深度网络的不稳定。</p>
 <p><strong>梯度弥散：</strong> 靠近输出层的hidden layer 梯度大，参数更新更快，所以很快就会收敛。而靠近输入层的hidden layer梯度小，参数更新慢，几乎和初始状态一样，随机分布。</p>
 <p><strong>梯度爆炸：</strong> 当前面hidden layer的梯度通过训练变大，而后面的梯度将会指数级增大。</p>
 <p><strong>现象原因：</strong> sigmoid函数会将[+∞,-∞]的输入压缩到[0,1]，导致当输入更新时，输出的更新会很小。在这种情况下，就会随着隐藏层数的增加，反向传递时，数值更新将会越来越小。</p>
 <p><strong>解决方法：</strong></p>
-<ol type="1">
-<li><p>Relu函数代换Sigmoid函数。</p></li>
-<li><p>逐层贪婪预训练，如同训练自编码器的过程，每次只训练一层参数。由于得到的参数将会是局部最优，所以需要对整个网络再进行调优。</p></li>
-<li><p>梯度减切Gradient Clip。设置一个梯度减切的阈值，如果在更新梯度的时候，梯度超过这个阈值，则会将其限制在这个范围之内，防止梯度爆炸。</p></li>
-<li><p>正则。对参数加入正则规范，限制参数范数过大。</p></li>
-<li><p>加入batch normalization层。</p></li>
-<li><p>加入残差结构。</p></li>
-<li><p>LSTM层由于有记忆，可以缓解梯度消失的发生。</p></li>
+<ol>
+<li>
+<p>Relu函数代换Sigmoid函数。</p>
+</li>
+<li>
+<p>逐层贪婪预训练，如同训练自编码器的过程，每次只训练一层参数。由于得到的参数将会是局部最优，所以需要对整个网络再进行调优。</p>
+</li>
+<li>
+<p>梯度减切Gradient Clip。设置一个梯度减切的阈值，如果在更新梯度的时候，梯度超过这个阈值，则会将其限制在这个范围之内，防止梯度爆炸。</p>
+</li>
+<li>
+<p>正则。对参数加入正则规范，限制参数范数过大。</p>
+</li>
+<li>
+<p>加入batch normalization层。</p>
+</li>
+<li>
+<p>加入残差结构。</p>
+</li>
+<li>
+<p>LSTM层由于有记忆，可以缓解梯度消失的发生。</p>
+</li>
 </ol>
-<h2 id="gradient-clip">Gradient Clip</h2>
-<h3 id="简述">简述</h3>
-<p>该方法简单，但是粗暴，阈值人为定义。设置上界阈值，面对梯度爆炸，设置下界阈值，也可以用于梯度消失。 ### 梯度爆炸解释 在一个只有一个隐藏节点的网络中，损失函数和权值w偏置b构成error surface，宛如一堵墙，如下所示 <img src="images/GradientClip_wb.jpg" alt="GradientClip_wb"> 损失函数每次迭代都是每次一小步，但是当遇到这堵墙时，在墙上的某点计算梯度，梯度会瞬间增大，指向某处不理想的位置。如果我们将大梯度缩放，就可以把该梯度的误导控制在可接受范围内，如虚线箭头所示。 ### 算法步骤 <img src="images/GradientClip_1.jpg" alt="GradientClip——算法步骤"> 1. 设置梯度阈值threshold 2. 求出梯度的L2范数||g||。 3. 比较||g||与threshold的大小。 4. 如果||g||大于threshold,则求threshold/||g||得到缩放因子。 5. 将梯度乘上缩放因子得到最终的梯度。</p>
-<h3 id="效果实验">效果实验</h3>
-<p><strong>无gradient clip:</strong> 模型在2000次迭代出发生了梯度爆炸。 <img src="images/GradientClip_loss_1.jpg" alt="GradientClip——Loss"></p>
-<p><strong>有gradient clip:</strong> 可以发现clip_gradient在前期有效了控制了梯度爆炸的影响，使得最终的loss能下降到满意的结果 <img src="images/GradientClip_loss_2.jpg" alt="GradientClip——Loss"></p>
-<h3 id="tensorflow-and-pytorch-gradientclip">Tensorflow and Pytorch GradientClip</h3>
-<h4 id="tensorflow">tensorflow</h4>
+<h2 id="gradient-clip"><a class="markdownIt-Anchor" href="#gradient-clip"></a> Gradient Clip</h2>
+<h3 id="简述"><a class="markdownIt-Anchor" href="#简述"></a> 简述</h3>
+<p>该方法简单，但是粗暴，阈值人为定义。设置上界阈值，面对梯度爆炸，设置下界阈值，也可以用于梯度消失。</p>
+<h3 id="梯度爆炸解释"><a class="markdownIt-Anchor" href="#梯度爆炸解释"></a> 梯度爆炸解释</h3>
+<p>在一个只有一个隐藏节点的网络中，损失函数和权值w偏置b构成error surface，宛如一堵墙，如下所示<br>
+<img src="images/GradientClip_wb.jpg" alt="GradientClip_wb"><br>
+损失函数每次迭代都是每次一小步，但是当遇到这堵墙时，在墙上的某点计算梯度，梯度会瞬间增大，指向某处不理想的位置。如果我们将大梯度缩放，就可以把该梯度的误导控制在可接受范围内，如虚线箭头所示。</p>
+<h3 id="算法步骤"><a class="markdownIt-Anchor" href="#算法步骤"></a> 算法步骤</h3>
+<p><img src="images/GradientClip_1.jpg" alt="GradientClip——算法步骤"></p>
+<ol>
+<li>设置梯度阈值threshold</li>
+<li>求出梯度的L2范数||g||。</li>
+<li>比较||g||与threshold的大小。</li>
+<li>如果||g||大于threshold,则求threshold/||g||得到缩放因子。</li>
+<li>将梯度乘上缩放因子得到最终的梯度。</li>
+</ol>
+<h3 id="效果实验"><a class="markdownIt-Anchor" href="#效果实验"></a> 效果实验</h3>
+<p><strong>无gradient clip:</strong><br>
+模型在2000次迭代出发生了梯度爆炸。<br>
+<img src="images/GradientClip_loss_1.jpg" alt="GradientClip——Loss"></p>
+<p><strong>有gradient clip:</strong><br>
+可以发现clip_gradient在前期有效了控制了梯度爆炸的影响，使得最终的loss能下降到满意的结果<br>
+<img src="images/GradientClip_loss_2.jpg" alt="GradientClip——Loss"></p>
+<h3 id="tensorflow-and-pytorch-gradientclip"><a class="markdownIt-Anchor" href="#tensorflow-and-pytorch-gradientclip"></a> Tensorflow and Pytorch GradientClip</h3>
+<h4 id="tensorflow"><a class="markdownIt-Anchor" href="#tensorflow"></a> tensorflow</h4>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 1. 计算局部范数（快）</span></span><br><span class="line">tf.clip_by_norm(grads, clip_norm=<span class="number">5</span>)</span><br><span class="line"><span class="comment"># 2. 计算全局范数（慢）</span></span><br><span class="line">tf.clip_by_global_norm(grads, clip_norm=<span class="number">5</span>)</span><br><span class="line"><span class="comment"># 计算所有梯度的平方和global_norm,</span></span><br><span class="line"><span class="comment"># 如果梯度平方和global_norm 超过我们指定的clip_norm，</span></span><br><span class="line"><span class="comment"># 那么就对梯度进行缩放；否则就按照原本的计算结果，</span></span><br></pre></td></tr></table></figure>
-<h4 id="pytorch">Pytorch</h4>
+<h4 id="pytorch"><a class="markdownIt-Anchor" href="#pytorch"></a> Pytorch</h4>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 这个函数计算的是全局梯度范数</span></span><br><span class="line">torch.nn.utils.clip_grad_norm(parameters=model.parameters(), max_norm=<span class="number">5</span>, norm_type=<span class="number">2</span>)</span><br><span class="line"><span class="comment"># parameters: an iterable of Variables that will have gradients normalized</span></span><br><span class="line"><span class="comment"># max_norm: max norm of the gradients(阈值设定)</span></span><br><span class="line"><span class="comment"># norm_type: type of the used p-norm. Can be&#x27;inf&#x27;for infinity norm(定义范数类型)</span></span><br></pre></td></tr></table></figure>
-<h4 id="keras">Keras</h4>
+<h4 id="keras"><a class="markdownIt-Anchor" href="#keras"></a> Keras</h4>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> keras <span class="keyword">import</span> optimizers</span><br><span class="line"><span class="comment"># 所有参数梯度将被裁剪，让其l2范数最大为1：g * 1 / max(1, l2_norm)</span></span><br><span class="line">sgd = optimizers.SGD(lr=<span class="number">0.01</span>, clipnorm=<span class="number">1.</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 所有参数d 梯度将被裁剪到数值范围内：</span></span><br><span class="line"><span class="comment"># 最大值0.5</span></span><br><span class="line"><span class="comment"># 最小值-0.5</span></span><br><span class="line">sgd = optimizers.SGD(lr=<span class="number">0.01</span>, clipvalue=<span class="number">0.5</span>)</span><br></pre></td></tr></table></figure>
-
     </div>
 
     
@@ -407,12 +438,12 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/blog/b08494e7.html" rel="prev" title="检测任务Loss之GIOU">
-      <i class="fa fa-chevron-left"></i> 检测任务Loss之GIOU
+    <a href="/blog/439cc94e.html" rel="prev" title="模型剪枝工具推荐">
+      <i class="fa fa-chevron-left"></i> 模型剪枝工具推荐
     </a></div>
       <div class="post-nav-item">
-    <a href="/blog/17ea3cd3.html" rel="next" title="梯度下降优化方法总结">
-      梯度下降优化方法总结 <i class="fa fa-chevron-right"></i>
+    <a href="/blog/b08494e7.html" rel="next" title="检测任务Loss之GIOU">
+      检测任务Loss之GIOU <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
@@ -474,7 +505,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A2%AF%E5%BA%A6%E7%88%86%E7%82%B8%E4%B8%8E%E6%A2%AF%E5%BA%A6%E6%B6%88%E5%A4%B1"><span class="nav-number">1.</span> <span class="nav-text">梯度爆炸与梯度消失</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#gradient-clip"><span class="nav-number">2.</span> <span class="nav-text">Gradient Clip</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AE%80%E8%BF%B0"><span class="nav-number">2.1.</span> <span class="nav-text">简述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%88%E6%9E%9C%E5%AE%9E%E9%AA%8C"><span class="nav-number">2.2.</span> <span class="nav-text">效果实验</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#tensorflow-and-pytorch-gradientclip"><span class="nav-number">2.3.</span> <span class="nav-text">Tensorflow and Pytorch GradientClip</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#tensorflow"><span class="nav-number">2.3.1.</span> <span class="nav-text">tensorflow</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#pytorch"><span class="nav-number">2.3.2.</span> <span class="nav-text">Pytorch</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#keras"><span class="nav-number">2.3.3.</span> <span class="nav-text">Keras</span></a></li></ol></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A2%AF%E5%BA%A6%E7%88%86%E7%82%B8%E4%B8%8E%E6%A2%AF%E5%BA%A6%E6%B6%88%E5%A4%B1"><span class="nav-number">1.</span> <span class="nav-text"> 梯度爆炸与梯度消失</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#gradient-clip"><span class="nav-number">2.</span> <span class="nav-text"> Gradient Clip</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AE%80%E8%BF%B0"><span class="nav-number">2.1.</span> <span class="nav-text"> 简述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A2%AF%E5%BA%A6%E7%88%86%E7%82%B8%E8%A7%A3%E9%87%8A"><span class="nav-number">2.2.</span> <span class="nav-text"> 梯度爆炸解释</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AE%97%E6%B3%95%E6%AD%A5%E9%AA%A4"><span class="nav-number">2.3.</span> <span class="nav-text"> 算法步骤</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%88%E6%9E%9C%E5%AE%9E%E9%AA%8C"><span class="nav-number">2.4.</span> <span class="nav-text"> 效果实验</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#tensorflow-and-pytorch-gradientclip"><span class="nav-number">2.5.</span> <span class="nav-text"> Tensorflow and Pytorch GradientClip</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#tensorflow"><span class="nav-number">2.5.1.</span> <span class="nav-text"> tensorflow</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#pytorch"><span class="nav-number">2.5.2.</span> <span class="nav-text"> Pytorch</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#keras"><span class="nav-number">2.5.3.</span> <span class="nav-text"> Keras</span></a></li></ol></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 

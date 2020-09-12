@@ -279,26 +279,32 @@
 
       
         <p><strong>剪枝一直都是一个十分必要的工作。</strong></p>
-<p><strong>谷歌：</strong> Link:<a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/tensorflow/model-optimization">TensorFlow Model Optimization Toolkit</a> <a id="more"></a></p>
-<p><strong>百度：</strong> Link:<a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/PaddlePaddle/models/tree/develop/PaddleSlim">PaddleSlim</a></p>
-<p><strong>腾讯：</strong> Link:<a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/Tencent/PocketFlow">PocketFlow</a></p>
-<p><strong>Intel(基于Pytorch):</strong> Link:<a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/NervanaSystems/distiller">distiller</a></p>
-<p><strong>微软：</strong> Link:<a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/microsoft/nni">NNI</a></p>
-<p><strong>Pytorch社区：</strong> Link:<a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/666DZY666/model-compression">model-compression</a></p>
-<p><strong>Keras社区：</strong> Link:<a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/BenWhetton/keras-surgeon">keras-surgeon</a></p>
-<p>模型剪枝相关论文实现： Link:<a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/yeyun11/pytorch-network-slimming">Learning Efficient Convolutional Networks Through Network Slimming</a></p>
-<p>Link:<a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/Roll920/ThiNet">ThiNet: A Filter Level Pruning Method for Deep Neural Network Compression</a> **** Deep Compression是一个模型量化和压缩框架。 Deep Compression综合应用了剪枝、量化、编码三个步骤来进行模型压缩，是2016 ICLR最佳论文。在不影响精度的前提下，把500M的VGG压缩到了11M。</p>
-<ol type="1">
-<li>网络剪枝</li>
-</ol>
+<p><strong>谷歌：</strong><br>
+Link:<a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/tensorflow/model-optimization">TensorFlow Model Optimization Toolkit</a></p>
+<a id="more"></a>
+<p><strong>百度：</strong><br>
+Link:<a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/PaddlePaddle/models/tree/develop/PaddleSlim">PaddleSlim</a></p>
+<p><strong>腾讯：</strong><br>
+Link:<a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/Tencent/PocketFlow">PocketFlow</a></p>
+<p><strong>Intel(基于Pytorch):</strong><br>
+Link:<a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/NervanaSystems/distiller">distiller</a></p>
+<p><strong>微软：</strong><br>
+Link:<a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/microsoft/nni">NNI</a></p>
+<p><strong>Pytorch社区：</strong><br>
+Link:<a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/666DZY666/model-compression">model-compression</a></p>
+<p><strong>Keras社区：</strong><br>
+Link:<a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/BenWhetton/keras-surgeon">keras-surgeon</a></p>
+<p>模型剪枝相关论文实现：<br>
+Link:<a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/yeyun11/pytorch-network-slimming"> Learning Efficient Convolutional Networks Through Network Slimming</a></p>
+<p>Link:<a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/Roll920/ThiNet">ThiNet: A Filter Level Pruning Method for Deep Neural Network Compression</a></p>
+<hr>
+<p>Deep Compression是一个模型量化和压缩框架。<br>
+Deep Compression综合应用了剪枝、量化、编码三个步骤来进行模型压缩，是2016 ICLR最佳论文。在不影响精度的前提下，把500M的VGG压缩到了11M。</p>
+<p>(1) 网络剪枝</p>
 <p>即移除不重要的连接，包括3个步骤，分别是普通网络训练，删除权重小于一定阈值的连接得到稀疏网络，对稀疏网络再训练，这是一个反复迭代的过程。这一步对于AlexNet和VGG-16模型，分别将参数降低为原来的1/9和1/13。</p>
-<ol start="2" type="1">
-<li>权重量化</li>
-</ol>
+<p>(2) 权重量化</p>
 <p>权值量化是把网络的连接权值从高精度转化成低精度的操作过程，例如将32位浮点数float32转化成8位定点数int8或二值化为1bit，转换后的模型准确率等指标与原来相近，但模型大小变小，运行速度加快。一般操作是先训练模型，再进行量化，<strong>测试时</strong>使用量化后的模型。</p>
-<ol start="3" type="1">
-<li>霍夫曼编码</li>
-</ol>
+<p>(3) 霍夫曼编码</p>
 <p>霍夫曼编码是一种成熟的编码技巧，与CNN无关，它有效地利用了权重的有偏分布，可以进一步减少需要存储的参数体积。</p>
 <p><strong>串行的合并：</strong> 就是将Pooling、LRN，BN等网络层与相邻近的Conv层进行合并</p>
 <p><strong>分支合并</strong></p>
@@ -397,8 +403,8 @@
       <i class="fa fa-chevron-left"></i> 模型评价指标
     </a></div>
       <div class="post-nav-item">
-    <a href="/blog/b08494e7.html" rel="next" title="检测任务Loss之GIOU">
-      检测任务Loss之GIOU <i class="fa fa-chevron-right"></i>
+    <a href="/blog/c1d77713.html" rel="next" title="梯度爆炸与梯度消失">
+      梯度爆炸与梯度消失 <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>

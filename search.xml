@@ -766,7 +766,7 @@ g_{n+1}=\mu \cdot g_{n}+\frac{\nabla_{\delta} L\left(T(X+\delta ; p), y^{\text {
 </blockquote>
 ]]></content>
       <categories>
-        <category>自然语言处理NLPNLP</category>
+        <category>自然语言处理NLP</category>
       </categories>
       <tags>
         <tag>Text Summarization</tag>
@@ -1349,7 +1349,7 @@ g_{n+1}=\mu \cdot g_{n}+\frac{\nabla_{\delta} L\left(T(X+\delta ; p), y^{\text {
 <p><strong>input_y:[batch_size,max_sentence_length]</strong> 1. batch_size：每批次sentence的条数。 2. max_sentence_length：max指的是本批次句子中最大的长度，其它不足该长度的句子做padding操作，length中所有位置都有label。 3. label:['B-LAW','I-LOC',...]</p>
 ]]></content>
       <categories>
-        <category>自然语言处理NLPNLP</category>
+        <category>自然语言处理NLP</category>
       </categories>
       <tags>
         <tag>命名实体识别</tag>
